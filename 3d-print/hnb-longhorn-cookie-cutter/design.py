@@ -28,11 +28,15 @@ HEAD_HALF = [
     (0.0, -28.3),
 ]
 
-# Horn centreline as a cubic bezier: out of the skull, a long shallow sweep,
-# then the tips hook up.
-HORN_BEZIER = [(8.0, 6.0), (24.0, 4.0), (43.0, 2.0), (54.0, 12.0)]
-HORN_BASE_WIDTH = 9.5
-HORN_SPAN_UNITS = 2 * HORN_BEZIER[-1][0]   # tip-to-tip in control-point units
+# Horn centreline as a cubic bezier, shaped after a mounted longhorn skull:
+# the horn leaves the top of the skull, dips just below its own base, sweeps
+# far out nearly level, then hooks hard upward in the last stretch. The two
+# middle control points sit low and far out, which is what keeps the sweep flat
+# and concentrates all the rise into the tip -- a hook rather than a gentle arc.
+HORN_BEZIER = [(8.0, 7.0), (30.0, 2.0), (55.0, 3.0), (60.0, 23.0)]
+HORN_BASE_WIDTH = 12.0
+HORN_TAPER = 1.75              # higher = holds thickness longer, then tapers fast
+HORN_SPAN_UNITS = 2 * HORN_BEZIER[-1][0]   # rough first guess only
 
 EAR_CENTRE = (17.5, 1.0)
 EAR_AXES = (6.4, 3.0)
@@ -52,9 +56,9 @@ def _head():
 
 def _horn(tip_width_units):
     p0, p1, p2, p3 = HORN_BEZIER
-    centre = geom.bezier(p0, p1, p2, p3, n=140)
+    centre = geom.bezier(p0, p1, p2, p3, n=180)
     t = np.linspace(0.0, 1.0, len(centre))
-    widths = tip_width_units + (HORN_BASE_WIDTH - tip_width_units) * (1.0 - t) ** 1.25
+    widths = tip_width_units + (HORN_BASE_WIDTH - tip_width_units) * (1.0 - t) ** HORN_TAPER
     return geom.variable_width_stroke(centre, widths, round_tip=True)
 
 
@@ -66,20 +70,54 @@ def _ear():
     return Polygon(pts @ rot.T + np.asarray(EAR_CENTRE)).buffer(0)
 
 
+def _assemble(tip_width_units):
+    horn_r = _horn(tip_width_units)
+    parts = [_head(), _ear(), horn_r, _mirror_x(_ear()), _mirror_x(horn_r)]
+    return unary_union([p.buffer(0) for p in parts]).buffer(0)
+
+
 def longhorn(span_mm, min_tip_width_mm=1.6):
     """Longhorn head silhouette, tip-to-tip `span_mm` wide, centred on the origin.
 
     `min_tip_width_mm` is enforced in real millimetres so the horn tips stay
-    thick enough to both print cleanly and actually leave a mark in dough.
+    thick enough to both print cleanly and leave a mark in dough. That creates a
+    circularity -- the tip width depends on the scale, and the scale depends on
+    the assembled width -- so the scale is refined over a few passes. Since the
+    tips hook upward the widest point is not simply the last control point, so
+    the width is measured off the finished outline rather than assumed.
     """
     scale = span_mm / HORN_SPAN_UNITS
-    horn_r = _horn(min_tip_width_mm / scale)
-    parts = [_head(), _ear(), horn_r, _mirror_x(_ear()), _mirror_x(horn_r)]
-    shape = unary_union([p.buffer(0) for p in parts]).buffer(0)
+    for _ in range(4):
+        shape = _assemble(min_tip_width_mm / scale)
+        minx, _, maxx, _ = shape.bounds
+        scale = span_mm / (maxx - minx)
 
     shape = shp_scale(shape, xfact=scale, yfact=scale, origin=(0, 0))
     minx, miny, maxx, maxy = shape.bounds
     return translate(shape, xoff=-(minx + maxx) / 2.0, yoff=-(miny + maxy) / 2.0)
+
+
+def horn_profile(span_mm, min_tip_width_mm=1.6):
+    """Width of one horn along its length, in real millimetres.
+
+    The hooked tip is the thinnest structural feature in the whole design, so
+    this is what decides whether the horns print and whether they leave a mark
+    in dough. Returns (distance_from_tip_mm, width_mm).
+    """
+    scale = span_mm / HORN_SPAN_UNITS
+    for _ in range(4):
+        shape = _assemble(min_tip_width_mm / scale)
+        minx, _, maxx, _ = shape.bounds
+        scale = span_mm / (maxx - minx)
+
+    tip_units = min_tip_width_mm / scale
+    centre = geom.bezier(*HORN_BEZIER, n=180) * scale
+    t = np.linspace(0.0, 1.0, len(centre))
+    widths = (tip_units + (HORN_BASE_WIDTH - tip_units) * (1.0 - t) ** HORN_TAPER) * scale
+
+    steps = np.linalg.norm(np.diff(centre, axis=0), axis=1)
+    arc = np.concatenate([[0.0], np.cumsum(steps)])
+    return arc[-1] - arc, widths
 
 
 def max_radius(polygon):

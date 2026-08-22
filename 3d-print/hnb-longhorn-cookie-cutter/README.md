@@ -124,7 +124,17 @@ preview.py         the flat and shaded renders in preview/
 validate.py        print-readiness checks
 ```
 
-The longhorn is drawn from scratch here — a generic longhorn steer head built
-from a spline outline and two swept horn curves, not a trace of anyone's logo.
-Adjust its shape via `HEAD_HALF`, `HORN_BEZIER` and the ear constants in
-`design.py`.
+The longhorn is drawn from scratch here: a spline head outline plus two swept
+horn curves, not a trace of anyone's logo. The horns follow the profile of a
+mounted longhorn skull — they leave the top of the skull, dip just below their
+own base, sweep far out nearly level, then hook hard upward into a slender
+spike. The two middle bezier control points sit low and far out, which is what
+keeps the sweep flat and concentrates the rise into the tip.
+
+Adjust the shape via `HEAD_HALF`, `HORN_BEZIER`, `HORN_BASE_WIDTH`,
+`HORN_TAPER` and the ear constants in `design.py`.
+
+The hooked tip is the thinnest structural feature in the design, so its width is
+pinned in real millimetres (`min_feature`, 1.6 mm) rather than scaled with the
+disc. That keeps the tips printable and dough-marking at every diameter —
+`validate.py` reports the tip width and how long the slender run is.

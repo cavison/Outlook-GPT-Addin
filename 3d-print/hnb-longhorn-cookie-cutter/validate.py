@@ -100,7 +100,13 @@ def main():
                 closest, pair = d, (a, b)
     print(f"  closest feature gap          {closest:.2f}  "
           f"(needs >= 0.80 so dough releases)")
-    print(f"  horn tip width               {cfg.min_feature:.2f}")
+    from_tip, horn_w = design.horn_profile(report["longhorn_span_mm"], cfg.min_feature)
+    thin = from_tip[horn_w < 2.0].max() if (horn_w < 2.0).any() else 0.0
+    print(f"  horn tip width               {horn_w[-1]:.2f}")
+    print(f"  horn length under 2.00 wide  {thin:.1f}  "
+          f"(the slenderest run; 4 passes of a 0.4 mm nozzle)")
+    print(f"  horn width 5 mm from tip     "
+          f"{np.interp(5.0, from_tip[::-1], horn_w[::-1]):.2f}")
     print(f"  relief height                {cfg.relief_height:.2f}")
 
     print()
