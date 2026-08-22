@@ -1,158 +1,138 @@
 # HNB Longhorns — cookie cutter & stamp
 
-A parametric 3D-printable cookie cutter set: a round cutter ring plus a drop-in
-stamp that presses **HNB** across the top, a longhorn in the middle, and
-**LONGHORNS** across the bottom.
+A parametric 3D-printable cookie cutter set. The stamp is two-sided:
 
-The artwork on the stamp is **mirrored on purpose**. A stamp leaves a mirror
-image of itself in the dough, so the letters have to be backwards on the tool
-for the cookie to come out reading forwards. `preview/01_artwork.png` shows both
-sides of that trade so you can confirm it before spending filament.
+- **Cookie face** — the longhorn silhouette, raised, pressed into the dough.
+- **Hand face** — the HNB Longhorns wordmark and skull, engraved into the side
+  you hold. Never touches food.
 
-![artwork](preview/01_artwork.png)
+![cookie face](preview/01_cookie_face.png)
+![hand face](preview/02_hand_face.png)
+
+Both pieces of artwork are traced directly from the supplied images
+(`art/longhorn_source.jpg`, `art/logo_source.jpg`) rather than redrawn, so the
+hand-lettered HNB and the skull come through exactly as they were given.
+
+## Both faces are mirrored — for unrelated reasons
+
+Worth understanding before you regenerate anything:
+
+- The **cookie face** is mirrored because dough receives a mirror of whatever
+  presses it. Standard stamp logic.
+- The **hand face** is mirrored because a face is *viewed* from its own side,
+  and any plane seen from behind reads backwards. Write a letter on glass, walk
+  around it, and you read it in reverse.
+
+So although the wordmark is not stamping anything, it still has to be flipped in
+the model for it to read forwards in your hand. Same operation, different cause.
+`preview/02_hand_face.png` shows the result as you will actually read it.
 
 ## What to print
 
-| File | What it is | Print time-ish | Notes |
-|---|---|---|---|
-| `stl/hnb_longhorn_1_cutter_ring.stl` | 90 mm cutter ring | ~1 h | Flange down, edge up. As-is on the bed. |
-| `stl/hnb_longhorn_2_stamp.stl` | The stamp disc | ~2 h | Artwork up. As-is on the bed. |
-| `stl/hnb_longhorn_3_stamp_handle.stl` | Push knob for the stamp | ~1 h | Peg up. Press-fits into the stamp's back. |
-| `stl/hnb_longhorn_4_combined_cutter_stamp.stl` | One-piece alternative | ~1.5 h | Cuts and embosses in one press. Thin dough only — see below. |
+| File | What it is | Notes |
+|---|---|---|
+| `stl/hnb_longhorn_1_cutter_ring.stl` | 90 mm cutter ring | Flange down, edge up |
+| `stl/hnb_longhorn_2_stamp.stl` | Two-sided stamp | Longhorn up, wordmark on the bed face |
+| `stl/hnb_longhorn_3_combined_cutter_stamp.stl` | One-piece alternative | Cuts and embosses in one press. Thin dough only — see below |
 
-**Print the first three for the best cookies.** The two-piece set works with any
-dough thickness and gives the crispest imprint.
+**No supports, no rotation, no brim.** Every part exports sitting on z=0 in its
+print orientation, and the only unsupported surface anywhere in the set is the
+engraved wordmark's ceiling, which bridges at most 10 mm.
 
-The one-piece version is there if you'd rather not assemble anything. Its blade
-and its artwork rise from the same plate, so two depths are in tension:
+### Why the wordmark is engraved and not raised
 
-- The blade stands **3.2 mm proud** of the artwork (5.0 mm blade, 1.8 mm relief).
-  That gap is what lets the edge cut clean through while the artwork only
+Because it has to be. The two faces are opposite sides of one disc, so whichever
+face carries raised artwork must point up while printing. The longhorn has to be
+the raised one, which puts the wordmark face on the bed — and a raised logo there
+would leave the part standing on its own lettering. Flipping the part instead
+would leave the whole 86 mm plate overhanging the longhorn, which no amount of
+support settings makes clean.
+
+Engraving into the bed face costs nothing: the recess is at most 10 mm across, so
+it bridges trivially, and it prints in one piece with no assembly.
+
+### Slicer settings
+
+- **Material:** PLA. PETG if you want more durability.
+- **Layer height:** 0.20 mm for the cutter. Drop to 0.12–0.16 mm for the stamp —
+  the longhorn stands only 1.8 mm proud, so layer height is most of your detail.
+- **Perimeters:** 3. The cutting edge tapers to 0.5 mm; any recent
+  Arachne-based slicer handles that as a single variable-width extrusion.
+- **Infill:** 15–20%.
+
+### The one-piece version
+
+Its blade and artwork rise from the same plate, so two depths are in tension:
+
+- The blade stands **3.2 mm proud** of the longhorn (5.0 mm blade, 1.8 mm
+  relief). That gap lets the edge cut clean through while the artwork only
   presses in.
-- The blade also caps dough thickness. You press until the blade bottoms out on
-  the board, which leaves the plate one blade-height above it — so dough thicker
-  than 5 mm never gets cut through, and dough thinner than 3.2 mm never touches
-  the artwork at all.
+- The blade also caps dough thickness. You press until it bottoms out on the
+  board, leaving the plate one blade-height above it — so dough thicker than
+  5 mm never gets cut through, and dough thinner than 3.2 mm never touches the
+  artwork.
 
-**Roll to about 5 mm and both work.** If you want thicker cookies from this part,
-raise the blade and the dough window moves with it:
+**Roll to about 5 mm and both work**, or move the window:
 
 ```bash
 python3 hnb_cutter.py --combined-blade-height 8    # dough 6.2-8 mm
 ```
 
-The two-piece set has no such constraint — cutter and stamp are independent, so
-any dough thickness works. That's the one to print if you're unsure.
-
-### Slicer settings
-
-Nothing exotic — **no supports, no rotation, no brim.** Every part is exported
-sitting on z=0 in its print orientation.
-
-- **Material:** PLA is stiff and prints these cleanly. PETG if you want more
-  durability.
-- **Layer height:** 0.20 mm for the cutter. Drop to 0.12–0.16 mm for the stamp —
-  the letters are only 1.8 mm tall, so layer height is most of your detail budget.
-- **Perimeters:** 3. The cutting edge tapers to 0.5 mm; a modern slicer
-  (Arachne-based, i.e. anything recent) handles that as a single variable-width
-  extrusion automatically.
-- **Infill:** 15–20%.
-- **Top surface speed:** slow it down on the stamp. The tops of the letters are
-  the face that touches the dough.
-
-The one flat ceiling in the whole set is the 10 mm handle socket bridging over
-the back of the stamp. Bridges that short print fine unsupported.
-
-## Assembly
-
-Press the handle's peg into the socket on the back of the stamp. It's sized for
-a 0.3 mm interference fit — snug, no glue needed. If your printer runs a little
-wide and it won't seat, scuff the peg with sandpaper rather than forcing it. If
-it runs loose, a drop of food-safe CA or epoxy locks it.
+The two-piece set has no such constraint — cutter and stamp are independent.
 
 ## Using it
 
-1. Roll the dough about 8 mm thick. Chill it — cold dough releases far better
-   than warm dough.
+1. Roll the dough and chill it. Cold dough releases far better than warm.
 2. Press the cutter through, flange up.
-3. Drop the stamp inside the ring and press firmly straight down. Lift straight
-   up, no twisting.
-4. Dust the stamp face with flour between cookies if the dough starts clinging.
+3. Press the stamp onto the cut round, straight down, then lift straight up.
+4. Dust the stamp with flour between cookies if the dough starts clinging.
 
-Doughs that hold detail: gingerbread, shortbread, speculaas. Anything with a lot
-of leavening will puff and swallow the imprint in the oven.
+Gingerbread, shortbread and speculaas hold the detail. Anything with much
+leavening will puff and swallow the imprint in the oven.
 
 ## Food safety
 
-Layer lines in an FDM print are impossible to fully sterilise, so treat these
-the way you'd treat any printed kitchen tool: use fresh food-safe filament, hand
-wash in cool soapy water, and don't put them in the dishwasher — PLA starts to
-soften around 55 °C and will warp. The tool only contacts raw dough briefly,
-which is the low-risk case, but it isn't a lifetime utensil.
+Layer lines can't be fully sterilised, so treat these like any printed kitchen
+tool: fresh food-safe filament, hand wash cool, no dishwasher — PLA softens
+around 55 °C and will warp. The tool only touches raw dough briefly, which is
+the low-risk case, but it isn't a lifetime utensil.
 
 ## Changing it
 
-Everything regenerates from source. Install once:
-
 ```bash
 pip install -r requirements.txt
+python3 hnb_cutter.py                       # defaults, 90 mm
+python3 hnb_cutter.py --diameter 75         # smaller cookies
+python3 hnb_cutter.py --relief-height 2.2   # deeper imprint
+python3 hnb_cutter.py --logo-depth 1.4      # deeper engraving
 ```
 
-Then:
+**Stay at 70 mm or above.** The wordmark's narrowest letters are 1.38 mm at
+90 mm and shrink with the disc; under about 70 mm they fall below 1 mm, where an
+engraved channel is narrower than the nozzle and the slicer fills it in.
+`validate.py` warns when you cross that line.
 
-```bash
-python3 hnb_cutter.py                              # defaults, 90 mm
-python3 hnb_cutter.py --diameter 75                # smaller cookies
-python3 hnb_cutter.py --top-text "HNB" --bottom-text "LONGHORNS"
-python3 hnb_cutter.py --font "DejaVu Serif"        # slab-serif, more collegiate
-python3 hnb_cutter.py --relief-height 2.2          # deeper imprint
-python3 hnb_cutter.py --blade-height 10           # shallower cutter ring
-python3 hnb_cutter.py --combined-blade-height 8   # deeper one-piece blade
-```
-
-Text size, spacing and the longhorn all scale with `--diameter`, and the
-longhorn auto-shrinks if you give it longer text to share the disc with — it
-binary-searches the largest horn span that keeps a 2 mm gap to the letters, so
-you can't accidentally generate a design with features fused together.
-
-Anything not exposed as a flag lives in the `Config` dataclass at the top of
-`hnb_cutter.py`: wall thicknesses, clearances, the handle, the border ring.
-
-`--no-mirror` turns the mirroring off, which makes the artwork read forwards on
-the tool. That's wrong for a cookie stamp but right if you want to reuse the
-design as a coaster or a plaque.
+To swap the artwork, replace the files in `art/` and re-run — the tracer
+thresholds, de-speckles, smooths the pixel staircase off the edges, and honours
+contour nesting so letter counters stay open.
 
 ### Checking a change
 
 ```bash
-python3 validate.py
+python3 validate.py --diameter 75
 ```
 
-Reports thinnest stroke, closest gap between features, watertightness, overhang
-angles and every fit clearance. Worth running after changing text or size — long
-text at a small diameter is the case that produces strokes too thin to print.
+Reports narrowest stroke, widest solid, engraving bridge length, watertightness,
+overhang angles separated from intended bridges, and every fit clearance.
 
 ## Files
 
 ```
-hnb_cutter.py      parts, config, CLI
-design.py          the longhorn silhouette and artwork layout
-geom.py            2D/3D helpers: curves, arc text, extrude, revolve, booleans
-preview.py         the flat and shaded renders in preview/
-validate.py        print-readiness checks
+hnb_cutter.py   parts, config, CLI
+design.py       places the traced artwork on each face, handles both mirrors
+trace.py        image -> vector outlines
+geom.py         2D/3D helpers: extrude, revolve, booleans
+preview.py      the renders in preview/
+validate.py     print-readiness checks
+art/            the source images
 ```
-
-The longhorn is drawn from scratch here: a spline head outline plus two swept
-horn curves, not a trace of anyone's logo. The horns follow the profile of a
-mounted longhorn skull — they leave the top of the skull, dip just below their
-own base, sweep far out nearly level, then hook hard upward into a slender
-spike. The two middle bezier control points sit low and far out, which is what
-keeps the sweep flat and concentrates the rise into the tip.
-
-Adjust the shape via `HEAD_HALF`, `HORN_BEZIER`, `HORN_BASE_WIDTH`,
-`HORN_TAPER` and the ear constants in `design.py`.
-
-The hooked tip is the thinnest structural feature in the design, so its width is
-pinned in real millimetres (`min_feature`, 1.6 mm) rather than scaled with the
-disc. That keeps the tips printable and dough-marking at every diameter —
-`validate.py` reports the tip width and how long the slender run is.

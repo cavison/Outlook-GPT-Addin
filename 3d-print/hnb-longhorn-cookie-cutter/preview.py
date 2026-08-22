@@ -44,7 +44,8 @@ def plot_flat(panels, path, disc_radius=None, dpi=150):
 
 def render_mesh(meshes, path, elev=32.0, azim=-52.0, colours=None,
                 size=(9, 7), dpi=150, title=None, highlight_above=None,
-                highlight_colour="#d8b061"):
+                engrave_above=None, highlight_colour="#d8b061",
+                engrave_colour="#2b2723"):
     """Shaded isometric render using a painter's algorithm.
 
     Cheap stand-in for a real renderer: backface-cull, sort triangles by depth,
@@ -77,6 +78,11 @@ def render_mesh(meshes, path, elev=32.0, azim=-52.0, colours=None,
             # proud of the plate to make the relief legible.
             raised = tris[:, :, 2].min(axis=1) > highlight_above
             rgb[raised] = matplotlib.colors.to_rgb(highlight_colour)
+        if engrave_above is not None:
+            # An engraved recess reads the same way: its floor is a
+            # downward-facing surface parked above the face it is cut into.
+            floor = (normals[:, 2] < 0) & (tris[:, :, 2].min(axis=1) > engrave_above)
+            rgb[floor] = matplotlib.colors.to_rgb(engrave_colour)
         facecolours.append(np.clip(rgb * shade[:, None], 0, 1))
 
         polys.append(np.stack([tris @ right, tris @ up], axis=-1))

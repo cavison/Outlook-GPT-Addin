@@ -3,11 +3,13 @@
 
 Renders look fine long before a model actually prints, so this checks the
 numbers that decide whether it comes off the bed: how thin the thinnest
-feature is, how steep the steepest overhang is, and whether every solid is
-watertight.
+artwork is, how far the engraving has to bridge, how steep the steepest
+overhang is, and whether every solid is watertight.
 """
 
 from __future__ import annotations
+
+import argparse
 
 import numpy as np
 
@@ -19,8 +21,10 @@ import hnb_cutter as H
 def max_inscribed_radius(polygon, hi=12.0, steps=26):
     """Largest circle that fits inside a shape, by bisection on negative buffer.
 
-    For a constant-weight letter this lands on half the stem width, which is the
-    number that decides whether a nozzle can lay the stroke down cleanly.
+    On a letter of constant weight this lands on half the stroke width -- the
+    number that decides whether a nozzle can lay the stroke down cleanly. On a
+    solid shape it gives the widest span, which is what an engraved recess has
+    to bridge across.
     """
     lo = 0.0
     for _ in range(steps):
@@ -32,12 +36,38 @@ def max_inscribed_radius(polygon, hi=12.0, steps=26):
     return lo
 
 
-def overhang_report(mesh, bed_tol=0.05):
+def thin_area(polygon, min_width):
+    """Area of material sitting in regions narrower than min_width."""
+    core = polygon.buffer(-min_width / 2.0).buffer(min_width / 2.0)
+    return polygon.difference(core).area
+
+
+def report_art(label, art, floor=1.0):
+    parts = sorted(getattr(art, "geoms", [art]), key=lambda p: p.area, reverse=True)
+    widths = [2.0 * max_inscribed_radius(p) for p in parts]
+    b = art.bounds
+    thin = thin_area(art, floor)
+    print(f"  {label}")
+    print(f"      size {b[2]-b[0]:.1f} x {b[3]-b[1]:.1f} mm   "
+          f"{len(parts)} island(s)   max radius {design.max_radius(art):.1f} mm")
+    print(f"      narrowest island {min(widths):.2f} mm   "
+          f"widest solid {max(widths):.2f} mm")
+    print(f"      material under {floor:.1f} mm wide: {thin:.1f} mm2 "
+          f"({100*thin/art.area:.1f}%)")
+    return max(widths)
+
+
+def overhang_report(mesh, engrave_z=None, bed_tol=0.05):
     """Area of downward-facing surface too shallow to print unsupported.
 
-    Angles are measured from vertical: 0 deg is a plain wall, 90 deg is a flat
-    ceiling. Anything past 45 deg needs support -- unless it is a short bridge,
-    which prints fine across a gap.
+    Angles are measured from vertical: 0 deg is a plain wall, 90 deg a flat
+    ceiling. Past 45 deg needs support -- unless it is a short bridge, which
+    prints fine across a gap.
+
+    The engraved wordmark is cut into the face that sits on the bed, so its
+    ceiling is by definition a flat 90 deg overhang. That is the intended
+    bridge, not a defect, so it is separated out here -- otherwise it swamps
+    the number and hides anything that genuinely does need support.
     """
     normals = mesh.face_normals
     tris = mesh.vertices[mesh.faces]
@@ -46,68 +76,50 @@ def overhang_report(mesh, bed_tol=0.05):
     downward = normals[:, 2] < -1e-6
     on_bed = tris[:, :, 2].max(axis=1) <= z_min + bed_tol
     angle = np.degrees(np.arcsin(np.clip(-normals[:, 2], 0, 1)))
-
     flagged = downward & ~on_bed & (angle > 45.0)
-    areas = mesh.area_faces
+
+    engraved = np.zeros(len(flagged), bool)
+    if engrave_z is not None:
+        ceiling = np.abs(tris[:, :, 2] - (z_min + engrave_z)).max(axis=1) < 1e-3
+        engraved = flagged & ceiling
+
+    rest = flagged & ~engraved
     return {
-        "worst_angle_deg": float(angle[flagged].max()) if flagged.any() else 0.0,
-        "unsupported_area_mm2": float(areas[flagged].sum()),
-        "faces": int(flagged.sum()),
+        "worst": float(angle[rest].max()) if rest.any() else 0.0,
+        "area": float(mesh.area_faces[rest].sum()),
+        "faces": int(rest.sum()),
+        "engraved_area": float(mesh.area_faces[engraved].sum()),
     }
 
 
 def main():
-    import argparse
     ap = argparse.ArgumentParser(description="print-readiness checks")
     ap.add_argument("--diameter", type=float, default=H.Config.diameter)
-    ap.add_argument("--top-text", default=H.Config.top_text)
-    ap.add_argument("--bottom-text", default=H.Config.bottom_text)
-    ap.add_argument("--font", default=H.Config.font)
     a = ap.parse_args()
 
-    cfg = H.Config(diameter=a.diameter, top_text=a.top_text,
-                   bottom_text=a.bottom_text, font=a.font)
-    scale = cfg.diameter / 90.0
-    cfg.top_cap_height *= scale
-    cfg.bottom_cap_height *= scale
-    cfg.longhorn_span *= scale
-
-    print(f"config: {cfg.diameter:.0f} mm  "
-          f"{cfg.top_text!r} / {cfg.bottom_text!r}  font {cfg.font!r}")
-    art, report = H.build_artwork(cfg)
+    cfg = H.Config(diameter=a.diameter)
+    longhorn = design.longhorn(cfg.stamp_art_limit_r, cfg.mirror)
+    logo_stamp = design.logo(cfg.stamp_art_limit_r, cfg.mirror)
+    logo_comb = design.logo(cfg.combined_art_limit_r, cfg.mirror)
 
     print("=" * 74)
-    print("ARTWORK  (all values in mm)")
+    print(f"ARTWORK  ({cfg.diameter:.0f} mm, all values in mm)")
     print("=" * 74)
-    for k, v in report.items():
-        print(f"  {k:<28} {v}")
+    report_art("longhorn, raised on the cookie face", longhorn)
+    bridge = report_art("wordmark, engraved into the hand face", logo_stamp)
 
-    parts = sorted(getattr(art, "geoms", [art]), key=lambda p: p.area, reverse=True)
-    widths = [(2.0 * max_inscribed_radius(p), p.area) for p in parts]
-    letters = [w for w, a in widths if a < 200.0]
-    print(f"  components                   {len(parts)}")
-    print(f"  thinnest stroke              {min(letters):.2f}  "
-          f"(letters; needs >= 1.00 for a 0.4 mm nozzle)")
-    print(f"  border ring width            {cfg.border_width:.2f}")
-
-    # Features that sit too close together fuse on the printer and trap dough
-    # between them in use, so the imprint reads as a smudge rather than letters.
-    closest, pair = float("inf"), None
-    for i, a in enumerate(parts):
-        for b in parts[i + 1:]:
-            d = a.distance(b)
-            if d < closest:
-                closest, pair = d, (a, b)
-    print(f"  closest feature gap          {closest:.2f}  "
-          f"(needs >= 0.80 so dough releases)")
-    from_tip, horn_w = design.horn_profile(report["longhorn_span_mm"], cfg.min_feature)
-    thin = from_tip[horn_w < 2.0].max() if (horn_w < 2.0).any() else 0.0
-    print(f"  horn tip width               {horn_w[-1]:.2f}")
-    print(f"  horn length under 2.00 wide  {thin:.1f}  "
-          f"(the slenderest run; 4 passes of a 0.4 mm nozzle)")
-    print(f"  horn width 5 mm from tip     "
-          f"{np.interp(5.0, from_tip[::-1], horn_w[::-1]):.2f}")
-    print(f"  relief height                {cfg.relief_height:.2f}")
+    # An engraved channel is harder to render than a raised stroke of the same
+    # width: below roughly a nozzle diameter the slicer simply fills it in, and
+    # the letters close up. The wordmark's narrowest letter is what sets the
+    # smallest cookie this design can carry.
+    letters = [2.0 * max_inscribed_radius(p)
+               for p in getattr(logo_stamp, "geoms", [logo_stamp])]
+    narrowest = min(letters)
+    if narrowest < 1.0:
+        print(f"  *** wordmark letters down to {narrowest:.2f} mm -- engraving will "
+              f"close up; keep the diameter at 70 mm or above ***")
+    else:
+        print(f"  wordmark letters {narrowest:.2f} mm at their narrowest -- engraves clean")
 
     print()
     print("=" * 74)
@@ -115,54 +127,54 @@ def main():
     print("=" * 74)
     builders = {
         "cutter ring": lambda: H.build_cutter(cfg),
-        "stamp": lambda: H.build_stamp(cfg, art),
-        "stamp handle": lambda: H.build_handle(cfg),
-        "combined": lambda: H.build_combined(cfg, art),
+        "stamp": lambda: H.build_stamp(cfg, longhorn, logo_stamp),
+        "combined": lambda: H.build_combined(cfg, longhorn, logo_comb),
     }
     ok = True
     for name, build in builders.items():
         mesh = build()
-        oh = overhang_report(mesh)
-        watertight = mesh.is_watertight
-        winding = mesh.is_winding_consistent
-        volume_ok = mesh.volume > 0
-        ok &= watertight and winding and volume_ok
+        oh = overhang_report(mesh, None if name == "cutter ring" else cfg.logo_depth)
+        good = mesh.is_watertight and mesh.is_winding_consistent and mesh.volume > 0
+        ok &= good
         print(f"  {name}")
-        print(f"      watertight {watertight}   winding {winding}   "
+        print(f"      watertight {mesh.is_watertight}   "
+              f"winding {mesh.is_winding_consistent}   "
               f"volume {mesh.volume/1000:.1f} cm3   {len(mesh.faces)} tris")
-        print(f"      unsupported: {oh['unsupported_area_mm2']:7.1f} mm2 "
-              f"over {oh['faces']} faces, worst {oh['worst_angle_deg']:.0f} deg "
-              f"from vertical")
+        print(f"      engraving ceiling (bridges): {oh['engraved_area']:6.1f} mm2")
+        print(f"      other unsupported:           {oh['area']:6.1f} mm2 over "
+              f"{oh['faces']} faces, worst {oh['worst']:.0f} deg from vertical")
 
     print()
     print("=" * 74)
-    print("FITS")
+    print("FITS AND DEPTHS")
     print("=" * 74)
-    peg_r = (cfg.socket_diameter - cfg.handle_peg_clearance) / 2.0
-    print(f"  stamp OD {2*cfg.stamp_r:.2f} into cutter ID {2*(cfg.cutter_r-cfg.wall_base):.2f}"
-          f"   -> {cfg.stamp_clearance*2:.2f} diametral clearance")
-    print(f"  peg OD {2*peg_r:.2f} into socket ID {cfg.socket_diameter:.2f}"
-          f"   -> {cfg.handle_peg_clearance:.2f} press fit")
-    print(f"  socket ceiling                {cfg.plate_thickness - cfg.socket_depth:.2f} thick, "
-          f"{cfg.socket_diameter:.1f} bridge span")
+    print(f"  stamp OD {2*cfg.stamp_r:.2f} into cutter ID "
+          f"{2*(cfg.cutter_r-cfg.wall_base):.2f}   -> "
+          f"{cfg.stamp_clearance*2:.2f} diametral clearance")
     print(f"  blade edge / base             {cfg.wall_edge:.2f} / {cfg.wall_base:.2f}")
 
-    # On the one-piece part the blade and the artwork rise from the same plate,
-    # so the blade must out-reach the artwork or the edge stops cutting before
-    # the design stops pressing.
+    # The engraved recess is cut into the face that sits on the bed, so its
+    # ceiling bridges. Bridge length is the widest solid run in the wordmark.
+    print(f"  engraving depth               {cfg.logo_depth:.2f} into a "
+          f"{cfg.plate_thickness:.1f} plate "
+          f"({cfg.plate_thickness - cfg.logo_depth:.1f} left under the longhorn)")
+    verdict = "OK" if bridge <= 20.0 else "*** LONG BRIDGE ***"
+    print(f"  longest engraving bridge      {bridge:.1f}   {verdict}")
+    comb_left = cfg.combined_plate_thickness - cfg.logo_depth
+    print(f"  one-piece plate under engrave {comb_left:.2f} thick"
+          f"   {'OK' if comb_left >= 1.0 else '*** TOO THIN ***'}")
+
     proud = cfg.combined_blade_height - cfg.relief_height
-    verdict = "OK" if proud >= 1.5 else "*** BLADE NOT PROUD ENOUGH ***"
     print(f"  one-piece blade / relief      {cfg.combined_blade_height:.2f} / "
-          f"{cfg.relief_height:.2f}  -> blade stands {proud:.2f} proud   {verdict}")
+          f"{cfg.relief_height:.2f}  -> blade stands {proud:.2f} proud"
+          f"   {'OK' if proud >= 1.5 else '*** NOT PROUD ENOUGH ***'}")
     print(f"  one-piece dough window        {proud:.1f} to "
           f"{cfg.combined_blade_height:.1f} mm thick")
-    # The taper is spread over the blade height, so a shorter blade leans more.
-    # Both stay far inside the 45 deg an unsupported wall can hold.
+
     taper = cfg.wall_base - cfg.wall_edge
-    ring_lean = np.degrees(np.arctan(taper / cfg.blade_height))
-    comb_lean = np.degrees(np.arctan(taper / cfg.combined_blade_height))
-    print(f"  blade lean, ring / one-piece  {ring_lean:.1f} / {comb_lean:.1f} deg "
-          f"from vertical")
+    print(f"  blade lean, ring / one-piece  "
+          f"{np.degrees(np.arctan(taper/cfg.blade_height)):.1f} / "
+          f"{np.degrees(np.arctan(taper/cfg.combined_blade_height)):.1f} deg from vertical")
 
     print()
     print("ALL SOLID CHECKS PASSED" if ok else "*** PROBLEM FOUND ***")
