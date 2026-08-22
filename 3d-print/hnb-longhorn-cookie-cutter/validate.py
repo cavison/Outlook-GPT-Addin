@@ -146,8 +146,23 @@ def main():
     print(f"  socket ceiling                {cfg.plate_thickness - cfg.socket_depth:.2f} thick, "
           f"{cfg.socket_diameter:.1f} bridge span")
     print(f"  blade edge / base             {cfg.wall_edge:.2f} / {cfg.wall_base:.2f}")
-    blade_lean = np.degrees(np.arctan((cfg.wall_base - cfg.wall_edge) / cfg.blade_height))
-    print(f"  blade inner face leans        {blade_lean:.1f} deg from vertical")
+
+    # On the one-piece part the blade and the artwork rise from the same plate,
+    # so the blade must out-reach the artwork or the edge stops cutting before
+    # the design stops pressing.
+    proud = cfg.combined_blade_height - cfg.relief_height
+    verdict = "OK" if proud >= 1.5 else "*** BLADE NOT PROUD ENOUGH ***"
+    print(f"  one-piece blade / relief      {cfg.combined_blade_height:.2f} / "
+          f"{cfg.relief_height:.2f}  -> blade stands {proud:.2f} proud   {verdict}")
+    print(f"  one-piece dough window        {proud:.1f} to "
+          f"{cfg.combined_blade_height:.1f} mm thick")
+    # The taper is spread over the blade height, so a shorter blade leans more.
+    # Both stay far inside the 45 deg an unsupported wall can hold.
+    taper = cfg.wall_base - cfg.wall_edge
+    ring_lean = np.degrees(np.arctan(taper / cfg.blade_height))
+    comb_lean = np.degrees(np.arctan(taper / cfg.combined_blade_height))
+    print(f"  blade lean, ring / one-piece  {ring_lean:.1f} / {comb_lean:.1f} deg "
+          f"from vertical")
 
     print()
     print("ALL SOLID CHECKS PASSED" if ok else "*** PROBLEM FOUND ***")

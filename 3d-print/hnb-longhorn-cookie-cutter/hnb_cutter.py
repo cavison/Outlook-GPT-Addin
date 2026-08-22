@@ -60,7 +60,7 @@ class Config:
     handle_peg_clearance: float = 0.3
 
     # --- one-piece variant ------------------------------------------------
-    combined_blade_height: float = 10.0   # should roughly match dough thickness
+    combined_blade_height: float = 5.0    # sets the max dough thickness -- see below
     combined_plate_thickness: float = 2.2
 
     # --- artwork ----------------------------------------------------------
@@ -256,8 +256,13 @@ def build_handle(cfg: Config) -> trimesh.Trimesh:
 def build_combined(cfg: Config, art) -> trimesh.Trimesh:
     """One-piece cutter + embosser: backing plate, raised artwork, blade around it.
 
-    The blade has to be about as tall as the dough is thick, otherwise the
-    backing plate never reaches the dough and the artwork never imprints.
+    Two depths are in tension here. The blade has to stand proud of the artwork
+    so the edge cuts clean through while the artwork only presses in -- that is
+    what `blade - relief` buys. But the blade also caps how thick the dough can
+    be: you press until the blade bottoms out on the board, so the plate ends up
+    one blade-height above it, and any dough thicker than that never gets cut
+    through. Dough thinner than `blade - relief` never touches the artwork at
+    all. Roll to roughly the blade height and both work.
     """
     plate_t = cfg.combined_plate_thickness
     r_out = cfg.cutter_r
@@ -293,7 +298,12 @@ def main():
     ap.add_argument("--top-text", default=Config.top_text)
     ap.add_argument("--bottom-text", default=Config.bottom_text)
     ap.add_argument("--font", default=Config.font)
-    ap.add_argument("--blade-height", type=float, default=Config.blade_height)
+    ap.add_argument("--blade-height", type=float, default=Config.blade_height,
+                    help="cutter ring cutting depth in mm (default 15)")
+    ap.add_argument("--combined-blade-height", type=float,
+                    default=Config.combined_blade_height,
+                    help="one-piece blade depth in mm (default 5); this is also "
+                         "the maximum dough thickness that part can handle")
     ap.add_argument("--relief-height", type=float, default=Config.relief_height)
     ap.add_argument("--no-mirror", action="store_true",
                     help="skip the mirror (artwork reads forwards on the tool -- "
@@ -305,6 +315,7 @@ def main():
     cfg = Config(diameter=args.diameter, top_text=args.top_text,
                  bottom_text=args.bottom_text, font=args.font,
                  blade_height=args.blade_height, relief_height=args.relief_height,
+                 combined_blade_height=args.combined_blade_height,
                  mirror=not args.no_mirror)
 
     scale = cfg.diameter / 90.0

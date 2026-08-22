@@ -18,15 +18,31 @@ sides of that trade so you can confirm it before spending filament.
 | `stl/hnb_longhorn_1_cutter_ring.stl` | 90 mm cutter ring | ~1 h | Flange down, edge up. As-is on the bed. |
 | `stl/hnb_longhorn_2_stamp.stl` | The stamp disc | ~2 h | Artwork up. As-is on the bed. |
 | `stl/hnb_longhorn_3_stamp_handle.stl` | Push knob for the stamp | ~1 h | Peg up. Press-fits into the stamp's back. |
-| `stl/hnb_longhorn_4_combined_cutter_stamp.stl` | One-piece alternative | ~2 h | Cuts and embosses in one press. See caveat below. |
+| `stl/hnb_longhorn_4_combined_cutter_stamp.stl` | One-piece alternative | ~1.5 h | Cuts and embosses in one press. Thin dough only — see below. |
 
 **Print the first three for the best cookies.** The two-piece set works with any
 dough thickness and gives the crispest imprint.
 
-The one-piece version is there if you'd rather not assemble anything, but its
-blade is only 10 mm tall by design: the backing plate has to actually reach the
-dough surface for the artwork to imprint, so your dough needs to be roughly
-8–10 mm thick. Thinner dough and you'll cut a clean circle with no design on it.
+The one-piece version is there if you'd rather not assemble anything. Its blade
+and its artwork rise from the same plate, so two depths are in tension:
+
+- The blade stands **3.2 mm proud** of the artwork (5.0 mm blade, 1.8 mm relief).
+  That gap is what lets the edge cut clean through while the artwork only
+  presses in.
+- The blade also caps dough thickness. You press until the blade bottoms out on
+  the board, which leaves the plate one blade-height above it — so dough thicker
+  than 5 mm never gets cut through, and dough thinner than 3.2 mm never touches
+  the artwork at all.
+
+**Roll to about 5 mm and both work.** If you want thicker cookies from this part,
+raise the blade and the dough window moves with it:
+
+```bash
+python3 hnb_cutter.py --combined-blade-height 8    # dough 6.2-8 mm
+```
+
+The two-piece set has no such constraint — cutter and stamp are independent, so
+any dough thickness works. That's the one to print if you're unsure.
 
 ### Slicer settings
 
@@ -90,6 +106,8 @@ python3 hnb_cutter.py --diameter 75                # smaller cookies
 python3 hnb_cutter.py --top-text "HNB" --bottom-text "LONGHORNS"
 python3 hnb_cutter.py --font "DejaVu Serif"        # slab-serif, more collegiate
 python3 hnb_cutter.py --relief-height 2.2          # deeper imprint
+python3 hnb_cutter.py --blade-height 10           # shallower cutter ring
+python3 hnb_cutter.py --combined-blade-height 8   # deeper one-piece blade
 ```
 
 Text size, spacing and the longhorn all scale with `--diameter`, and the
