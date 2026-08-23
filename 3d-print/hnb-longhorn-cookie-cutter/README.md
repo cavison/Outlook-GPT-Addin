@@ -1,4 +1,45 @@
-# HNB Longhorns — cookie cutter & stamp
+# HNB Longhorns — cookie cutters & stamps
+
+Two families of tool share one artwork pipeline:
+
+- **Outline cutters** (`outline_cutter.py`) — plain cut-out shapes, built to
+  match the reference cutters in `ref/`. Start here.
+- **Embossing stamps** (`hnb_cutter.py`) — press a design into a round cookie.
+  Documented further down.
+
+## Outline cutters
+
+```bash
+python3 outline_cutter.py                      # every silhouette present
+python3 outline_cutter.py --shape skull --size 76.2
+```
+
+Construction is copied from `ref/sample_tree.obj`: 15 mm tall, a 0.80 mm blade,
+and a lip flaring 2.0 mm outward over the bottom 3.4 mm with a 1.6 mm chamfer
+back to the blade line. Printed lip-down, flipped lip-up in use so the heel of
+your hand has something blunt to push against.
+
+The lip's inner edge and the blade's inner edge are the same curve, so the
+cavity is one plain vertical prism and the part is just an outer profile swept
+over z minus that cavity — no lofting between changing cross-sections.
+
+### Thin artwork makes fragile cookies
+
+A silhouette that reads well flat can still be a bad cookie. The skull's horns
+are long thin arcs: at 3 inches, **57% of that cookie sits in runs under 5 mm
+wide**, which snap the moment anyone lifts one off the counter.
+
+`--fatten` (default 1.5 mm) dilates the outline before cutting. Thin runs gain
+far more in relative terms than the head does, so the shape survives handling
+without going blobby — it takes the skull from 57% to 16% under 5 mm, and
+incidentally thickens the horn tips enough that the blade stays a clean hollow
+wall right to the ends. The run prints both numbers so you can judge it.
+
+`--fatten 0` disables it. Above about +2 mm the horns lose their taper.
+
+---
+
+# Embossing stamps
 
 A parametric 3D-printable cookie cutter set. The stamp is two-sided:
 

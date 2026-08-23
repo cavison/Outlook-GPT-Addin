@@ -25,12 +25,13 @@ import trace
 
 LOGO_IMAGE = "art/logo_source.jpg"
 
-# Artwork available for the cookie face. Each entry is a source image plus
+# Silhouette artwork, shared by the embossing stamps and the outline cutters.
+# Each entry is a source image plus
 # whatever the tracer needs to read it: the skull is light on dark and traces
 # straight, while the steer is a dark illustration on white whose panel seams
 # have to be closed and whose interior detail has to be flooded solid before it
 # reads as one silhouette.
-EMBOSS_ARTWORK = {
+SILHOUETTES = {
     "skull": {"path": "art/longhorn_source.jpg"},
     "steer": {"path": "art/steer_source.png", "invert": True,
               "close_px": 6.0, "fill_holes": True},
@@ -63,19 +64,31 @@ def fit_to_radius(art, limit_r):
 
 def available_emboss():
     """Emboss variants whose source image is actually present."""
-    return [n for n, spec in EMBOSS_ARTWORK.items()
+    return [n for n, spec in SILHOUETTES.items()
             if os.path.exists(spec["path"])]
 
 
 def emboss(name, limit_r, mirror=True):
     """Cookie-face silhouette for one variant, sized to fill `limit_r`."""
-    spec = dict(EMBOSS_ARTWORK[name])
+    art = silhouette(name, width_mm=70.0)
+    art = fit_to_radius(art, limit_r)
+    return mirror_x(art) if mirror else art
+
+
+def silhouette(name, width_mm):
+    """Raw traced silhouette, scaled so its widest dimension is `width_mm`."""
+    spec = dict(SILHOUETTES[name])
     path = spec.pop("path")
     if not os.path.exists(path):
         raise FileNotFoundError(
-            f"emboss artwork {name!r} needs {path}, which is not in the repo")
-    art = fit_to_radius(trace.trace(path, width_mm=70.0, **spec), limit_r)
-    return mirror_x(art) if mirror else art
+            f"silhouette {name!r} needs {path}, which is not in the repo")
+    art = trace.trace(path, width_mm=width_mm, **spec)
+    minx, miny, maxx, maxy = art.bounds
+    span = max(maxx - minx, maxy - miny)
+    if abs(span - width_mm) > 1e-9:
+        art = shp_scale(art, xfact=width_mm / span, yfact=width_mm / span,
+                        origin=(0, 0))
+    return art
 
 
 def logo(limit_r, mirror=True):

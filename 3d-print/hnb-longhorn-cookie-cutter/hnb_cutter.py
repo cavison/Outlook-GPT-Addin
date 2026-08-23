@@ -186,7 +186,7 @@ def main():
     ap.add_argument("--logo-depth", type=float, default=Config.logo_depth,
                     help="engraving depth for the wordmark, in mm (default 1.0)")
     ap.add_argument("--emboss", default="all",
-                    choices=["all", *design.EMBOSS_ARTWORK],
+                    choices=["all", *design.SILHOUETTES],
                     help="which artwork to raise on the cookie face (default all "
                          "variants whose source image is present)")
     ap.add_argument("--no-mirror", action="store_true",
@@ -205,9 +205,9 @@ def main():
 
     if args.emboss == "all":
         wanted = design.available_emboss()
-        missing = [n for n in design.EMBOSS_ARTWORK if n not in wanted]
+        missing = [n for n in design.SILHOUETTES if n not in wanted]
         for name in missing:
-            print(f"  skipping {name!r}: {design.EMBOSS_ARTWORK[name]['path']} "
+            print(f"  skipping {name!r}: {design.SILHOUETTES[name]['path']} "
                   f"is not in the repo yet")
     else:
         wanted = [args.emboss]

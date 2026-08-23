@@ -96,7 +96,7 @@ def main():
     ap = argparse.ArgumentParser(description="print-readiness checks")
     ap.add_argument("--diameter", type=float, default=H.Config.diameter)
     ap.add_argument("--emboss", default=None,
-                    choices=list(design.EMBOSS_ARTWORK),
+                    choices=list(design.SILHOUETTES),
                     help="which cookie-face artwork to check (default: each "
                          "variant present in the repo)")
     a = ap.parse_args()
