@@ -23,6 +23,27 @@ ART = {
     "steer": {"path": "art/steer_source.png", "invert": True,
               "close_px": 6.0, "fill_holes": True},
     "logo":  {"path": "art/logo_source.jpg"},
+
+    # Line art gives both halves of a hybrid from one drawing: flood it solid
+    # for the shape to cut, and take the raw strokes for the lines to press in.
+    # The outer stroke needs no special handling -- the insert plate is inset
+    # from the cut edge, so clipping the detail to it drops the boundary line.
+    "steerline":     {"path": "art/steer_line.png", "invert": True,
+                      "close_px": 3.0, "fill_holes": True},
+    "steerline_dtl": {"path": "art/steer_line.png", "invert": True,
+                      "min_area_frac": 5e-5},
+
+    # Head logo: its horn tips run off the edge of the source image, so they are
+    # rebuilt and then lengthened. See restore.py.
+    "headlogo":     {"path": "art/head_logo.png", "invert": True,
+                     "fill_holes": True,
+                     "restore": {"lengthen": 0.20, "sides": ("left", "right")}},
+    "headlogo_dtl": {"path": "art/head_logo.png", "invert": True,
+                     "detail_from_holes": True},
+
+    "buckle":     {"path": "art/buckle.png", "invert": True, "fill_holes": True,
+                   "close_px": 4.0},
+    "buckle_dtl": {"path": "art/buckle.png", "invert": True, "min_area_frac": 3e-4},
 }
 
 STYLES = ("emboss", "cutout", "hybrid")
@@ -63,6 +84,17 @@ DESIGNS = {
     "skull": Design("cutout", outline="skull",
                     notes="horns are thin; fattening does the heavy lifting"),
     "steer": Design("cutout", outline="steer"),
+
+    # --- hybrids ----------------------------------------------------------
+    "steer_line": Design("hybrid", outline="steerline", inner="steerline_dtl",
+                         size=76.2,
+                         notes="line drawing: filled for the cut, strokes for the ribs"),
+    "head_logo":  Design("hybrid", outline="headlogo", inner="headlogo_dtl",
+                         size=76.2, fatten=1.0,
+                         notes="horn tips rebuilt from the crop and lengthened 20%"),
+    "buckle":     Design("hybrid", outline="buckle", inner="buckle_dtl",
+                         size=88.9, fatten=0.0,
+                         notes="scrollwork is very fine; needs a big cookie"),
 }
 
 
@@ -76,16 +108,35 @@ def available(name):
 def missing_art(name):
     d = DESIGNS[name]
     keys = [k for k in (d.outline, d.inner, d.back) if k and k != "circle"]
-    return [ART[k]["path"] for k in keys if not os.path.exists(ART[k]["path"])]
+    return sorted({ART[k]["path"] for k in keys
+                   if not os.path.exists(ART[k]["path"])})
 
 
 def silhouette(key, width_mm):
     """Traced artwork scaled so its widest dimension is `width_mm`."""
     spec = dict(ART[key])
     path = spec.pop("path")
+    fix = spec.pop("restore", None)
+    holes = spec.pop("detail_from_holes", False)
     if not os.path.exists(path):
         raise FileNotFoundError(f"artwork {key!r} needs {path}")
+
     art = trace.trace(path, width_mm=width_mm, **spec)
+
+    if holes:
+        # Interior detail of a solid logo lives in its holes -- the light lines
+        # cut through the dark shape. Filling and differencing recovers them.
+        import shapely
+        solid = trace.trace(path, width_mm=width_mm, fill_holes=True, **spec)
+        art = solid.difference(art)
+
+    if fix:
+        import restore
+        art, notes = restore.extend_clipped(art, art.bounds, **fix)
+        for n in notes:
+            if n.get("rebuilt"):
+                print(f"      rebuilt {n['side']} tip of {key!r}: "
+                      f"+{n['added_mm']:.1f} mm off a {n['cut_width_mm']:.1f} mm cut")
     return resize(art, width_mm)
 
 

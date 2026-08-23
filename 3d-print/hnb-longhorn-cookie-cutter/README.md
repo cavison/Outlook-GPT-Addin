@@ -1,7 +1,7 @@
 # HNB Longhorns — cookie cutters
 
 Three styles, one shared pipeline. `make.py` builds them all; STLs land in
-`stl/<style>/` so the styles never mix.
+`designs/<style>/` so the styles never mix.
 
 | Style | What it does | Parts |
 |---|---|---|

@@ -9,7 +9,7 @@ from __future__ import annotations
 import numpy as np
 import shapely
 import trimesh
-from shapely.geometry import Point
+from shapely.geometry import LineString, Point, Polygon
 
 
 # --------------------------------------------------------------------------
@@ -19,6 +19,34 @@ from shapely.geometry import Point
 
 def disc(radius, segments=256):
     return Point(0, 0).buffer(radius, quad_segs=max(4, segments // 4))
+
+
+def variable_width_stroke(centerline, widths, round_tip=True, tip_segments=20):
+    """Turn a centreline into a filled polygon whose width varies along it.
+
+    Used to rebuild horn tips: a swept curve that starts at the width of the
+    cut edge and tapers to a rounded point.
+    """
+    c = np.asarray(centerline, float)
+    w = np.asarray(widths, float)
+    d = np.gradient(c, axis=0)
+    length = np.linalg.norm(d, axis=1, keepdims=True)
+    length[length == 0] = 1.0
+    tangent = d / length
+    normal = np.column_stack([-tangent[:, 1], tangent[:, 0]])
+
+    left = c + normal * (w[:, None] / 2.0)
+    right = c - normal * (w[:, None] / 2.0)
+
+    if round_tip and w[-1] > 1e-9:
+        centre, radius = c[-1], w[-1] / 2.0
+        start = np.arctan2(left[-1, 1] - centre[1], left[-1, 0] - centre[0])
+        ang = start + np.linspace(0, -np.pi, tip_segments)
+        cap = centre + radius * np.column_stack([np.cos(ang), np.sin(ang)])
+        ring_pts = np.vstack([left, cap, right[::-1]])
+    else:
+        ring_pts = np.vstack([left, right[::-1]])
+    return Polygon(ring_pts).buffer(0)
 
 
 def ring(outer, width, segments=256):

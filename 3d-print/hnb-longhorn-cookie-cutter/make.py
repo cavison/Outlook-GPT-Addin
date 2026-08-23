@@ -6,7 +6,7 @@
     python3 make.py --design skull         # one design
     python3 make.py --list                 # what is registered
 
-STLs land in stl/<style>/<design>_<part>.stl, so the styles never mix.
+STLs land in designs/<style>/<design>_<part>.stl, so the styles never mix.
 Every part exports in print orientation on z=0: no supports, no rotation.
 """
 
@@ -57,7 +57,7 @@ def main():
     ap.add_argument("--style", choices=artwork.STYLES)
     ap.add_argument("--design", choices=list(artwork.DESIGNS))
     ap.add_argument("--size", type=float, help="override cookie size in mm")
-    ap.add_argument("--outdir", default="stl")
+    ap.add_argument("--outdir", default="designs")
     ap.add_argument("--list", action="store_true")
     ap.add_argument("--no-preview", action="store_true")
     args = ap.parse_args()
