@@ -1,45 +1,97 @@
-# HNB Longhorns — cookie cutters & stamps
+# HNB Longhorns — cookie cutters
 
-Two families of tool share one artwork pipeline:
+Three styles, one shared pipeline. `make.py` builds them all; STLs land in
+`stl/<style>/` so the styles never mix.
 
-- **Outline cutters** (`outline_cutter.py`) — plain cut-out shapes, built to
-  match the reference cutters in `ref/`. Start here.
-- **Embossing stamps** (`hnb_cutter.py`) — press a design into a round cookie.
-  Documented further down.
+| Style | What it does | Parts |
+|---|---|---|
+| **emboss** | Cuts a plain outline, presses a separate design into it | cutter + two-sided stamp |
+| **cutout** | Cuts a silhouette and nothing else | cutter |
+| **hybrid** | Cuts a silhouette, presses that subject's own detail lines in | ring + nested insert |
 
-## Outline cutters
+The difference between emboss and hybrid is what the artwork is *of*. Emboss
+puts an unrelated design inside a plain shape — a longhorn inside a circle.
+Hybrid cuts the subject's own outline and marks that same subject's interior
+lines — a tiger's outline with the tiger's stripes and face pressed in.
 
 ```bash
-python3 outline_cutter.py                      # every silhouette present
-python3 outline_cutter.py --shape skull --size 76.2
+python3 make.py --list                 # what is registered
+python3 make.py                        # every design whose artwork is present
+python3 make.py --style cutout
+python3 make.py --design skull --size 76.2
 ```
 
-Construction is copied from `ref/sample_tree.obj`: 15 mm tall, a 0.80 mm blade,
-and a lip flaring 2.0 mm outward over the bottom 3.4 mm with a 1.6 mm chamfer
-back to the blade line. Printed lip-down, flipped lip-up in use so the heel of
-your hand has something blunt to push against.
+## Adding a design
 
-The lip's inner edge and the blade's inner edge are the same curve, so the
-cavity is one plain vertical prism and the part is just an outer profile swept
-over z minus that cavity — no lofting between changing cross-sections.
+Register the source image in `ART` and the product in `DESIGNS`, both in
+`artwork.py`. No code needed:
 
-### Thin artwork makes fragile cookies
+```python
+ART["boot"] = {"path": "art/boot.png", "invert": True, "fill_holes": True}
+DESIGNS["boot"] = Design("cutout", outline="boot", size=76.2)
+DESIGNS["tiger"] = Design("hybrid", outline="tiger", inner="tiger_lines")
+```
+
+`spec={...}` on a Design overrides any `body.Spec` field for that design alone —
+that is how the round set keeps its original 5 mm lip while everything else uses
+the 2 mm lip measured off the samples.
+
+## Dimensions came from the samples, not from guessing
+
+`ref/sample_tree.obj` (plain cutter), decoded by cross-sectioning:
+
+```
+15.0 tall · 0.80 blade · lip +2.0 outward over 3.4 · 1.6 chamfer back
+```
+
+`ref/hybrid/obj_2_tygr.stl` (hybrid) turned out to be **two nested pieces in one
+file**, not one part:
+
+```
+ring    13.0 tall, 1.2 blade thinning to 0.80 at the edge, lip at the base
+insert  7.5 tall — 4.5 solid plate carrying 3.0 tall, 1.27 wide detail ribs
+        inset ~0.9 mm from the blade cavity so it drops in
+```
+
+The structural find in both: the lip's inner edge and the blade's inner edge are
+the same curve, so the cavity is one plain vertical prism. That makes a cutter
+an outer profile swept over z minus a single cavity — no lofting between
+offset outlines whose topology changes unpredictably.
+
+For the hybrid, the blade runs alone for `cut_depth` before the ribs begin, so
+**dough thickness has to be about that deep**: the blade reaches the board while
+the ribs press the top. Thinner dough gets cut but never marked. `make.py`
+prints the number per design.
+
+## Thin artwork makes fragile cookies
 
 A silhouette that reads well flat can still be a bad cookie. The skull's horns
-are long thin arcs: at 3 inches, **57% of that cookie sits in runs under 5 mm
-wide**, which snap the moment anyone lifts one off the counter.
+are long thin arcs: at 3 inches, **57% of that cookie sat in runs under 5 mm
+wide**, which snap the moment anyone lifts one off the counter. Making the
+cookie bigger does not help — it is the aspect ratio, not the size.
 
-`--fatten` (default 1.5 mm) dilates the outline before cutting. Thin runs gain
-far more in relative terms than the head does, so the shape survives handling
-without going blobby — it takes the skull from 57% to 16% under 5 mm, and
-incidentally thickens the horn tips enough that the blade stays a clean hollow
-wall right to the ends. The run prints both numbers so you can judge it.
+`Design.fatten` (default 1.5 mm) dilates the outline before cutting. Thin runs
+gain far more in relative terms than the body does, taking the skull from 57% to
+16% while keeping the horns' taper. Above about +2 mm they go blobby. Every run
+prints the percentage so you can judge it.
 
-`--fatten 0` disables it. Above about +2 mm the horns lose their taper.
+## Files
+
+```
+make.py       CLI: pick a style or a design, build, report
+artwork.py    ART (source images) and DESIGNS (finished products)
+styles.py     one builder per style
+body.py       shared solids, dimensioned from ref/
+trace.py      image -> vector outline
+geom.py       2D/3D helpers: extrude, revolve, booleans
+preview.py    renders
+ref/          the reference cutters these were measured from
+```
 
 ---
 
-# Embossing stamps
+# Appendix: the round embossing set
+
 
 A parametric 3D-printable cookie cutter set. The stamp is two-sided:
 
