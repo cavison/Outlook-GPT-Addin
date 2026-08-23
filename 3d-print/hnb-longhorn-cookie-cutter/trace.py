@@ -9,6 +9,11 @@ things have to be dealt with before the shapes are usable as geometry:
     serrations along every horn and letter;
   * letters like O, G and B have counters, so contour nesting has to be
     respected rather than filling every outline solid.
+
+Illustrated artwork needs the opposite of that last point: a drawing split into
+panels by light seams should come back as one solid silhouette, so `invert`,
+`close_px` and `fill_holes` handle dark-on-light sources whose interior
+detailing must be swallowed rather than preserved.
 """
 
 from __future__ import annotations
@@ -20,13 +25,24 @@ from shapely.geometry import Polygon
 from shapely.ops import unary_union
 
 
-def _mask(path, blur_px, min_area_frac):
+def _mask(path, blur_px, min_area_frac, invert=False, close_px=0.0,
+          fill_holes=False):
     """Binary mask of the artwork, de-speckled and edge-smoothed."""
     img = cv2.imread(str(path), cv2.IMREAD_GRAYSCALE)
     if img is None:
         raise FileNotFoundError(path)
 
-    _, mask = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    mode = cv2.THRESH_BINARY_INV if invert else cv2.THRESH_BINARY
+    _, mask = cv2.threshold(img, 0, 255, mode + cv2.THRESH_OTSU)
+
+    # Illustrated artwork is often carved up by thin light-coloured seams
+    # between panels. For a silhouette those are not real edges, so close them
+    # before anything else -- the kernel is sized to swallow a seam and stay far
+    # narrower than a genuine gap such as the space between two legs.
+    if close_px > 0:
+        k = int(close_px * 2) | 1
+        kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (k, k))
+        mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
 
     # Drop everything that is not a real piece of artwork -- JPEG noise along
     # the frame, stray specks in the background.
@@ -43,6 +59,15 @@ def _mask(path, blur_px, min_area_frac):
         k = int(blur_px * 4) | 1
         keep = cv2.GaussianBlur(keep, (k, k), blur_px)
         _, keep = cv2.threshold(keep, 127, 255, cv2.THRESH_BINARY)
+
+    # Any light region fully enclosed by artwork is interior detail, not a real
+    # opening, so flooding in from outside and keeping what it cannot reach
+    # leaves a solid silhouette.
+    if fill_holes:
+        flood = keep.copy()
+        pad = np.zeros((flood.shape[0] + 2, flood.shape[1] + 2), np.uint8)
+        cv2.floodFill(flood, pad, (0, 0), 255)
+        keep = keep | cv2.bitwise_not(flood)
     return keep
 
 
@@ -75,14 +100,14 @@ def _contours_to_polygon(mask, simplify_px):
 
 
 def trace(path, width_mm, blur_px=2.0, simplify_px=1.2, min_area_frac=2e-4,
-          round_mm=0.0):
+          round_mm=0.0, invert=False, close_px=0.0, fill_holes=False):
     """Trace an image into a shapely shape `width_mm` wide, centred on the origin.
 
     Image rows run downward, so the result is flipped to put y upward.
     `round_mm` softens remaining corners by an open-close pair, which is worth a
     little on hand-drawn artwork and nothing on clean geometry.
     """
-    mask = _mask(path, blur_px, min_area_frac)
+    mask = _mask(path, blur_px, min_area_frac, invert, close_px, fill_holes)
     art = _contours_to_polygon(mask, simplify_px)
 
     minx, miny, maxx, maxy = art.bounds

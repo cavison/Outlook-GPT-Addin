@@ -6,7 +6,7 @@ A parametric 3D-printable cookie cutter set. The stamp is two-sided:
 - **Hand face** — the HNB Longhorns wordmark and skull, engraved into the side
   you hold. Never touches food.
 
-![cookie face](preview/01_cookie_face.png)
+![cookie face](preview/01_cookie_face_skull.png)
 ![hand face](preview/02_hand_face.png)
 
 Both pieces of artwork are traced directly from the supplied images
@@ -31,9 +31,27 @@ the model for it to read forwards in your hand. Same operation, different cause.
 
 | File | What it is | Notes |
 |---|---|---|
-| `stl/hnb_longhorn_1_cutter_ring.stl` | 90 mm cutter ring | Flange down, edge up |
-| `stl/hnb_longhorn_2_stamp.stl` | Two-sided stamp | Longhorn up, wordmark on the bed face |
-| `stl/hnb_longhorn_3_combined_cutter_stamp.stl` | One-piece alternative | Cuts and embosses in one press. Thin dough only — see below |
+| `stl/hnb_cutter_ring.stl` | 90 mm cutter ring | Flange down, edge up. Shared by every variant |
+| `stl/hnb_stamp_<variant>.stl` | Two-sided stamp | Silhouette up, wordmark on the bed face |
+| `stl/hnb_combined_<variant>.stl` | One-piece alternative | Cuts and embosses in one press. Thin dough only — see below |
+
+### Cookie-face variants
+
+The wordmark and the cutter ring never change; only the silhouette raised on the
+cookie face does. Variants are registered in `EMBOSS_ARTWORK` in `design.py`:
+
+| Variant | Cookie face | Source |
+|---|---|---|
+| `skull` | Longhorn skull and horns | `art/longhorn_source.jpg` |
+| `steer` | Full-body longhorn steer | `art/steer_source.png` |
+
+```bash
+python3 hnb_cutter.py                  # every variant whose source is present
+python3 hnb_cutter.py --emboss steer   # just one
+```
+
+A variant whose source image is missing is skipped with a note rather than
+failing the run.
 
 **No supports, no rotation, no brim.** Every part exports sitting on z=0 in its
 print orientation, and the only unsupported surface anywhere in the set is the
@@ -112,9 +130,15 @@ python3 hnb_cutter.py --logo-depth 1.4      # deeper engraving
 engraved channel is narrower than the nozzle and the slicer fills it in.
 `validate.py` warns when you cross that line.
 
-To swap the artwork, replace the files in `art/` and re-run — the tracer
-thresholds, de-speckles, smooths the pixel staircase off the edges, and honours
-contour nesting so letter counters stay open.
+To add or swap artwork, drop a file in `art/`, register it in `EMBOSS_ARTWORK`
+and re-run. The tracer thresholds, de-speckles, smooths the pixel staircase off
+the edges, and honours contour nesting so letter counters stay open.
+
+Illustrated sources need three extra switches, which the `steer` entry shows:
+`invert` for dark artwork on a light ground, `close_px` to seal the thin light
+seams that panelled illustrations are carved up by, and `fill_holes` to flood
+interior detailing solid. Without them a seamed drawing traces as several torn
+islands instead of one silhouette.
 
 ### Checking a change
 

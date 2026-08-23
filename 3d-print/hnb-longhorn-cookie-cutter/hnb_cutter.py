@@ -185,6 +185,10 @@ def main():
                     help="how far the longhorn stands proud, in mm (default 1.8)")
     ap.add_argument("--logo-depth", type=float, default=Config.logo_depth,
                     help="engraving depth for the wordmark, in mm (default 1.0)")
+    ap.add_argument("--emboss", default="all",
+                    choices=["all", *design.EMBOSS_ARTWORK],
+                    help="which artwork to raise on the cookie face (default all "
+                         "variants whose source image is present)")
     ap.add_argument("--no-mirror", action="store_true",
                     help="skip both mirrors -- only useful for a plaque, never "
                          "for a stamp")
@@ -198,52 +202,75 @@ def main():
                  mirror=not args.no_mirror)
 
     print(f"HNB Longhorns cookie cutter -- {cfg.diameter:.0f} mm")
-    longhorn = design.longhorn(cfg.stamp_art_limit_r, cfg.mirror)
+
+    if args.emboss == "all":
+        wanted = design.available_emboss()
+        missing = [n for n in design.EMBOSS_ARTWORK if n not in wanted]
+        for name in missing:
+            print(f"  skipping {name!r}: {design.EMBOSS_ARTWORK[name]['path']} "
+                  f"is not in the repo yet")
+    else:
+        wanted = [args.emboss]
+    if not wanted:
+        raise SystemExit("no emboss artwork available")
+
+    # The wordmark and the ring are the same whichever silhouette goes on the
+    # cookie face, so they are built once and shared across the variants.
     logo_stamp = design.logo(cfg.stamp_art_limit_r, cfg.mirror)
     logo_combined = design.logo(cfg.combined_art_limit_r, cfg.mirror)
 
-    for label, art in (("longhorn (cookie face)", longhorn),
-                       ("wordmark (hand face)", logo_stamp)):
+    os.makedirs(args.outdir, exist_ok=True)
+    parts = {"cutter_ring": build_cutter(cfg)}
+    embossings = {}
+
+    for name in wanted:
+        art = design.emboss(name, cfg.stamp_art_limit_r, cfg.mirror)
+        embossings[name] = art
         b = art.bounds
-        print(f"  {label:<24} {b[2]-b[0]:5.1f} x {b[3]-b[1]:5.1f} mm")
+        print(f"  {name + ' (cookie face)':<24} {b[2]-b[0]:5.1f} x {b[3]-b[1]:5.1f} mm")
+        parts[f"stamp_{name}"] = build_stamp(cfg, art, logo_stamp)
+        parts[f"combined_{name}"] = build_combined(cfg, art, logo_combined)
+
+    b = logo_stamp.bounds
+    print(f"  {'wordmark (hand face)':<24} {b[2]-b[0]:5.1f} x {b[3]-b[1]:5.1f} mm")
     print()
 
-    parts = {
-        "1_cutter_ring": build_cutter(cfg),
-        "2_stamp": build_stamp(cfg, longhorn, logo_stamp),
-        "3_combined_cutter_stamp": build_combined(cfg, longhorn, logo_combined),
-    }
-
-    os.makedirs(args.outdir, exist_ok=True)
     for name, mesh in parts.items():
         print(describe(name, mesh))
-        mesh.export(os.path.join(args.outdir, f"hnb_longhorn_{name}.stl"))
+        mesh.export(os.path.join(args.outdir, f"hnb_{name}.stl"))
 
     if not args.no_preview:
         import preview
         os.makedirs("preview", exist_ok=True)
-        preview.plot_flat(
-            [("cookie face (mirrored - what you print)", longhorn, "#3f6b8a"),
-             ("the cookie (what you get)", design.mirror_x(longhorn), "#a9752f")],
-            "preview/01_cookie_face.png", disc_radius=cfg.stamp_r)
+        for name, art in embossings.items():
+            preview.plot_flat(
+                [(f"{name}: cookie face (mirrored - what you print)", art, "#3f6b8a"),
+                 (f"{name}: the cookie (what you get)", design.mirror_x(art), "#a9752f")],
+                f"preview/01_cookie_face_{name}.png", disc_radius=cfg.stamp_r)
         preview.plot_flat(
             [("hand face, engraved (as it reads in your hand)",
               design.mirror_x(logo_stamp), "#2f2a26")],
             "preview/02_hand_face.png", disc_radius=cfg.stamp_r)
-        preview.render_mesh(parts["2_stamp"], "preview/03_stamp_cookie_side.png",
-                            colours=["#4a7fa5"], title="stamp, cookie side (as printed)",
-                            highlight_above=cfg.plate_thickness + 0.05)
+        for name in wanted:
+            preview.render_mesh(parts[f"stamp_{name}"],
+                                f"preview/03_stamp_cookie_side_{name}.png",
+                                colours=["#4a7fa5"],
+                                title=f"stamp, cookie side -- {name} (as printed)",
+                                highlight_above=cfg.plate_thickness + 0.05)
         # Viewed from below, world +y only reads as screen-up for azimuths on
         # the far side; at the default azimuth the wordmark comes out rotated.
-        preview.render_mesh(parts["2_stamp"], "preview/04_stamp_hand_side.png",
+        preview.render_mesh(parts[f"stamp_{wanted[0]}"], "preview/04_stamp_hand_side.png",
                             colours=["#4a7fa5"], elev=-34.0, azim=128.0,
                             title="stamp, hand side (engraved wordmark)",
                             engrave_above=0.05)
-        preview.render_mesh(parts["1_cutter_ring"], "preview/05_cutter.png",
+        preview.render_mesh(parts["cutter_ring"], "preview/05_cutter.png",
                             colours=["#7d8a96"], title="cutter ring (edge up, as printed)")
-        preview.render_mesh(parts["3_combined_cutter_stamp"], "preview/06_combined.png",
-                            colours=["#8a6a4a"], title="one-piece cutter + embosser",
-                            highlight_above=cfg.combined_plate_thickness + 0.05)
+        for name in wanted:
+            preview.render_mesh(parts[f"combined_{name}"],
+                                f"preview/06_combined_{name}.png",
+                                colours=["#8a6a4a"],
+                                title=f"one-piece cutter + embosser -- {name}",
+                                highlight_above=cfg.combined_plate_thickness + 0.05)
         print("\n  previews written to preview/")
 
 

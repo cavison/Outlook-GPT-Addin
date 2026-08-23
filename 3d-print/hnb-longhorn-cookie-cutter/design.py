@@ -16,13 +16,25 @@ So both faces get mirrored polygons. Same operation, unrelated causes.
 
 from __future__ import annotations
 
+import os
+
 import numpy as np
 from shapely.affinity import scale as shp_scale
 
 import trace
 
-LONGHORN_IMAGE = "art/longhorn_source.jpg"
 LOGO_IMAGE = "art/logo_source.jpg"
+
+# Artwork available for the cookie face. Each entry is a source image plus
+# whatever the tracer needs to read it: the skull is light on dark and traces
+# straight, while the steer is a dark illustration on white whose panel seams
+# have to be closed and whose interior detail has to be flooded solid before it
+# reads as one silhouette.
+EMBOSS_ARTWORK = {
+    "skull": {"path": "art/longhorn_source.jpg"},
+    "steer": {"path": "art/steer_source.png", "invert": True,
+              "close_px": 6.0, "fill_holes": True},
+}
 
 
 def mirror_x(polygon):
@@ -49,9 +61,20 @@ def fit_to_radius(art, limit_r):
     return shp_scale(art, xfact=factor, yfact=factor, origin=(0, 0))
 
 
-def longhorn(limit_r, mirror=True):
-    """The longhorn silhouette for the cookie face, sized to fill `limit_r`."""
-    art = fit_to_radius(trace.trace(LONGHORN_IMAGE, width_mm=70.0), limit_r)
+def available_emboss():
+    """Emboss variants whose source image is actually present."""
+    return [n for n, spec in EMBOSS_ARTWORK.items()
+            if os.path.exists(spec["path"])]
+
+
+def emboss(name, limit_r, mirror=True):
+    """Cookie-face silhouette for one variant, sized to fill `limit_r`."""
+    spec = dict(EMBOSS_ARTWORK[name])
+    path = spec.pop("path")
+    if not os.path.exists(path):
+        raise FileNotFoundError(
+            f"emboss artwork {name!r} needs {path}, which is not in the repo")
+    art = fit_to_radius(trace.trace(path, width_mm=70.0, **spec), limit_r)
     return mirror_x(art) if mirror else art
 
 

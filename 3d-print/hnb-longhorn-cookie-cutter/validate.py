@@ -95,17 +95,24 @@ def overhang_report(mesh, engrave_z=None, bed_tol=0.05):
 def main():
     ap = argparse.ArgumentParser(description="print-readiness checks")
     ap.add_argument("--diameter", type=float, default=H.Config.diameter)
+    ap.add_argument("--emboss", default=None,
+                    choices=list(design.EMBOSS_ARTWORK),
+                    help="which cookie-face artwork to check (default: each "
+                         "variant present in the repo)")
     a = ap.parse_args()
 
     cfg = H.Config(diameter=a.diameter)
-    longhorn = design.longhorn(cfg.stamp_art_limit_r, cfg.mirror)
+    variants = [a.emboss] if a.emboss else design.available_emboss()
+    longhorn = design.emboss(variants[0], cfg.stamp_art_limit_r, cfg.mirror)
     logo_stamp = design.logo(cfg.stamp_art_limit_r, cfg.mirror)
     logo_comb = design.logo(cfg.combined_art_limit_r, cfg.mirror)
 
     print("=" * 74)
     print(f"ARTWORK  ({cfg.diameter:.0f} mm, all values in mm)")
     print("=" * 74)
-    report_art("longhorn, raised on the cookie face", longhorn)
+    for name in variants:
+        report_art(f"{name}, raised on the cookie face",
+                   design.emboss(name, cfg.stamp_art_limit_r, cfg.mirror))
     bridge = report_art("wordmark, engraved into the hand face", logo_stamp)
 
     # An engraved channel is harder to render than a raised stroke of the same
