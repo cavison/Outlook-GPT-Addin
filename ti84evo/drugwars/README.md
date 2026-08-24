@@ -83,3 +83,17 @@ Classic difficulty.
 `THEME = "classic"` at the top of the file. Set it to `"spice"` and the
 six goods become Saffron, Truffle, Caviar, Vanilla, Pepper and Salt.
 Identical mechanics and price bands — only the nouns change.
+
+## Capability probe
+
+`probe/` answers the two questions that govern how large this game can get.
+Send both files to the calculator and run `PROBE`:
+
+- Can a script `import` another script you wrote? If yes, content can live in
+  swappable packs held in archive rather than all in the heap.
+- How much Python heap is actually free, and does memory come back when a
+  module is unloaded?
+
+TI documents importing their own modules (`ti_system`, `ti_draw`); user modules
+are undocumented either way, so this needs measuring on real hardware rather
+than assuming.
