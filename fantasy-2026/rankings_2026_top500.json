@@ -1,0 +1,5002 @@
+[
+ {
+  "name": "Jahmyr Gibbs",
+  "pos": "RB",
+  "team": "DET",
+  "rank": 1,
+  "posrank": "RB1",
+  "round12": "Rd 1",
+  "confidence": "High",
+  "note": "Only back averaging 21+ PPR PPG in each of the last two years. David Montgomery's exit to Houston removes the goal-line cap; Detroit's O-line slipping to 13th in PFF run block is the one worry."
+ },
+ {
+  "name": "Bijan Robinson",
+  "pos": "RB",
+  "team": "ATL",
+  "rank": 2,
+  "posrank": "RB2",
+  "round12": "Rd 1",
+  "confidence": "High",
+  "note": "Top-three fantasy RB each of the last two seasons: 1,400+ rushing yards and 60+ catches both years. Genuine 1A/1B with Gibbs."
+ },
+ {
+  "name": "Ja'Marr Chase",
+  "pos": "WR",
+  "team": "CIN",
+  "rank": 3,
+  "posrank": "WR1",
+  "round12": "Rd 1",
+  "confidence": "High",
+  "note": "One of only three receivers projected for 255+ half-PPR points."
+ },
+ {
+  "name": "Puka Nacua",
+  "pos": "WR",
+  "team": "LAR",
+  "rank": 4,
+  "posrank": "WR2",
+  "round12": "Rd 1",
+  "confidence": "High",
+  "note": "Led the league at 23.4 PPR points per game in 2025."
+ },
+ {
+  "name": "Christian McCaffrey",
+  "pos": "RB",
+  "team": "SF",
+  "rank": 5,
+  "posrank": "RB3",
+  "round12": "Rd 1",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Jaxon Smith-Njigba",
+  "pos": "WR",
+  "team": "SEA",
+  "rank": 6,
+  "posrank": "WR3",
+  "round12": "Rd 1",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Amon-Ra St. Brown",
+  "pos": "WR",
+  "team": "DET",
+  "rank": 7,
+  "posrank": "WR4",
+  "round12": "Rd 1",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Jonathan Taylor",
+  "pos": "RB",
+  "team": "IND",
+  "rank": 8,
+  "posrank": "RB4",
+  "round12": "Rd 1",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "De'Von Achane",
+  "pos": "RB",
+  "team": "MIA",
+  "rank": 9,
+  "posrank": "RB5",
+  "round12": "Rd 1",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "James Cook III",
+  "pos": "RB",
+  "team": "BUF",
+  "rank": 10,
+  "posrank": "RB6",
+  "round12": "Rd 1",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "CeeDee Lamb",
+  "pos": "WR",
+  "team": "DAL",
+  "rank": 11,
+  "posrank": "WR5",
+  "round12": "Rd 1",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Justin Jefferson",
+  "pos": "WR",
+  "team": "MIN",
+  "rank": 12,
+  "posrank": "WR6",
+  "round12": "Rd 1",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Derrick Henry",
+  "pos": "RB",
+  "team": "BAL",
+  "rank": 13,
+  "posrank": "RB7",
+  "round12": "Rd 2",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Ashton Jeanty",
+  "pos": "RB",
+  "team": "LV",
+  "rank": 14,
+  "posrank": "RB8",
+  "round12": "Rd 2",
+  "confidence": "High",
+  "note": "Low ankle sprain in an Aug. 23 practice. Fell seven spots to RB10 / No. 16 overall on the 8/25 4for4 update; Week 1 still unclear."
+ },
+ {
+  "name": "Drake London",
+  "pos": "WR",
+  "team": "ATL",
+  "rank": 15,
+  "posrank": "WR7",
+  "round12": "Rd 2",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Chase Brown",
+  "pos": "RB",
+  "team": "CIN",
+  "rank": 16,
+  "posrank": "RB9",
+  "round12": "Rd 2",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Brock Bowers",
+  "pos": "TE",
+  "team": "LV",
+  "rank": 17,
+  "posrank": "TE1",
+  "round12": "Rd 2",
+  "confidence": "High",
+  "note": "TE1 on most boards - best offense he's played in since entering the league."
+ },
+ {
+  "name": "Saquon Barkley",
+  "pos": "RB",
+  "team": "PHI",
+  "rank": 18,
+  "posrank": "RB10",
+  "round12": "Rd 2",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Trey McBride",
+  "pos": "TE",
+  "team": "ARI",
+  "rank": 19,
+  "posrank": "TE2",
+  "round12": "Rd 2",
+  "confidence": "High",
+  "note": "Wore the crown as 2025's top-scoring tight end. Coin flip with Bowers."
+ },
+ {
+  "name": "Kenneth Walker III",
+  "pos": "RB",
+  "team": "KC",
+  "rank": 20,
+  "posrank": "RB11",
+  "round12": "Rd 2",
+  "confidence": "High",
+  "note": "Super Bowl MVP in Seattle, then 3 yr / $43.05M to Kansas City with $28.7M guaranteed. Rankers moved him up through camp."
+ },
+ {
+  "name": "Nico Collins",
+  "pos": "WR",
+  "team": "HOU",
+  "rank": 21,
+  "posrank": "WR8",
+  "round12": "Rd 2",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Rashee Rice",
+  "pos": "WR",
+  "team": "KC",
+  "rank": 22,
+  "posrank": "WR9",
+  "round12": "Rd 2",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Jeremiyah Love",
+  "pos": "RB",
+  "team": "ARI",
+  "rank": 23,
+  "posrank": "RB12",
+  "round12": "Rd 2",
+  "confidence": "High",
+  "note": "No. 3 overall to Arizona, the highest RB taken since Barkley in 2018. Each of the last nine RBs drafted top-12 finished top-12 in fantasy as a rookie."
+ },
+ {
+  "name": "Omarion Hampton",
+  "pos": "RB",
+  "team": "LAC",
+  "rank": 24,
+  "posrank": "RB13",
+  "round12": "Rd 2",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "A.J. Brown",
+  "pos": "WR",
+  "team": "NE",
+  "rank": 25,
+  "posrank": "WR10",
+  "round12": "Rd 3",
+  "confidence": "High",
+  "note": "Traded to New England for a 2028 first and a 2027 fifth. Immediately Drake Maye's No. 1 and reunited with his first head coach."
+ },
+ {
+  "name": "Chris Olave",
+  "pos": "WR",
+  "team": "NO",
+  "rank": 26,
+  "posrank": "WR11",
+  "round12": "Rd 3",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Garrett Wilson",
+  "pos": "WR",
+  "team": "NYJ",
+  "rank": 27,
+  "posrank": "WR12",
+  "round12": "Rd 3",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Breece Hall",
+  "pos": "RB",
+  "team": "NYJ",
+  "rank": 28,
+  "posrank": "RB14",
+  "round12": "Rd 3",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Josh Jacobs",
+  "pos": "RB",
+  "team": "GB",
+  "rank": 29,
+  "posrank": "RB15",
+  "round12": "Rd 3",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Malik Nabers",
+  "pos": "WR",
+  "team": "NYG",
+  "rank": 30,
+  "posrank": "WR13",
+  "round12": "Rd 3",
+  "confidence": "High",
+  "note": "Had a second procedure to remove a cyclops lesion after his ACL repair. Running routes in camp, but a full Week 1 is unlikely. ADP sliding."
+ },
+ {
+  "name": "Tetairoa McMillan",
+  "pos": "WR",
+  "team": "CAR",
+  "rank": 31,
+  "posrank": "WR14",
+  "round12": "Rd 3",
+  "confidence": "High",
+  "note": "2025 Offensive Rookie of the Year - 1,014 yards and seven TDs, most among rookie WRs."
+ },
+ {
+  "name": "Javonte Williams",
+  "pos": "RB",
+  "team": "DAL",
+  "rank": 32,
+  "posrank": "RB16",
+  "round12": "Rd 3",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Zay Flowers",
+  "pos": "WR",
+  "team": "BAL",
+  "rank": 33,
+  "posrank": "WR15",
+  "round12": "Rd 3",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "DeVonta Smith",
+  "pos": "WR",
+  "team": "PHI",
+  "rank": 34,
+  "posrank": "WR16",
+  "round12": "Rd 3",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Emeka Egbuka",
+  "pos": "WR",
+  "team": "TB",
+  "rank": 35,
+  "posrank": "WR17",
+  "round12": "Rd 3",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Travis Etienne Jr.",
+  "pos": "RB",
+  "team": "NO",
+  "rank": 36,
+  "posrank": "RB17",
+  "round12": "Rd 3",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Ladd McConkey",
+  "pos": "WR",
+  "team": "LAC",
+  "rank": 37,
+  "posrank": "WR18",
+  "round12": "Rd 4",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Kyren Williams",
+  "pos": "RB",
+  "team": "LAR",
+  "rank": 38,
+  "posrank": "RB18",
+  "round12": "Rd 4",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Davante Adams",
+  "pos": "WR",
+  "team": "LAR",
+  "rank": 39,
+  "posrank": "WR19",
+  "round12": "Rd 4",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "George Pickens",
+  "pos": "WR",
+  "team": "DAL",
+  "rank": 40,
+  "posrank": "WR20",
+  "round12": "Rd 4",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Jaylen Waddle",
+  "pos": "WR",
+  "team": "DEN",
+  "rank": 41,
+  "posrank": "WR21",
+  "round12": "Rd 4",
+  "confidence": "High",
+  "note": "Traded to Denver for the No. 30, No. 94 and No. 130 picks. Clear value spike with Bo Nix."
+ },
+ {
+  "name": "Colston Loveland",
+  "pos": "TE",
+  "team": "CHI",
+  "rank": 42,
+  "posrank": "TE3",
+  "round12": "Rd 4",
+  "confidence": "High",
+  "note": "58-713-6 as a rookie with 90+ receiving yards in each of his final two regular-season games."
+ },
+ {
+  "name": "Tyler Warren",
+  "pos": "TE",
+  "team": "IND",
+  "rank": 43,
+  "posrank": "TE4",
+  "round12": "Rd 4",
+  "confidence": "High",
+  "note": "76-817-4 as a rookie - immediately a core piece of the Colts offense."
+ },
+ {
+  "name": "Quinshon Judkins",
+  "pos": "RB",
+  "team": "CLE",
+  "rank": 44,
+  "posrank": "RB19",
+  "round12": "Rd 4",
+  "confidence": "High",
+  "note": "2025 ended on an ankle injury and fractured fibula. ESPN still has him around RB20."
+ },
+ {
+  "name": "Cam Skattebo",
+  "pos": "RB",
+  "team": "NYG",
+  "rank": 45,
+  "posrank": "RB20",
+  "round12": "Rd 4",
+  "confidence": "High",
+  "note": "Coming back from a major 2025 injury, which is exactly why Tyrone Tracy is a handcuff that matters."
+ },
+ {
+  "name": "Tee Higgins",
+  "pos": "WR",
+  "team": "CIN",
+  "rank": 46,
+  "posrank": "WR22",
+  "round12": "Rd 4",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Bucky Irving",
+  "pos": "RB",
+  "team": "TB",
+  "rank": 47,
+  "posrank": "RB21",
+  "round12": "Rd 4",
+  "confidence": "High",
+  "note": "Injury history, Kenny Gainwell's arrival and Sean Tucker vulturing the goal line all push him down from where the talent says he belongs."
+ },
+ {
+  "name": "Josh Allen",
+  "pos": "QB",
+  "team": "BUF",
+  "rank": 48,
+  "posrank": "QB1",
+  "round12": "Rd 4",
+  "confidence": "High",
+  "note": "Only QB to finish top-3 in fantasy PPG in each of the last five seasons, and hasn't missed a start. Every board has him alone in Tier 1."
+ },
+ {
+  "name": "Terry McLaurin",
+  "pos": "WR",
+  "team": "WAS",
+  "rank": 49,
+  "posrank": "WR23",
+  "round12": "Rd 5",
+  "confidence": "High",
+  "note": "A quad injury held him to 10 games and a 38-582-3 line. Still Washington's No. 1 if healthy."
+ },
+ {
+  "name": "Jameson Williams",
+  "pos": "WR",
+  "team": "DET",
+  "rank": 50,
+  "posrank": "WR24",
+  "round12": "Rd 5",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Bhayshul Tuten",
+  "pos": "RB",
+  "team": "JAX",
+  "rank": 51,
+  "posrank": "RB22",
+  "round12": "Rd 5",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Rome Odunze",
+  "pos": "WR",
+  "team": "CHI",
+  "rank": 52,
+  "posrank": "WR25",
+  "round12": "Rd 5",
+  "confidence": "High",
+  "note": "The steady one in Chicago while Luther Burden is the explosive one for Caleb Williams."
+ },
+ {
+  "name": "DJ Moore",
+  "pos": "WR",
+  "team": "BUF",
+  "rank": 53,
+  "posrank": "WR26",
+  "round12": "Rd 5",
+  "confidence": "High",
+  "note": "Gives Buffalo the dependable No. 1 they've been missing, and could beat his ADP."
+ },
+ {
+  "name": "D'Andre Swift",
+  "pos": "RB",
+  "team": "CHI",
+  "rank": 54,
+  "posrank": "RB23",
+  "round12": "Rd 5",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Harold Fannin Jr.",
+  "pos": "TE",
+  "team": "CLE",
+  "rank": 55,
+  "posrank": "TE5",
+  "round12": "Rd 5",
+  "confidence": "High",
+  "note": "72-731-6 as a 21-year-old rookie and a 22% target share, finishing TE6. Njoku's move to the Chargers clears the room entirely."
+ },
+ {
+  "name": "David Montgomery",
+  "pos": "RB",
+  "team": "HOU",
+  "rank": 56,
+  "posrank": "RB24",
+  "round12": "Rd 5",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Jadarian Price",
+  "pos": "RB",
+  "team": "SEA",
+  "rank": 57,
+  "posrank": "RB25",
+  "round12": "Rd 5",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "TreVeyon Henderson",
+  "pos": "RB",
+  "team": "NE",
+  "rank": 58,
+  "posrank": "RB26",
+  "round12": "Rd 5",
+  "confidence": "High",
+  "note": "Hard to argue past low-end RB2 as long as New England keeps featuring Rhamondre Stevenson."
+ },
+ {
+  "name": "Kyle Pitts Sr.",
+  "pos": "TE",
+  "team": "ATL",
+  "rank": 59,
+  "posrank": "TE6",
+  "round12": "Rd 5",
+  "confidence": "High",
+  "note": "Finally delivered: 88 catches, 928 yards, five TDs in 2025."
+ },
+ {
+  "name": "Carnell Tate",
+  "pos": "WR",
+  "team": "TEN",
+  "rank": 60,
+  "posrank": "WR27",
+  "round12": "Rd 5",
+  "confidence": "High",
+  "note": "A bet on talent plus Cam Ward's year two under Brian Daboll. Tenth in yards per route run and a 68.8% contested-catch rate in college."
+ },
+ {
+  "name": "Courtland Sutton",
+  "pos": "WR",
+  "team": "DEN",
+  "rank": 61,
+  "posrank": "WR28",
+  "round12": "Rd 6",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Stefon Diggs",
+  "pos": "WR",
+  "team": "WAS",
+  "rank": 62,
+  "posrank": "WR29",
+  "round12": "Rd 6",
+  "confidence": "High",
+  "note": "Signed with his hometown team. Led the NFL with a 15.4% catch rate over expected, caught 83.3% of his targets, 2.4 yards per route run."
+ },
+ {
+  "name": "Jayden Daniels",
+  "pos": "QB",
+  "team": "WAS",
+  "rank": 63,
+  "posrank": "QB2",
+  "round12": "Rd 6",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Michael Pittman Jr.",
+  "pos": "WR",
+  "team": "PIT",
+  "rank": 64,
+  "posrank": "WR30",
+  "round12": "Rd 6",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Rhamondre Stevenson",
+  "pos": "RB",
+  "team": "NE",
+  "rank": 65,
+  "posrank": "RB27",
+  "round12": "Rd 6",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Marvin Harrison Jr.",
+  "pos": "WR",
+  "team": "ARI",
+  "rank": 66,
+  "posrank": "WR31",
+  "round12": "Rd 6",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Jaylen Warren",
+  "pos": "RB",
+  "team": "PIT",
+  "rank": 67,
+  "posrank": "RB28",
+  "round12": "Rd 6",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Sam LaPorta",
+  "pos": "TE",
+  "team": "DET",
+  "rank": 68,
+  "posrank": "TE7",
+  "round12": "Rd 6",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Tucker Kraft",
+  "pos": "TE",
+  "team": "GB",
+  "rank": 69,
+  "posrank": "TE8",
+  "round12": "Rd 6",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Lamar Jackson",
+  "pos": "QB",
+  "team": "BAL",
+  "rank": 70,
+  "posrank": "QB3",
+  "round12": "Rd 6",
+  "confidence": "High",
+  "note": "Coming off a subpar, injury-marred year with steep declines in both passing and rushing."
+ },
+ {
+  "name": "Rico Dowdle",
+  "pos": "RB",
+  "team": "PIT",
+  "rank": 71,
+  "posrank": "RB29",
+  "round12": "Rd 6",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "DK Metcalf",
+  "pos": "WR",
+  "team": "PIT",
+  "rank": 72,
+  "posrank": "WR32",
+  "round12": "Rd 6",
+  "confidence": "High",
+  "note": "Being drafted on name recognition. Right player, wrong offense."
+ },
+ {
+  "name": "Parker Washington",
+  "pos": "WR",
+  "team": "JAX",
+  "rank": 73,
+  "posrank": "WR33",
+  "round12": "Rd 7",
+  "confidence": "High",
+  "note": "From Week 12 on he led Jacksonville at a 25% target share and 14.2 PPR PPG; over the final four games that hit 31% and 18.5."
+ },
+ {
+  "name": "Luther Burden III",
+  "pos": "WR",
+  "team": "CHI",
+  "rank": 74,
+  "posrank": "WR34",
+  "round12": "Rd 7",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Tony Pollard",
+  "pos": "RB",
+  "team": "TEN",
+  "rank": 75,
+  "posrank": "RB30",
+  "round12": "Rd 7",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Alec Pierce",
+  "pos": "WR",
+  "team": "IND",
+  "rank": 76,
+  "posrank": "WR35",
+  "round12": "Rd 7",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Mike Evans",
+  "pos": "WR",
+  "team": "SF",
+  "rank": 77,
+  "posrank": "WR36",
+  "round12": "Rd 7",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Drake Maye",
+  "pos": "QB",
+  "team": "NE",
+  "rank": 78,
+  "posrank": "QB4",
+  "round12": "Rd 7",
+  "confidence": "High",
+  "note": "Only Josh Allen outscored him among QBs in 2025 - and now he has A.J. Brown."
+ },
+ {
+  "name": "Kenny Gainwell",
+  "pos": "RB",
+  "team": "TB",
+  "rank": 79,
+  "posrank": "RB31",
+  "round12": "Rd 7",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Christian Watson",
+  "pos": "WR",
+  "team": "GB",
+  "rank": 80,
+  "posrank": "WR37",
+  "round12": "Rd 7",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Matthew Golden",
+  "pos": "WR",
+  "team": "GB",
+  "rank": 81,
+  "posrank": "WR38",
+  "round12": "Rd 7",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Jonathon Brooks",
+  "pos": "RB",
+  "team": "CAR",
+  "rank": 82,
+  "posrank": "RB32",
+  "round12": "Rd 7",
+  "confidence": "High",
+  "note": "Missed all of 2025 recovering from a second ACL tear. Carolina let Rico Dowdle walk and ignored RB in the draft, which is a real vote of confidence. ADP ~125."
+ },
+ {
+  "name": "Michael Wilson",
+  "pos": "WR",
+  "team": "ARI",
+  "rank": 83,
+  "posrank": "WR39",
+  "round12": "Rd 7",
+  "confidence": "High",
+  "note": "2025 was top-heavy - the big games came when Marvin Harrison was out. Fine at WR4 cost, not above it."
+ },
+ {
+  "name": "Brian Thomas Jr.",
+  "pos": "WR",
+  "team": "JAX",
+  "rank": 84,
+  "posrank": "WR40",
+  "round12": "Rd 7",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Chuba Hubbard",
+  "pos": "RB",
+  "team": "CAR",
+  "rank": 85,
+  "posrank": "RB33",
+  "round12": "Rd 8",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Jakobi Meyers",
+  "pos": "WR",
+  "team": "JAX",
+  "rank": 86,
+  "posrank": "WR41",
+  "round12": "Rd 8",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "George Kittle",
+  "pos": "TE",
+  "team": "SF",
+  "rank": 87,
+  "posrank": "TE9",
+  "round12": "Rd 8",
+  "confidence": "High",
+  "note": "Opened camp on PUP with the Achilles he tore in the 2025 playoffs. Reports point to Week 1, but nothing is guaranteed."
+ },
+ {
+  "name": "Jalen Hurts",
+  "pos": "QB",
+  "team": "PHI",
+  "rank": 88,
+  "posrank": "QB5",
+  "round12": "Rd 8",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Wan'Dale Robinson",
+  "pos": "WR",
+  "team": "TEN",
+  "rank": 89,
+  "posrank": "WR42",
+  "round12": "Rd 8",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Jordan Addison",
+  "pos": "WR",
+  "team": "MIN",
+  "rank": 90,
+  "posrank": "WR43",
+  "round12": "Rd 8",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "J.K. Dobbins",
+  "pos": "RB",
+  "team": "DEN",
+  "rank": 91,
+  "posrank": "RB34",
+  "round12": "Rd 8",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Jordan Mason",
+  "pos": "RB",
+  "team": "MIN",
+  "rank": 92,
+  "posrank": "RB35",
+  "round12": "Rd 8",
+  "confidence": "High",
+  "note": "Biggest RB mover on the 8/25 update - up 16 spots to RB36."
+ },
+ {
+  "name": "Khalil Shakir",
+  "pos": "WR",
+  "team": "BUF",
+  "rank": 93,
+  "posrank": "WR44",
+  "round12": "Rd 8",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Jayden Reed",
+  "pos": "WR",
+  "team": "GB",
+  "rank": 94,
+  "posrank": "WR45",
+  "round12": "Rd 8",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Kyle Monangai",
+  "pos": "RB",
+  "team": "CHI",
+  "rank": 95,
+  "posrank": "RB36",
+  "round12": "Rd 8",
+  "confidence": "High",
+  "note": "Forced his way into a committee as a seventh-round rookie: 41% of Chicago's snaps, 4.6 YPC on 169 carries."
+ },
+ {
+  "name": "Xavier Worthy",
+  "pos": "WR",
+  "team": "KC",
+  "rank": 96,
+  "posrank": "WR46",
+  "round12": "Rd 8",
+  "confidence": "High",
+  "note": "Kansas City moved on from Marquise Brown and Smith-Schuster and added only a fifth-rounder. They still trust him as a starter."
+ },
+ {
+  "name": "Jake Ferguson",
+  "pos": "TE",
+  "team": "DAL",
+  "rank": 97,
+  "posrank": "TE10",
+  "round12": "Rd 9",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Jacory Croskey-Merritt",
+  "pos": "RB",
+  "team": "WAS",
+  "rank": 98,
+  "posrank": "RB37",
+  "round12": "Rd 9",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Rachaad White",
+  "pos": "RB",
+  "team": "WAS",
+  "rank": 99,
+  "posrank": "RB38",
+  "round12": "Rd 9",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Dallas Goedert",
+  "pos": "TE",
+  "team": "PHI",
+  "rank": 100,
+  "posrank": "TE11",
+  "round12": "Rd 9",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Joe Burrow",
+  "pos": "QB",
+  "team": "CIN",
+  "rank": 101,
+  "posrank": "QB6",
+  "round12": "Rd 9",
+  "confidence": "High",
+  "note": "Held around QB4 despite the ceiling, purely on durability."
+ },
+ {
+  "name": "Aaron Jones Sr.",
+  "pos": "RB",
+  "team": "MIN",
+  "rank": 102,
+  "posrank": "RB39",
+  "round12": "Rd 9",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Blake Corum",
+  "pos": "RB",
+  "team": "LAR",
+  "rank": 103,
+  "posrank": "RB40",
+  "round12": "Rd 9",
+  "confidence": "High",
+  "note": "The consensus No. 1 backup RB. 782 scrimmage yards and six TDs in year two, with the Rams' split projected near 60/40."
+ },
+ {
+  "name": "Quentin Johnston",
+  "pos": "WR",
+  "team": "LAC",
+  "rank": 104,
+  "posrank": "WR47",
+  "round12": "Rd 9",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Deebo Samuel",
+  "pos": "WR",
+  "team": "SF",
+  "rank": 105,
+  "posrank": "WR48",
+  "round12": "Rd 9",
+  "confidence": "High",
+  "note": "Back in Shanahan's system and three years younger than Mike Evans. Unsexy, but he'll start and score."
+ },
+ {
+  "name": "RJ Harvey",
+  "pos": "RB",
+  "team": "DEN",
+  "rank": 106,
+  "posrank": "RB41",
+  "round12": "Rd 9",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Josh Downs",
+  "pos": "WR",
+  "team": "IND",
+  "rank": 107,
+  "posrank": "WR49",
+  "round12": "Rd 9",
+  "confidence": "High",
+  "note": "Moving up from the slot to Indy's No. 2, working underneath opposite Tyler Warren."
+ },
+ {
+  "name": "Travis Kelce",
+  "pos": "TE",
+  "team": "KC",
+  "rank": 108,
+  "posrank": "TE12",
+  "round12": "Rd 9",
+  "confidence": "High",
+  "note": "Back at 37 on a one-year deal. 76-851 on 108 targets last year - volume intact, but 13 total TDs across three seasons is a career low."
+ },
+ {
+  "name": "Jaxson Dart",
+  "pos": "QB",
+  "team": "NYG",
+  "rank": 109,
+  "posrank": "QB7",
+  "round12": "Rd 10",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Isiah Pacheco",
+  "pos": "RB",
+  "team": "KC",
+  "rank": 110,
+  "posrank": "RB42",
+  "round12": "Rd 10",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Jalen Nailor",
+  "pos": "WR",
+  "team": "LV",
+  "rank": 111,
+  "posrank": "WR50",
+  "round12": "Rd 10",
+  "confidence": "High",
+  "note": "Vegas's big offseason signing and their camp WR1, though Brock Bowers will lead that team in receiving."
+ },
+ {
+  "name": "Tyrone Tracy Jr.",
+  "pos": "RB",
+  "team": "NYG",
+  "rank": 112,
+  "posrank": "RB43",
+  "round12": "Rd 10",
+  "confidence": "High",
+  "note": "Averaged 16.9 touches and 12.9 PPR points across the 10 games Skattebo wasn't the clear lead back."
+ },
+ {
+  "name": "Marquise Brown",
+  "pos": "WR",
+  "team": "PHI",
+  "rank": 113,
+  "posrank": "WR51",
+  "round12": "Rd 10",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Trevor Lawrence",
+  "pos": "QB",
+  "team": "JAX",
+  "rank": 114,
+  "posrank": "QB8",
+  "round12": "Rd 10",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Tyler Allgeier",
+  "pos": "RB",
+  "team": "ATL",
+  "rank": 115,
+  "posrank": "RB44",
+  "round12": "Rd 10",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Dalton Kincaid",
+  "pos": "TE",
+  "team": "BUF",
+  "rank": 116,
+  "posrank": "TE13",
+  "round12": "Rd 10",
+  "confidence": "High",
+  "note": "Fantasy's biggest TE wild card. An efficiency darling on a 38% snap share while Buffalo managed a knee issue."
+ },
+ {
+  "name": "Dylan Sampson",
+  "pos": "RB",
+  "team": "CLE",
+  "rank": 117,
+  "posrank": "RB45",
+  "round12": "Rd 10",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Keenan Allen",
+  "pos": "WR",
+  "team": "IND",
+  "rank": 118,
+  "posrank": "WR52",
+  "round12": "Rd 10",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Rashid Shaheed",
+  "pos": "WR",
+  "team": "SEA",
+  "rank": 119,
+  "posrank": "WR53",
+  "round12": "Rd 10",
+  "confidence": "High",
+  "note": "Was breaking out in New Orleans before the trade to Seattle. Should be Darnold's No. 2 and the deep threat opposite JSN."
+ },
+ {
+  "name": "Braelon Allen",
+  "pos": "RB",
+  "team": "NYJ",
+  "rank": 120,
+  "posrank": "RB46",
+  "round12": "Rd 10",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Dak Prescott",
+  "pos": "QB",
+  "team": "DAL",
+  "rank": 121,
+  "posrank": "QB9",
+  "round12": "Rd 11",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "T.J. Hockenson",
+  "pos": "TE",
+  "team": "MIN",
+  "rank": 122,
+  "posrank": "TE14",
+  "round12": "Rd 11",
+  "confidence": "High",
+  "note": "A 16% target share and 51-438-3, then a shoulder injury. Kyler Murray should help, but show me first."
+ },
+ {
+  "name": "Caleb Douglas",
+  "pos": "WR",
+  "team": "MIA",
+  "rank": 123,
+  "posrank": "WR54",
+  "round12": "Rd 11",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Jordyn Tyson",
+  "pos": "WR",
+  "team": "NO",
+  "rank": 124,
+  "posrank": "WR55",
+  "round12": "Rd 11",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Adonai Mitchell",
+  "pos": "WR",
+  "team": "NYJ",
+  "rank": 125,
+  "posrank": "WR56",
+  "round12": "Rd 11",
+  "confidence": "High",
+  "note": "Set to start opposite Garrett Wilson for a team that will play from behind a lot. A popular late-round favorite."
+ },
+ {
+  "name": "Tank Bigsby",
+  "pos": "RB",
+  "team": "PHI",
+  "rank": 126,
+  "posrank": "RB47",
+  "round12": "Rd 11",
+  "confidence": "High",
+  "note": "The Saquon handcuff, full stop."
+ },
+ {
+  "name": "Tank Dell",
+  "pos": "WR",
+  "team": "HOU",
+  "rank": 127,
+  "posrank": "WR57",
+  "round12": "Rd 11",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Jerry Jeudy",
+  "pos": "WR",
+  "team": "CLE",
+  "rank": 128,
+  "posrank": "WR58",
+  "round12": "Rd 11",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Bo Nix",
+  "pos": "QB",
+  "team": "DEN",
+  "rank": 129,
+  "posrank": "QB10",
+  "round12": "Rd 11",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Malik Washington",
+  "pos": "WR",
+  "team": "MIA",
+  "rank": 130,
+  "posrank": "WR59",
+  "round12": "Rd 11",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Jalen McMillan",
+  "pos": "WR",
+  "team": "TB",
+  "rank": 131,
+  "posrank": "WR60",
+  "round12": "Rd 11",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Mason Taylor",
+  "pos": "TE",
+  "team": "NYJ",
+  "rank": 132,
+  "posrank": "TE15",
+  "round12": "Rd 11",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Calvin Ridley",
+  "pos": "WR",
+  "team": "TEN",
+  "rank": 133,
+  "posrank": "WR61",
+  "round12": "Rd 12",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "KC Concepcion",
+  "pos": "WR",
+  "team": "CLE",
+  "rank": 134,
+  "posrank": "WR62",
+  "round12": "Rd 12",
+  "confidence": "High",
+  "note": "24th overall to Cleveland under new HC Todd Monken. Roughly 100 targets would have been a top-30 fantasy WR season last year."
+ },
+ {
+  "name": "Jaylin Noel",
+  "pos": "WR",
+  "team": "HOU",
+  "rank": 135,
+  "posrank": "WR63",
+  "round12": "Rd 12",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Brock Purdy",
+  "pos": "QB",
+  "team": "SF",
+  "rank": 136,
+  "posrank": "QB11",
+  "round12": "Rd 12",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Travis Hunter",
+  "pos": "WR",
+  "team": "JAX",
+  "rank": 137,
+  "posrank": "WR64",
+  "round12": "Rd 12",
+  "confidence": "High",
+  "note": "Target hierarchy in Jacksonville is genuinely unsettled with Brian Thomas Jr. healthy. Priced as a WR5 lottery ticket."
+ },
+ {
+  "name": "Nick Singleton",
+  "pos": "RB",
+  "team": "TEN",
+  "rank": 138,
+  "posrank": "RB48",
+  "round12": "Rd 12",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Brenton Strange",
+  "pos": "TE",
+  "team": "JAX",
+  "rank": 139,
+  "posrank": "TE16",
+  "round12": "Rd 12",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Ja'Kobi Lane",
+  "pos": "WR",
+  "team": "BAL",
+  "rank": 140,
+  "posrank": "WR65",
+  "round12": "Rd 12",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Rashod Bateman",
+  "pos": "WR",
+  "team": "BAL",
+  "rank": 141,
+  "posrank": "WR66",
+  "round12": "Rd 12",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Matthew Stafford",
+  "pos": "QB",
+  "team": "LAR",
+  "rank": 142,
+  "posrank": "QB12",
+  "round12": "Rd 12",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Devaughn Vele",
+  "pos": "WR",
+  "team": "NO",
+  "rank": 143,
+  "posrank": "WR67",
+  "round12": "Rd 12",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Jonah Coleman",
+  "pos": "RB",
+  "team": "DEN",
+  "rank": 144,
+  "posrank": "RB49",
+  "round12": "Rd 12",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Kayshon Boutte",
+  "pos": "WR",
+  "team": "NE",
+  "rank": 145,
+  "posrank": "WR68",
+  "round12": "Rd 13",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "Zachariah Branch",
+  "pos": "WR",
+  "team": "ATL",
+  "rank": 146,
+  "posrank": "WR69",
+  "round12": "Rd 13",
+  "confidence": "High",
+  "note": ""
+ },
+ {
+  "name": "De'Zhaun Stribling",
+  "pos": "WR",
+  "team": "SF",
+  "rank": 147,
+  "posrank": "WR70",
+  "round12": "Rd 13",
+  "confidence": "High",
+  "note": "Rookie second-rounder, sixth WR off the board. Ricky Pearsall's season-ending knee surgery opened the door and Stribling has been San Francisco's best camp receiver."
+ },
+ {
+  "name": "David Njoku",
+  "pos": "TE",
+  "team": "LAC",
+  "rank": 148,
+  "posrank": "TE17",
+  "round12": "Rd 13",
+  "confidence": "High",
+  "note": "Signed with the Chargers after Fannin pushed him down Cleveland's chart."
+ },
+ {
+  "name": "Caleb Williams",
+  "pos": "QB",
+  "team": "CHI",
+  "rank": 149,
+  "posrank": "QB13",
+  "round12": "Rd 13",
+  "confidence": "High",
+  "note": "Tied for eighth among QBs in fantasy points per game last season."
+ },
+ {
+  "name": "Jayden Higgins",
+  "pos": "WR",
+  "team": "HOU",
+  "rank": 150,
+  "posrank": "WR71",
+  "round12": "Rd 13",
+  "confidence": "High",
+  "note": "Conflicting August reporting - one outlet removed him for a torn ACL, others had him as C.J. Stroud's clear No. 2. Verify status before you draft him."
+ },
+ {
+  "name": "Kyler Murray",
+  "pos": "QB",
+  "team": "MIN",
+  "rank": 151,
+  "posrank": "QB14",
+  "round12": "Rd 13",
+  "confidence": "Medium",
+  "note": "Released by Arizona, signed a one-year deal in Minnesota."
+ },
+ {
+  "name": "Jalen Coker",
+  "pos": "WR",
+  "team": "CAR",
+  "rank": 152,
+  "posrank": "WR72",
+  "round12": "Rd 13",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Emmett Johnson",
+  "pos": "RB",
+  "team": "KC",
+  "rank": 153,
+  "posrank": "RB50",
+  "round12": "Rd 13",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Isaac TeSlaa",
+  "pos": "WR",
+  "team": "DET",
+  "rank": 154,
+  "posrank": "WR73",
+  "round12": "Rd 13",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Sean Tucker",
+  "pos": "RB",
+  "team": "TB",
+  "rank": 155,
+  "posrank": "RB51",
+  "round12": "Rd 13",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Jauan Jennings",
+  "pos": "WR",
+  "team": "MIN",
+  "rank": 156,
+  "posrank": "WR74",
+  "round12": "Rd 13",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Tyler Shough",
+  "pos": "QB",
+  "team": "NO",
+  "rank": 157,
+  "posrank": "QB15",
+  "round12": "Rd 14",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Isaiah Likely",
+  "pos": "TE",
+  "team": "BAL",
+  "rank": 158,
+  "posrank": "TE18",
+  "round12": "Rd 14",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Trey Benson",
+  "pos": "RB",
+  "team": "ARI",
+  "rank": 159,
+  "posrank": "RB52",
+  "round12": "Rd 14",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Omar Cooper Jr.",
+  "pos": "WR",
+  "team": "NYJ",
+  "rank": 160,
+  "posrank": "WR75",
+  "round12": "Rd 14",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Makai Lemon",
+  "pos": "WR",
+  "team": "PHI",
+  "rank": 161,
+  "posrank": "WR76",
+  "round12": "Rd 14",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Zach Charbonnet",
+  "pos": "RB",
+  "team": "SEA",
+  "rank": 162,
+  "posrank": "RB53",
+  "round12": "Rd 14",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Oronde Gadsden II",
+  "pos": "TE",
+  "team": "LAC",
+  "rank": 163,
+  "posrank": "TE19",
+  "round12": "Rd 14",
+  "confidence": "Medium",
+  "note": "Year-two path got crowded fast - the Chargers added both David Njoku and Charlie Kolar."
+ },
+ {
+  "name": "Denzel Boston",
+  "pos": "WR",
+  "team": "CLE",
+  "rank": 164,
+  "posrank": "WR77",
+  "round12": "Rd 14",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Jared Goff",
+  "pos": "QB",
+  "team": "DET",
+  "rank": 165,
+  "posrank": "QB16",
+  "round12": "Rd 14",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Woody Marks",
+  "pos": "RB",
+  "team": "HOU",
+  "rank": 166,
+  "posrank": "RB54",
+  "round12": "Rd 14",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Keon Coleman",
+  "pos": "WR",
+  "team": "BUF",
+  "rank": 167,
+  "posrank": "WR78",
+  "round12": "Rd 14",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Hunter Henry",
+  "pos": "TE",
+  "team": "NE",
+  "rank": 168,
+  "posrank": "TE20",
+  "round12": "Rd 14",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Ray Davis",
+  "pos": "RB",
+  "team": "BUF",
+  "rank": 169,
+  "posrank": "RB55",
+  "round12": "Rd 15",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Marvin Mims Jr.",
+  "pos": "WR",
+  "team": "DEN",
+  "rank": 170,
+  "posrank": "WR79",
+  "round12": "Rd 15",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Isaac Guerendo",
+  "pos": "RB",
+  "team": "SF",
+  "rank": 171,
+  "posrank": "RB56",
+  "round12": "Rd 15",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Elijah Moore",
+  "pos": "WR",
+  "team": "PHI",
+  "rank": 172,
+  "posrank": "WR80",
+  "round12": "Rd 15",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Zach Ertz",
+  "pos": "TE",
+  "team": "WAS",
+  "rank": 173,
+  "posrank": "TE21",
+  "round12": "Rd 15",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Daniel Jones",
+  "pos": "QB",
+  "team": "IND",
+  "rank": 174,
+  "posrank": "QB17",
+  "round12": "Rd 15",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Tre Tucker",
+  "pos": "WR",
+  "team": "LV",
+  "rank": 175,
+  "posrank": "WR81",
+  "round12": "Rd 15",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Kaleb Johnson",
+  "pos": "RB",
+  "team": "PIT",
+  "rank": 176,
+  "posrank": "RB57",
+  "round12": "Rd 15",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Cyrus Allen",
+  "pos": "WR",
+  "team": "KC",
+  "rank": 177,
+  "posrank": "WR82",
+  "round12": "Rd 15",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Pat Freiermuth",
+  "pos": "TE",
+  "team": "PIT",
+  "rank": 178,
+  "posrank": "TE22",
+  "round12": "Rd 15",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Roschon Johnson",
+  "pos": "RB",
+  "team": "CHI",
+  "rank": 179,
+  "posrank": "RB58",
+  "round12": "Rd 15",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Tory Horton",
+  "pos": "WR",
+  "team": "SEA",
+  "rank": 180,
+  "posrank": "WR83",
+  "round12": "Rd 15",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Justin Herbert",
+  "pos": "QB",
+  "team": "LAC",
+  "rank": 181,
+  "posrank": "QB18",
+  "round12": "Rd 16",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Tyjae Spears",
+  "pos": "RB",
+  "team": "TEN",
+  "rank": 182,
+  "posrank": "RB59",
+  "round12": "Rd 16",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Dalton Schultz",
+  "pos": "TE",
+  "team": "HOU",
+  "rank": 183,
+  "posrank": "TE23",
+  "round12": "Rd 16",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Troy Franklin",
+  "pos": "WR",
+  "team": "DEN",
+  "rank": 184,
+  "posrank": "WR84",
+  "round12": "Rd 16",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Jaydon Blue",
+  "pos": "RB",
+  "team": "DAL",
+  "rank": 185,
+  "posrank": "RB60",
+  "round12": "Rd 16",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Darnell Mooney",
+  "pos": "WR",
+  "team": "ATL",
+  "rank": 186,
+  "posrank": "WR85",
+  "round12": "Rd 16",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Kenyon Sadiq",
+  "pos": "TE",
+  "team": "NYJ",
+  "rank": 187,
+  "posrank": "TE24",
+  "round12": "Rd 16",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Devin Neal",
+  "pos": "RB",
+  "team": "NO",
+  "rank": 188,
+  "posrank": "RB61",
+  "round12": "Rd 16",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Xavier Legette",
+  "pos": "WR",
+  "team": "CAR",
+  "rank": 189,
+  "posrank": "WR86",
+  "round12": "Rd 16",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Patrick Mahomes",
+  "pos": "QB",
+  "team": "KC",
+  "rank": 190,
+  "posrank": "QB19",
+  "round12": "Rd 16",
+  "confidence": "Medium",
+  "note": "Coming off December knee surgery. Says the knee feels great and hasn't missed a camp practice, but it has been years since he was a fantasy superstar."
+ },
+ {
+  "name": "Christian Kirk",
+  "pos": "WR",
+  "team": "HOU",
+  "rank": 191,
+  "posrank": "WR87",
+  "round12": "Rd 16",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Ollie Gordon II",
+  "pos": "RB",
+  "team": "MIA",
+  "rank": 192,
+  "posrank": "RB62",
+  "round12": "Rd 16",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Gunnar Helm",
+  "pos": "TE",
+  "team": "TEN",
+  "rank": 193,
+  "posrank": "TE25",
+  "round12": "Rd 17",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Dontayvion Wicks",
+  "pos": "WR",
+  "team": "PHI",
+  "rank": 194,
+  "posrank": "WR88",
+  "round12": "Rd 17",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Will Shipley",
+  "pos": "RB",
+  "team": "PHI",
+  "rank": 195,
+  "posrank": "RB63",
+  "round12": "Rd 17",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Jalen Royals",
+  "pos": "WR",
+  "team": "KC",
+  "rank": 196,
+  "posrank": "WR89",
+  "round12": "Rd 17",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Baker Mayfield",
+  "pos": "QB",
+  "team": "TB",
+  "rank": 197,
+  "posrank": "QB20",
+  "round12": "Rd 17",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Jarquez Hunter",
+  "pos": "RB",
+  "team": "LAR",
+  "rank": 198,
+  "posrank": "RB64",
+  "round12": "Rd 17",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Terrance Ferguson",
+  "pos": "TE",
+  "team": "LAR",
+  "rank": 199,
+  "posrank": "TE26",
+  "round12": "Rd 17",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Roman Wilson",
+  "pos": "WR",
+  "team": "PIT",
+  "rank": 200,
+  "posrank": "WR90",
+  "round12": "Rd 17",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Kimani Vidal",
+  "pos": "RB",
+  "team": "LAC",
+  "rank": 201,
+  "posrank": "RB65",
+  "round12": "Rd 17",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Chimere Dike",
+  "pos": "WR",
+  "team": "TEN",
+  "rank": 202,
+  "posrank": "WR91",
+  "round12": "Rd 17",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "A.J. Barner",
+  "pos": "TE",
+  "team": "SEA",
+  "rank": 203,
+  "posrank": "TE27",
+  "round12": "Rd 17",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Elic Ayomanor",
+  "pos": "WR",
+  "team": "TEN",
+  "rank": 204,
+  "posrank": "WR92",
+  "round12": "Rd 17",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Jordan Love",
+  "pos": "QB",
+  "team": "GB",
+  "rank": 205,
+  "posrank": "QB21",
+  "round12": "Rd 18",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Justice Hill",
+  "pos": "RB",
+  "team": "BAL",
+  "rank": 206,
+  "posrank": "RB66",
+  "round12": "Rd 18",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Andrei Iosivas",
+  "pos": "WR",
+  "team": "CIN",
+  "rank": 207,
+  "posrank": "WR93",
+  "round12": "Rd 18",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Samaje Perine",
+  "pos": "RB",
+  "team": "CIN",
+  "rank": 208,
+  "posrank": "RB67",
+  "round12": "Rd 18",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Greg Dulcich",
+  "pos": "TE",
+  "team": "MIA",
+  "rank": 209,
+  "posrank": "TE28",
+  "round12": "Rd 18",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Luke McCaffrey",
+  "pos": "WR",
+  "team": "WAS",
+  "rank": 210,
+  "posrank": "WR94",
+  "round12": "Rd 18",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Jerome Ford",
+  "pos": "RB",
+  "team": "CLE",
+  "rank": 211,
+  "posrank": "RB68",
+  "round12": "Rd 18",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Jack Bech",
+  "pos": "WR",
+  "team": "LV",
+  "rank": 212,
+  "posrank": "WR95",
+  "round12": "Rd 18",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Malik Willis",
+  "pos": "QB",
+  "team": "MIA",
+  "rank": 213,
+  "posrank": "QB22",
+  "round12": "Rd 18",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Cade Otton",
+  "pos": "TE",
+  "team": "TB",
+  "rank": 214,
+  "posrank": "TE29",
+  "round12": "Rd 18",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Trevor Etienne",
+  "pos": "RB",
+  "team": "CAR",
+  "rank": 215,
+  "posrank": "RB69",
+  "round12": "Rd 18",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Ryan Flournoy",
+  "pos": "WR",
+  "team": "DAL",
+  "rank": 216,
+  "posrank": "WR96",
+  "round12": "Rd 18",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Savion Williams",
+  "pos": "WR",
+  "team": "GB",
+  "rank": 217,
+  "posrank": "WR97",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Sincere McCormick",
+  "pos": "RB",
+  "team": "LV",
+  "rank": 218,
+  "posrank": "RB70",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Evan Engram",
+  "pos": "TE",
+  "team": "DEN",
+  "rank": 219,
+  "posrank": "TE30",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Darius Slayton",
+  "pos": "WR",
+  "team": "NYG",
+  "rank": 220,
+  "posrank": "WR98",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "C.J. Stroud",
+  "pos": "QB",
+  "team": "HOU",
+  "rank": 221,
+  "posrank": "QB23",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Antonio Gibson",
+  "pos": "RB",
+  "team": "NE",
+  "rank": 222,
+  "posrank": "RB71",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Josh Palmer",
+  "pos": "WR",
+  "team": "BUF",
+  "rank": 223,
+  "posrank": "WR99",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Theo Johnson",
+  "pos": "TE",
+  "team": "NYG",
+  "rank": 224,
+  "posrank": "TE31",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Kareem Hunt",
+  "pos": "RB",
+  "team": "KC",
+  "rank": 225,
+  "posrank": "RB72",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Tre Harris",
+  "pos": "WR",
+  "team": "LAC",
+  "rank": 226,
+  "posrank": "WR100",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Jaleel McLaughlin",
+  "pos": "RB",
+  "team": "DEN",
+  "rank": 227,
+  "posrank": "RB73",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Dyami Brown",
+  "pos": "WR",
+  "team": "JAX",
+  "rank": 228,
+  "posrank": "WR101",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Sam Darnold",
+  "pos": "QB",
+  "team": "SEA",
+  "rank": 229,
+  "posrank": "QB24",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Cole Kmet",
+  "pos": "TE",
+  "team": "CHI",
+  "rank": 230,
+  "posrank": "TE32",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Kyle Williams",
+  "pos": "WR",
+  "team": "NE",
+  "rank": 231,
+  "posrank": "WR102",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Tyler Goodson",
+  "pos": "RB",
+  "team": "IND",
+  "rank": 232,
+  "posrank": "RB74",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Jalen Tolbert",
+  "pos": "WR",
+  "team": "DAL",
+  "rank": 233,
+  "posrank": "WR103",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Michael Mayer",
+  "pos": "TE",
+  "team": "LV",
+  "rank": 234,
+  "posrank": "TE33",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Emanuel Wilson",
+  "pos": "RB",
+  "team": "GB",
+  "rank": 235,
+  "posrank": "RB75",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Calvin Austin III",
+  "pos": "WR",
+  "team": "PIT",
+  "rank": 236,
+  "posrank": "WR104",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Bryce Young",
+  "pos": "QB",
+  "team": "CAR",
+  "rank": 237,
+  "posrank": "QB25",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Craig Reynolds",
+  "pos": "RB",
+  "team": "DET",
+  "rank": 238,
+  "posrank": "RB76",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Xavier Hutchinson",
+  "pos": "WR",
+  "team": "HOU",
+  "rank": 239,
+  "posrank": "WR105",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Mike Gesicki",
+  "pos": "TE",
+  "team": "CIN",
+  "rank": 240,
+  "posrank": "TE34",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Chris Rodriguez Jr.",
+  "pos": "RB",
+  "team": "WAS",
+  "rank": 241,
+  "posrank": "RB77",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Anthony Gould",
+  "pos": "WR",
+  "team": "IND",
+  "rank": 242,
+  "posrank": "WR106",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "DeeJay Dallas",
+  "pos": "RB",
+  "team": "ARI",
+  "rank": 243,
+  "posrank": "RB78",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Cam Ward",
+  "pos": "QB",
+  "team": "TEN",
+  "rank": 244,
+  "posrank": "QB26",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": "Real QB2 upside after Tennessee added Carnell Tate and put Brian Daboll in charge of the offense."
+ },
+ {
+  "name": "Beaux Collins",
+  "pos": "WR",
+  "team": "NYJ",
+  "rank": 245,
+  "posrank": "WR107",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Elijah Arroyo",
+  "pos": "TE",
+  "team": "SEA",
+  "rank": 246,
+  "posrank": "TE35",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Tez Johnson",
+  "pos": "WR",
+  "team": "TB",
+  "rank": 247,
+  "posrank": "WR108",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Kendre Miller",
+  "pos": "RB",
+  "team": "NO",
+  "rank": 248,
+  "posrank": "RB79",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Juwan Johnson",
+  "pos": "TE",
+  "team": "NO",
+  "rank": 249,
+  "posrank": "TE36",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Pat Bryant",
+  "pos": "WR",
+  "team": "DEN",
+  "rank": 250,
+  "posrank": "WR109",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Jaylen Wright",
+  "pos": "RB",
+  "team": "MIA",
+  "rank": 251,
+  "posrank": "RB80",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Geno Smith",
+  "pos": "QB",
+  "team": "NYJ",
+  "rank": 252,
+  "posrank": "QB27",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Dont'e Thornton Jr.",
+  "pos": "WR",
+  "team": "LV",
+  "rank": 253,
+  "posrank": "WR110",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Keaton Mitchell",
+  "pos": "RB",
+  "team": "BAL",
+  "rank": 254,
+  "posrank": "RB81",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Ben Sinnott",
+  "pos": "TE",
+  "team": "WAS",
+  "rank": 255,
+  "posrank": "TE37",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Jacob Cowing",
+  "pos": "WR",
+  "team": "SF",
+  "rank": 256,
+  "posrank": "WR111",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Tahj Brooks",
+  "pos": "RB",
+  "team": "CIN",
+  "rank": 257,
+  "posrank": "RB82",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Olamide Zaccheaus",
+  "pos": "WR",
+  "team": "CHI",
+  "rank": 258,
+  "posrank": "WR112",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Charlie Kolar",
+  "pos": "TE",
+  "team": "LAC",
+  "rank": 259,
+  "posrank": "TE38",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Aaron Rodgers",
+  "pos": "QB",
+  "team": "PIT",
+  "rank": 260,
+  "posrank": "QB28",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": "Locked in as Pittsburgh's QB1 - their first repeat Week 1 starter since 2020-21."
+ },
+ {
+  "name": "Jaylin Lane",
+  "pos": "WR",
+  "team": "WAS",
+  "rank": 261,
+  "posrank": "WR113",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Pierre Strong Jr.",
+  "pos": "RB",
+  "team": "CLE",
+  "rank": 262,
+  "posrank": "RB83",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Bub Means",
+  "pos": "WR",
+  "team": "NO",
+  "rank": 263,
+  "posrank": "WR114",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Hassan Haskins",
+  "pos": "RB",
+  "team": "LAC",
+  "rank": 264,
+  "posrank": "RB84",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Jake Tonges",
+  "pos": "TE",
+  "team": "SF",
+  "rank": 265,
+  "posrank": "TE39",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Xavier Restrepo",
+  "pos": "WR",
+  "team": "TEN",
+  "rank": 266,
+  "posrank": "WR115",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Dylan Laube",
+  "pos": "RB",
+  "team": "LV",
+  "rank": 267,
+  "posrank": "RB85",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Michael Penix Jr.",
+  "pos": "QB",
+  "team": "ATL",
+  "rank": 268,
+  "posrank": "QB29",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Ray-Ray McCloud III",
+  "pos": "WR",
+  "team": "ATL",
+  "rank": 269,
+  "posrank": "WR116",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Darnell Washington",
+  "pos": "TE",
+  "team": "PIT",
+  "rank": 270,
+  "posrank": "TE40",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Audric Estime",
+  "pos": "RB",
+  "team": "DEN",
+  "rank": 271,
+  "posrank": "RB86",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "KeAndre Lambert-Smith",
+  "pos": "WR",
+  "team": "LAC",
+  "rank": 272,
+  "posrank": "WR117",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Mecole Hardman",
+  "pos": "WR",
+  "team": "GB",
+  "rank": 273,
+  "posrank": "WR118",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Brashard Smith",
+  "pos": "RB",
+  "team": "KC",
+  "rank": 274,
+  "posrank": "RB87",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Luke Musgrave",
+  "pos": "TE",
+  "team": "GB",
+  "rank": 275,
+  "posrank": "TE41",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Jacoby Brissett",
+  "pos": "QB",
+  "team": "ARI",
+  "rank": 276,
+  "posrank": "QB30",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Jake Bobo",
+  "pos": "WR",
+  "team": "SEA",
+  "rank": 277,
+  "posrank": "WR119",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Ty Johnson",
+  "pos": "RB",
+  "team": "BUF",
+  "rank": 278,
+  "posrank": "RB88",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Malachi Corley",
+  "pos": "WR",
+  "team": "NYJ",
+  "rank": 279,
+  "posrank": "WR120",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Tip Reiman",
+  "pos": "TE",
+  "team": "ARI",
+  "rank": 280,
+  "posrank": "TE42",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Sione Vaki",
+  "pos": "RB",
+  "team": "DET",
+  "rank": 281,
+  "posrank": "RB89",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Arian Smith",
+  "pos": "WR",
+  "team": "NYJ",
+  "rank": 282,
+  "posrank": "WR121",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Michael Carter",
+  "pos": "RB",
+  "team": "ARI",
+  "rank": 283,
+  "posrank": "RB90",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Deshaun Watson",
+  "pos": "QB",
+  "team": "CLE",
+  "rank": 284,
+  "posrank": "QB31",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": "Named Cleveland's Week 1 starter by Todd Monken - a situation worth re-checking on draft day."
+ },
+ {
+  "name": "DeMario Douglas",
+  "pos": "WR",
+  "team": "NE",
+  "rank": 285,
+  "posrank": "WR122",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Colby Parkinson",
+  "pos": "TE",
+  "team": "LAR",
+  "rank": 286,
+  "posrank": "TE43",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Jermaine Burton",
+  "pos": "WR",
+  "team": "CIN",
+  "rank": 287,
+  "posrank": "WR123",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Israel Abanikanda",
+  "pos": "RB",
+  "team": "NYJ",
+  "rank": 288,
+  "posrank": "RB91",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Sterling Shepard",
+  "pos": "WR",
+  "team": "TB",
+  "rank": 289,
+  "posrank": "WR124",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Khalil Herbert",
+  "pos": "RB",
+  "team": "IND",
+  "rank": 290,
+  "posrank": "RB92",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Brock Wright",
+  "pos": "TE",
+  "team": "DET",
+  "rank": 291,
+  "posrank": "TE44",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Kirk Cousins",
+  "pos": "QB",
+  "team": "LV",
+  "rank": 292,
+  "posrank": "QB32",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": "The bridge in Las Vegas ahead of No. 1 overall pick Fernando Mendoza."
+ },
+ {
+  "name": "Kameron Johnson",
+  "pos": "WR",
+  "team": "TB",
+  "rank": 293,
+  "posrank": "WR125",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Elijah Mitchell",
+  "pos": "RB",
+  "team": "SF",
+  "rank": 294,
+  "posrank": "RB93",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Tyler Scott",
+  "pos": "WR",
+  "team": "CHI",
+  "rank": 295,
+  "posrank": "WR126",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Adam Trautman",
+  "pos": "TE",
+  "team": "DEN",
+  "rank": 296,
+  "posrank": "TE45",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Deuce Vaughn",
+  "pos": "RB",
+  "team": "DAL",
+  "rank": 297,
+  "posrank": "RB94",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Nikko Remigio",
+  "pos": "WR",
+  "team": "KC",
+  "rank": 298,
+  "posrank": "WR127",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Tua Tagovailoa",
+  "pos": "QB",
+  "team": "ATL",
+  "rank": 299,
+  "posrank": "QB33",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": "In an unresolved Atlanta competition with Michael Penix Jr."
+ },
+ {
+  "name": "Rasheen Ali",
+  "pos": "RB",
+  "team": "BAL",
+  "rank": 300,
+  "posrank": "RB95",
+  "round12": "Deep / waiver",
+  "confidence": "Medium",
+  "note": ""
+ },
+ {
+  "name": "Brenden Rice",
+  "pos": "WR",
+  "team": "LAC",
+  "rank": 301,
+  "posrank": "WR128",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Foster Moreau",
+  "pos": "TE",
+  "team": "NO",
+  "rank": 302,
+  "posrank": "TE46",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Ashton Dulin",
+  "pos": "WR",
+  "team": "IND",
+  "rank": 303,
+  "posrank": "WR129",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Emari Demercado",
+  "pos": "RB",
+  "team": "ARI",
+  "rank": 304,
+  "posrank": "RB96",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Mason Tipton",
+  "pos": "WR",
+  "team": "NO",
+  "rank": 305,
+  "posrank": "WR130",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Tyler Conklin",
+  "pos": "TE",
+  "team": "LAC",
+  "rank": 306,
+  "posrank": "TE47",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Zamir White",
+  "pos": "RB",
+  "team": "LV",
+  "rank": 307,
+  "posrank": "RB97",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Fernando Mendoza",
+  "pos": "QB",
+  "team": "LV",
+  "rank": 308,
+  "posrank": "QB34",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "KaVontae Turpin",
+  "pos": "WR",
+  "team": "DAL",
+  "rank": 309,
+  "posrank": "WR131",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Cody Schrader",
+  "pos": "RB",
+  "team": "SF",
+  "rank": 310,
+  "posrank": "RB98",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Justin Watson",
+  "pos": "WR",
+  "team": "HOU",
+  "rank": 311,
+  "posrank": "WR132",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Noah Fant",
+  "pos": "TE",
+  "team": "CIN",
+  "rank": 312,
+  "posrank": "TE48",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Chris Brooks",
+  "pos": "RB",
+  "team": "GB",
+  "rank": 313,
+  "posrank": "RB99",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Efton Chism III",
+  "pos": "WR",
+  "team": "NE",
+  "rank": 314,
+  "posrank": "WR133",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "J.J. McCarthy",
+  "pos": "QB",
+  "team": "MIN",
+  "rank": 315,
+  "posrank": "QB35",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Chig Okonkwo",
+  "pos": "TE",
+  "team": "TEN",
+  "rank": 316,
+  "posrank": "TE49",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Junior Bergen",
+  "pos": "WR",
+  "team": "SF",
+  "rank": 317,
+  "posrank": "WR134",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Tyler Badie",
+  "pos": "RB",
+  "team": "DEN",
+  "rank": 318,
+  "posrank": "RB100",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jonathan Mingo",
+  "pos": "WR",
+  "team": "DAL",
+  "rank": 319,
+  "posrank": "WR135",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Bam Knight",
+  "pos": "RB",
+  "team": "NYG",
+  "rank": 320,
+  "posrank": "RB101",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jonnu Smith",
+  "pos": "TE",
+  "team": "PIT",
+  "rank": 321,
+  "posrank": "TE50",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Kaden Prather",
+  "pos": "WR",
+  "team": "WAS",
+  "rank": 322,
+  "posrank": "WR136",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Kalel Mullings",
+  "pos": "RB",
+  "team": "TEN",
+  "rank": 323,
+  "posrank": "RB102",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Shedeur Sanders",
+  "pos": "QB",
+  "team": "CLE",
+  "rank": 324,
+  "posrank": "QB36",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Ainias Smith",
+  "pos": "WR",
+  "team": "PHI",
+  "rank": 325,
+  "posrank": "WR137",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Grant Calcaterra",
+  "pos": "TE",
+  "team": "PHI",
+  "rank": 326,
+  "posrank": "TE51",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Cam Akers",
+  "pos": "RB",
+  "team": "MIN",
+  "rank": 327,
+  "posrank": "RB103",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Tim Patrick",
+  "pos": "WR",
+  "team": "DET",
+  "rank": 328,
+  "posrank": "WR138",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Dareke Young",
+  "pos": "WR",
+  "team": "SEA",
+  "rank": 329,
+  "posrank": "WR139",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Blake Watson",
+  "pos": "RB",
+  "team": "DEN",
+  "rank": 330,
+  "posrank": "RB104",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Josh Whyle",
+  "pos": "TE",
+  "team": "TEN",
+  "rank": 331,
+  "posrank": "TE52",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Ty Simpson",
+  "pos": "QB",
+  "team": "LAR",
+  "rank": 332,
+  "posrank": "QB37",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jalen Cropper",
+  "pos": "WR",
+  "team": "MIA",
+  "rank": 333,
+  "posrank": "WR140",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jordan James",
+  "pos": "RB",
+  "team": "SF",
+  "rank": 334,
+  "posrank": "RB105",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Nick Westbrook-Ikhine",
+  "pos": "WR",
+  "team": "MIA",
+  "rank": 335,
+  "posrank": "WR141",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Damien Martinez",
+  "pos": "RB",
+  "team": "SEA",
+  "rank": 336,
+  "posrank": "RB106",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Ja'Tavion Sanders",
+  "pos": "TE",
+  "team": "CAR",
+  "rank": 337,
+  "posrank": "TE53",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Trenton Irwin",
+  "pos": "WR",
+  "team": "CIN",
+  "rank": 338,
+  "posrank": "WR142",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jalen Milroe",
+  "pos": "QB",
+  "team": "SEA",
+  "rank": 339,
+  "posrank": "QB38",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Kyle Juszczyk",
+  "pos": "RB",
+  "team": "SF",
+  "rank": 340,
+  "posrank": "RB107",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Tyquan Thornton",
+  "pos": "WR",
+  "team": "KC",
+  "rank": 341,
+  "posrank": "WR143",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Elijah Higgins",
+  "pos": "TE",
+  "team": "ARI",
+  "rank": 342,
+  "posrank": "TE54",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Isaiah Bond",
+  "pos": "WR",
+  "team": "CLE",
+  "rank": 343,
+  "posrank": "WR144",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Raheem Mostert",
+  "pos": "RB",
+  "team": "LV",
+  "rank": 344,
+  "posrank": "RB108",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Chris Tyree",
+  "pos": "WR",
+  "team": "BAL",
+  "rank": 345,
+  "posrank": "WR145",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "LeQuint Allen",
+  "pos": "RB",
+  "team": "JAX",
+  "rank": 346,
+  "posrank": "RB109",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Zack Kuntz",
+  "pos": "TE",
+  "team": "NYJ",
+  "rank": 347,
+  "posrank": "TE55",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Spencer Rattler",
+  "pos": "QB",
+  "team": "NO",
+  "rank": 348,
+  "posrank": "QB39",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Devin Duvernay",
+  "pos": "WR",
+  "team": "JAX",
+  "rank": 349,
+  "posrank": "WR146",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Phil Mafah",
+  "pos": "RB",
+  "team": "DAL",
+  "rank": 350,
+  "posrank": "RB110",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "David Moore",
+  "pos": "WR",
+  "team": "CAR",
+  "rank": 351,
+  "posrank": "WR147",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jared Wiley",
+  "pos": "TE",
+  "team": "KC",
+  "rank": 352,
+  "posrank": "TE56",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Marcus Yarns",
+  "pos": "RB",
+  "team": "DAL",
+  "rank": 353,
+  "posrank": "RB111",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Braylon Allen",
+  "pos": "WR",
+  "team": "NYG",
+  "rank": 354,
+  "posrank": "WR148",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Dillon Gabriel",
+  "pos": "QB",
+  "team": "CLE",
+  "rank": 355,
+  "posrank": "QB40",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jarveon Howard",
+  "pos": "RB",
+  "team": "CIN",
+  "rank": 356,
+  "posrank": "RB112",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Zay Jones",
+  "pos": "WR",
+  "team": "ARI",
+  "rank": 357,
+  "posrank": "WR149",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jalin Conyers",
+  "pos": "TE",
+  "team": "GB",
+  "rank": 358,
+  "posrank": "TE57",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Greg Dortch",
+  "pos": "WR",
+  "team": "ARI",
+  "rank": 359,
+  "posrank": "WR150",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Ulysses Bentley IV",
+  "pos": "RB",
+  "team": "NO",
+  "rank": 360,
+  "posrank": "RB113",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Simi Fehoko",
+  "pos": "WR",
+  "team": "LAC",
+  "rank": 361,
+  "posrank": "WR151",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Cade Stover",
+  "pos": "TE",
+  "team": "HOU",
+  "rank": 362,
+  "posrank": "TE58",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Kaytron Allen",
+  "pos": "RB",
+  "team": "PIT",
+  "rank": 363,
+  "posrank": "RB114",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Tanner McKee",
+  "pos": "QB",
+  "team": "PHI",
+  "rank": 364,
+  "posrank": "QB41",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Ja'Lynn Polk",
+  "pos": "WR",
+  "team": "NE",
+  "rank": 365,
+  "posrank": "WR152",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Justice Ellison",
+  "pos": "RB",
+  "team": "CAR",
+  "rank": 366,
+  "posrank": "RB115",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Josh Reynolds",
+  "pos": "WR",
+  "team": "MIN",
+  "rank": 367,
+  "posrank": "WR153",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Will Dissly",
+  "pos": "TE",
+  "team": "LAC",
+  "rank": 368,
+  "posrank": "TE59",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Corey Kiner",
+  "pos": "RB",
+  "team": "LAR",
+  "rank": 369,
+  "posrank": "RB116",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Robert Woods",
+  "pos": "WR",
+  "team": "PIT",
+  "rank": 370,
+  "posrank": "WR154",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jake Browning",
+  "pos": "QB",
+  "team": "CIN",
+  "rank": 371,
+  "posrank": "QB42",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Malik Heath",
+  "pos": "WR",
+  "team": "GB",
+  "rank": 372,
+  "posrank": "WR155",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Dawson Knox",
+  "pos": "TE",
+  "team": "BUF",
+  "rank": 373,
+  "posrank": "TE60",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jacardia Wright",
+  "pos": "RB",
+  "team": "NE",
+  "rank": 374,
+  "posrank": "RB117",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Michael Gallup",
+  "pos": "WR",
+  "team": "ATL",
+  "rank": 375,
+  "posrank": "WR156",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Ty Chandler",
+  "pos": "RB",
+  "team": "MIN",
+  "rank": 376,
+  "posrank": "RB118",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Tucker Fisk",
+  "pos": "TE",
+  "team": "MIN",
+  "rank": 377,
+  "posrank": "TE61",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Tyler Johnson",
+  "pos": "WR",
+  "team": "LAR",
+  "rank": 378,
+  "posrank": "WR157",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Dameon Pierce",
+  "pos": "RB",
+  "team": "HOU",
+  "rank": 379,
+  "posrank": "RB119",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Mac Jones",
+  "pos": "QB",
+  "team": "SF",
+  "rank": 380,
+  "posrank": "QB43",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Kendrick Bourne",
+  "pos": "WR",
+  "team": "NE",
+  "rank": 381,
+  "posrank": "WR158",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Nick Chubb",
+  "pos": "RB",
+  "team": "HOU",
+  "rank": 382,
+  "posrank": "RB120",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Johnny Mundt",
+  "pos": "TE",
+  "team": "MIN",
+  "rank": 383,
+  "posrank": "TE62",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Van Jefferson",
+  "pos": "WR",
+  "team": "TEN",
+  "rank": 384,
+  "posrank": "WR159",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Parris Campbell",
+  "pos": "WR",
+  "team": "PHI",
+  "rank": 385,
+  "posrank": "WR160",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Kenny McIntosh",
+  "pos": "RB",
+  "team": "SEA",
+  "rank": 386,
+  "posrank": "RB121",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Aidan O'Connell",
+  "pos": "QB",
+  "team": "LV",
+  "rank": 387,
+  "posrank": "QB44",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Gerald Everett",
+  "pos": "TE",
+  "team": "CHI",
+  "rank": 388,
+  "posrank": "TE63",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jamari Thrash",
+  "pos": "WR",
+  "team": "CLE",
+  "rank": 389,
+  "posrank": "WR161",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Tyrion Davis-Price",
+  "pos": "RB",
+  "team": "NE",
+  "rank": 390,
+  "posrank": "RB122",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Casey Washington",
+  "pos": "WR",
+  "team": "ATL",
+  "rank": 391,
+  "posrank": "WR162",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jase McClellan",
+  "pos": "RB",
+  "team": "ATL",
+  "rank": 392,
+  "posrank": "RB123",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Durham Smythe",
+  "pos": "TE",
+  "team": "CHI",
+  "rank": 393,
+  "posrank": "TE64",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Xavier Gipson",
+  "pos": "WR",
+  "team": "NYJ",
+  "rank": 394,
+  "posrank": "WR163",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jarrett Stidham",
+  "pos": "QB",
+  "team": "DEN",
+  "rank": 395,
+  "posrank": "QB45",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Carson Steele",
+  "pos": "RB",
+  "team": "KC",
+  "rank": 396,
+  "posrank": "RB124",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Tejhaun Palmer",
+  "pos": "WR",
+  "team": "ARI",
+  "rank": 397,
+  "posrank": "WR164",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Stone Smartt",
+  "pos": "TE",
+  "team": "LAC",
+  "rank": 398,
+  "posrank": "TE65",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Bo Melton",
+  "pos": "WR",
+  "team": "GB",
+  "rank": 399,
+  "posrank": "WR165",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Miles Sanders",
+  "pos": "RB",
+  "team": "DAL",
+  "rank": 400,
+  "posrank": "RB125",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Charlie Jones",
+  "pos": "WR",
+  "team": "CIN",
+  "rank": 401,
+  "posrank": "WR166",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Salvon Ahmed",
+  "pos": "RB",
+  "team": "MIA",
+  "rank": 402,
+  "posrank": "RB126",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Cooper Rush",
+  "pos": "QB",
+  "team": "BAL",
+  "rank": 403,
+  "posrank": "QB46",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Brevyn Spann-Ford",
+  "pos": "TE",
+  "team": "DAL",
+  "rank": 404,
+  "posrank": "TE66",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Ricky White III",
+  "pos": "WR",
+  "team": "LV",
+  "rank": 405,
+  "posrank": "WR167",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Dare Ogunbowale",
+  "pos": "RB",
+  "team": "HOU",
+  "rank": 406,
+  "posrank": "RB127",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Isaiah Williams",
+  "pos": "WR",
+  "team": "DET",
+  "rank": 407,
+  "posrank": "WR168",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Luke Schoonmaker",
+  "pos": "TE",
+  "team": "DAL",
+  "rank": 408,
+  "posrank": "TE67",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Terrell Jennings",
+  "pos": "RB",
+  "team": "JAX",
+  "rank": 409,
+  "posrank": "RB128",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Dominic Lovett",
+  "pos": "WR",
+  "team": "DET",
+  "rank": 410,
+  "posrank": "WR169",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Gardner Minshew",
+  "pos": "QB",
+  "team": "KC",
+  "rank": 411,
+  "posrank": "QB47",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Nate Carter",
+  "pos": "RB",
+  "team": "NYG",
+  "rank": 412,
+  "posrank": "RB129",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jordan Whittington",
+  "pos": "WR",
+  "team": "LAR",
+  "rank": 413,
+  "posrank": "WR170",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Michael Rigerman",
+  "pos": "TE",
+  "team": "NYG",
+  "rank": 414,
+  "posrank": "TE68",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Britain Covey",
+  "pos": "WR",
+  "team": "LAR",
+  "rank": 415,
+  "posrank": "WR171",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Gary Brightwell",
+  "pos": "RB",
+  "team": "NYG",
+  "rank": 416,
+  "posrank": "RB130",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Skyy Moore",
+  "pos": "WR",
+  "team": "SF",
+  "rank": 417,
+  "posrank": "WR172",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Daniel Bellinger",
+  "pos": "TE",
+  "team": "NYG",
+  "rank": 418,
+  "posrank": "TE69",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Isaiah Davis",
+  "pos": "RB",
+  "team": "NYJ",
+  "rank": 419,
+  "posrank": "RB131",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Joe Milton III",
+  "pos": "QB",
+  "team": "DAL",
+  "rank": 420,
+  "posrank": "QB48",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Tommy Mellott",
+  "pos": "WR",
+  "team": "LV",
+  "rank": 421,
+  "posrank": "WR173",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Patrick Taylor Jr.",
+  "pos": "RB",
+  "team": "NYJ",
+  "rank": 422,
+  "posrank": "RB132",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Traeshon Holden",
+  "pos": "WR",
+  "team": "LV",
+  "rank": 423,
+  "posrank": "WR174",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Erick All Jr.",
+  "pos": "TE",
+  "team": "CIN",
+  "rank": 424,
+  "posrank": "TE70",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jawhar Jordan",
+  "pos": "RB",
+  "team": "IND",
+  "rank": 425,
+  "posrank": "RB133",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Konata Mumpfield",
+  "pos": "WR",
+  "team": "ATL",
+  "rank": 426,
+  "posrank": "WR175",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Elijhah Badger",
+  "pos": "WR",
+  "team": "PHI",
+  "rank": 427,
+  "posrank": "WR176",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "George Holani",
+  "pos": "RB",
+  "team": "SEA",
+  "rank": 428,
+  "posrank": "RB134",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Devin Culp",
+  "pos": "TE",
+  "team": "TB",
+  "rank": 429,
+  "posrank": "TE71",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Chris Bell",
+  "pos": "WR",
+  "team": "GB",
+  "rank": 430,
+  "posrank": "WR177",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Hunter Luepke",
+  "pos": "RB",
+  "team": "DAL",
+  "rank": 431,
+  "posrank": "RB135",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Antwane Wells Jr.",
+  "pos": "WR",
+  "team": "MIA",
+  "rank": 432,
+  "posrank": "WR178",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Payne Durham",
+  "pos": "TE",
+  "team": "TB",
+  "rank": 433,
+  "posrank": "TE72",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Dillon Johnson",
+  "pos": "RB",
+  "team": "SEA",
+  "rank": 434,
+  "posrank": "RB136",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jelani Woods",
+  "pos": "TE",
+  "team": "NYG",
+  "rank": 435,
+  "posrank": "TE73",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Tanner Hudson",
+  "pos": "TE",
+  "team": "CIN",
+  "rank": 436,
+  "posrank": "TE74",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Denver Broncos D/ST",
+  "pos": "DST",
+  "team": "Denver Broncos",
+  "rank": 437,
+  "posrank": "DST1",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Philadelphia Eagles D/ST",
+  "pos": "DST",
+  "team": "Philadelphia Eagles",
+  "rank": 438,
+  "posrank": "DST2",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Baltimore Ravens D/ST",
+  "pos": "DST",
+  "team": "Baltimore Ravens",
+  "rank": 439,
+  "posrank": "DST3",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Houston Texans D/ST",
+  "pos": "DST",
+  "team": "Houston Texans",
+  "rank": 440,
+  "posrank": "DST4",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Detroit Lions D/ST",
+  "pos": "DST",
+  "team": "Detroit Lions",
+  "rank": 441,
+  "posrank": "DST5",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Pittsburgh Steelers D/ST",
+  "pos": "DST",
+  "team": "Pittsburgh Steelers",
+  "rank": 442,
+  "posrank": "DST6",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Minnesota Vikings D/ST",
+  "pos": "DST",
+  "team": "Minnesota Vikings",
+  "rank": 443,
+  "posrank": "DST7",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Buffalo Bills D/ST",
+  "pos": "DST",
+  "team": "Buffalo Bills",
+  "rank": 444,
+  "posrank": "DST8",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Seattle Seahawks D/ST",
+  "pos": "DST",
+  "team": "Seattle Seahawks",
+  "rank": 445,
+  "posrank": "DST9",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Green Bay Packers D/ST",
+  "pos": "DST",
+  "team": "Green Bay Packers",
+  "rank": 446,
+  "posrank": "DST10",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Los Angeles Chargers D/ST",
+  "pos": "DST",
+  "team": "Los Angeles Chargers",
+  "rank": 447,
+  "posrank": "DST11",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Kansas City Chiefs D/ST",
+  "pos": "DST",
+  "team": "Kansas City Chiefs",
+  "rank": 448,
+  "posrank": "DST12",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Arizona Cardinals D/ST",
+  "pos": "DST",
+  "team": "Arizona Cardinals",
+  "rank": 449,
+  "posrank": "DST13",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "San Francisco 49ers D/ST",
+  "pos": "DST",
+  "team": "San Francisco 49ers",
+  "rank": 450,
+  "posrank": "DST14",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Los Angeles Rams D/ST",
+  "pos": "DST",
+  "team": "Los Angeles Rams",
+  "rank": 451,
+  "posrank": "DST15",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Washington Commanders D/ST",
+  "pos": "DST",
+  "team": "Washington Commanders",
+  "rank": 452,
+  "posrank": "DST16",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "New England Patriots D/ST",
+  "pos": "DST",
+  "team": "New England Patriots",
+  "rank": 453,
+  "posrank": "DST17",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Chicago Bears D/ST",
+  "pos": "DST",
+  "team": "Chicago Bears",
+  "rank": 454,
+  "posrank": "DST18",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Indianapolis Colts D/ST",
+  "pos": "DST",
+  "team": "Indianapolis Colts",
+  "rank": 455,
+  "posrank": "DST19",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Tampa Bay Buccaneers D/ST",
+  "pos": "DST",
+  "team": "Tampa Bay Buccaneers",
+  "rank": 456,
+  "posrank": "DST20",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Atlanta Falcons D/ST",
+  "pos": "DST",
+  "team": "Atlanta Falcons",
+  "rank": 457,
+  "posrank": "DST21",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Cleveland Browns D/ST",
+  "pos": "DST",
+  "team": "Cleveland Browns",
+  "rank": 458,
+  "posrank": "DST22",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jacksonville Jaguars D/ST",
+  "pos": "DST",
+  "team": "Jacksonville Jaguars",
+  "rank": 459,
+  "posrank": "DST23",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "New York Jets D/ST",
+  "pos": "DST",
+  "team": "New York Jets",
+  "rank": 460,
+  "posrank": "DST24",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Dallas Cowboys D/ST",
+  "pos": "DST",
+  "team": "Dallas Cowboys",
+  "rank": 461,
+  "posrank": "DST25",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Carolina Panthers D/ST",
+  "pos": "DST",
+  "team": "Carolina Panthers",
+  "rank": 462,
+  "posrank": "DST26",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Cincinnati Bengals D/ST",
+  "pos": "DST",
+  "team": "Cincinnati Bengals",
+  "rank": 463,
+  "posrank": "DST27",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Las Vegas Raiders D/ST",
+  "pos": "DST",
+  "team": "Las Vegas Raiders",
+  "rank": 464,
+  "posrank": "DST28",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "New York Giants D/ST",
+  "pos": "DST",
+  "team": "New York Giants",
+  "rank": 465,
+  "posrank": "DST29",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Tennessee Titans D/ST",
+  "pos": "DST",
+  "team": "Tennessee Titans",
+  "rank": 466,
+  "posrank": "DST30",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "New Orleans Saints D/ST",
+  "pos": "DST",
+  "team": "New Orleans Saints",
+  "rank": 467,
+  "posrank": "DST31",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Miami Dolphins D/ST",
+  "pos": "DST",
+  "team": "Miami Dolphins",
+  "rank": 468,
+  "posrank": "DST32",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Brandon Aubrey",
+  "pos": "K",
+  "team": "DAL",
+  "rank": 469,
+  "posrank": "K1",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": "Top-projected kicker at roughly 116 half-PPR points."
+ },
+ {
+  "name": "Cameron Dicker",
+  "pos": "K",
+  "team": "LAC",
+  "rank": 470,
+  "posrank": "K2",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Ka'imi Fairbairn",
+  "pos": "K",
+  "team": "HOU",
+  "rank": 471,
+  "posrank": "K3",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": "44-of-48 on field goals in 15 games, tying the single-season record."
+ },
+ {
+  "name": "Cam Little",
+  "pos": "K",
+  "team": "JAX",
+  "rank": 472,
+  "posrank": "K4",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jake Bates",
+  "pos": "K",
+  "team": "DET",
+  "rank": 473,
+  "posrank": "K5",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Chris Boswell",
+  "pos": "K",
+  "team": "PIT",
+  "rank": 474,
+  "posrank": "K6",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Tyler Loop",
+  "pos": "K",
+  "team": "BAL",
+  "rank": 475,
+  "posrank": "K7",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jason Myers",
+  "pos": "K",
+  "team": "SEA",
+  "rank": 476,
+  "posrank": "K8",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Will Reichard",
+  "pos": "K",
+  "team": "MIN",
+  "rank": 477,
+  "posrank": "K9",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jake Elliott",
+  "pos": "K",
+  "team": "PHI",
+  "rank": 478,
+  "posrank": "K10",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Harrison Butker",
+  "pos": "K",
+  "team": "KC",
+  "rank": 479,
+  "posrank": "K11",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Evan McPherson",
+  "pos": "K",
+  "team": "CIN",
+  "rank": 480,
+  "posrank": "K12",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Chase McLaughlin",
+  "pos": "K",
+  "team": "TB",
+  "rank": 481,
+  "posrank": "K13",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Wil Lutz",
+  "pos": "K",
+  "team": "DEN",
+  "rank": 482,
+  "posrank": "K14",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Tyler Bass",
+  "pos": "K",
+  "team": "BUF",
+  "rank": 483,
+  "posrank": "K15",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Daniel Carlson",
+  "pos": "K",
+  "team": "LV",
+  "rank": 484,
+  "posrank": "K16",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Matt Gay",
+  "pos": "K",
+  "team": "WAS",
+  "rank": 485,
+  "posrank": "K17",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Andres Borregales",
+  "pos": "K",
+  "team": "NE",
+  "rank": 486,
+  "posrank": "K18",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Cairo Santos",
+  "pos": "K",
+  "team": "CHI",
+  "rank": 487,
+  "posrank": "K19",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Brandon McManus",
+  "pos": "K",
+  "team": "GB",
+  "rank": 488,
+  "posrank": "K20",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Chad Ryland",
+  "pos": "K",
+  "team": "ARI",
+  "rank": 489,
+  "posrank": "K21",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Joshua Karty",
+  "pos": "K",
+  "team": "LAR",
+  "rank": 490,
+  "posrank": "K22",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Eddy Pineiro",
+  "pos": "K",
+  "team": "SF",
+  "rank": 491,
+  "posrank": "K23",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Spencer Shrader",
+  "pos": "K",
+  "team": "IND",
+  "rank": 492,
+  "posrank": "K24",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Dustin Hopkins",
+  "pos": "K",
+  "team": "CLE",
+  "rank": 493,
+  "posrank": "K25",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Graham Gano",
+  "pos": "K",
+  "team": "NYG",
+  "rank": 494,
+  "posrank": "K26",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Nick Folk",
+  "pos": "K",
+  "team": "NYJ",
+  "rank": 495,
+  "posrank": "K27",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Parker Romo",
+  "pos": "K",
+  "team": "ATL",
+  "rank": 496,
+  "posrank": "K28",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Blake Grupe",
+  "pos": "K",
+  "team": "NO",
+  "rank": 497,
+  "posrank": "K29",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Ryan Fitzgerald",
+  "pos": "K",
+  "team": "TEN",
+  "rank": 498,
+  "posrank": "K30",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Riley Patterson",
+  "pos": "K",
+  "team": "CAR",
+  "rank": 499,
+  "posrank": "K31",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ },
+ {
+  "name": "Jason Sanders",
+  "pos": "K",
+  "team": "MIA",
+  "rank": 500,
+  "posrank": "K32",
+  "round12": "Deep / waiver",
+  "confidence": "Low",
+  "note": ""
+ }
+]
