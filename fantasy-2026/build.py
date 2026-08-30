@@ -1,6 +1,7 @@
 import csv, json, math
 from notes import NOTES
 from sleepers import SLEEPERS
+from rush import RUSH
 from top150 import TOP150
 import tail
 
@@ -33,9 +34,11 @@ for i,p in enumerate(board, start=1):
     p["note"] = NOTES.get(p["name"],"")
     sl = SLEEPERS.get(p["name"])
     p["sleeper"], p["cost"], p["case"] = (sl[0], sl[1], sl[2]) if sl else ("","","")
+    ru = RUSH.get(p["name"])
+    p["rush"], p["rushnote"] = (ru[0], ru[1]) if ru else (0, "")
 
 with open("rankings_2026_top500.csv","w",newline="") as f:
-    w = csv.DictWriter(f, fieldnames=["rank","name","pos","posrank","team","round12","confidence","sleeper","cost","note","case"])
+    w = csv.DictWriter(f, fieldnames=["rank","name","pos","posrank","team","round12","confidence","sleeper","cost","rush","note","case","rushnote"])
     w.writeheader()
     for p in board: w.writerow(p)
 json.dump(board, open("rankings_2026_top500.json","w"), indent=1)
@@ -45,5 +48,8 @@ print(Counter(p["pos"] for p in board))
 miss=[n for n in SLEEPERS if n not in {p["name"] for p in board}]
 print("sleepers not on board:",miss)
 print("sleepers matched:",sum(1 for p in board if p["sleeper"]))
+bad=[n for n in RUSH if n not in {p["name"] for p in board}]
+print("rush names off board:",bad)
+print("rush badges:",sum(1 for p in board if p["rush"]), "| non-QB badged:",[p["name"] for p in board if p["rush"] and p["pos"]!="QB"])
 for i in (1,12,24,36,60,90,120,150,180,220,300,380,440,500):
     p=board[i-1]; print(i, p["posrank"], p["name"], p["team"], p["confidence"])
