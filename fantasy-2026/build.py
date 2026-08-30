@@ -1,5 +1,6 @@
 import csv, json, math
 from notes import NOTES
+from sleepers import SLEEPERS
 from top150 import TOP150
 import tail
 
@@ -30,14 +31,19 @@ for i,p in enumerate(board, start=1):
     p["round12"] = f'Rd {math.ceil(i/12)}' if i <= 216 else 'Deep / waiver'
     p["confidence"] = "High" if i<=150 else ("Medium" if i<=300 else "Low")
     p["note"] = NOTES.get(p["name"],"")
+    sl = SLEEPERS.get(p["name"])
+    p["sleeper"], p["cost"], p["case"] = (sl[0], sl[1], sl[2]) if sl else ("","","")
 
 with open("rankings_2026_top500.csv","w",newline="") as f:
-    w = csv.DictWriter(f, fieldnames=["rank","name","pos","posrank","team","round12","confidence","note"])
+    w = csv.DictWriter(f, fieldnames=["rank","name","pos","posrank","team","round12","confidence","sleeper","cost","note","case"])
     w.writeheader()
     for p in board: w.writerow(p)
 json.dump(board, open("rankings_2026_top500.json","w"), indent=1)
 
 from collections import Counter
 print(Counter(p["pos"] for p in board))
+miss=[n for n in SLEEPERS if n not in {p["name"] for p in board}]
+print("sleepers not on board:",miss)
+print("sleepers matched:",sum(1 for p in board if p["sleeper"]))
 for i in (1,12,24,36,60,90,120,150,180,220,300,380,440,500):
     p=board[i-1]; print(i, p["posrank"], p["name"], p["team"], p["confidence"])
