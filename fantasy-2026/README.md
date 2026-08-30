@@ -8,6 +8,8 @@ A consensus draft board for the 2026/27 NFL season, built 2026-08-27.
 | `rankings_2026_top500.csv` | The board: rank, player, position, position rank, team, target round (12-team), confidence band, note |
 | `rankings_2026_top500.json` | Same data as JSON |
 | `draft-board-500.html` | Filterable web board (overall, per-position and sleeper views, tier strategy, status flags) |
+| `on-the-clock.html` | Live draft assistant — log picks, get the position call, round plan and remaining path |
+| `clock_js.js` | The assistant's engine (recommendation scoring, roster fill, forward simulation) |
 | `top150.py` / `tail.py` / `notes.py` / `sleepers.py` / `rush.py` / `build.py` | Source data and the script that assembles the board |
 
 ## Method
@@ -39,6 +41,22 @@ Clearing the rushing gate but not the passing one earns the `run` badge instead:
 The CSV carries `rush` (`dual` / `run` / empty), `rushstat` (the numbers behind the grade) and `rushnote`.
 
 The page shows the four 2025 leaderboards the test reads from, so the grade is auditable rather than asserted.
+
+## On the Clock (draft assistant)
+A live tool for draft day. Set league size and slot, mark each pick `Gone` or `Mine`, and it recomputes:
+
+- **The call** — which position to take now and the two or three players to take, chosen by *dropoff*: how much
+  worse your best option at that position gets by the time you pick again
+- **Round plan** — a 16-round strip, forward-simulated from the current board state, updating after every pick
+- **Roster** — starters and bench filling in, with empty mandatory slots flagged
+- **Alerts** — positional runs, tier cliffs, and the must-fill window for QB/TE/K/D-ST
+
+Scoring is `weight x (log(1 + dropoff) + surplus)`, where `surplus` is how far the best available player has
+fallen past the current pick, in rounds. That second term is what stops it recommending a scarce position over
+a clearly better player. When your remaining picks equal your empty starting slots it switches to must-fill mode
+and only offers positions that complete a legal lineup.
+
+State persists in `localStorage`, so a mid-draft refresh is safe.
 
 ## Regenerating
 ```

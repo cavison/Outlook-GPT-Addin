@@ -1,0 +1,478 @@
+<title>On the Clock</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#F1F2EF; --surface:#FFFFFF; --surface-2:#F7F8F5;
+  --ink:#10161C; --ink-2:#38434B; --muted:#5E6A73; --hair:#DCDFDA; --hair-2:#E9EBE6;
+  --chrome:#1B4965; --chrome-ink:#FFFFFF; --chrome-soft:#E7EFF4;
+  --go:#1D6B4C; --go-bg:#E5F1EB; --warn:#8A6D1E; --warn-bg:#F6F0DE; --stop:#A8321F; --stop-bg:#FAEAE7;
+  --qb:#B4541E; --rb:#1D6B4C; --wr:#2C5FA8; --te:#7A3E9D; --k:#7E7333; --dst:#4A5560;
+  --qb-bg:#FBEDE4; --rb-bg:#E5F1EB; --wr-bg:#E6EDF8; --te-bg:#F1E9F7; --k-bg:#F2F0E1; --dst-bg:#ECEEF0;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --ground:#0E1418; --surface:#151D22; --surface-2:#111A1F;
+  --ink:#E9EEF0; --ink-2:#BAC5CB; --muted:#8B979E; --hair:#243036; --hair-2:#1B252A;
+  --chrome:#8FC2DE; --chrome-ink:#0E1418; --chrome-soft:#17262F;
+  --go:#5FC195; --go-bg:#0F2A20; --warn:#CBBB63; --warn-bg:#26230F; --stop:#F08C79; --stop-bg:#2B1512;
+  --qb:#E8925C; --rb:#5FC195; --wr:#7FADE8; --te:#C08EE0; --k:#CBBB63; --dst:#9AA7B2;
+  --qb-bg:#2A1B12; --rb-bg:#0F2A20; --wr-bg:#13212F; --te-bg:#241A2E; --k-bg:#26230F; --dst-bg:#1B2229;
+}}
+:root[data-theme="dark"]{
+  --ground:#0E1418; --surface:#151D22; --surface-2:#111A1F;
+  --ink:#E9EEF0; --ink-2:#BAC5CB; --muted:#8B979E; --hair:#243036; --hair-2:#1B252A;
+  --chrome:#8FC2DE; --chrome-ink:#0E1418; --chrome-soft:#17262F;
+  --go:#5FC195; --go-bg:#0F2A20; --warn:#CBBB63; --warn-bg:#26230F; --stop:#F08C79; --stop-bg:#2B1512;
+  --qb:#E8925C; --rb:#5FC195; --wr:#7FADE8; --te:#C08EE0; --k:#CBBB63; --dst:#9AA7B2;
+  --qb-bg:#2A1B12; --rb-bg:#0F2A20; --wr-bg:#13212F; --te-bg:#241A2E; --k-bg:#26230F; --dst-bg:#1B2229;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:"Source Sans 3",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  font-size:16px;line-height:1.5}
+h1,h2,h3,h4{font-family:Oswald,"Arial Narrow",Impact,sans-serif;font-weight:500;margin:0;text-wrap:balance}
+.wrap{max-width:1240px;margin:0 auto;padding:0 18px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+button{font-family:inherit;cursor:pointer;border-radius:0}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--chrome);outline-offset:2px}
+
+/* setup bar */
+.bar{background:var(--surface);border-bottom:2px solid var(--ink);position:sticky;top:0;z-index:40}
+.bar-in{display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:12px 0}
+.bar h1{font-size:26px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap}
+.bar h1 em{font-style:normal;color:var(--chrome)}
+.field{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted)}
+.field label{font-family:Oswald,sans-serif;text-transform:uppercase;letter-spacing:.1em;font-size:10.5px}
+.field select,.field input{font-family:"IBM Plex Mono",monospace;font-size:13px;padding:4px 7px;
+  border:1px solid var(--hair);background:var(--surface);color:var(--ink)}
+.onclock{margin-left:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.pickno{font-family:Oswald,sans-serif;font-size:14px;text-transform:uppercase;letter-spacing:.08em;
+  padding:5px 12px;background:var(--chrome-soft);color:var(--chrome);border:1px solid var(--chrome);white-space:nowrap}
+.pickno.live{background:var(--chrome);color:var(--chrome-ink)}
+.ghost{background:none;border:1px solid var(--hair);color:var(--muted);font-size:12px;padding:5px 10px;
+  font-family:Oswald,sans-serif;text-transform:uppercase;letter-spacing:.09em}
+.ghost:hover{border-color:var(--chrome);color:var(--chrome)}
+
+/* first-run explainer */
+.howto{background:var(--chrome-soft);border-bottom:1px solid var(--hair)}
+.howto-in{display:flex;flex-wrap:wrap;gap:14px 26px;align-items:flex-start;padding:14px 0;font-size:13.5px;color:var(--ink-2)}
+.howto b{font-family:Oswald,sans-serif;text-transform:uppercase;letter-spacing:.1em;font-size:10.5px;color:var(--chrome);display:block}
+.howto div{flex:1 1 210px}
+
+.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:18px;margin:18px 0 60px}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--surface);border:1px solid var(--hair)}
+.panel > header{display:flex;align-items:baseline;gap:10px;padding:11px 15px;border-bottom:1px solid var(--hair);
+  background:var(--surface-2)}
+.panel > header h2{font-size:15px;text-transform:uppercase;letter-spacing:.09em}
+.panel > header span{font-size:12.5px;color:var(--muted);margin-left:auto;text-align:right}
+
+/* the call */
+.call{padding:16px 18px 18px}
+.call .verdict{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:4px}
+.call .big{font-family:Oswald,sans-serif;font-size:34px;line-height:1;text-transform:uppercase;letter-spacing:.02em}
+.call .why{font-size:14.5px;color:var(--ink-2);max-width:60ch;margin:6px 0 14px}
+.picks{display:flex;flex-direction:column;gap:7px}
+.pick{display:grid;grid-template-columns:auto 1fr auto auto;gap:10px;align-items:center;
+  padding:9px 11px;border:1px solid var(--hair);background:var(--surface)}
+.pick.top{border-color:var(--chrome);border-left-width:3px}
+.pick .nm{font-weight:600;font-size:15px;line-height:1.2}
+.pick .sub{display:block;font-weight:400;font-size:12px;color:var(--muted);
+  font-family:"IBM Plex Mono",monospace;letter-spacing:.03em}
+.mine{background:var(--go);color:#fff;border:1px solid var(--go);font-family:Oswald,sans-serif;
+  text-transform:uppercase;letter-spacing:.09em;font-size:10.5px;padding:6px 10px;white-space:nowrap}
+.gone{background:none;border:1px solid var(--hair);color:var(--muted);font-family:Oswald,sans-serif;
+  text-transform:uppercase;letter-spacing:.09em;font-size:10.5px;padding:6px 10px;white-space:nowrap}
+.gone:hover{border-color:var(--stop);color:var(--stop)}
+.chip{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;padding:2px 6px}
+.chip.QB{color:var(--qb);background:var(--qb-bg)} .chip.RB{color:var(--rb);background:var(--rb-bg)}
+.chip.WR{color:var(--wr);background:var(--wr-bg)} .chip.TE{color:var(--te);background:var(--te-bg)}
+.chip.K{color:var(--k);background:var(--k-bg)} .chip.DST{color:var(--dst);background:var(--dst-bg)}
+
+/* round plan */
+.plan{padding:14px 15px 16px;overflow-x:auto}
+.rounds{display:grid;grid-template-columns:repeat(16,minmax(52px,1fr));gap:4px;min-width:860px}
+.rd{border:1px solid var(--hair);background:var(--surface-2);padding:7px 4px;text-align:center}
+.rd .n{font-family:"IBM Plex Mono",monospace;font-size:10px;color:var(--muted);display:block}
+.rd .p{font-family:Oswald,sans-serif;font-size:13px;letter-spacing:.04em;display:block;margin-top:3px;color:var(--ink-2)}
+.rd.done{background:var(--go-bg);border-color:var(--go)}
+.rd.done .p{color:var(--go);font-weight:600}
+.rd.now{background:var(--chrome);border-color:var(--chrome)}
+.rd.now .n,.rd.now .p{color:var(--chrome-ink)}
+.plan .key{margin-top:10px;font-size:12.5px;color:var(--muted)}
+
+/* roster */
+.roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:6px;padding:14px 15px 16px}
+.slot{border:1px dashed var(--hair);padding:7px 9px;min-height:50px}
+.slot .lbl{font-family:Oswald,sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.slot .val{font-size:14px;font-weight:600;line-height:1.25;margin-top:2px}
+.slot .val small{display:block;font-weight:400;font-size:11.5px;color:var(--muted);font-family:"IBM Plex Mono",monospace}
+.slot.filled{border-style:solid;border-color:var(--go);background:var(--go-bg)}
+.slot.urgent{border-color:var(--stop);border-style:solid;background:var(--stop-bg)}
+
+/* pool */
+.tools{display:flex;flex-wrap:wrap;gap:8px;padding:11px 15px;border-bottom:1px solid var(--hair);align-items:center}
+.tools input[type=search]{flex:1 1 160px;min-width:140px;font-size:14px;padding:6px 9px;
+  border:1px solid var(--hair);background:var(--surface);color:var(--ink);font-family:inherit}
+.postabs{display:flex;gap:3px;flex-wrap:wrap}
+.pt{font-family:Oswald,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:.09em;
+  padding:5px 9px;border:1px solid var(--hair);background:var(--surface);color:var(--ink-2)}
+.pt[aria-pressed="true"]{background:var(--chrome);border-color:var(--chrome);color:var(--chrome-ink)}
+.pool{max-height:520px;overflow-y:auto}
+.prow{display:grid;grid-template-columns:44px 1fr auto auto auto;gap:9px;align-items:center;
+  padding:7px 15px;border-bottom:1px solid var(--hair-2);font-size:14.5px}
+.prow:hover{background:var(--surface-2)}
+.prow .rk{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted)}
+.prow .nm{font-weight:600;line-height:1.2}
+.prow .nm small{display:block;font-weight:400;font-size:11.5px;color:var(--muted);font-family:"IBM Plex Mono",monospace}
+.cliff{padding:6px 15px;background:var(--warn-bg);color:var(--warn);font-family:Oswald,sans-serif;
+  font-size:11px;text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--hair-2)}
+.alerts{padding:0 15px 14px;display:flex;flex-direction:column;gap:7px}
+.alert{padding:9px 12px;font-size:13.5px;border-left:3px solid var(--warn);background:var(--warn-bg);color:var(--ink-2)}
+.alert.stop{border-color:var(--stop);background:var(--stop-bg)}
+.alert.go{border-color:var(--go);background:var(--go-bg)}
+.alert b{color:var(--ink)}
+.empty{padding:28px 15px;text-align:center;color:var(--muted);font-size:14px}
+footer{border-top:1px solid var(--hair);padding:18px 0 40px;font-size:13px;color:var(--muted)}
+footer a{color:var(--chrome)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<div class="bar"><div class="wrap bar-in">
+  <h1>On the <em>Clock</em></h1>
+  <div class="field"><label for="teams">Teams</label>
+    <select id="teams"><option>8</option><option>10</option><option selected>12</option><option>14</option></select></div>
+  <div class="field"><label for="slot">Your slot</label><select id="slot"></select></div>
+  <div class="onclock">
+    <span class="pickno" id="pickno">Pick 1</span>
+    <span class="pickno" id="yourturn">Your turn</span>
+    <button class="ghost" id="undo" type="button">Undo</button>
+    <button class="ghost" id="reset" type="button">Reset draft</button>
+  </div>
+</div></div>
+
+<div class="howto"><div class="wrap howto-in">
+  <div><b>1 · Set it up</b>Pick your league size and where you draft in round one. Everything below recalculates from that.</div>
+  <div><b>2 · Log every pick</b>When anyone takes a player, find them and hit <strong>Gone</strong>. When it is your turn, hit <strong>Mine</strong>. That is the whole job.</div>
+  <div><b>3 · Follow the call</b>The big card tells you which position to take right now and who to take. The round strip shows the plan ahead.</div>
+  <div><b>4 · Trust the gaps</b>It recommends by <em>dropoff</em> — how much worse your options get if you wait. Bigger gap, more urgent.</div>
+</div></div>
+
+<div class="wrap"><div class="grid">
+  <div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+
+    <div class="panel">
+      <header><h2>The call</h2><span id="callmeta"></span></header>
+      <div class="call">
+        <div class="verdict"><span class="big" id="callpos">—</span><span id="callchip"></span></div>
+        <p class="why" id="callwhy"></p>
+        <div class="picks" id="callpicks"></div>
+      </div>
+      <div class="alerts" id="alerts"></div>
+    </div>
+
+    <div class="panel">
+      <header><h2>Round plan</h2><span>green = done · blue = you are here</span></header>
+      <div class="plan">
+        <div class="rounds" id="rounds"></div>
+        <p class="key" id="plankey"></p>
+      </div>
+    </div>
+
+    <div class="panel">
+      <header><h2>Your roster</h2><span id="rostermeta"></span></header>
+      <div class="roster" id="roster"></div>
+    </div>
+  </div>
+
+  <div class="panel" style="align-self:start;min-width:0">
+    <header><h2>Still available</h2><span id="poolmeta"></span></header>
+    <div class="tools">
+      <input type="search" id="find" placeholder="Type a name, then Gone or Mine…" aria-label="Search available players">
+      <div class="postabs" id="postabs" role="group" aria-label="Filter by position"></div>
+    </div>
+    <div class="pool" id="pool"></div>
+  </div>
+</div>
+
+<footer><div>Ranks and notes come from the companion board — <a href="https://claude.ai/code/artifact/f880f7e4-d567-4806-8920-a8fe095307d0">Draft Board 500</a>.
+Your draft is saved in this browser only, so you can refresh mid-draft without losing it. Assumes PPR scoring and a
+QB / RB / RB / WR / WR / TE / FLEX / K / DST lineup with seven bench spots.</div></footer>
+</div>
+<script>
+const PLAYERS = [{"r": 1, "n": "Jahmyr Gibbs", "p": "RB", "k": "RB1", "t": "DET"}, {"r": 2, "n": "Bijan Robinson", "p": "RB", "k": "RB2", "t": "ATL"}, {"r": 3, "n": "Ja'Marr Chase", "p": "WR", "k": "WR1", "t": "CIN"}, {"r": 4, "n": "Puka Nacua", "p": "WR", "k": "WR2", "t": "LAR"}, {"r": 5, "n": "Christian McCaffrey", "p": "RB", "k": "RB3", "t": "SF"}, {"r": 6, "n": "Jaxon Smith-Njigba", "p": "WR", "k": "WR3", "t": "SEA"}, {"r": 7, "n": "Amon-Ra St. Brown", "p": "WR", "k": "WR4", "t": "DET"}, {"r": 8, "n": "Jonathan Taylor", "p": "RB", "k": "RB4", "t": "IND"}, {"r": 9, "n": "De'Von Achane", "p": "RB", "k": "RB5", "t": "MIA"}, {"r": 10, "n": "James Cook III", "p": "RB", "k": "RB6", "t": "BUF"}, {"r": 11, "n": "CeeDee Lamb", "p": "WR", "k": "WR5", "t": "DAL"}, {"r": 12, "n": "Justin Jefferson", "p": "WR", "k": "WR6", "t": "MIN"}, {"r": 13, "n": "Derrick Henry", "p": "RB", "k": "RB7", "t": "BAL"}, {"r": 14, "n": "Ashton Jeanty", "p": "RB", "k": "RB8", "t": "LV"}, {"r": 15, "n": "Drake London", "p": "WR", "k": "WR7", "t": "ATL"}, {"r": 16, "n": "Chase Brown", "p": "RB", "k": "RB9", "t": "CIN"}, {"r": 17, "n": "Brock Bowers", "p": "TE", "k": "TE1", "t": "LV"}, {"r": 18, "n": "Saquon Barkley", "p": "RB", "k": "RB10", "t": "PHI"}, {"r": 19, "n": "Trey McBride", "p": "TE", "k": "TE2", "t": "ARI"}, {"r": 20, "n": "Kenneth Walker III", "p": "RB", "k": "RB11", "t": "KC"}, {"r": 21, "n": "Nico Collins", "p": "WR", "k": "WR8", "t": "HOU"}, {"r": 22, "n": "Rashee Rice", "p": "WR", "k": "WR9", "t": "KC"}, {"r": 23, "n": "Jeremiyah Love", "p": "RB", "k": "RB12", "t": "ARI"}, {"r": 24, "n": "Omarion Hampton", "p": "RB", "k": "RB13", "t": "LAC"}, {"r": 25, "n": "A.J. Brown", "p": "WR", "k": "WR10", "t": "NE"}, {"r": 26, "n": "Chris Olave", "p": "WR", "k": "WR11", "t": "NO"}, {"r": 27, "n": "Garrett Wilson", "p": "WR", "k": "WR12", "t": "NYJ"}, {"r": 28, "n": "Breece Hall", "p": "RB", "k": "RB14", "t": "NYJ"}, {"r": 29, "n": "Josh Jacobs", "p": "RB", "k": "RB15", "t": "GB"}, {"r": 30, "n": "Malik Nabers", "p": "WR", "k": "WR13", "t": "NYG"}, {"r": 31, "n": "Tetairoa McMillan", "p": "WR", "k": "WR14", "t": "CAR"}, {"r": 32, "n": "Javonte Williams", "p": "RB", "k": "RB16", "t": "DAL"}, {"r": 33, "n": "Zay Flowers", "p": "WR", "k": "WR15", "t": "BAL"}, {"r": 34, "n": "DeVonta Smith", "p": "WR", "k": "WR16", "t": "PHI"}, {"r": 35, "n": "Emeka Egbuka", "p": "WR", "k": "WR17", "t": "TB"}, {"r": 36, "n": "Travis Etienne Jr.", "p": "RB", "k": "RB17", "t": "NO"}, {"r": 37, "n": "Ladd McConkey", "p": "WR", "k": "WR18", "t": "LAC"}, {"r": 38, "n": "Kyren Williams", "p": "RB", "k": "RB18", "t": "LAR"}, {"r": 39, "n": "Davante Adams", "p": "WR", "k": "WR19", "t": "LAR"}, {"r": 40, "n": "George Pickens", "p": "WR", "k": "WR20", "t": "DAL"}, {"r": 41, "n": "Jaylen Waddle", "p": "WR", "k": "WR21", "t": "DEN"}, {"r": 42, "n": "Colston Loveland", "p": "TE", "k": "TE3", "t": "CHI"}, {"r": 43, "n": "Tyler Warren", "p": "TE", "k": "TE4", "t": "IND"}, {"r": 44, "n": "Quinshon Judkins", "p": "RB", "k": "RB19", "t": "CLE"}, {"r": 45, "n": "Cam Skattebo", "p": "RB", "k": "RB20", "t": "NYG"}, {"r": 46, "n": "Tee Higgins", "p": "WR", "k": "WR22", "t": "CIN"}, {"r": 47, "n": "Bucky Irving", "p": "RB", "k": "RB21", "t": "TB"}, {"r": 48, "n": "Josh Allen", "p": "QB", "k": "QB1", "t": "BUF"}, {"r": 49, "n": "Terry McLaurin", "p": "WR", "k": "WR23", "t": "WAS"}, {"r": 50, "n": "Jameson Williams", "p": "WR", "k": "WR24", "t": "DET"}, {"r": 51, "n": "Bhayshul Tuten", "p": "RB", "k": "RB22", "t": "JAX"}, {"r": 52, "n": "Rome Odunze", "p": "WR", "k": "WR25", "t": "CHI"}, {"r": 53, "n": "DJ Moore", "p": "WR", "k": "WR26", "t": "BUF"}, {"r": 54, "n": "D'Andre Swift", "p": "RB", "k": "RB23", "t": "CHI"}, {"r": 55, "n": "Harold Fannin Jr.", "p": "TE", "k": "TE5", "t": "CLE"}, {"r": 56, "n": "David Montgomery", "p": "RB", "k": "RB24", "t": "HOU"}, {"r": 57, "n": "Jadarian Price", "p": "RB", "k": "RB25", "t": "SEA"}, {"r": 58, "n": "TreVeyon Henderson", "p": "RB", "k": "RB26", "t": "NE"}, {"r": 59, "n": "Kyle Pitts Sr.", "p": "TE", "k": "TE6", "t": "ATL"}, {"r": 60, "n": "Carnell Tate", "p": "WR", "k": "WR27", "t": "TEN"}, {"r": 61, "n": "Courtland Sutton", "p": "WR", "k": "WR28", "t": "DEN"}, {"r": 62, "n": "Stefon Diggs", "p": "WR", "k": "WR29", "t": "WAS"}, {"r": 63, "n": "Jayden Daniels", "p": "QB", "k": "QB2", "t": "WAS"}, {"r": 64, "n": "Michael Pittman Jr.", "p": "WR", "k": "WR30", "t": "PIT"}, {"r": 65, "n": "Rhamondre Stevenson", "p": "RB", "k": "RB27", "t": "NE"}, {"r": 66, "n": "Marvin Harrison Jr.", "p": "WR", "k": "WR31", "t": "ARI"}, {"r": 67, "n": "Jaylen Warren", "p": "RB", "k": "RB28", "t": "PIT"}, {"r": 68, "n": "Sam LaPorta", "p": "TE", "k": "TE7", "t": "DET"}, {"r": 69, "n": "Tucker Kraft", "p": "TE", "k": "TE8", "t": "GB"}, {"r": 70, "n": "Lamar Jackson", "p": "QB", "k": "QB3", "t": "BAL"}, {"r": 71, "n": "Rico Dowdle", "p": "RB", "k": "RB29", "t": "PIT"}, {"r": 72, "n": "DK Metcalf", "p": "WR", "k": "WR32", "t": "PIT"}, {"r": 73, "n": "Parker Washington", "p": "WR", "k": "WR33", "t": "JAX"}, {"r": 74, "n": "Luther Burden III", "p": "WR", "k": "WR34", "t": "CHI"}, {"r": 75, "n": "Tony Pollard", "p": "RB", "k": "RB30", "t": "TEN"}, {"r": 76, "n": "Alec Pierce", "p": "WR", "k": "WR35", "t": "IND"}, {"r": 77, "n": "Mike Evans", "p": "WR", "k": "WR36", "t": "SF"}, {"r": 78, "n": "Drake Maye", "p": "QB", "k": "QB4", "t": "NE"}, {"r": 79, "n": "Kenny Gainwell", "p": "RB", "k": "RB31", "t": "TB"}, {"r": 80, "n": "Christian Watson", "p": "WR", "k": "WR37", "t": "GB"}, {"r": 81, "n": "Matthew Golden", "p": "WR", "k": "WR38", "t": "GB"}, {"r": 82, "n": "Jonathon Brooks", "p": "RB", "k": "RB32", "t": "CAR"}, {"r": 83, "n": "Michael Wilson", "p": "WR", "k": "WR39", "t": "ARI"}, {"r": 84, "n": "Brian Thomas Jr.", "p": "WR", "k": "WR40", "t": "JAX"}, {"r": 85, "n": "Chuba Hubbard", "p": "RB", "k": "RB33", "t": "CAR"}, {"r": 86, "n": "Jakobi Meyers", "p": "WR", "k": "WR41", "t": "JAX"}, {"r": 87, "n": "George Kittle", "p": "TE", "k": "TE9", "t": "SF"}, {"r": 88, "n": "Jalen Hurts", "p": "QB", "k": "QB5", "t": "PHI"}, {"r": 89, "n": "Wan'Dale Robinson", "p": "WR", "k": "WR42", "t": "TEN"}, {"r": 90, "n": "Jordan Addison", "p": "WR", "k": "WR43", "t": "MIN"}, {"r": 91, "n": "J.K. Dobbins", "p": "RB", "k": "RB34", "t": "DEN"}, {"r": 92, "n": "Jordan Mason", "p": "RB", "k": "RB35", "t": "MIN"}, {"r": 93, "n": "Khalil Shakir", "p": "WR", "k": "WR44", "t": "BUF"}, {"r": 94, "n": "Jayden Reed", "p": "WR", "k": "WR45", "t": "GB"}, {"r": 95, "n": "Kyle Monangai", "p": "RB", "k": "RB36", "t": "CHI"}, {"r": 96, "n": "Xavier Worthy", "p": "WR", "k": "WR46", "t": "KC"}, {"r": 97, "n": "Jake Ferguson", "p": "TE", "k": "TE10", "t": "DAL"}, {"r": 98, "n": "Jacory Croskey-Merritt", "p": "RB", "k": "RB37", "t": "WAS"}, {"r": 99, "n": "Rachaad White", "p": "RB", "k": "RB38", "t": "WAS"}, {"r": 100, "n": "Dallas Goedert", "p": "TE", "k": "TE11", "t": "PHI"}, {"r": 101, "n": "Joe Burrow", "p": "QB", "k": "QB6", "t": "CIN"}, {"r": 102, "n": "Aaron Jones Sr.", "p": "RB", "k": "RB39", "t": "MIN"}, {"r": 103, "n": "Blake Corum", "p": "RB", "k": "RB40", "t": "LAR"}, {"r": 104, "n": "Quentin Johnston", "p": "WR", "k": "WR47", "t": "LAC"}, {"r": 105, "n": "Deebo Samuel", "p": "WR", "k": "WR48", "t": "SF"}, {"r": 106, "n": "RJ Harvey", "p": "RB", "k": "RB41", "t": "DEN"}, {"r": 107, "n": "Josh Downs", "p": "WR", "k": "WR49", "t": "IND"}, {"r": 108, "n": "Travis Kelce", "p": "TE", "k": "TE12", "t": "KC"}, {"r": 109, "n": "Jaxson Dart", "p": "QB", "k": "QB7", "t": "NYG"}, {"r": 110, "n": "Isiah Pacheco", "p": "RB", "k": "RB42", "t": "KC"}, {"r": 111, "n": "Jalen Nailor", "p": "WR", "k": "WR50", "t": "LV"}, {"r": 112, "n": "Tyrone Tracy Jr.", "p": "RB", "k": "RB43", "t": "NYG"}, {"r": 113, "n": "Marquise Brown", "p": "WR", "k": "WR51", "t": "PHI"}, {"r": 114, "n": "Trevor Lawrence", "p": "QB", "k": "QB8", "t": "JAX"}, {"r": 115, "n": "Tyler Allgeier", "p": "RB", "k": "RB44", "t": "ATL"}, {"r": 116, "n": "Dalton Kincaid", "p": "TE", "k": "TE13", "t": "BUF"}, {"r": 117, "n": "Dylan Sampson", "p": "RB", "k": "RB45", "t": "CLE"}, {"r": 118, "n": "Keenan Allen", "p": "WR", "k": "WR52", "t": "IND"}, {"r": 119, "n": "Rashid Shaheed", "p": "WR", "k": "WR53", "t": "SEA"}, {"r": 120, "n": "Braelon Allen", "p": "RB", "k": "RB46", "t": "NYJ"}, {"r": 121, "n": "Dak Prescott", "p": "QB", "k": "QB9", "t": "DAL"}, {"r": 122, "n": "T.J. Hockenson", "p": "TE", "k": "TE14", "t": "MIN"}, {"r": 123, "n": "Caleb Douglas", "p": "WR", "k": "WR54", "t": "MIA"}, {"r": 124, "n": "Jordyn Tyson", "p": "WR", "k": "WR55", "t": "NO"}, {"r": 125, "n": "Adonai Mitchell", "p": "WR", "k": "WR56", "t": "NYJ"}, {"r": 126, "n": "Tank Bigsby", "p": "RB", "k": "RB47", "t": "PHI"}, {"r": 127, "n": "Tank Dell", "p": "WR", "k": "WR57", "t": "HOU"}, {"r": 128, "n": "Jerry Jeudy", "p": "WR", "k": "WR58", "t": "CLE"}, {"r": 129, "n": "Bo Nix", "p": "QB", "k": "QB10", "t": "DEN"}, {"r": 130, "n": "Malik Washington", "p": "WR", "k": "WR59", "t": "MIA"}, {"r": 131, "n": "Jalen McMillan", "p": "WR", "k": "WR60", "t": "TB"}, {"r": 132, "n": "Mason Taylor", "p": "TE", "k": "TE15", "t": "NYJ"}, {"r": 133, "n": "Calvin Ridley", "p": "WR", "k": "WR61", "t": "TEN"}, {"r": 134, "n": "KC Concepcion", "p": "WR", "k": "WR62", "t": "CLE"}, {"r": 135, "n": "Jaylin Noel", "p": "WR", "k": "WR63", "t": "HOU"}, {"r": 136, "n": "Brock Purdy", "p": "QB", "k": "QB11", "t": "SF"}, {"r": 137, "n": "Travis Hunter", "p": "WR", "k": "WR64", "t": "JAX"}, {"r": 138, "n": "Nick Singleton", "p": "RB", "k": "RB48", "t": "TEN"}, {"r": 139, "n": "Brenton Strange", "p": "TE", "k": "TE16", "t": "JAX"}, {"r": 140, "n": "Ja'Kobi Lane", "p": "WR", "k": "WR65", "t": "BAL"}, {"r": 141, "n": "Rashod Bateman", "p": "WR", "k": "WR66", "t": "BAL"}, {"r": 142, "n": "Matthew Stafford", "p": "QB", "k": "QB12", "t": "LAR"}, {"r": 143, "n": "Devaughn Vele", "p": "WR", "k": "WR67", "t": "NO"}, {"r": 144, "n": "Jonah Coleman", "p": "RB", "k": "RB49", "t": "DEN"}, {"r": 145, "n": "Kayshon Boutte", "p": "WR", "k": "WR68", "t": "NE"}, {"r": 146, "n": "Zachariah Branch", "p": "WR", "k": "WR69", "t": "ATL"}, {"r": 147, "n": "De'Zhaun Stribling", "p": "WR", "k": "WR70", "t": "SF"}, {"r": 148, "n": "David Njoku", "p": "TE", "k": "TE17", "t": "LAC"}, {"r": 149, "n": "Caleb Williams", "p": "QB", "k": "QB13", "t": "CHI"}, {"r": 150, "n": "Jayden Higgins", "p": "WR", "k": "WR71", "t": "HOU"}, {"r": 151, "n": "Kyler Murray", "p": "QB", "k": "QB14", "t": "MIN"}, {"r": 152, "n": "Jalen Coker", "p": "WR", "k": "WR72", "t": "CAR"}, {"r": 153, "n": "Emmett Johnson", "p": "RB", "k": "RB50", "t": "KC"}, {"r": 154, "n": "Isaac TeSlaa", "p": "WR", "k": "WR73", "t": "DET"}, {"r": 155, "n": "Sean Tucker", "p": "RB", "k": "RB51", "t": "TB"}, {"r": 156, "n": "Jauan Jennings", "p": "WR", "k": "WR74", "t": "MIN"}, {"r": 157, "n": "Tyler Shough", "p": "QB", "k": "QB15", "t": "NO"}, {"r": 158, "n": "Isaiah Likely", "p": "TE", "k": "TE18", "t": "BAL"}, {"r": 159, "n": "Trey Benson", "p": "RB", "k": "RB52", "t": "ARI"}, {"r": 160, "n": "Omar Cooper Jr.", "p": "WR", "k": "WR75", "t": "NYJ"}, {"r": 161, "n": "Makai Lemon", "p": "WR", "k": "WR76", "t": "PHI"}, {"r": 162, "n": "Zach Charbonnet", "p": "RB", "k": "RB53", "t": "SEA"}, {"r": 163, "n": "Oronde Gadsden II", "p": "TE", "k": "TE19", "t": "LAC"}, {"r": 164, "n": "Denzel Boston", "p": "WR", "k": "WR77", "t": "CLE"}, {"r": 165, "n": "Jared Goff", "p": "QB", "k": "QB16", "t": "DET"}, {"r": 166, "n": "Woody Marks", "p": "RB", "k": "RB54", "t": "HOU"}, {"r": 167, "n": "Keon Coleman", "p": "WR", "k": "WR78", "t": "BUF"}, {"r": 168, "n": "Hunter Henry", "p": "TE", "k": "TE20", "t": "NE"}, {"r": 169, "n": "Ray Davis", "p": "RB", "k": "RB55", "t": "BUF"}, {"r": 170, "n": "Marvin Mims Jr.", "p": "WR", "k": "WR79", "t": "DEN"}, {"r": 171, "n": "Isaac Guerendo", "p": "RB", "k": "RB56", "t": "SF"}, {"r": 172, "n": "Elijah Moore", "p": "WR", "k": "WR80", "t": "PHI"}, {"r": 173, "n": "Zach Ertz", "p": "TE", "k": "TE21", "t": "WAS"}, {"r": 174, "n": "Daniel Jones", "p": "QB", "k": "QB17", "t": "IND"}, {"r": 175, "n": "Tre Tucker", "p": "WR", "k": "WR81", "t": "LV"}, {"r": 176, "n": "Kaleb Johnson", "p": "RB", "k": "RB57", "t": "PIT"}, {"r": 177, "n": "Cyrus Allen", "p": "WR", "k": "WR82", "t": "KC"}, {"r": 178, "n": "Pat Freiermuth", "p": "TE", "k": "TE22", "t": "PIT"}, {"r": 179, "n": "Roschon Johnson", "p": "RB", "k": "RB58", "t": "CHI"}, {"r": 180, "n": "Tory Horton", "p": "WR", "k": "WR83", "t": "SEA"}, {"r": 181, "n": "Justin Herbert", "p": "QB", "k": "QB18", "t": "LAC"}, {"r": 182, "n": "Tyjae Spears", "p": "RB", "k": "RB59", "t": "TEN"}, {"r": 183, "n": "Dalton Schultz", "p": "TE", "k": "TE23", "t": "HOU"}, {"r": 184, "n": "Troy Franklin", "p": "WR", "k": "WR84", "t": "DEN"}, {"r": 185, "n": "Jaydon Blue", "p": "RB", "k": "RB60", "t": "DAL"}, {"r": 186, "n": "Darnell Mooney", "p": "WR", "k": "WR85", "t": "ATL"}, {"r": 187, "n": "Kenyon Sadiq", "p": "TE", "k": "TE24", "t": "NYJ"}, {"r": 188, "n": "Devin Neal", "p": "RB", "k": "RB61", "t": "NO"}, {"r": 189, "n": "Xavier Legette", "p": "WR", "k": "WR86", "t": "CAR"}, {"r": 190, "n": "Patrick Mahomes", "p": "QB", "k": "QB19", "t": "KC"}, {"r": 191, "n": "Christian Kirk", "p": "WR", "k": "WR87", "t": "HOU"}, {"r": 192, "n": "Ollie Gordon II", "p": "RB", "k": "RB62", "t": "MIA"}, {"r": 193, "n": "Gunnar Helm", "p": "TE", "k": "TE25", "t": "TEN"}, {"r": 194, "n": "Dontayvion Wicks", "p": "WR", "k": "WR88", "t": "PHI"}, {"r": 195, "n": "Will Shipley", "p": "RB", "k": "RB63", "t": "PHI"}, {"r": 196, "n": "Jalen Royals", "p": "WR", "k": "WR89", "t": "KC"}, {"r": 197, "n": "Baker Mayfield", "p": "QB", "k": "QB20", "t": "TB"}, {"r": 198, "n": "Jarquez Hunter", "p": "RB", "k": "RB64", "t": "LAR"}, {"r": 199, "n": "Terrance Ferguson", "p": "TE", "k": "TE26", "t": "LAR"}, {"r": 200, "n": "Roman Wilson", "p": "WR", "k": "WR90", "t": "PIT"}, {"r": 201, "n": "Kimani Vidal", "p": "RB", "k": "RB65", "t": "LAC"}, {"r": 202, "n": "Chimere Dike", "p": "WR", "k": "WR91", "t": "TEN"}, {"r": 203, "n": "A.J. Barner", "p": "TE", "k": "TE27", "t": "SEA"}, {"r": 204, "n": "Elic Ayomanor", "p": "WR", "k": "WR92", "t": "TEN"}, {"r": 205, "n": "Jordan Love", "p": "QB", "k": "QB21", "t": "GB"}, {"r": 206, "n": "Justice Hill", "p": "RB", "k": "RB66", "t": "BAL"}, {"r": 207, "n": "Andrei Iosivas", "p": "WR", "k": "WR93", "t": "CIN"}, {"r": 208, "n": "Samaje Perine", "p": "RB", "k": "RB67", "t": "CIN"}, {"r": 209, "n": "Greg Dulcich", "p": "TE", "k": "TE28", "t": "MIA"}, {"r": 210, "n": "Luke McCaffrey", "p": "WR", "k": "WR94", "t": "WAS"}, {"r": 211, "n": "Jerome Ford", "p": "RB", "k": "RB68", "t": "CLE"}, {"r": 212, "n": "Jack Bech", "p": "WR", "k": "WR95", "t": "LV"}, {"r": 213, "n": "Malik Willis", "p": "QB", "k": "QB22", "t": "MIA"}, {"r": 214, "n": "Cade Otton", "p": "TE", "k": "TE29", "t": "TB"}, {"r": 215, "n": "Trevor Etienne", "p": "RB", "k": "RB69", "t": "CAR"}, {"r": 216, "n": "Ryan Flournoy", "p": "WR", "k": "WR96", "t": "DAL"}, {"r": 217, "n": "Savion Williams", "p": "WR", "k": "WR97", "t": "GB"}, {"r": 218, "n": "Sincere McCormick", "p": "RB", "k": "RB70", "t": "LV"}, {"r": 219, "n": "Evan Engram", "p": "TE", "k": "TE30", "t": "DEN"}, {"r": 220, "n": "Darius Slayton", "p": "WR", "k": "WR98", "t": "NYG"}, {"r": 221, "n": "C.J. Stroud", "p": "QB", "k": "QB23", "t": "HOU"}, {"r": 222, "n": "Antonio Gibson", "p": "RB", "k": "RB71", "t": "NE"}, {"r": 223, "n": "Josh Palmer", "p": "WR", "k": "WR99", "t": "BUF"}, {"r": 224, "n": "Theo Johnson", "p": "TE", "k": "TE31", "t": "NYG"}, {"r": 225, "n": "Kareem Hunt", "p": "RB", "k": "RB72", "t": "KC"}, {"r": 226, "n": "Tre Harris", "p": "WR", "k": "WR100", "t": "LAC"}, {"r": 227, "n": "Jaleel McLaughlin", "p": "RB", "k": "RB73", "t": "DEN"}, {"r": 228, "n": "Dyami Brown", "p": "WR", "k": "WR101", "t": "JAX"}, {"r": 229, "n": "Sam Darnold", "p": "QB", "k": "QB24", "t": "SEA"}, {"r": 230, "n": "Cole Kmet", "p": "TE", "k": "TE32", "t": "CHI"}, {"r": 231, "n": "Kyle Williams", "p": "WR", "k": "WR102", "t": "NE"}, {"r": 232, "n": "Tyler Goodson", "p": "RB", "k": "RB74", "t": "IND"}, {"r": 233, "n": "Jalen Tolbert", "p": "WR", "k": "WR103", "t": "DAL"}, {"r": 234, "n": "Michael Mayer", "p": "TE", "k": "TE33", "t": "LV"}, {"r": 235, "n": "Emanuel Wilson", "p": "RB", "k": "RB75", "t": "GB"}, {"r": 236, "n": "Calvin Austin III", "p": "WR", "k": "WR104", "t": "PIT"}, {"r": 237, "n": "Bryce Young", "p": "QB", "k": "QB25", "t": "CAR"}, {"r": 238, "n": "Craig Reynolds", "p": "RB", "k": "RB76", "t": "DET"}, {"r": 239, "n": "Xavier Hutchinson", "p": "WR", "k": "WR105", "t": "HOU"}, {"r": 240, "n": "Mike Gesicki", "p": "TE", "k": "TE34", "t": "CIN"}, {"r": 241, "n": "Chris Rodriguez Jr.", "p": "RB", "k": "RB77", "t": "WAS"}, {"r": 242, "n": "Anthony Gould", "p": "WR", "k": "WR106", "t": "IND"}, {"r": 243, "n": "DeeJay Dallas", "p": "RB", "k": "RB78", "t": "ARI"}, {"r": 244, "n": "Cam Ward", "p": "QB", "k": "QB26", "t": "TEN"}, {"r": 245, "n": "Beaux Collins", "p": "WR", "k": "WR107", "t": "NYJ"}, {"r": 246, "n": "Elijah Arroyo", "p": "TE", "k": "TE35", "t": "SEA"}, {"r": 247, "n": "Tez Johnson", "p": "WR", "k": "WR108", "t": "TB"}, {"r": 248, "n": "Kendre Miller", "p": "RB", "k": "RB79", "t": "NO"}, {"r": 249, "n": "Juwan Johnson", "p": "TE", "k": "TE36", "t": "NO"}, {"r": 250, "n": "Pat Bryant", "p": "WR", "k": "WR109", "t": "DEN"}, {"r": 251, "n": "Jaylen Wright", "p": "RB", "k": "RB80", "t": "MIA"}, {"r": 252, "n": "Geno Smith", "p": "QB", "k": "QB27", "t": "NYJ"}, {"r": 253, "n": "Dont'e Thornton Jr.", "p": "WR", "k": "WR110", "t": "LV"}, {"r": 254, "n": "Keaton Mitchell", "p": "RB", "k": "RB81", "t": "BAL"}, {"r": 255, "n": "Ben Sinnott", "p": "TE", "k": "TE37", "t": "WAS"}, {"r": 256, "n": "Jacob Cowing", "p": "WR", "k": "WR111", "t": "SF"}, {"r": 257, "n": "Tahj Brooks", "p": "RB", "k": "RB82", "t": "CIN"}, {"r": 258, "n": "Olamide Zaccheaus", "p": "WR", "k": "WR112", "t": "CHI"}, {"r": 259, "n": "Charlie Kolar", "p": "TE", "k": "TE38", "t": "LAC"}, {"r": 260, "n": "Aaron Rodgers", "p": "QB", "k": "QB28", "t": "PIT"}, {"r": 261, "n": "Jaylin Lane", "p": "WR", "k": "WR113", "t": "WAS"}, {"r": 262, "n": "Pierre Strong Jr.", "p": "RB", "k": "RB83", "t": "CLE"}, {"r": 263, "n": "Bub Means", "p": "WR", "k": "WR114", "t": "NO"}, {"r": 264, "n": "Hassan Haskins", "p": "RB", "k": "RB84", "t": "LAC"}, {"r": 265, "n": "Jake Tonges", "p": "TE", "k": "TE39", "t": "SF"}, {"r": 266, "n": "Xavier Restrepo", "p": "WR", "k": "WR115", "t": "TEN"}, {"r": 267, "n": "Dylan Laube", "p": "RB", "k": "RB85", "t": "LV"}, {"r": 268, "n": "Michael Penix Jr.", "p": "QB", "k": "QB29", "t": "ATL"}, {"r": 269, "n": "Ray-Ray McCloud III", "p": "WR", "k": "WR116", "t": "ATL"}, {"r": 270, "n": "Darnell Washington", "p": "TE", "k": "TE40", "t": "PIT"}, {"r": 271, "n": "Audric Estime", "p": "RB", "k": "RB86", "t": "DEN"}, {"r": 272, "n": "KeAndre Lambert-Smith", "p": "WR", "k": "WR117", "t": "LAC"}, {"r": 273, "n": "Mecole Hardman", "p": "WR", "k": "WR118", "t": "GB"}, {"r": 274, "n": "Brashard Smith", "p": "RB", "k": "RB87", "t": "KC"}, {"r": 275, "n": "Luke Musgrave", "p": "TE", "k": "TE41", "t": "GB"}, {"r": 276, "n": "Jacoby Brissett", "p": "QB", "k": "QB30", "t": "ARI"}, {"r": 277, "n": "Jake Bobo", "p": "WR", "k": "WR119", "t": "SEA"}, {"r": 278, "n": "Ty Johnson", "p": "RB", "k": "RB88", "t": "BUF"}, {"r": 279, "n": "Malachi Corley", "p": "WR", "k": "WR120", "t": "NYJ"}, {"r": 280, "n": "Tip Reiman", "p": "TE", "k": "TE42", "t": "ARI"}, {"r": 281, "n": "Sione Vaki", "p": "RB", "k": "RB89", "t": "DET"}, {"r": 282, "n": "Arian Smith", "p": "WR", "k": "WR121", "t": "NYJ"}, {"r": 283, "n": "Michael Carter", "p": "RB", "k": "RB90", "t": "ARI"}, {"r": 284, "n": "Deshaun Watson", "p": "QB", "k": "QB31", "t": "CLE"}, {"r": 285, "n": "DeMario Douglas", "p": "WR", "k": "WR122", "t": "NE"}, {"r": 286, "n": "Colby Parkinson", "p": "TE", "k": "TE43", "t": "LAR"}, {"r": 287, "n": "Jermaine Burton", "p": "WR", "k": "WR123", "t": "CIN"}, {"r": 288, "n": "Israel Abanikanda", "p": "RB", "k": "RB91", "t": "NYJ"}, {"r": 289, "n": "Sterling Shepard", "p": "WR", "k": "WR124", "t": "TB"}, {"r": 290, "n": "Khalil Herbert", "p": "RB", "k": "RB92", "t": "IND"}, {"r": 291, "n": "Brock Wright", "p": "TE", "k": "TE44", "t": "DET"}, {"r": 292, "n": "Kirk Cousins", "p": "QB", "k": "QB32", "t": "LV"}, {"r": 293, "n": "Kameron Johnson", "p": "WR", "k": "WR125", "t": "TB"}, {"r": 294, "n": "Elijah Mitchell", "p": "RB", "k": "RB93", "t": "SF"}, {"r": 295, "n": "Tyler Scott", "p": "WR", "k": "WR126", "t": "CHI"}, {"r": 296, "n": "Adam Trautman", "p": "TE", "k": "TE45", "t": "DEN"}, {"r": 297, "n": "Deuce Vaughn", "p": "RB", "k": "RB94", "t": "DAL"}, {"r": 298, "n": "Nikko Remigio", "p": "WR", "k": "WR127", "t": "KC"}, {"r": 299, "n": "Tua Tagovailoa", "p": "QB", "k": "QB33", "t": "ATL"}, {"r": 300, "n": "Rasheen Ali", "p": "RB", "k": "RB95", "t": "BAL"}, {"r": 301, "n": "Brenden Rice", "p": "WR", "k": "WR128", "t": "LAC"}, {"r": 302, "n": "Foster Moreau", "p": "TE", "k": "TE46", "t": "NO"}, {"r": 303, "n": "Ashton Dulin", "p": "WR", "k": "WR129", "t": "IND"}, {"r": 304, "n": "Emari Demercado", "p": "RB", "k": "RB96", "t": "ARI"}, {"r": 305, "n": "Mason Tipton", "p": "WR", "k": "WR130", "t": "NO"}, {"r": 306, "n": "Tyler Conklin", "p": "TE", "k": "TE47", "t": "LAC"}, {"r": 307, "n": "Zamir White", "p": "RB", "k": "RB97", "t": "LV"}, {"r": 308, "n": "Fernando Mendoza", "p": "QB", "k": "QB34", "t": "LV"}, {"r": 309, "n": "KaVontae Turpin", "p": "WR", "k": "WR131", "t": "DAL"}, {"r": 310, "n": "Cody Schrader", "p": "RB", "k": "RB98", "t": "SF"}, {"r": 311, "n": "Justin Watson", "p": "WR", "k": "WR132", "t": "HOU"}, {"r": 312, "n": "Noah Fant", "p": "TE", "k": "TE48", "t": "CIN"}, {"r": 313, "n": "Chris Brooks", "p": "RB", "k": "RB99", "t": "GB"}, {"r": 314, "n": "Efton Chism III", "p": "WR", "k": "WR133", "t": "NE"}, {"r": 315, "n": "J.J. McCarthy", "p": "QB", "k": "QB35", "t": "MIN"}, {"r": 316, "n": "Chig Okonkwo", "p": "TE", "k": "TE49", "t": "TEN"}, {"r": 317, "n": "Junior Bergen", "p": "WR", "k": "WR134", "t": "SF"}, {"r": 318, "n": "Tyler Badie", "p": "RB", "k": "RB100", "t": "DEN"}, {"r": 319, "n": "Jonathan Mingo", "p": "WR", "k": "WR135", "t": "DAL"}, {"r": 320, "n": "Bam Knight", "p": "RB", "k": "RB101", "t": "NYG"}, {"r": 321, "n": "Jonnu Smith", "p": "TE", "k": "TE50", "t": "PIT"}, {"r": 322, "n": "Kaden Prather", "p": "WR", "k": "WR136", "t": "WAS"}, {"r": 323, "n": "Kalel Mullings", "p": "RB", "k": "RB102", "t": "TEN"}, {"r": 324, "n": "Shedeur Sanders", "p": "QB", "k": "QB36", "t": "CLE"}, {"r": 325, "n": "Ainias Smith", "p": "WR", "k": "WR137", "t": "PHI"}, {"r": 326, "n": "Grant Calcaterra", "p": "TE", "k": "TE51", "t": "PHI"}, {"r": 327, "n": "Cam Akers", "p": "RB", "k": "RB103", "t": "MIN"}, {"r": 328, "n": "Tim Patrick", "p": "WR", "k": "WR138", "t": "DET"}, {"r": 329, "n": "Dareke Young", "p": "WR", "k": "WR139", "t": "SEA"}, {"r": 330, "n": "Blake Watson", "p": "RB", "k": "RB104", "t": "DEN"}, {"r": 331, "n": "Josh Whyle", "p": "TE", "k": "TE52", "t": "TEN"}, {"r": 332, "n": "Ty Simpson", "p": "QB", "k": "QB37", "t": "LAR"}, {"r": 333, "n": "Jalen Cropper", "p": "WR", "k": "WR140", "t": "MIA"}, {"r": 334, "n": "Jordan James", "p": "RB", "k": "RB105", "t": "SF"}, {"r": 335, "n": "Nick Westbrook-Ikhine", "p": "WR", "k": "WR141", "t": "MIA"}, {"r": 336, "n": "Damien Martinez", "p": "RB", "k": "RB106", "t": "SEA"}, {"r": 337, "n": "Ja'Tavion Sanders", "p": "TE", "k": "TE53", "t": "CAR"}, {"r": 338, "n": "Trenton Irwin", "p": "WR", "k": "WR142", "t": "CIN"}, {"r": 339, "n": "Jalen Milroe", "p": "QB", "k": "QB38", "t": "SEA"}, {"r": 340, "n": "Kyle Juszczyk", "p": "RB", "k": "RB107", "t": "SF"}, {"r": 341, "n": "Tyquan Thornton", "p": "WR", "k": "WR143", "t": "KC"}, {"r": 342, "n": "Elijah Higgins", "p": "TE", "k": "TE54", "t": "ARI"}, {"r": 343, "n": "Isaiah Bond", "p": "WR", "k": "WR144", "t": "CLE"}, {"r": 344, "n": "Raheem Mostert", "p": "RB", "k": "RB108", "t": "LV"}, {"r": 345, "n": "Chris Tyree", "p": "WR", "k": "WR145", "t": "BAL"}, {"r": 346, "n": "LeQuint Allen", "p": "RB", "k": "RB109", "t": "JAX"}, {"r": 347, "n": "Zack Kuntz", "p": "TE", "k": "TE55", "t": "NYJ"}, {"r": 348, "n": "Spencer Rattler", "p": "QB", "k": "QB39", "t": "NO"}, {"r": 349, "n": "Devin Duvernay", "p": "WR", "k": "WR146", "t": "JAX"}, {"r": 350, "n": "Phil Mafah", "p": "RB", "k": "RB110", "t": "DAL"}, {"r": 351, "n": "David Moore", "p": "WR", "k": "WR147", "t": "CAR"}, {"r": 352, "n": "Jared Wiley", "p": "TE", "k": "TE56", "t": "KC"}, {"r": 353, "n": "Marcus Yarns", "p": "RB", "k": "RB111", "t": "DAL"}, {"r": 354, "n": "Braylon Allen", "p": "WR", "k": "WR148", "t": "NYG"}, {"r": 355, "n": "Dillon Gabriel", "p": "QB", "k": "QB40", "t": "CLE"}, {"r": 356, "n": "Jarveon Howard", "p": "RB", "k": "RB112", "t": "CIN"}, {"r": 357, "n": "Zay Jones", "p": "WR", "k": "WR149", "t": "ARI"}, {"r": 358, "n": "Jalin Conyers", "p": "TE", "k": "TE57", "t": "GB"}, {"r": 359, "n": "Greg Dortch", "p": "WR", "k": "WR150", "t": "ARI"}, {"r": 360, "n": "Ulysses Bentley IV", "p": "RB", "k": "RB113", "t": "NO"}, {"r": 361, "n": "Simi Fehoko", "p": "WR", "k": "WR151", "t": "LAC"}, {"r": 362, "n": "Cade Stover", "p": "TE", "k": "TE58", "t": "HOU"}, {"r": 363, "n": "Kaytron Allen", "p": "RB", "k": "RB114", "t": "PIT"}, {"r": 364, "n": "Tanner McKee", "p": "QB", "k": "QB41", "t": "PHI"}, {"r": 365, "n": "Ja'Lynn Polk", "p": "WR", "k": "WR152", "t": "NE"}, {"r": 366, "n": "Justice Ellison", "p": "RB", "k": "RB115", "t": "CAR"}, {"r": 367, "n": "Josh Reynolds", "p": "WR", "k": "WR153", "t": "MIN"}, {"r": 368, "n": "Will Dissly", "p": "TE", "k": "TE59", "t": "LAC"}, {"r": 369, "n": "Corey Kiner", "p": "RB", "k": "RB116", "t": "LAR"}, {"r": 370, "n": "Robert Woods", "p": "WR", "k": "WR154", "t": "PIT"}, {"r": 371, "n": "Jake Browning", "p": "QB", "k": "QB42", "t": "CIN"}, {"r": 372, "n": "Malik Heath", "p": "WR", "k": "WR155", "t": "GB"}, {"r": 373, "n": "Dawson Knox", "p": "TE", "k": "TE60", "t": "BUF"}, {"r": 374, "n": "Jacardia Wright", "p": "RB", "k": "RB117", "t": "NE"}, {"r": 375, "n": "Michael Gallup", "p": "WR", "k": "WR156", "t": "ATL"}, {"r": 376, "n": "Ty Chandler", "p": "RB", "k": "RB118", "t": "MIN"}, {"r": 377, "n": "Tucker Fisk", "p": "TE", "k": "TE61", "t": "MIN"}, {"r": 378, "n": "Tyler Johnson", "p": "WR", "k": "WR157", "t": "LAR"}, {"r": 379, "n": "Dameon Pierce", "p": "RB", "k": "RB119", "t": "HOU"}, {"r": 380, "n": "Mac Jones", "p": "QB", "k": "QB43", "t": "SF"}, {"r": 381, "n": "Kendrick Bourne", "p": "WR", "k": "WR158", "t": "NE"}, {"r": 382, "n": "Nick Chubb", "p": "RB", "k": "RB120", "t": "HOU"}, {"r": 383, "n": "Johnny Mundt", "p": "TE", "k": "TE62", "t": "MIN"}, {"r": 384, "n": "Van Jefferson", "p": "WR", "k": "WR159", "t": "TEN"}, {"r": 385, "n": "Parris Campbell", "p": "WR", "k": "WR160", "t": "PHI"}, {"r": 386, "n": "Kenny McIntosh", "p": "RB", "k": "RB121", "t": "SEA"}, {"r": 387, "n": "Aidan O'Connell", "p": "QB", "k": "QB44", "t": "LV"}, {"r": 388, "n": "Gerald Everett", "p": "TE", "k": "TE63", "t": "CHI"}, {"r": 389, "n": "Jamari Thrash", "p": "WR", "k": "WR161", "t": "CLE"}, {"r": 390, "n": "Tyrion Davis-Price", "p": "RB", "k": "RB122", "t": "NE"}, {"r": 391, "n": "Casey Washington", "p": "WR", "k": "WR162", "t": "ATL"}, {"r": 392, "n": "Jase McClellan", "p": "RB", "k": "RB123", "t": "ATL"}, {"r": 393, "n": "Durham Smythe", "p": "TE", "k": "TE64", "t": "CHI"}, {"r": 394, "n": "Xavier Gipson", "p": "WR", "k": "WR163", "t": "NYJ"}, {"r": 395, "n": "Jarrett Stidham", "p": "QB", "k": "QB45", "t": "DEN"}, {"r": 396, "n": "Carson Steele", "p": "RB", "k": "RB124", "t": "KC"}, {"r": 397, "n": "Tejhaun Palmer", "p": "WR", "k": "WR164", "t": "ARI"}, {"r": 398, "n": "Stone Smartt", "p": "TE", "k": "TE65", "t": "LAC"}, {"r": 399, "n": "Bo Melton", "p": "WR", "k": "WR165", "t": "GB"}, {"r": 400, "n": "Miles Sanders", "p": "RB", "k": "RB125", "t": "DAL"}, {"r": 401, "n": "Charlie Jones", "p": "WR", "k": "WR166", "t": "CIN"}, {"r": 402, "n": "Salvon Ahmed", "p": "RB", "k": "RB126", "t": "MIA"}, {"r": 403, "n": "Cooper Rush", "p": "QB", "k": "QB46", "t": "BAL"}, {"r": 404, "n": "Brevyn Spann-Ford", "p": "TE", "k": "TE66", "t": "DAL"}, {"r": 405, "n": "Ricky White III", "p": "WR", "k": "WR167", "t": "LV"}, {"r": 406, "n": "Dare Ogunbowale", "p": "RB", "k": "RB127", "t": "HOU"}, {"r": 407, "n": "Isaiah Williams", "p": "WR", "k": "WR168", "t": "DET"}, {"r": 408, "n": "Luke Schoonmaker", "p": "TE", "k": "TE67", "t": "DAL"}, {"r": 409, "n": "Terrell Jennings", "p": "RB", "k": "RB128", "t": "JAX"}, {"r": 410, "n": "Dominic Lovett", "p": "WR", "k": "WR169", "t": "DET"}, {"r": 411, "n": "Gardner Minshew", "p": "QB", "k": "QB47", "t": "KC"}, {"r": 412, "n": "Nate Carter", "p": "RB", "k": "RB129", "t": "NYG"}, {"r": 413, "n": "Jordan Whittington", "p": "WR", "k": "WR170", "t": "LAR"}, {"r": 414, "n": "Michael Rigerman", "p": "TE", "k": "TE68", "t": "NYG"}, {"r": 415, "n": "Britain Covey", "p": "WR", "k": "WR171", "t": "LAR"}, {"r": 416, "n": "Gary Brightwell", "p": "RB", "k": "RB130", "t": "NYG"}, {"r": 417, "n": "Skyy Moore", "p": "WR", "k": "WR172", "t": "SF"}, {"r": 418, "n": "Daniel Bellinger", "p": "TE", "k": "TE69", "t": "NYG"}, {"r": 419, "n": "Isaiah Davis", "p": "RB", "k": "RB131", "t": "NYJ"}, {"r": 420, "n": "Joe Milton III", "p": "QB", "k": "QB48", "t": "DAL"}, {"r": 421, "n": "Tommy Mellott", "p": "WR", "k": "WR173", "t": "LV"}, {"r": 422, "n": "Patrick Taylor Jr.", "p": "RB", "k": "RB132", "t": "NYJ"}, {"r": 423, "n": "Traeshon Holden", "p": "WR", "k": "WR174", "t": "LV"}, {"r": 424, "n": "Erick All Jr.", "p": "TE", "k": "TE70", "t": "CIN"}, {"r": 425, "n": "Jawhar Jordan", "p": "RB", "k": "RB133", "t": "IND"}, {"r": 426, "n": "Konata Mumpfield", "p": "WR", "k": "WR175", "t": "ATL"}, {"r": 427, "n": "Elijhah Badger", "p": "WR", "k": "WR176", "t": "PHI"}, {"r": 428, "n": "George Holani", "p": "RB", "k": "RB134", "t": "SEA"}, {"r": 429, "n": "Devin Culp", "p": "TE", "k": "TE71", "t": "TB"}, {"r": 430, "n": "Chris Bell", "p": "WR", "k": "WR177", "t": "GB"}, {"r": 431, "n": "Hunter Luepke", "p": "RB", "k": "RB135", "t": "DAL"}, {"r": 432, "n": "Antwane Wells Jr.", "p": "WR", "k": "WR178", "t": "MIA"}, {"r": 433, "n": "Payne Durham", "p": "TE", "k": "TE72", "t": "TB"}, {"r": 434, "n": "Dillon Johnson", "p": "RB", "k": "RB136", "t": "SEA"}, {"r": 435, "n": "Jelani Woods", "p": "TE", "k": "TE73", "t": "NYG"}, {"r": 436, "n": "Tanner Hudson", "p": "TE", "k": "TE74", "t": "CIN"}, {"r": 437, "n": "Denver Broncos D/ST", "p": "DST", "k": "DST1", "t": "Denver Broncos"}, {"r": 438, "n": "Philadelphia Eagles D/ST", "p": "DST", "k": "DST2", "t": "Philadelphia Eagles"}, {"r": 439, "n": "Baltimore Ravens D/ST", "p": "DST", "k": "DST3", "t": "Baltimore Ravens"}, {"r": 440, "n": "Houston Texans D/ST", "p": "DST", "k": "DST4", "t": "Houston Texans"}, {"r": 441, "n": "Detroit Lions D/ST", "p": "DST", "k": "DST5", "t": "Detroit Lions"}, {"r": 442, "n": "Pittsburgh Steelers D/ST", "p": "DST", "k": "DST6", "t": "Pittsburgh Steelers"}, {"r": 443, "n": "Minnesota Vikings D/ST", "p": "DST", "k": "DST7", "t": "Minnesota Vikings"}, {"r": 444, "n": "Buffalo Bills D/ST", "p": "DST", "k": "DST8", "t": "Buffalo Bills"}, {"r": 445, "n": "Seattle Seahawks D/ST", "p": "DST", "k": "DST9", "t": "Seattle Seahawks"}, {"r": 446, "n": "Green Bay Packers D/ST", "p": "DST", "k": "DST10", "t": "Green Bay Packers"}, {"r": 447, "n": "Los Angeles Chargers D/ST", "p": "DST", "k": "DST11", "t": "Los Angeles Chargers"}, {"r": 448, "n": "Kansas City Chiefs D/ST", "p": "DST", "k": "DST12", "t": "Kansas City Chiefs"}, {"r": 449, "n": "Arizona Cardinals D/ST", "p": "DST", "k": "DST13", "t": "Arizona Cardinals"}, {"r": 450, "n": "San Francisco 49ers D/ST", "p": "DST", "k": "DST14", "t": "San Francisco 49ers"}, {"r": 451, "n": "Los Angeles Rams D/ST", "p": "DST", "k": "DST15", "t": "Los Angeles Rams"}, {"r": 452, "n": "Washington Commanders D/ST", "p": "DST", "k": "DST16", "t": "Washington Commanders"}, {"r": 453, "n": "New England Patriots D/ST", "p": "DST", "k": "DST17", "t": "New England Patriots"}, {"r": 454, "n": "Chicago Bears D/ST", "p": "DST", "k": "DST18", "t": "Chicago Bears"}, {"r": 455, "n": "Indianapolis Colts D/ST", "p": "DST", "k": "DST19", "t": "Indianapolis Colts"}, {"r": 456, "n": "Tampa Bay Buccaneers D/ST", "p": "DST", "k": "DST20", "t": "Tampa Bay Buccaneers"}, {"r": 457, "n": "Atlanta Falcons D/ST", "p": "DST", "k": "DST21", "t": "Atlanta Falcons"}, {"r": 458, "n": "Cleveland Browns D/ST", "p": "DST", "k": "DST22", "t": "Cleveland Browns"}, {"r": 459, "n": "Jacksonville Jaguars D/ST", "p": "DST", "k": "DST23", "t": "Jacksonville Jaguars"}, {"r": 460, "n": "New York Jets D/ST", "p": "DST", "k": "DST24", "t": "New York Jets"}, {"r": 461, "n": "Dallas Cowboys D/ST", "p": "DST", "k": "DST25", "t": "Dallas Cowboys"}, {"r": 462, "n": "Carolina Panthers D/ST", "p": "DST", "k": "DST26", "t": "Carolina Panthers"}, {"r": 463, "n": "Cincinnati Bengals D/ST", "p": "DST", "k": "DST27", "t": "Cincinnati Bengals"}, {"r": 464, "n": "Las Vegas Raiders D/ST", "p": "DST", "k": "DST28", "t": "Las Vegas Raiders"}, {"r": 465, "n": "New York Giants D/ST", "p": "DST", "k": "DST29", "t": "New York Giants"}, {"r": 466, "n": "Tennessee Titans D/ST", "p": "DST", "k": "DST30", "t": "Tennessee Titans"}, {"r": 467, "n": "New Orleans Saints D/ST", "p": "DST", "k": "DST31", "t": "New Orleans Saints"}, {"r": 468, "n": "Miami Dolphins D/ST", "p": "DST", "k": "DST32", "t": "Miami Dolphins"}, {"r": 469, "n": "Brandon Aubrey", "p": "K", "k": "K1", "t": "DAL"}, {"r": 470, "n": "Cameron Dicker", "p": "K", "k": "K2", "t": "LAC"}, {"r": 471, "n": "Ka'imi Fairbairn", "p": "K", "k": "K3", "t": "HOU"}, {"r": 472, "n": "Cam Little", "p": "K", "k": "K4", "t": "JAX"}, {"r": 473, "n": "Jake Bates", "p": "K", "k": "K5", "t": "DET"}, {"r": 474, "n": "Chris Boswell", "p": "K", "k": "K6", "t": "PIT"}, {"r": 475, "n": "Tyler Loop", "p": "K", "k": "K7", "t": "BAL"}, {"r": 476, "n": "Jason Myers", "p": "K", "k": "K8", "t": "SEA"}, {"r": 477, "n": "Will Reichard", "p": "K", "k": "K9", "t": "MIN"}, {"r": 478, "n": "Jake Elliott", "p": "K", "k": "K10", "t": "PHI"}, {"r": 479, "n": "Harrison Butker", "p": "K", "k": "K11", "t": "KC"}, {"r": 480, "n": "Evan McPherson", "p": "K", "k": "K12", "t": "CIN"}, {"r": 481, "n": "Chase McLaughlin", "p": "K", "k": "K13", "t": "TB"}, {"r": 482, "n": "Wil Lutz", "p": "K", "k": "K14", "t": "DEN"}, {"r": 483, "n": "Tyler Bass", "p": "K", "k": "K15", "t": "BUF"}, {"r": 484, "n": "Daniel Carlson", "p": "K", "k": "K16", "t": "LV"}, {"r": 485, "n": "Matt Gay", "p": "K", "k": "K17", "t": "WAS"}, {"r": 486, "n": "Andres Borregales", "p": "K", "k": "K18", "t": "NE"}, {"r": 487, "n": "Cairo Santos", "p": "K", "k": "K19", "t": "CHI"}, {"r": 488, "n": "Brandon McManus", "p": "K", "k": "K20", "t": "GB"}, {"r": 489, "n": "Chad Ryland", "p": "K", "k": "K21", "t": "ARI"}, {"r": 490, "n": "Joshua Karty", "p": "K", "k": "K22", "t": "LAR"}, {"r": 491, "n": "Eddy Pineiro", "p": "K", "k": "K23", "t": "SF"}, {"r": 492, "n": "Spencer Shrader", "p": "K", "k": "K24", "t": "IND"}, {"r": 493, "n": "Dustin Hopkins", "p": "K", "k": "K25", "t": "CLE"}, {"r": 494, "n": "Graham Gano", "p": "K", "k": "K26", "t": "NYG"}, {"r": 495, "n": "Nick Folk", "p": "K", "k": "K27", "t": "NYJ"}, {"r": 496, "n": "Parker Romo", "p": "K", "k": "K28", "t": "ATL"}, {"r": 497, "n": "Blake Grupe", "p": "K", "k": "K29", "t": "NO"}, {"r": 498, "n": "Ryan Fitzgerald", "p": "K", "k": "K30", "t": "TEN"}, {"r": 499, "n": "Riley Patterson", "p": "K", "k": "K31", "t": "CAR"}, {"r": 500, "n": "Jason Sanders", "p": "K", "k": "K32", "t": "MIA"}];
+/* ---------- config ---------- */
+const ROUNDS = 16;
+const SLOTS = [["QB","QB"],["RB","RB1"],["RB","RB2"],["WR","WR1"],["WR","WR2"],["TE","TE"],
+               ["FLEX","FLEX"],["K","K"],["DST","D/ST"],
+               ["BN","Bench 1"],["BN","Bench 2"],["BN","Bench 3"],["BN","Bench 4"],
+               ["BN","Bench 5"],["BN","Bench 6"],["BN","Bench 7"]];
+const FLEXOK = {RB:1,WR:1,TE:1};
+const POSNAME = {QB:"Quarterback",RB:"Running back",WR:"Wide receiver",TE:"Tight end",K:"Kicker",DST:"Defense"};
+
+/* ---------- state ---------- */
+let teams = 12, slot = 1;
+let taken = new Map();          // rank -> "mine" | "gone"
+let history = [];               // [rank, ...] in order
+let filter = "ALL", query = "";
+
+const $ = id => document.getElementById(id);
+const byRank = new Map(PLAYERS.map(p => [p.r, p]));
+
+function save(){ try{ localStorage.setItem("otc26", JSON.stringify(
+  {teams, slot, h: history, t:[...taken]})); }catch(e){} }
+function load(){ try{
+  const s = JSON.parse(localStorage.getItem("otc26")||"null"); if(!s) return;
+  teams = s.teams||12; slot = s.slot||1; history = s.h||[]; taken = new Map(s.t||[]);
+}catch(e){} }
+
+/* ---------- draft math ---------- */
+const pickNum = () => taken.size + 1;
+const roundOf = n => Math.min(ROUNDS, Math.ceil(n / teams));
+function myPicks(){
+  const out=[]; for(let r=1;r<=ROUNDS;r++){
+    out.push((r-1)*teams + (r%2 ? slot : teams - slot + 1));
+  } return out;
+}
+const nextMine = () => myPicks().find(p => p >= pickNum());
+const isMyTurn = () => myPicks().includes(pickNum());
+
+/* ---------- roster ---------- */
+function buildRoster(mine){
+  const filled = SLOTS.map(([t,l]) => ({type:t,label:l,player:null}));
+  const put = (p, types) => {
+    for(const s of filled){ if(!s.player && types.includes(s.type)){ s.player=p; return true; } }
+    return false;
+  };
+  for(const p of mine){
+    if(!put(p,[p.p]) && !(FLEXOK[p.p] && put(p,["FLEX"]))) put(p,["BN"]);
+  }
+  return filled;
+}
+const openTypes = roster => new Set(roster.filter(s=>!s.player).map(s=>s.type));
+
+/* ---------- the engine ---------- */
+function availableAt(pick, exclude){
+  return PLAYERS.filter(p => !taken.has(p.r) && !(exclude&&exclude.has(p.r)) && p.r >= pick);
+}
+function poolNow(exclude){
+  return PLAYERS.filter(p => !taken.has(p.r) && !(exclude&&exclude.has(p.r)));
+}
+
+// how much worse your best option gets if you wait one full turn
+function dropoff(pos, pool, futurePick){
+  const at = pool.filter(p => p.p===pos);
+  if(!at.length) return {now:null, later:null, gap:0};
+  const now = at[0];
+  const later = at.find(p => p.r >= futurePick) || null;
+  return {now, later, gap: later ? later.r - now.r : 260 - now.r};
+}
+
+function weight(pos, open, round, counts, mustFill, soleFor){
+  if(mustFill) return soleFor.has(pos) ? 10 : 3;   // last picks: fill the empty starting slots
+  if(pos==="K"||pos==="DST") return 0;             // never before the must-fill window
+  if(pos==="QB"){
+    if(counts.QB>=2) return 0;
+    if(counts.QB>=1) return round>=13 ? .25 : 0;
+    return round>=10 ? 2.2 : 1;
+  }
+  if(pos==="TE"){
+    if(counts.TE>=2) return 0;
+    if(counts.TE>=1) return .18;
+    return open.has("TE") ? (round>=10 ? 2.2 : 1) : .18;
+  }
+  if(open.has(pos)) return round>=ROUNDS-4 ? 1.5 : 1;
+  if(open.has("FLEX")) return .75;
+  return .45;
+}
+
+function evaluate(round, roster, pool, futurePick, picksLeft, pick){
+  const open = openTypes(roster);
+  const counts = {};
+  roster.forEach(s => { if(s.player) counts[s.player.p] = (counts[s.player.p]||0)+1; });
+
+  // once you have exactly as many picks left as empty starting slots, you are out of choices
+  const need = roster.filter(s => !s.player && s.type !== "BN");
+  const mustFill = picksLeft <= need.length;
+  const canFill = new Set(), soleFor = new Set();
+  need.forEach(s => {
+    if(s.type==="FLEX"){ ["RB","WR","TE"].forEach(p => canFill.add(p)); }
+    else { canFill.add(s.type); soleFor.add(s.type); }
+  });
+
+  let rows = ["RB","WR","TE","QB","K","DST"].map(pos => {
+    const d = dropoff(pos, pool, futurePick);
+    const w = weight(pos, open, round, counts, mustFill, soleFor);
+    if(!d.now || w<=0) return null;
+    // surplus: how far the best man left has fallen past this pick, in rounds
+    const surplus = (pick - d.now.r) / teams;
+    const v = Math.max(Math.log(1 + Math.max(d.gap,0)) + surplus, .15);
+    return {pos, ...d, w, mustFill, score: w * v};
+  }).filter(Boolean);
+
+  if(mustFill) rows = rows.filter(r => canFill.has(r.pos));
+  rows.sort((a,b) => b.score - a.score);
+  return rows;
+}
+
+// forward-simulate the rest of the draft to build the round strip
+function projectPlan(){
+  const mine = history.filter(r => taken.get(r)==="mine").map(r => byRank.get(r));
+  const done = {};
+  const picks = myPicks();
+  mine.forEach((p,i) => { done[roundOf(picks[i])] = p.p; });
+
+  const plan = {};
+  const used = new Set();
+  let roster = buildRoster(mine.slice());
+  const simMine = mine.slice();
+  for(const pk of picks){
+    const r = roundOf(pk);
+    if(done[r]){ plan[r] = {pos:done[r], done:true}; continue; }
+    const pool = availableAt(pk, used);
+    const left = picks.filter(x => x >= pk).length;
+    const rows = evaluate(r, roster, pool, pk + teams*2, left, pk);
+    if(!rows.length){ plan[r] = {pos:"—", done:false}; continue; }
+    plan[r] = {pos: rows[0].pos, done:false};
+    used.add(rows[0].now.r);
+    simMine.push(rows[0].now);
+    roster = buildRoster(simMine.slice());
+  }
+  return plan;
+}
+
+/* ---------- alerts ---------- */
+function makeAlerts(rows, roster, round, pool){
+  const out=[]; const open = openTypes(roster);
+  const nm = nextMine(), after = myPicks().find(p => p > nm);
+  if(round >= ROUNDS-1 && (open.has("K")||open.has("DST")))
+    out.push(["stop", `<b>Last calls.</b> You still need ${[...open].filter(t=>t==="K"||t==="DST").join(" and ")}. Take them now — this is the only reason these rounds exist.`]);
+  if(round >= 11 && open.has("QB"))
+    out.push(["stop", `<b>You still have no quarterback.</b> Round ${round} of ${ROUNDS}. Take one in the next pick or two.`]);
+  if(round >= 11 && open.has("TE"))
+    out.push(["stop", `<b>You still have no tight end.</b> Don't leave this to the last round.`]);
+  const top = rows[0];
+  if(top && after){
+    const before = pool.filter(p => p.p===top.pos && p.r < after).length;
+    if(before && before <= 3)
+      out.push(["warn", `<b>Only ${before} ${top.pos}${before>1?"s":""} left</b> who are likely to survive to your next pick (#${after}). If you want one, this is the turn.`]);
+  }
+  if(top && top.gap >= 45)
+    out.push(["go", `<b>Big gap at ${top.pos}.</b> The best one available is ${top.gap} spots better than what is likely to be there next time you pick. That gap is the whole reason to go ${top.pos} now.`]);
+  if(!out.length && top)
+    out.push(["go", `<b>No emergencies.</b> Take the best ${top.pos} on the board and keep your roster balanced.`]);
+  return out;
+}
+
+/* ---------- render ---------- */
+function render(){
+  const pk = pickNum(), round = roundOf(pk), mine = history.filter(r=>taken.get(r)==="mine").map(r=>byRank.get(r));
+  const roster = buildRoster(mine), pool = poolNow();
+  const nm = nextMine(), after = myPicks().find(p => p > nm);
+  const left = myPicks().filter(x => x >= pk).length;
+  const advRound = roundOf(nm || pk);
+  const rows = evaluate(advRound, roster, pool, (after || nm + teams*2), left, nm || pk);
+
+  $("pickno").textContent = `Pick ${pk} · Round ${round}`;
+  const turn = isMyTurn();
+  $("yourturn").textContent = turn ? "You are up" : (nm ? `You pick at #${nm}` : "Draft complete");
+  $("yourturn").className = "pickno" + (turn ? " live" : "");
+
+  // the call
+  const top = rows[0];
+  if(top){
+    $("callpos").textContent = POSNAME[top.pos];
+    $("callchip").innerHTML = `<span class="chip ${top.pos}">${top.pos}</span>`;
+    $("callmeta").textContent = turn ? "you are on the clock" : `planning ahead for pick #${nm}`;
+    const alt = rows[1];
+    $("callwhy").innerHTML = top.gap >= 260 - (top.now?top.now.r:0)
+      ? `Take the best ${top.pos} left — the position is thin enough that waiting costs you real value.`
+      : `Waiting a full turn costs you about <strong>${top.gap} spots</strong> of quality at ${top.pos}` +
+        (alt ? `, versus ${alt.gap} at ${alt.pos}. That is why ${top.pos} is the call.` : `. That is why ${top.pos} is the call.`);
+    const cands = [];
+    pool.filter(p=>p.p===top.pos).slice(0,2).forEach(p=>cands.push(p));
+    if(alt) { const a = pool.find(p=>p.p===alt.pos); if(a) cands.push(a); }
+    $("callpicks").innerHTML = cands.map((p,i)=>`
+      <div class="pick${i===0?" top":""}">
+        <span class="chip ${p.p}">${p.k}</span>
+        <span class="nm">${esc(p.n)}<small>${esc(p.t)} · overall ${p.r}</small></span>
+        <button class="mine" data-mine="${p.r}" type="button">Mine</button>
+        <button class="gone" data-gone="${p.r}" type="button">Gone</button>
+      </div>`).join("");
+  } else {
+    $("callpos").textContent = "Done";
+    $("callchip").innerHTML=""; $("callmeta").textContent="";
+    $("callwhy").textContent = "Your roster is full. Good luck.";
+    $("callpicks").innerHTML = "";
+  }
+  $("alerts").innerHTML = makeAlerts(rows, roster, advRound, pool)
+    .map(([k,html])=>`<div class="alert ${k}">${html}</div>`).join("");
+
+  // round plan
+  const plan = projectPlan();
+  $("rounds").innerHTML = Array.from({length:ROUNDS},(_,i)=>i+1).map(r=>{
+    const e = plan[r] || {pos:"—"};
+    const cls = e.done ? "done" : (r===round ? "now" : "");
+    return `<div class="rd ${cls}"><span class="n">R${r}</span><span class="p">${e.pos}</span></div>`;
+  }).join("");
+  $("plankey").innerHTML = `Your picks this draft: <span class="mono">${myPicks().map(p=>"#"+p).join("  ")}</span>`;
+
+  // roster
+  const openT = openTypes(roster);
+  $("roster").innerHTML = roster.map(s=>{
+    const urgent = !s.player && (s.type==="K"||s.type==="DST") && round>=ROUNDS-1;
+    return `<div class="slot ${s.player?"filled":""} ${urgent?"urgent":""}">
+      <span class="lbl">${s.label}</span>
+      <span class="val">${s.player?esc(s.player.n)+`<small>${s.player.k} · ${esc(s.player.t)}</small>`:"&nbsp;"}</span></div>`;
+  }).join("");
+  $("rostermeta").textContent = `${mine.length} of ${ROUNDS} picked`;
+
+  // pool
+  const list = pool.filter(p => (filter==="ALL"||p.p===filter) &&
+    (!query || p.n.toLowerCase().includes(query) || p.t.toLowerCase().includes(query))).slice(0,120);
+  let html = "", shown = 0;
+  list.forEach((p,i)=>{
+    const prev = list[i-1];
+    if(prev && filter!=="ALL" && p.r - prev.r >= 40)
+      html += `<div class="cliff">↓ tier drop — ${p.r - prev.r} spots</div>`;
+    html += `<div class="prow">
+      <span class="rk">${p.r}</span>
+      <span class="nm">${esc(p.n)}<small>${esc(p.t)}</small></span>
+      <span class="chip ${p.p}">${p.k}</span>
+      <button class="mine" data-mine="${p.r}" type="button">Mine</button>
+      <button class="gone" data-gone="${p.r}" type="button">Gone</button></div>`;
+    shown++;
+  });
+  $("pool").innerHTML = shown ? html : `<div class="empty">Nobody left matching that.</div>`;
+  $("poolmeta").textContent = `${pool.length} left on the board`;
+  save();
+}
+
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+/* ---------- events ---------- */
+document.addEventListener("click", e=>{
+  const m = e.target.closest("[data-mine]"), g = e.target.closest("[data-gone]");
+  const r = m ? +m.dataset.mine : g ? +g.dataset.gone : null;
+  if(r===null) return;
+  taken.set(r, m ? "mine" : "gone"); history.push(r);
+  $("find").value = ""; query = ""; render();
+});
+$("undo").onclick = ()=>{ const r = history.pop(); if(r!=null) taken.delete(r); render(); };
+$("reset").onclick = ()=>{ if(confirm("Clear this draft and start over?")){ taken.clear(); history=[]; render(); } };
+$("find").oninput = e => { query = e.target.value.trim().toLowerCase(); render(); };
+$("teams").onchange = e => { teams = +e.target.value; buildSlots(); render(); };
+
+function buildSlots(){
+  const sel = $("slot"); const keep = slot;
+  sel.innerHTML = Array.from({length:teams},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join("");
+  slot = Math.min(keep, teams); sel.value = slot;
+  sel.onchange = e => { slot = +e.target.value; render(); };
+}
+["ALL","QB","RB","WR","TE","K","DST"].forEach(p=>{
+  const b=document.createElement("button"); b.className="pt"; b.type="button";
+  b.textContent = p==="ALL"?"All":p; b.setAttribute("aria-pressed", p==="ALL");
+  b.onclick=()=>{ filter=p; [...$("postabs").children].forEach(c=>c.setAttribute("aria-pressed",c===b)); render(); };
+  $("postabs").appendChild(b);
+});
+
+load(); $("teams").value = teams; buildSlots(); render();
+</script>
