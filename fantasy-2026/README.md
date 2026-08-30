@@ -9,7 +9,9 @@ A consensus draft board for the 2026/27 NFL season, built 2026-08-27.
 | `rankings_2026_top500.json` | Same data as JSON |
 | `draft-board-500.html` | Filterable web board (overall, per-position and sleeper views, tier strategy, status flags) |
 | `on-the-clock.html` | Live draft assistant — log picks, get the position call, round plan and remaining path |
-| `on-the-clock-local.html` | Standalone offline copy — saves into a folder on your own computer |
+| `fantasy-draft.py` | **Local server** — serves the assistant and writes every pick to a folder. Start here. |
+| `on-the-clock-local.html` | Standalone offline copy (no server; uses the File System Access API) |
+| `on-the-clock-server.html` | The page the server embeds |
 | `clock_js.js` / `clock_local.js` | The assistant's engine (hosted and local builds) |
 | `top150.py` / `tail.py` / `notes.py` / `sleepers.py` / `rush.py` / `build.py` | Source data and the script that assembles the board |
 
@@ -71,7 +73,24 @@ So portability is handled two ways instead:
 - a base64 **save code** to copy into another browser or device, restored by pasting it back
 - a **Download backup** button (JSON) when the `downloads` capability resolves; hidden when it does not
 
-### Local copy (`on-the-clock-local.html`)
+### Local server (`fantasy-draft.py`) — the recommended way
+```
+python3 fantasy-draft.py              # opens http://127.0.0.1:8712
+python3 fantasy-draft.py --dir ~/Documents/fantasy --port 9000 --no-browser
+```
+Python 3.8+, standard library only. The page is embedded in the script, so it is one file and needs no network.
+Every pick is POSTed to `/api/draft` and written atomically to `fantasy-draft-2026.json` in the data folder, with
+a rotating snapshot in `history/` at most once a minute (last 60 kept).
+
+Because the draft lives on disk rather than in a browser, any browser on the machine sees the same draft, and
+clearing site data or switching browsers loses nothing.
+
+Hardening: binds to `127.0.0.1` only; rejects requests whose `Host` or `Origin` is not local (DNS-rebinding
+defence); serves only `/`, `/favicon.ico` and `/api/draft`, so there is no path to the rest of the filesystem;
+caps request bodies at 1 MiB; validates the payload shape before writing; writes via a temp file plus
+`os.replace` so a crash can never leave a half-written draft.
+
+### Standalone copy (`on-the-clock-local.html`)
 A standalone single file with no hosted dependencies. Opened from `file://` in Chrome, Edge or Opera it uses the
 File System Access API: pick a folder once and it writes `fantasy-draft-2026.json` there after every pick
 (debounced 400 ms) and reads it back on reopen. The directory handle is persisted in IndexedDB where the browser
