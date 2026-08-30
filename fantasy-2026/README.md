@@ -56,7 +56,19 @@ fallen past the current pick, in rounds. That second term is what stops it recom
 a clearly better player. When your remaining picks equal your empty starting slots it switches to must-fill mode
 and only offers positions that complete a legal lineup.
 
-State persists in `localStorage`, so a mid-draft refresh is safe.
+Click any player name — in the call, the available list, or your roster — for a read-only detail card:
+board rank, position rank, target round, confidence band, whether he survives to your next pick, the written
+case, and the next three at his position with the rank gap. `openCard`/`closeCard` only read state; a static
+check in the build asserts neither contains a write, so opening a card cannot disturb the draft.
+
+### Persistence
+State persists in `localStorage` on every mutation, so refreshing, closing the tab or opening a card is safe.
+There is no per-viewer server storage in the artifact runtime — the available capabilities are `artifact`
+(publishes a new version of the page *for everyone*, wrong for a private draft), `downloads`, `mcp` and `self`.
+So portability is handled two ways instead:
+
+- a base64 **save code** to copy into another browser or device, restored by pasting it back
+- a **Download backup** button (JSON) when the `downloads` capability resolves; hidden when it does not
 
 ## Regenerating
 ```

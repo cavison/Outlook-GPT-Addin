@@ -193,7 +193,7 @@ function render(){
     $("callpicks").innerHTML = cands.map((p,i)=>`
       <div class="pick${i===0?" top":""}">
         <span class="chip ${p.p}">${p.k}</span>
-        <span class="nm">${esc(p.n)}<small>${esc(p.t)} · overall ${p.r}</small></span>
+        <span class="nm clickable" data-open="${p.r}" tabindex="0" role="button">${esc(p.n)}<small>${esc(p.t)} · overall ${p.r}</small></span>
         <button class="mine" data-mine="${p.r}" type="button">Mine</button>
         <button class="gone" data-gone="${p.r}" type="button">Gone</button>
       </div>`).join("");
@@ -221,7 +221,7 @@ function render(){
     const urgent = !s.player && (s.type==="K"||s.type==="DST") && round>=ROUNDS-1;
     return `<div class="slot ${s.player?"filled":""} ${urgent?"urgent":""}">
       <span class="lbl">${s.label}</span>
-      <span class="val">${s.player?esc(s.player.n)+`<small>${s.player.k} · ${esc(s.player.t)}</small>`:"&nbsp;"}</span></div>`;
+      <span class="val${s.player?" clickable":""}" ${s.player?`data-open="${s.player.r}" tabindex="0" role="button"`:""}>${s.player?esc(s.player.n)+`<small>${s.player.k} · ${esc(s.player.t)}</small>`:"&nbsp;"}</span></div>`;
   }).join("");
   $("rostermeta").textContent = `${mine.length} of ${ROUNDS} picked`;
 
@@ -235,7 +235,7 @@ function render(){
       html += `<div class="cliff">↓ tier drop — ${p.r - prev.r} spots</div>`;
     html += `<div class="prow">
       <span class="rk">${p.r}</span>
-      <span class="nm">${esc(p.n)}<small>${esc(p.t)}</small></span>
+      <span class="nm clickable" data-open="${p.r}" tabindex="0" role="button">${esc(p.n)}<small>${esc(p.t)}</small></span>
       <span class="chip ${p.p}">${p.k}</span>
       <button class="mine" data-mine="${p.r}" type="button">Mine</button>
       <button class="gone" data-gone="${p.r}" type="button">Gone</button></div>`;
@@ -243,19 +243,151 @@ function render(){
   });
   $("pool").innerHTML = shown ? html : `<div class="empty">Nobody left matching that.</div>`;
   $("poolmeta").textContent = `${pool.length} left on the board`;
-  save();
+  save(); stamp();
+  if($("savebox").classList.contains("open")) $("savecode").value = snapshot();
 }
 
 function esc(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 
+
+/* ---------- player detail (read-only: never touches draft state) ---------- */
+let lastFocus = null;
+const CONF = {High:"Sources agree on this range", Medium:"Role-based inference", Low:"Deep-league guess — verify the team"};
+const SLEEP = {"post-hype":"Post-hype","repriced":"Role changed, price didn't","year-two":"Second-year leap",
+               "runway":"Somebody else's injury","buried":"Buried by a bigger name","free":"Free late"};
+
+function openCard(rank){
+  const p = byRank.get(rank); if(!p) return;
+  lastFocus = document.activeElement;
+  const pk = pickNum(), nm = nextMine(), state = taken.get(rank);
+  const atPos = PLAYERS.filter(x => x.p===p.p && !taken.has(x.r) && x.r > p.r).slice(0,3);
+  const lasts = nm ? p.r >= nm : true;
+
+  const tags = [];
+  if(state) tags.push(`<span class="tag solid">${state==="mine"?"On your roster":"Already drafted"}</span>`);
+  if(p.sl) tags.push(`<span class="tag">Sleeper · ${esc(SLEEP[p.sl]||p.sl)}</span>`);
+  if(p.ru==="dual") tags.push(`<span class="tag solid">Dual-threat QB</span>`);
+  if(p.ru==="run") tags.push(`<span class="tag">Runs, thin passer</span>`);
+  if(p.cf==="Low") tags.push(`<span class="tag warn">Verify before drafting</span>`);
+
+  let bodyHtml = "";
+  if(p.no) bodyHtml += `<h4>Why he is here</h4><p>${esc(p.no)}</p>`;
+  if(p.ca) bodyHtml += `<h4>The sleeper case${p.co?` · ${esc(p.co)}`:""}</h4><p>${esc(p.ca)}</p>`;
+  if(p.rs) bodyHtml += `<h4>Rushing, 2025</h4><p>${esc(p.rs)}</p>`;
+  if(!bodyHtml) bodyHtml = `<h4>Why he is here</h4><p>No individual write-up for this one — he is on the board on
+    rank and role. At overall ${p.r} he is a ${p.cf==="Low"?"deep-league flier":"depth piece"}, so treat the
+    numbers above as the whole case.</p>`;
+
+  bodyHtml += `<h4>If you pass, the next ${p.p}s are</h4><div class="nextup">` +
+    (atPos.length ? atPos.map(x =>
+      `<div class="n"><span>${esc(x.n)} <span class="g">${x.k} · ${esc(x.t)}</span></span>
+       <span class="g">${x.r - p.r} spots later</span></div>`).join("")
+      : `<div class="n"><span>Nobody left at this position.</span><span class="g">—</span></div>`) + `</div>`;
+
+  $("sheet").innerHTML = `
+    <div class="top">
+      <div class="who"><h3 id="sheetname">${esc(p.n)}</h3>
+        <span class="sub">${p.k} · ${esc(p.t)} · overall ${p.r}</span></div>
+      <span class="chip ${p.p}">${p.p}</span>
+      <button class="x" id="sheetclose" type="button" aria-label="Close">✕</button>
+    </div>
+    ${tags.length?`<div class="tags">${tags.join("")}</div>`:""}
+    <dl class="facts">
+      <div><dt>Overall</dt><dd>${p.r}</dd></div>
+      <div><dt>Position</dt><dd>${p.k}</dd></div>
+      <div><dt>Target</dt><dd>${esc(p.rd||"—")}</dd></div>
+      <div><dt>Confidence</dt><dd>${esc(p.cf||"—")}</dd></div>
+    </dl>
+    <div class="body">
+      <h4>Will he last?</h4>
+      <p>${nm ? (lasts
+          ? `Your next pick is <strong>#${nm}</strong> and he sits at overall ${p.r}. Players ranked below your
+             pick number usually survive, so there is a fair chance he is still here — you can take someone
+             scarcer now.`
+          : `Your next pick is <strong>#${nm}</strong> and he sits at overall ${p.r}, which is ${nm - p.r}
+             spots ahead of it. If you want him, it has to be this turn.`)
+        : `The draft is over.`}</p>
+      <p style="margin-top:8px;color:var(--muted);font-size:13px">${esc(CONF[p.cf]||"")}.</p>
+      ${bodyHtml}
+    </div>
+    <div class="act">
+      <button class="mine" data-mine="${p.r}" type="button">Mine</button>
+      <button class="gone" data-gone="${p.r}" type="button">Someone took him</button>
+      <button class="ghost" data-close="1" type="button">Close</button>
+    </div>`;
+  $("scrim").classList.add("open");
+  const c = $("sheetclose"); if(c) c.focus();
+}
+function closeCard(){
+  $("scrim").classList.remove("open");
+  $("sheet").innerHTML = "";
+  if(lastFocus && lastFocus.focus) lastFocus.focus();
+}
+
+/* ---------- back up / restore ---------- */
+function snapshot(){ return btoa(unescape(encodeURIComponent(JSON.stringify(
+  {v:1, teams, slot, h:history, t:[...taken]})))); }
+function applySnapshot(code){
+  const s = JSON.parse(decodeURIComponent(escape(atob(code.trim()))));
+  if(!s || !Array.isArray(s.h)) throw new Error("bad");
+  teams = s.teams||12; slot = s.slot||1; history = s.h; taken = new Map(s.t||[]);
+  $("teams").value = teams; buildSlots(); render();
+}
+function stamp(){
+  const d = new Date();
+  $("savestat").textContent = "Saved in this browser · " +
+    d.toLocaleTimeString([], {hour:"2-digit", minute:"2-digit", second:"2-digit"});
+}
+
 /* ---------- events ---------- */
 document.addEventListener("click", e=>{
+  if(e.target.closest("[data-close]") || e.target.id==="sheetclose"){ closeCard(); return; }
+  if(e.target === $("scrim")){ closeCard(); return; }
   const m = e.target.closest("[data-mine]"), g = e.target.closest("[data-gone]");
   const r = m ? +m.dataset.mine : g ? +g.dataset.gone : null;
-  if(r===null) return;
-  taken.set(r, m ? "mine" : "gone"); history.push(r);
-  $("find").value = ""; query = ""; render();
+  if(r!==null){
+    taken.set(r, m ? "mine" : "gone"); history.push(r);
+    if($("scrim").classList.contains("open")) closeCard();
+    $("find").value = ""; query = ""; render();
+    return;
+  }
+  const o = e.target.closest("[data-open]");
+  if(o) openCard(+o.dataset.open);   // read-only: no state change, nothing saved
 });
+document.addEventListener("keydown", e=>{
+  if(e.key==="Escape" && $("scrim").classList.contains("open")){ closeCard(); return; }
+  if((e.key==="Enter"||e.key===" ")){
+    const o = e.target.closest && e.target.closest("[data-open]");
+    if(o){ e.preventDefault(); openCard(+o.dataset.open); }
+  }
+});
+$("savetoggle").onclick = ()=>{
+  const b = $("savebox"); b.classList.toggle("open");
+  if(b.classList.contains("open")) $("savecode").value = snapshot();
+};
+$("copycode").onclick = async ()=>{
+  $("savecode").value = snapshot(); $("savecode").select();
+  try{ await navigator.clipboard.writeText($("savecode").value); $("copycode").textContent="Copied"; }
+  catch(err){ $("copycode").textContent="Press Ctrl/Cmd+C"; }
+  setTimeout(()=>{ $("copycode").textContent="Copy code"; }, 2200);
+};
+$("restore").onclick = ()=>{
+  try{ applySnapshot($("savecode").value); $("restore").textContent="Restored"; }
+  catch(err){ $("restore").textContent="That code did not read"; }
+  setTimeout(()=>{ $("restore").textContent="Restore from code"; }, 2400);
+};
+claude.use("downloads").then(dl=>{
+  if(!dl) return;                       // capability absent: leave the button hidden
+  const b = $("dl"); b.hidden = false;
+  b.onclick = async ()=>{
+    try{
+      await dl.save({filename:"my-draft-2026.json",
+        data: JSON.stringify({v:1, teams, slot, h:history, t:[...taken]}, null, 1)});
+      b.textContent = "Saved";
+    }catch(err){ b.textContent = err && err.code==="declined" ? "Download backup" : "Not available here"; }
+    setTimeout(()=>{ b.textContent="Download backup"; }, 2400);
+  };
+}).catch(()=>{});
 $("undo").onclick = ()=>{ const r = history.pop(); if(r!=null) taken.delete(r); render(); };
 $("reset").onclick = ()=>{ if(confirm("Clear this draft and start over?")){ taken.clear(); history=[]; render(); } };
 $("find").oninput = e => { query = e.target.value.trim().toLowerCase(); render(); };
