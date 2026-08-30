@@ -9,7 +9,8 @@ A consensus draft board for the 2026/27 NFL season, built 2026-08-27.
 | `rankings_2026_top500.json` | Same data as JSON |
 | `draft-board-500.html` | Filterable web board (overall, per-position and sleeper views, tier strategy, status flags) |
 | `on-the-clock.html` | Live draft assistant — log picks, get the position call, round plan and remaining path |
-| `clock_js.js` | The assistant's engine (recommendation scoring, roster fill, forward simulation) |
+| `on-the-clock-local.html` | Standalone offline copy — saves into a folder on your own computer |
+| `clock_js.js` / `clock_local.js` | The assistant's engine (hosted and local builds) |
 | `top150.py` / `tail.py` / `notes.py` / `sleepers.py` / `rush.py` / `build.py` | Source data and the script that assembles the board |
 
 ## Method
@@ -69,6 +70,19 @@ So portability is handled two ways instead:
 
 - a base64 **save code** to copy into another browser or device, restored by pasting it back
 - a **Download backup** button (JSON) when the `downloads` capability resolves; hidden when it does not
+
+### Local copy (`on-the-clock-local.html`)
+A standalone single file with no hosted dependencies. Opened from `file://` in Chrome, Edge or Opera it uses the
+File System Access API: pick a folder once and it writes `fantasy-draft-2026.json` there after every pick
+(debounced 400 ms) and reads it back on reopen. The directory handle is persisted in IndexedDB where the browser
+allows it, so reconnecting is one click; where it is not, the folder is re-picked each session.
+
+A hosted artifact cannot do this — the viewer frame is sandboxed away from the filesystem — which is why this
+build exists separately.
+
+Safari and Firefox have no `showDirectoryPicker`; there the folder button is disabled and **Save a copy** /
+**Open a draft** cover the same ground through ordinary file download and `<input type=file>`. Those two paths
+work in every browser.
 
 ## Regenerating
 ```
