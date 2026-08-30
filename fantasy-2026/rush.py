@@ -1,30 +1,35 @@
-# Rushing-presence badge for quarterbacks.
-# Level 3 = rushing is a core part of the weekly floor. 2 = real rushing floor. 1 = goal-line / occasional.
-# Per-start rushing volume from Warren Sharp's 2025 QB rushing yards/start table; TD equity from season totals.
-LEVELS = {
- 3: ("Elite runner", "Rushing is a core part of the weekly floor — it carries these QBs on bad passing days."),
- 2: ("Real rushing floor", "Enough volume on the ground to matter most weeks, without being the whole case."),
- 1: ("Goal-line / occasional", "Not a volume runner, but the legs show up near the end zone."),
+# Dual-threat test, graded on ABSOLUTE 2025 standing across all quarterbacks — not against a player's own past.
+# Two gates, both required for the DUAL badge:
+#   RUN  — top-5 among QBs in rushing attempts, rushing yards, or rushing yards per game (min 30 carries)
+#   PASS — a real, regular passing workload (roughly 3,200+ yards over a full season, or the per-game rate of one)
+# A player who clears RUN but not PASS gets the RUN badge instead, because he is a runner, not a dual threat.
+
+KINDS = {
+ "dual": ("Dual-threat", "Top-five rushing volume among all quarterbacks AND a full passing workload."),
+ "run":  ("Runner, thin passer", "Clears the rushing bar, but the passing volume is not there yet."),
 }
 
+# name: (kind, evidence-for-the-tooltip, row-note)
 RUSH = {
-"Malik Willis":(3,"Led every quarterback in the NFL at 60.0 rushing yards per start in 2025 — the highest rate at the position, and most of why he has a fantasy floor in Miami at all."),
-"Jaxson Dart":(3,"40.6 rushing yards per start plus nine rushing touchdowns in 12 rookie starts. Only the expected run-first Giants offense caps it."),
-"Jayden Daniels":(3,"39.7 rushing yards per start, second among full-time starters. Yards per carry did slip from 6.0 to 4.8, and he is behind a line missing Laremy Tunsil."),
-"Josh Allen":(3,"34.1 rushing yards per start, but 14 rushing touchdowns led all quarterbacks. 1,634 yards and 41 scores over three years — only Derrick Henry has more rushing TDs in that span."),
-"Jalen Hurts":(3,"421 yards and eight touchdowns on 105 carries. The volume is modest; the goal-line role is the entire fantasy case and it is the most reliable rushing-TD equity at the position."),
-"Lamar Jackson":(3,"The archetype, with a caveat: 2025 brought steep declines in both passing and rushing alongside the injuries. A new coordinator is the bet."),
+"Josh Allen":("dual","112 carries (1st), 579 rush yds (1st), 14 rush TD (1st), 36.2 rush yds/g (3rd)",
+ "The complete profile: he led every quarterback in 2025 in rushing attempts, rushing yards and rushing touchdowns, on a full passing workload. Nobody else is close on all three."),
+"Drake Maye":("dual","98 carries (3rd) with 4,394 pass yds (4th)",
+ "Arguably the best dual-threat combination in football right now — third among QBs in carries while finishing fourth in the league in passing yards. Both halves, at volume."),
+"Jalen Hurts":("dual","105 carries (2nd), 421 rush yds (5th), 8 rush TD, 3,224 pass yds",
+ "Second among quarterbacks in carries and fifth in rushing yards, with the goal-line role attached, on a full 3,200-yard passing season."),
+"Justin Herbert":("dual","83 carries (4th), 498 rush yds (2nd), 31.1 rush yds/g (5th), 3,727 pass yds (9th)",
+ "Top-five in all three rushing categories and ninth in the league in passing yards. On the raw numbers this is a genuine dual threat, and he is the cheapest one on the board."),
+"Jayden Daniels":("dual","39.7 rush yds/g (2nd), 8.3 carries/g — over 7 games",
+ "Second among all quarterbacks in rushing yards per game, at a carry rate nobody else sustains. The caveat is sample: elbow, knee and ankle injuries held him to seven games, and his yards per carry fell from 6.0 to 4.8."),
+"Patrick Mahomes":("dual","422 rush yds (4th), 30.1 rush yds/start, full passing workload",
+ "Fourth among quarterbacks in rushing yards, which is more than the reputation carries. Price in the December knee surgery."),
+"Caleb Williams":("dual","77 carries, 388 rush yds, 3 rush TD, 3,942 pass yds (7th)",
+ "77 carries and 388 yards on the ground with the seventh-most passing yards in the league. A tier below the top on rushing volume, but both halves are real."),
+"Lamar Jackson":("dual","The archetype — but 2025 was injury-marred with steep rushing decline",
+ "The profile that defined the category, entering 2026 off a year with steep declines in both passing and rushing. A new coordinator is the bet, and the badge is on reputation plus history rather than 2025."),
 
-"Kyler Murray":(2,"34.6 rushing yards per start, though 2025 was injury-shortened to five appearances and he never cleared 18.3 fantasy points in any of them."),
-"Justin Herbert":(2,"A career-high 498 rushing yards and sixth among quarterbacks in rushing yards per game — 31.1 per start. The most underpriced rushing profile on the board."),
-"Patrick Mahomes":(2,"30.1 rushing yards per start, which is more than his reputation suggests. Discount it some for the December knee surgery."),
-"Drake Maye":(2,"450 rushing yards while averaging 20.7 fantasy points per game, second-most at the position."),
-"Caleb Williams":(2,"Ran for nearly 500 yards as a rookie and tied for eighth in fantasy points per game last season."),
-"Bo Nix":(2,"Five games of 40-plus rushing yards in 2025 on the way to 17.9 fantasy points per game — and he is being drafted around QB15."),
-"Trevor Lawrence":(2,"Set career highs in rushing yards and rushing touchdowns last season alongside his career mark in passing scores."),
-"Cam Ward":(2,"Mobile enough that the rushing carries the QB2 upside case, and he costs a last-round pick."),
-"Jalen Milroe":(2,"An elite designed-run profile — but the value is entirely contingent on him getting the job."),
-
-"Bryce Young":(1,"Grew into running more late in the year, especially at the goal line: five rushing scores across his final six starts."),
-"Baker Mayfield":(1,"Scrambles and sneaks rather than designed runs, but it is real production in a quarterback you get in round 12 or 13."),
+"Jaxson Dart":("run","81 carries (5th), 455 rush yds (3rd), 9 rush TD, 35.0 rush yds/g (4th) — but only 2,272 pass yds",
+ "Top-five in carries and third in rushing yards with nine rushing scores in 12 starts. The passing half is not there: 2,272 yards in 14 games, and the Giants are expected to be run-first again. Elite runner, not yet a dual threat."),
+"Malik Willis":("run","60.0 rush yds/start — highest rate of any QB — on a small starting sample",
+ "The highest rushing rate at the position by a distance, but on limited starts and without the passing volume to pair with it. Great rushing floor, thin everything else."),
 }

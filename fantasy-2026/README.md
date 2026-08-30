@@ -26,10 +26,19 @@ changed but price didn't, second-year leap, somebody else's injury, buried by a 
 two rounds — plus a short list of cheap players that are traps rather than values. The CSV carries these as the
 `sleeper`, `cost` and `case` columns.
 
-## Rushing badge
-`rush.py` grades quarterbacks with real ground production on a 1-3 scale, from 2025 rushing yards per start
-(Warren Sharp's per-start table) plus rushing-touchdown equity. Level 3 means rushing carries the weekly floor,
-2 means a real rushing floor, 1 means goal-line or occasional. The CSV carries `rush` and `rushnote`.
+## Dual-threat badge
+`rush.py` grades quarterbacks on **absolute 2025 standing across all QBs**, not year-over-year change.
+Two gates, both required for the `dual` badge:
+
+- **Rushing** — top five among quarterbacks in rushing attempts, rushing yards, or rushing yards per game
+  (min. 30 carries)
+- **Passing** — a genuine, repeatable passing workload alongside it (~3,200+ yards over a full season, or the
+  per-game rate of one)
+
+Clearing the rushing gate but not the passing one earns the `run` badge instead: a runner, not a dual threat.
+The CSV carries `rush` (`dual` / `run` / empty), `rushstat` (the numbers behind the grade) and `rushnote`.
+
+The page shows the four 2025 leaderboards the test reads from, so the grade is auditable rather than asserted.
 
 ## Regenerating
 ```
