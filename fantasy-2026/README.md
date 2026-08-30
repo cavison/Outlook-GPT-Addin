@@ -10,6 +10,7 @@ A consensus draft board for the 2026/27 NFL season, built 2026-08-27.
 | `draft-board-500.html` | Filterable web board (overall, per-position and sleeper views, tier strategy, status flags) |
 | `on-the-clock.html` | Live draft assistant — log picks, get the position call, round plan and remaining path |
 | `fantasy-draft.py` | **Local server** — serves the assistant and writes every pick to a folder. Start here. |
+| `Start Draft.bat` | Windows launcher — double-click instead of using a terminal |
 | `on-the-clock-local.html` | Standalone offline copy (no server; uses the File System Access API) |
 | `on-the-clock-server.html` | The page the server embeds |
 | `clock_js.js` / `clock_local.js` | The assistant's engine (hosted and local builds) |
@@ -74,6 +75,9 @@ So portability is handled two ways instead:
 - a **Download backup** button (JSON) when the `downloads` capability resolves; hidden when it does not
 
 ### Local server (`fantasy-draft.py`) — the recommended way
+On Windows, double-click **Start Draft.bat** (it finds Python, checks the version, and starts the server).
+Otherwise:
+
 ```
 python3 fantasy-draft.py              # opens http://127.0.0.1:8712
 python3 fantasy-draft.py --dir ~/Documents/fantasy --port 9000 --no-browser
