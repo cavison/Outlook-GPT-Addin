@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Flow Colony</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Cpolygon points=%274,1 12,1 16,8 12,15 4,15 0,8%27 fill=%27%235aa2ff%27/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="/css/style.css" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "/vendor/three/three.module.js",
+    "three/addons/": "/vendor/three-addons/"
+  }
+}
+</script>
+</head>
+<body>
+  <canvas id="scene"></canvas>
+  <div id="labels"></div>
+
+  <header id="topbar">
+    <div class="brand">
+      <span class="mark"></span>
+      <span>Flow Colony</span>
+    </div>
+
+    <div class="level">
+      <div class="level-chip" id="level-chip">1</div>
+      <div class="level-meta">
+        <div class="xp-track"><div class="xp-fill" id="xp-fill"></div></div>
+        <div class="level-sub"><span id="xp-text">0 XP</span></div>
+      </div>
+    </div>
+
+    <div class="stat" title="Consecutive days ending with nothing left unattended">
+      <span class="stat-value" id="streak">0</span><span class="stat-label">day streak</span>
+    </div>
+    <div class="stat" title="Share of monitored things that are healthy, smoothed over time">
+      <span class="stat-value" id="terraform">—</span><span class="stat-label">terraform</span>
+    </div>
+
+    <div class="spacer"></div>
+    <div id="providers" class="providers"></div>
+    <div class="poll" id="poll">connecting…</div>
+    <button class="ghost" id="refresh">Refresh</button>
+  </header>
+
+  <aside id="alerts" class="panel">
+    <div class="panel-head">
+      <h2>Beacons</h2>
+      <span class="count" id="alert-count">0</span>
+    </div>
+    <div class="panel-body" id="alert-list">
+      <p class="empty">Nothing needs you. The colony is quiet.</p>
+    </div>
+  </aside>
+
+  <aside id="detail" class="panel hidden">
+    <button class="close" id="detail-close" aria-label="Close">×</button>
+    <div id="detail-body"></div>
+  </aside>
+
+  <aside id="quests" class="panel">
+    <div class="panel-head"><h2>Today</h2></div>
+    <div class="panel-body">
+      <div id="quest-list"></div>
+      <div class="feed-head">Activity</div>
+      <div id="feed" class="feed"></div>
+    </div>
+  </aside>
+
+  <div id="signin" class="modal hidden">
+    <div class="modal-card">
+      <h2>Connect your tenant</h2>
+      <p id="signin-text">Sign in to read live Power Automate and Microsoft 365 data.</p>
+      <div id="device-code" class="device-code hidden"></div>
+      <div class="modal-actions">
+        <button id="signin-start" class="primary">Sign in</button>
+        <button id="signin-dismiss" class="ghost">Stay on simulated data</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toasts"></div>
+
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>
