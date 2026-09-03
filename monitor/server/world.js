@@ -1,5 +1,6 @@
 import { readJson, writeJson } from './config.js';
 import { TILE_RADIUS, PARCEL_POSITIONS, PARCEL_POSITION_BY_NUMBER } from './parcels.js';
+import { planLayout } from './layout.js';
 
 // ---------------------------------------------------------------------------
 // Hex maths. Flat-top hexes. A district is not one tile but a *region* of one
@@ -108,6 +109,36 @@ export class WorldLayout {
     this.state.groupColours ??= {};
     this.state.colourCursor ??= 0;
     this.dirty = false;
+  }
+
+  /**
+   * Plan every hex at once.
+   *
+   * Placement has to be global: keeping one regional's book clear of every
+   * other's is a constraint across the whole map, and cannot be satisfied by
+   * handing out coordinates one district at a time as they appear.
+   */
+  planFor(districtList, townDistrict) {
+    const signature = districtList
+      .map((d) => `${d.name}:${d.group ?? ''}`)
+      .sort()
+      .join('|');
+    if (this.state.planSignature === signature) return;
+
+    const plan = planLayout(districtList, { townDistrict });
+
+    for (const d of districtList) {
+      const coord = plan.byDistrict.get(d.name);
+      if (!coord) continue;
+      const district = this.district(d.name, 'normal', d.group);
+      // The Town Centre is the block in the middle; everything else is one hex.
+      district.tiles = townDistrict && d.name === townDistrict
+        ? plan.town.map((c) => ({ q: c.q, r: c.r }))
+        : [{ q: coord.q, r: coord.r }];
+    }
+
+    this.state.planSignature = signature;
+    this.dirty = true;
   }
 
   /** Every axial coordinate already claimed by any district. */

@@ -56,24 +56,9 @@ export class EstateProvider {
     const entities = [];
     const { properties, assigned, townCentre } = this.portfolio;
 
-    // Town Centre first so it claims the origin hex.
-    if (townCentre) {
-      for (const building of townCentre.buildings ?? []) {
-        entities.push(
-          makeEntity({
-            id: `town:${building.id}`,
-            source: 'estate',
-            district: townCentre.name,
-            kind: 'civic',
-            name: building.label,
-            status: 'unknown',
-            detail: 'Awaiting data — no connector yet',
-            encode: { parcel: building.parcel, form: 'plot' },
-            actions: [],
-          }),
-        );
-      }
-    }
+    // The Town Centre is deliberately empty: ten blank hexes held in the middle
+    // for whatever comes next. The layout reserves them, so nothing needs to be
+    // emitted here to keep the ground.
 
     if (!this.financials) {
       for (const property of properties) {

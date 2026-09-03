@@ -8,7 +8,7 @@
     "start": "node server/index.js",
     "dev": "node --watch server/index.js",
     "login": "node server/auth-cli.js",
-    "test": "node test/game.test.mjs"
+    "test": "node test/game.test.mjs && node test/layout.test.mjs"
   },
   "dependencies": {
     "@azure/msal-node": "^2.16.2",

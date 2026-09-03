@@ -3,6 +3,7 @@ import { config } from './config.js';
 import { diffEntities, needsAttention, statusRank } from './model.js';
 import { buildProviders } from './providers/index.js';
 import { WorldLayout } from './world.js';
+import { loadPortfolio } from './parcels.js';
 import { Game } from './game.js';
 
 /**
@@ -17,6 +18,11 @@ export class Hub extends EventEmitter {
     super();
     this.providers = buildProviders();
     this.layout = new WorldLayout();
+    try {
+      this.townCentre = loadPortfolio().townCentre?.name ?? 'Town Centre';
+    } catch {
+      this.townCentre = 'Town Centre';
+    }
     this.game = new Game();
     this.entities = new Map();
     this.providerHealth = new Map();
@@ -89,6 +95,12 @@ export class Hub extends EventEmitter {
         if (entity.encode?.form === 'relay') row.compact++;
         perDistrict.set(entity.district, row);
       }
+      // Plan first: keeping each regional's book clear of every other's is a
+      // whole-map constraint, so it cannot be solved district by district.
+      const planned = [...perDistrict].map(([name, row]) => ({ name, group: row.group }));
+      if (!perDistrict.has(this.townCentre)) planned.push({ name: this.townCentre, group: null });
+      this.layout.planFor(planned, this.townCentre);
+
       for (const [name, row] of perDistrict) {
         const density = row.compact > row.count / 2 ? 'dense' : 'normal';
         this.layout.ensureCapacity(name, row.count, density, row.group);
