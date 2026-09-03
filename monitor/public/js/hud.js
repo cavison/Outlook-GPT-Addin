@@ -208,46 +208,81 @@ export class Hud {
     count.classList.toggle('hot', rows.length > 0);
 
     const list = $('alert-list');
+    this.alertRows ??= new Map(); // entity id -> row element
+
     if (!rows.length) {
-      if (this.alertSignature !== 'empty') {
+      if (this.alertRows.size || !list.querySelector('.empty')) {
         list.innerHTML = '<p class="empty">Nothing needs you. The colony is quiet.</p>';
-        this.alertSignature = 'empty';
+        this.alertRows.clear();
       }
       return;
     }
 
-    // Ages tick every second, but replacing the whole list that often meant a
-    // click could land on a node that had just been detached. Rebuild only when
-    // the rows themselves change; otherwise update the ages in place.
-    const signature = rows
-      .map((e) => `${e.id}:${e.status}:${e.detail}:${incidents.get(e.id)?.attended ? 1 : 0}`)
-      .join('|') + `:${this.selectedId}`;
+    // Beyond this the list stops being a queue and becomes a wall. If you are
+    // ever here, the thresholds are wrong — but the UI still has to cope.
+    const CAP = 60;
+    const shown = rows.slice(0, CAP);
 
-    if (signature !== this.alertSignature) {
-      this.alertSignature = signature;
-      list.innerHTML = rows
-        .map((e) => {
-          const incident = incidents.get(e.id);
-          return `
-          <div class="alert ${e.id === this.selectedId ? 'selected' : ''}" data-id="${e.id}">
-            <span class="bar" style="background:${hex(statusColour(e.status))}"></span>
-            <span>
-              <span class="name">${escapeHtml(e.name)}</span>
-              <span class="sub">${escapeHtml(e.district)} · ${escapeHtml(e.detail)}</span>
-            </span>
-            <span class="age ${incident?.attended ? 'attended' : ''}"
-                  title="${incident?.attended ? 'Acknowledged' : 'Not yet triaged'}"></span>
-          </div>`;
-        })
-        .join('');
+    // Rows are keyed by entity id and updated in place. A full innerHTML
+    // rebuild would detach whatever you were about to click — which at fleet
+    // scale, where something changes on every poll, is most of the time.
+    const seen = new Set();
+    const ordered = [];
+
+    for (const e of shown) {
+      seen.add(e.id);
+      const incident = incidents.get(e.id);
+      let row = this.alertRows.get(e.id);
+
+      if (!row) {
+        row = document.createElement('div');
+        row.className = 'alert';
+        row.dataset.id = e.id;
+        row.innerHTML =
+          '<span class="bar"></span>' +
+          '<span><span class="name"></span><span class="sub"></span></span>' +
+          '<span class="age"></span>';
+        this.alertRows.set(e.id, row);
+      }
+
+      const bar = row.firstChild;
+      const name = row.querySelector('.name');
+      const sub = row.querySelector('.sub');
+      const age = row.querySelector('.age');
+
+      const colour = hex(statusColour(e.status));
+      if (bar.style.background !== colour) bar.style.background = colour;
+      if (name.textContent !== e.name) name.textContent = e.name;
+      const subText = `${e.district} · ${e.detail}`;
+      if (sub.textContent !== subText) sub.textContent = subText;
+
+      const ageText = `${incident?.attended ? '✓ ' : ''}${
+        incident ? relative(Date.now() - incident.openedAt) : '—'
+      }`;
+      if (age.textContent !== ageText) age.textContent = ageText;
+      age.classList.toggle('attended', Boolean(incident?.attended));
+      age.title = incident?.attended ? 'Acknowledged' : 'Not yet triaged';
+      row.classList.toggle('selected', e.id === this.selectedId);
+
+      ordered.push(row);
     }
 
-    for (const row of list.querySelectorAll('.alert')) {
-      const incident = incidents.get(row.dataset.id);
-      const age = incident ? relative(Date.now() - incident.openedAt) : '—';
-      const text = `${incident?.attended ? '✓ ' : ''}${age}`;
-      const cell = row.querySelector('.age');
-      if (cell.textContent !== text) cell.textContent = text;
+    for (const [id, row] of this.alertRows) {
+      if (!seen.has(id)) {
+        row.remove();
+        this.alertRows.delete(id);
+      }
+    }
+
+    // append() moves existing nodes rather than recreating them, so anything
+    // mid-click stays attached.
+    list.replaceChildren(...ordered);
+
+    if (rows.length > CAP) {
+      const more = document.createElement('p');
+      more.className = 'empty';
+      more.textContent = `+ ${rows.length - CAP} more needing attention`;
+      list.append(more);
     }
   }
 

@@ -5,7 +5,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { MapControls } from './controls.js';
 import {
-  createBuilding, createBeacon, statusMaterial, NEUTRAL_SHELL, NEUTRAL_SIGNAL,
+  createBuilding, createBeacon, statusMaterial, NEUTRAL_SHELL, NEUTRAL_SIGNAL, UNLIT,
 } from './buildings.js';
 import { statusColour, metricColour, ATTENTION, STATUS_GLYPH, hash01 } from './palette.js';
 
@@ -248,6 +248,7 @@ export class World {
   setLayout(layout) {
     this.tileRadius = layout.tileRadius;
     this.slots = layout.slots;
+    this.slotGrids = layout.slotGrids ?? { normal: layout.slots };
     for (const d of layout.districts) {
       const existing = this.districts.get(d.name);
       if (existing) this._refreshDistrict(existing, d);
@@ -297,12 +298,16 @@ export class World {
     label.style.setProperty('--district', `#${d.colour.toString(16).padStart(6, '0')}`);
     document.getElementById('labels').appendChild(label);
 
-    return { group, label, colour: d.colour, x: d.x, z: d.z, tiles: d.tiles };
+    return {
+      group, label, colour: d.colour, x: d.x, z: d.z,
+      tiles: d.tiles, density: d.density ?? 'normal',
+    };
   }
 
   /** Rebuild a district's plates when it grows a new tile. */
   _refreshDistrict(existing, d) {
-    if (existing.tiles.length === d.tiles.length) return;
+    const density = d.density ?? 'normal';
+    if (existing.tiles.length === d.tiles.length && existing.density === density) return;
     this.scene.remove(existing.group);
     existing.label.remove();
     this.districts.set(d.name, this._createDistrict(d));
@@ -318,7 +323,8 @@ export class World {
     const d = this.districts.get(districtName);
     if (!d) return null;
     const tile = d.tiles[placement.tile ?? 0] ?? d.tiles[0];
-    const slot = this.slots[placement.slot] ?? { x: 0, z: 0 };
+    const grid = this.slotGrids[d.density] ?? this.slots;
+    const slot = grid[placement.slot] ?? { x: 0, z: 0 };
     return { x: tile.x + slot.x, z: tile.z + slot.z };
   }
 
@@ -341,7 +347,9 @@ export class World {
     group.userData.entityId = entity.id;
     // Buildings are drawn at unit scale then sized here, so one constant tunes
     // how dense the skyline reads against the plate.
-    group.userData.baseScale = BUILDING_SCALE;
+    // Relays sit on the fine grid, so they are drawn smaller than landmarks.
+    group.userData.baseScale =
+      (entity.encode?.form ?? entity.kind) === 'relay' ? BUILDING_SCALE * 0.62 : BUILDING_SCALE;
     // Grow-in animation: new work visibly gets built.
     group.scale.setScalar(0.01);
     group.userData.spawnAt = performance.now();
@@ -383,7 +391,8 @@ export class World {
         for (const body of bodies) body.material = NEUTRAL_SHELL;
       }
     } else {
-      const mat = statusMaterial(entity.status);
+      const unlit = group.userData.unlitStatuses?.has(entity.status);
+      const mat = unlit ? UNLIT : statusMaterial(entity.status);
       for (const signal of group.userData.signals ?? []) signal.material = mat;
       bodies.forEach((body, i) => {
         if (originals[i]) body.material = originals[i];
@@ -398,7 +407,10 @@ export class World {
   }
 
   _applyStatus(record, entity) {
-    const mat = statusMaterial(entity.status);
+    // "Not running" is drawn as darkness, not as another colour — for a relay
+    // field that is literally what the failure is.
+    const unlit = record.group.userData.unlitStatuses?.has(entity.status);
+    const mat = unlit ? UNLIT : statusMaterial(entity.status);
     for (const signal of record.group.userData.signals ?? []) signal.material = mat;
 
     const wants = ATTENTION.has(entity.status);

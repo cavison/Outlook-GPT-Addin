@@ -56,15 +56,16 @@ function insideHex(x, z, radius) {
  * its core. Deterministic: slot N is always the same spot, which is what keeps
  * the city recognisable day to day.
  */
-export function buildSlots() {
-  const usable = TILE_RADIUS - SLOT_INSET;
+export function buildSlots(step = SLOT_STEP, inset = SLOT_INSET) {
+  const usable = TILE_RADIUS - inset;
+  const span = Math.ceil(usable / step) + 1;
   const slots = [];
-  for (let gx = -8; gx <= 8; gx++) {
-    for (let gz = -8; gz <= 8; gz++) {
+  for (let gx = -span; gx <= span; gx++) {
+    for (let gz = -span; gz <= span; gz++) {
       // Offset alternate rows: a brick layout looks built, a square grid looks
       // like a spreadsheet.
-      const x = gx * SLOT_STEP + (gz % 2 === 0 ? 0 : SLOT_STEP / 2);
-      const z = gz * SLOT_STEP * 0.9;
+      const x = gx * step + (gz % 2 === 0 ? 0 : step / 2);
+      const z = gz * step * 0.9;
       if (!insideHex(x, z, usable)) continue;
       slots.push({ x, z, d: Math.hypot(x, z) });
     }
@@ -73,7 +74,18 @@ export function buildSlots() {
   return slots.map(({ x, z }) => ({ x, z }));
 }
 
+// Two grid densities. A district of landmark structures (flows-as-towers,
+// properties-as-houses) uses the coarse grid; a district of small repeated
+// units — hundreds of them — uses the fine one, so a large fleet reads as a
+// field of infrastructure instead of swallowing the map.
 export const SLOTS = buildSlots();
+export const SLOTS_DENSE = buildSlots(1.2, 1.3);
+
+export const SLOT_GRIDS = { normal: SLOTS, dense: SLOTS_DENSE };
+
+export function slotsFor(density) {
+  return SLOT_GRIDS[density] ?? SLOTS;
+}
 
 // District plate colours, cycled in order. Status carries meaning through the
 // buildings; these only separate regions, so no red/green pairing matters here.
@@ -125,21 +137,35 @@ export class WorldLayout {
     return { q: 0, r: 0 };
   }
 
-  district(name) {
+  district(name, density = 'normal') {
     if (!this.state.districts[name]) {
       const index = this.state.nextDistrictIndex++;
-      const stub = { name, tiles: [], colour: DISTRICT_COLOURS[index % DISTRICT_COLOURS.length] };
+      const stub = {
+        name,
+        tiles: [],
+        density,
+        colour: DISTRICT_COLOURS[index % DISTRICT_COLOURS.length],
+      };
       this.state.districts[name] = stub;
       stub.tiles.push(this.claimCoord(stub));
       this.dirty = true;
     }
-    return this.state.districts[name];
+    const existing = this.state.districts[name];
+    // A district that starts sparse and later fills with small repeated units
+    // re-grids itself rather than sprawling across the map.
+    if (density === 'dense' && existing.density !== 'dense') {
+      existing.density = 'dense';
+      this.dirty = true;
+    }
+    existing.density ??= 'normal';
+    return existing;
   }
 
   /** Grow the district until it has room for `count` buildings. */
-  ensureCapacity(name, count) {
-    const district = this.district(name);
-    while (district.tiles.length * SLOTS.length < count) {
+  ensureCapacity(name, count, density = 'normal') {
+    const district = this.district(name, density);
+    const perTile = slotsFor(district.density).length;
+    while (district.tiles.length * perTile < count) {
       district.tiles.push(this.claimCoord(district));
       this.dirty = true;
     }
@@ -152,6 +178,7 @@ export class WorldLayout {
     if (existing && existing.district === entity.district) return existing;
 
     const district = this.district(entity.district);
+    const perTile = slotsFor(district.density).length;
     const taken = new Set(
       Object.values(this.state.placements)
         .filter((p) => p.district === entity.district)
@@ -160,7 +187,7 @@ export class WorldLayout {
 
     let placement = null;
     outer: for (let tile = 0; tile < district.tiles.length; tile++) {
-      for (let slot = 0; slot < SLOTS.length; slot++) {
+      for (let slot = 0; slot < perTile; slot++) {
         if (!taken.has(`${tile}:${slot}`)) {
           placement = { district: entity.district, tile, slot };
           break outer;
@@ -203,11 +230,13 @@ export class WorldLayout {
       tileRadius: TILE_RADIUS,
       apothem: APOTHEM,
       slots: SLOTS,
+      slotGrids: SLOT_GRIDS,
       districts: Object.values(this.state.districts).map((d) => {
         const tiles = d.tiles.map((t) => ({ ...t, ...axialToWorld(t.q, t.r) }));
         return {
           name: d.name,
           colour: d.colour,
+          density: d.density ?? 'normal',
           tiles,
           // Label anchor: the centroid of the region, not of one tile.
           x: tiles.reduce((s, t) => s + t.x, 0) / tiles.length,

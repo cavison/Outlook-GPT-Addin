@@ -25,6 +25,8 @@ const GEO = {
   crate: new THREE.BoxGeometry(0.26, 0.26, 0.26),
   // Cone with 4 sides = a pitched roof once rotated 45°.
   roof: new THREE.ConeGeometry(0.92, 0.62, 4),
+  relayPad: new THREE.CylinderGeometry(0.24, 0.28, 0.1, 6),
+  lamp: new THREE.SphereGeometry(0.17, 8, 6),
   chimney: new THREE.BoxGeometry(0.2, 0.5, 0.2),
 };
 
@@ -35,6 +37,14 @@ export const NEUTRAL_SHELL = new THREE.MeshStandardMaterial({
   roughness: 0.75,
   metalness: 0.05,
 });
+// A dead lamp. Deliberately darker than the deck it stands on, so an unlit unit
+// reads as a hole in the field rather than merely a duller light.
+export const UNLIT = new THREE.MeshStandardMaterial({
+  color: 0x2a3242,
+  roughness: 0.9,
+  metalness: 0,
+});
+
 export const NEUTRAL_SIGNAL = new THREE.MeshStandardMaterial({
   color: 0x76809a,
   roughness: 0.7,
@@ -116,9 +126,27 @@ export function createBuilding(entity) {
   // `signals` so status and metric never fight over the same surface.
   const bodies = [];
 
-  group.add(mesh(GEO.pad, SHELL_DARK, { y: 0.09, ry: r1 * Math.PI }));
+  const form = entity.encode?.form ?? entity.kind;
+  // Relays stand on a fine grid and bring their own footing; the landmark pad
+  // would be wider than their whole slot.
+  if (form !== 'relay') group.add(mesh(GEO.pad, SHELL_DARK, { y: 0.09, ry: r1 * Math.PI }));
 
-  switch (entity.encode?.form ?? entity.kind) {
+  switch (form) {
+    case 'relay': {
+      // A small lamp on a post. Hundreds of these read as a lit field of
+      // infrastructure; the eye picks out a DARK one instantly, which is
+      // exactly the failure we care about — a flow that should be running and
+      // isn't. Absence of light is a better encoding for "not running" than any
+      // colour could be, because it is literally what it means.
+      group.add(mesh(GEO.relayPad, SHELL_DARK, { y: 0.05 }));
+      group.add(mesh(GEO.mast, TRIM, { y: 0.32, sy: 0.55, sx: 0.7, sz: 0.7 }));
+      const lamp = mesh(GEO.lamp, mat, { y: 0.62 });
+      group.add(lamp);
+      signals.push(lamp);
+      // Statuses that mean "not running" go dark rather than glowing.
+      group.userData.unlitStatuses = new Set(['blocked', 'paused', 'unknown']);
+      break;
+    }
     case 'house': {
       // A house: fixed footprint, storeys stacked upward. Height is the whole
       // message, so the silhouette must make height easy to compare.

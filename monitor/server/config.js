@@ -42,6 +42,9 @@ export const config = {
     graph: bool(process.env.ENABLE_GRAPH, false),
     // A worked non-flow domain: properties sized by budget variance.
     portfolio: bool(process.env.ENABLE_PORTFOLIO, true),
+    // Scale model of the flow checker. Off by default; set FLOW_FLEET to the
+    // number of flows you want to simulate.
+    flowFleet: Number(process.env.FLOW_FLEET ?? 0) > 0,
   },
 
   // Entra ID (Azure AD) app registration. Device-code flow: no client secret,
@@ -49,6 +52,10 @@ export const config = {
   azure: {
     clientId: process.env.AZURE_CLIENT_ID ?? '',
     tenantId: process.env.AZURE_TENANT_ID ?? 'common',
+  },
+
+  flowFleet: {
+    size: Number(process.env.FLOW_FLEET ?? 0),
   },
 
   powerAutomate: {

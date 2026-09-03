@@ -79,9 +79,17 @@ export class Hub extends EventEmitter {
       // arrivals in a big district would have nowhere to stand.
       const perDistrict = new Map();
       for (const entity of this.entities.values()) {
-        perDistrict.set(entity.district, (perDistrict.get(entity.district) ?? 0) + 1);
+        const row = perDistrict.get(entity.district) ?? { count: 0, compact: 0 };
+        row.count++;
+        // A district built from small repeated units gets the fine grid, so a
+        // fleet of hundreds reads as infrastructure rather than sprawl.
+        if (entity.encode?.form === 'relay') row.compact++;
+        perDistrict.set(entity.district, row);
       }
-      for (const [name, count] of perDistrict) this.layout.ensureCapacity(name, count);
+      for (const [name, row] of perDistrict) {
+        const density = row.compact > row.count / 2 ? 'dense' : 'normal';
+        this.layout.ensureCapacity(name, row.count, density);
+      }
       for (const entity of this.entities.values()) this.layout.place(entity);
       this.layout.prune(new Set(this.entities.keys()));
       this.layout.save();
