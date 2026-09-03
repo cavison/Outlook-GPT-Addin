@@ -141,25 +141,33 @@ export function createBuilding(entity) {
   const form = entity.encode?.form ?? entity.kind;
   // Relays stand on a fine grid and bring their own footing; the landmark pad
   // would be wider than their whole slot.
-  if (form !== 'relay' && form !== 'pillar') {
+  if (form !== 'relay' && !form.startsWith('pillar')) {
     group.add(mesh(GEO.pad, SHELL_DARK, { y: 0.09, ry: r1 * Math.PI }));
   }
 
   switch (form) {
-    case 'pillar': {
+    case 'pillar':
+    case 'pillar-landmark': {
+      const wide = form === 'pillar-landmark' ? 1.9 : 1;
       // Deliberately plain. Detail comes later and only where it earns its
       // place; right now the only job is that a bad KPI is visibly tall and a
       // good one is visibly flat.
       // Its own small plinth: the landmark pad is wider than a parcel spacing.
-      group.add(mesh(GEO.pad, SHELL_DARK, { y: 0.04, sx: 0.62, sz: 0.62, sy: 0.45 }));
-      const column = mesh(GEO.pillar, mat, { y: 0.02 + height / 2, sy: height });
+      group.add(mesh(GEO.pad, SHELL_DARK, {
+        y: 0.04, sx: 0.62 * wide, sz: 0.62 * wide, sy: 0.45,
+      }));
+      const column = mesh(GEO.pillar, mat, {
+        y: 0.02 + height / 2, sy: height, sx: wide, sz: wide,
+      });
       group.add(column);
       signals.push(column);
       bodies.push(column);
 
       // A cap only once the pillar has risen enough to have a top worth seeing.
       if (height > 0.9) {
-        group.add(mesh(GEO.pillarCap, SHELL_DARK, { y: 0.02 + height + 0.06 }));
+        group.add(mesh(GEO.pillarCap, SHELL_DARK, {
+          y: 0.02 + height + 0.06, sx: wide, sz: wide,
+        }));
       }
       break;
     }
@@ -335,6 +343,15 @@ export function createBuilding(entity) {
       if (o.isMesh && (o.material === SHELL || o.material === SHELL_DARK)) bodies.push(o);
     });
   }
+  // Small repeated parcel objects opt out of shadows entirely. The shadow pass
+  // redraws the whole scene, so at portfolio scale these cost more than the
+  // grounding they provide — the landmark still casts, which is what sells it.
+  if (form === 'pillar' || form === 'plot' || form === 'relay') {
+    group.traverse((o) => {
+      if (o.isMesh) { o.castShadow = false; o.receiveShadow = false; }
+    });
+  }
+
   group.userData.bodies = bodies;
   group.userData.shellMaterials = bodies.map((b) => b.material);
   group.userData.height = 0.18 + height + 0.9;

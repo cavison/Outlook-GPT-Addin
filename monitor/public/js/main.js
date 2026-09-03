@@ -3,6 +3,8 @@ import { Hud } from './hud.js';
 import { STATUS_LABEL, ATTENTION } from './palette.js';
 
 const world = new World(document.getElementById('scene'));
+// Exposed for diagnostics: profiling the render passes from the console.
+window.__world = world;
 const entities = new Map();
 const placements = new Map();
 

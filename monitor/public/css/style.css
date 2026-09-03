@@ -37,6 +37,14 @@ html, body {
 
 #labels { position: fixed; inset: 0; pointer-events: none; }
 
+.group-label {
+  font-size: 15px;
+  padding: 7px 20px;
+  letter-spacing: 0.04em;
+  background: rgba(10, 15, 28, 0.86);
+  box-shadow: 0 0 28px -6px var(--district, var(--accent));
+}
+
 .district-label {
   position: absolute;
   padding: 4px 12px;

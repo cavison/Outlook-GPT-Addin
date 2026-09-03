@@ -1,43 +1,21 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { makeEntity } from '../model.js';
 import { loadPortfolio } from '../parcels.js';
-import { config } from '../config.js';
+import { ROOT } from '../config.js';
+import { severityFor, statusFor, rollUp, formatMoney } from '../severity.js';
 
-// Phase 01: the shell.
+// The portfolio, driven by the monthly Actuals vs Budget import.
 //
-// Every property, every assigned parcel, no data yet. This exists so the frame
-// is real before any connector is — the hexes, the neighbourhood clusters and
-// the fixed parcel addresses are the part that must not change later.
+// One hex per property, one pillar per budget line item at its fixed parcel
+// address, and a centre landmark carrying the property's worst line. Height is
+// severity, so a property that came in under budget everywhere reads as flat
+// ground and a property in trouble is visible from across the map.
 //
-// It also makes the three-kinds-of-empty distinction concrete from day one:
-//
-//   assigned + no feed  -> "awaiting data", a fenced plot. NOT fine. Needs work.
-//   unassigned position -> a finished empty lot. Deliberate, needs nothing.
-//   assigned + feed ok  -> the real object (arrives with each connector).
-//
-// The dangerous case is the first one looking like the second, which is how a
-// KPI silently stops reporting and nobody notices for a month.
+// Without an import it falls back to fenced plots — an address with no feed,
+// which must never be mistaken for an address with nothing wrong.
 
-/** Deterministic 0..1 from a string, so the demo skyline is stable across
- *  restarts rather than reshuffling on every poll. */
-function seeded(str, salt = 0) {
-  let h = 2166136261 ^ salt;
-  for (let i = 0; i < str.length; i++) {
-    h ^= str.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return ((h >>> 0) % 100000) / 100000;
-}
-
-/**
- * Severity to status. Thresholds live here rather than in the renderer, because
- * "what counts as bad" is a business judgement per KPI, not a drawing decision.
- */
-function statusFor(severity) {
-  if (severity >= 0.75) return 'failed';
-  if (severity >= 0.5) return 'blocked';
-  if (severity >= 0.28) return 'warning';
-  return 'healthy';
-}
+const DATA_PATH = path.join(ROOT, 'data', 'financials.json');
 
 export class EstateProvider {
   id = 'estate';
@@ -45,29 +23,40 @@ export class EstateProvider {
 
   constructor() {
     this.portfolio = loadPortfolio();
-    this.demo = config.estateDemo;
+    this.financials = this.loadFinancials();
   }
 
-  /**
-   * Stand-in severities until real connectors land. Most parcels sit near zero
-   * so a healthy property reads as almost flat ground, and a few properties are
-   * deliberately in trouble so the skyline has something to say.
-   */
-  demoSeverity(propertyName, parcelNumber) {
-    const propertyTrouble = seeded(propertyName, 11);
-    const base = seeded(`${propertyName}:${parcelNumber}`, 7);
-    // Most properties are fine; roughly a quarter are having a bad month.
-    if (propertyTrouble > 0.74) return Math.min(1, base * 1.15);
-    if (propertyTrouble > 0.55) return base * 0.55;
-    return base * 0.22;
+  loadFinancials() {
+    if (!fs.existsSync(DATA_PATH)) return null;
+    try {
+      const data = JSON.parse(fs.readFileSync(DATA_PATH, 'utf8'));
+      if (!Array.isArray(data.rows) || !data.rows.length) return null;
+      return data;
+    } catch (err) {
+      console.warn(`[estate] could not read data/financials.json — ${err.message}`);
+      return null;
+    }
+  }
+
+  /** Rows grouped by property, keyed by the line item's configured parcel. */
+  indexRows() {
+    const { lineItems = {} } = this.portfolio;
+    const byProperty = new Map();
+
+    for (const row of this.financials.rows) {
+      const mapping = lineItems[row.item];
+      if (!mapping) continue; // a line item nobody has put on the map yet
+      if (!byProperty.has(row.property)) byProperty.set(row.property, []);
+      byProperty.get(row.property).push({ ...row, mapping });
+    }
+    return byProperty;
   }
 
   async fetch() {
     const entities = [];
     const { properties, assigned, townCentre } = this.portfolio;
 
-    // Town Centre first so it claims the origin hex and the properties grow
-    // outward around it.
+    // Town Centre first so it claims the origin hex.
     if (townCentre) {
       for (const building of townCentre.buildings ?? []) {
         entities.push(
@@ -86,10 +75,9 @@ export class EstateProvider {
       }
     }
 
-    for (const property of properties) {
-      for (const parcel of assigned) {
-        if (!this.demo) {
-          // No connector: a fenced plot, explicitly NOT a healthy-looking blank.
+    if (!this.financials) {
+      for (const property of properties) {
+        for (const parcel of assigned) {
           entities.push(
             makeEntity({
               id: `estate:${property.name}:${parcel.number}`,
@@ -99,56 +87,109 @@ export class EstateProvider {
               kind: 'parcel',
               name: parcel.label,
               status: 'unknown',
-              detail: 'Awaiting data — no connector yet',
-              metrics: { parcel: parcel.number, position: parcel.clock },
+              detail: 'No import yet — run scripts/import-financials.mjs',
+              metrics: { parcel: parcel.number },
               encode: { parcel: parcel.number, form: 'plot' },
               actions: [],
             }),
           );
-          continue;
         }
+      }
+      return entities;
+    }
 
-        const severity = this.demoSeverity(property.name, parcel.number);
-        const status = statusFor(severity);
+    const { scales } = this.financials;
+    const byProperty = this.indexRows();
+    const period = this.financials.source;
+
+    for (const property of properties) {
+      const rows = byProperty.get(property.name) ?? [];
+      const severities = [];
+
+      for (const row of rows) {
+        const ceiling = row.mapping.ceiling ?? 1;
+        const severity = severityFor(row.variance, scales[row.item], { ceiling });
+        severities.push({ severity, row });
+
+        const over = row.variance < 0;
         entities.push(
           makeEntity({
-            id: `estate:${property.name}:${parcel.number}`,
+            id: `estate:${property.name}:${row.mapping.parcel}`,
             source: 'estate',
             district: property.name,
             group: property.neighbourhood,
             kind: 'parcel',
-            name: parcel.label,
-            status,
-            detail:
-              severity < 0.28
-                ? `${parcel.label} — on plan`
-                : `${parcel.label} — ${Math.round(severity * 100)}% of the way to the red line`,
+            name: row.mapping.label ?? row.item,
+            status: statusFor(severity),
+            detail: over
+              ? `${formatMoney(Math.abs(row.variance))} over budget — actual ${formatMoney(row.actual)} vs budget ${formatMoney(row.budget)}`
+              : `${formatMoney(row.variance)} under budget — actual ${formatMoney(row.actual)} vs budget ${formatMoney(row.budget)}`,
             metrics: {
-              parcel: parcel.number,
-              position: parcel.clock,
-              neighbourhood: property.neighbourhood,
+              lineItem: row.item,
+              ytdActual: row.actual,
+              ytdBudget: row.budget,
+              variance: row.variance,
+              variancePct: row.budget ? Number((row.variance / row.budget).toFixed(4)) : null,
               severityPct: Math.round(severity * 100),
-              simulated: true,
+              parcel: row.mapping.parcel,
+              regional: property.neighbourhood,
+              period,
             },
             encode: {
-              parcel: parcel.number,
+              parcel: row.mapping.parcel,
               form: 'pillar',
               severity: {
                 value: severity,
-                label: 'Severity',
-                raw: `${Math.round(severity * 100)}% (simulated)`,
+                label: 'Unfavourable variance',
+                raw: over ? `${formatMoney(Math.abs(row.variance))} over` : 'under budget',
               },
             },
             actions: [],
           }),
         );
       }
+
+      // The centre landmark: the property itself, carrying its worst line.
+      const overall = rollUp(severities.map((s) => s.severity));
+      const worst = severities.sort((a, b) => b.severity - a.severity)[0];
+      entities.push(
+        makeEntity({
+          id: `estate:${property.name}:01`,
+          source: 'estate',
+          district: property.name,
+          group: property.neighbourhood,
+          kind: 'property',
+          name: property.name,
+          status: statusFor(overall),
+          detail: rows.length
+            ? overall < 0.28
+              ? `On plan across ${rows.length} budget lines`
+              : `Worst line: ${worst.row.mapping.label ?? worst.row.item} — ${formatMoney(Math.abs(worst.row.variance))} over`
+            : 'No budget lines matched for this property',
+          metrics: {
+            regional: property.neighbourhood,
+            linesTracked: rows.length,
+            worstLine: worst?.row.item ?? null,
+            totalUnfavourable: rows
+              .filter((r) => r.variance < 0)
+              .reduce((sum, r) => sum + Math.abs(r.variance), 0),
+            severityPct: Math.round(overall * 100),
+            period,
+          },
+          encode: {
+            parcel: '01',
+            form: 'pillar-landmark',
+            severity: { value: overall, label: 'Worst budget line', raw: null },
+          },
+          actions: [],
+        }),
+      );
     }
 
     return entities;
   }
 
   async execute() {
-    return { ok: false, message: 'The shell has no data and nothing to act on yet' };
+    return { ok: false, message: 'Budget figures are read-only' };
   }
 }

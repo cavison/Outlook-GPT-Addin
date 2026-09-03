@@ -41,7 +41,7 @@ export const config = {
     powerAutomate: bool(process.env.ENABLE_POWER_AUTOMATE, false),
     graph: bool(process.env.ENABLE_GRAPH, false),
     // A worked non-flow domain: properties sized by budget variance.
-    portfolio: bool(process.env.ENABLE_PORTFOLIO, true),
+    portfolio: bool(process.env.ENABLE_PORTFOLIO, false),
     // Scale model of the flow checker. Off by default; set FLOW_FLEET to the
     // number of flows you want to simulate.
     flowFleet: Number(process.env.FLOW_FLEET ?? 0) > 0,

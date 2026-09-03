@@ -65,6 +65,11 @@ export function validateGeometry(objectRadius = 0.8) {
 
 const CONFIG_PATH = path.join(ROOT, 'config', 'portfolio.json');
 
+// The real property roster and regional names are business data, so they live
+// in data/ (gitignored) and override the tracked template. The repository keeps
+// the structure; your portfolio stays on your machine.
+const LOCAL_PATH = path.join(ROOT, 'data', 'portfolio.local.json');
+
 export function loadPortfolio() {
   if (!fs.existsSync(CONFIG_PATH)) {
     throw new Error(`Portfolio file not found at ${CONFIG_PATH}`);
@@ -75,6 +80,17 @@ export function loadPortfolio() {
     raw = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));
   } catch (err) {
     throw new Error(`config/portfolio.json is not valid JSON — ${err.message}`);
+  }
+
+  if (fs.existsSync(LOCAL_PATH)) {
+    try {
+      const local = JSON.parse(fs.readFileSync(LOCAL_PATH, 'utf8'));
+      if (local.region) raw.region = local.region;
+      if (local.neighbourhoods?.length) raw.neighbourhoods = local.neighbourhoods;
+      if (local.properties?.length) raw.properties = local.properties;
+    } catch (err) {
+      throw new Error(`data/portfolio.local.json is not valid JSON — ${err.message}`);
+    }
   }
 
   const errors = [];
@@ -103,6 +119,14 @@ export function loadPortfolio() {
     }
   }
 
+  for (const [item, mapping] of Object.entries(raw.lineItems ?? {})) {
+    if (!PARCEL_POSITION_BY_NUMBER.has(mapping.parcel)) {
+      errors.push(`line item "${item}" maps to parcel "${mapping.parcel}", which is not a position`);
+    } else if (!parcels[mapping.parcel]?.assigned) {
+      errors.push(`line item "${item}" maps to parcel ${mapping.parcel}, which is not marked assigned`);
+    }
+  }
+
   const geometry = validateGeometry();
   errors.push(...geometry);
 
@@ -115,6 +139,7 @@ export function loadPortfolio() {
     neighbourhoods,
     properties: raw.properties,
     parcels,
+    lineItems: raw.lineItems ?? {},
     townCentre: raw.townCentre ?? null,
     /** Assigned parcels, in position order. */
     assigned: Object.entries(parcels)

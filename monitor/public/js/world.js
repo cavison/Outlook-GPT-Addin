@@ -112,7 +112,7 @@ export class World {
     const sun = new THREE.DirectionalLight(0xfff2d8, 2.1);
     sun.position.set(70, 120, 50);
     sun.castShadow = true;
-    sun.shadow.mapSize.set(2048, 2048);
+    sun.shadow.mapSize.set(1024, 1024);
     const s = 160;
     Object.assign(sun.shadow.camera, { left: -s, right: s, top: s, bottom: -s, near: 1, far: 420 });
     sun.shadow.bias = -0.0008;
@@ -256,7 +256,51 @@ export class World {
     for (const d of layout.districts) {
       const existing = this.districts.get(d.name);
       if (existing) this._refreshDistrict(existing, d);
-      else this.districts.set(d.name, this._createDistrict(d));
+      else {
+        this.districts.set(d.name, this._createDistrict(d));
+        this._lotsDirty = true;
+      }
+    }
+    if (this._lotsDirty) {
+      this._lotsDirty = false;
+      this._rebuildLots();
+      this._rebuildGroupLabels();
+    }
+  }
+
+  /**
+   * One label per neighbourhood, shown when zoomed out.
+   *
+   * At portfolio zoom 187 property names cover the entire map — the labels stop
+   * being annotation and become the view. Far out you want to know whose patch
+   * you are looking at; the property name only matters once you are close
+   * enough to act on it.
+   */
+  _rebuildGroupLabels() {
+    this.groupLabels ??= new Map();
+    const centroids = new Map();
+
+    for (const d of this.districts.values()) {
+      if (!d.neighbourhood) continue;
+      const row = centroids.get(d.neighbourhood) ?? { x: 0, z: 0, n: 0, colour: d.colour };
+      row.x += d.x;
+      row.z += d.z;
+      row.n++;
+      centroids.set(d.neighbourhood, row);
+    }
+
+    for (const [name, row] of centroids) {
+      let label = this.groupLabels.get(name);
+      if (!label) {
+        label = document.createElement('div');
+        label.className = 'district-label group-label';
+        label.textContent = name;
+        label.style.setProperty('--district', `#${row.colour.toString(16).padStart(6, '0')}`);
+        document.getElementById('labels').appendChild(label);
+        this.groupLabels.set(name, label);
+      }
+      label.dataset.x = row.x / row.n;
+      label.dataset.z = row.z / row.n;
     }
   }
 
@@ -294,24 +338,6 @@ export class World {
       group.add(edge);
     }
 
-    // Mark every parcel position, including the vacant ones. A site plan shows
-    // its empty lots; that is how you can see there is room, and it is what
-    // makes a vacant position read as deliberate rather than as missing.
-    if (this.parcels.length && (d.group || d.tiles.length === 1)) {
-      const lotGeo = new THREE.CircleGeometry(0.62, 16);
-      const lotMat = new THREE.MeshBasicMaterial({
-        color: 0x9fb6d8, transparent: true, opacity: 0.13, depthWrite: false,
-      });
-      for (const tile of d.tiles) {
-        for (const parcel of this.parcels) {
-          const lot = new THREE.Mesh(lotGeo, lotMat);
-          lot.rotation.x = -Math.PI / 2;
-          lot.position.set(tile.x + parcel.x, 0.17, tile.z + parcel.z);
-          group.add(lot);
-        }
-      }
-    }
-
     this.scene.add(group);
 
     const label = document.createElement('div');
@@ -323,7 +349,52 @@ export class World {
     return {
       group, label, colour: d.colour, x: d.x, z: d.z,
       tiles: d.tiles, density: d.density ?? 'normal',
+      // Named `neighbourhood`, not `group` — `group` is already the THREE.Group.
+      neighbourhood: d.group ?? null,
     };
+  }
+
+  /**
+   * Every parcel position on every hex, as ONE instanced mesh.
+   *
+   * These are decorative site markings, and drawn individually they were 4,675
+   * separate draw calls — by far the largest single cost in the scene, for the
+   * least important thing in it.
+   */
+  _rebuildLots() {
+    if (!this.parcels?.length) return;
+    const tiles = [];
+    for (const d of this.districts.values()) {
+      for (const tile of d.tiles) tiles.push(tile);
+    }
+    const count = tiles.length * this.parcels.length;
+    if (!count) return;
+
+    if (this.lots) {
+      this.scene.remove(this.lots);
+      this.lots.geometry.dispose();
+      this.lots.material.dispose();
+    }
+
+    const geo = new THREE.CircleGeometry(0.62, 12);
+    geo.rotateX(-Math.PI / 2);
+    const mat = new THREE.MeshBasicMaterial({
+      color: 0x9fb6d8, transparent: true, opacity: 0.13, depthWrite: false,
+    });
+    this.lots = new THREE.InstancedMesh(geo, mat, count);
+    this.lots.frustumCulled = false;
+
+    const dummy = new THREE.Object3D();
+    let i = 0;
+    for (const tile of tiles) {
+      for (const parcel of this.parcels) {
+        dummy.position.set(tile.x + parcel.x, 0.17, tile.z + parcel.z);
+        dummy.updateMatrix();
+        this.lots.setMatrixAt(i++, dummy.matrix);
+      }
+    }
+    this.lots.instanceMatrix.needsUpdate = true;
+    this.scene.add(this.lots);
   }
 
   /** Rebuild a district's plates when it grows a new tile. */
@@ -381,6 +452,7 @@ export class World {
       formName === 'relay' ? BUILDING_SCALE * 0.62
       : formName === 'plot' ? 0.55
       : formName === 'pillar' ? 1.0
+      : formName === 'pillar-landmark' ? 1.0
       : formName === 'plot-landmark' ? 1.0
       : BUILDING_SCALE;
     // Grow-in animation: new work visibly gets built.
@@ -541,14 +613,37 @@ export class World {
   _updateLabels() {
     const rect = this.canvas.getBoundingClientRect();
     const v = new THREE.Vector3();
-    for (const d of this.districts.values()) {
-      v.set(d.x, 4.5, d.z).project(this.camera);
-      const visible = v.z < 1;
-      d.label.style.display = visible ? 'block' : 'none';
-      if (!visible) continue;
-      d.label.style.transform =
+
+    // Below this the map is a place you are working in; above it, an overview.
+    const CLOSE_ENOUGH_FOR_NAMES = 95;
+    const showProperties = this.controls.distance < CLOSE_ENOUGH_FOR_NAMES;
+
+    const place = (el, x, y, z) => {
+      v.set(x, y, z).project(this.camera);
+      if (v.z >= 1) {
+        el.style.display = 'none';
+        return;
+      }
+      el.style.display = 'block';
+      el.style.transform =
         `translate(-50%,-50%) translate(${((v.x + 1) / 2) * rect.width}px,` +
         `${((-v.y + 1) / 2) * rect.height}px)`;
+    };
+
+    for (const d of this.districts.values()) {
+      if (!showProperties) {
+        d.label.style.display = 'none';
+        continue;
+      }
+      place(d.label, d.x, 4.5, d.z);
+    }
+
+    for (const label of this.groupLabels?.values() ?? []) {
+      if (showProperties) {
+        label.style.display = 'none';
+        continue;
+      }
+      place(label, Number(label.dataset.x), 10, Number(label.dataset.z));
     }
   }
 
