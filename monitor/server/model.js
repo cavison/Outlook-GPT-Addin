@@ -47,6 +47,7 @@ export function makeEntity(raw) {
     actions = [],
     weight = 1,
     encode = null,
+    group = null,
   } = raw;
 
   if (!id) throw new Error('entity requires an id');
@@ -59,6 +60,8 @@ export function makeEntity(raw) {
     id,
     source,
     district,
+    // The cluster a district belongs to — a neighbourhood, for properties.
+    group,
     kind,
     name,
     status,
@@ -109,7 +112,29 @@ export function makeEntity(raw) {
 function normalizeEncoding(encode, id) {
   if (!encode) return null;
 
-  const out = { form: encode.form ?? null };
+  const out = { form: encode.form ?? null, parcel: encode.parcel ?? null };
+
+  // Severity: 0 = fine, 1 = as bad as this KPI gets.
+  //
+  // This is what lets one hex mix payroll dollars, open work orders and
+  // occupancy percent and still be readable — each provider normalises its own
+  // metric against its own thresholds, and height then means the same thing
+  // everywhere: how bad. A flat property is a healthy one.
+  //
+  // The cost is deliberate: normalising throws away raw magnitude, so $30k over
+  // and four open work orders can stand the same height. The number itself
+  // lives in the detail card; the skyline only answers "who needs me".
+  if (encode.severity) {
+    const { value, label, raw } = encode.severity;
+    if (typeof value !== 'number' || Number.isNaN(value)) {
+      throw new Error(`entity ${id} encode.severity.value must be a number`);
+    }
+    out.severity = {
+      value: Math.max(0, Math.min(1, value)),
+      label: label ?? 'Severity',
+      raw: raw ?? null,
+    };
+  }
 
   if (encode.height) {
     const { value, label, unit = '', domain } = encode.height;
@@ -136,7 +161,7 @@ function normalizeEncoding(encode, id) {
     out.metric = { value, label: label ?? 'Metric', unit, domain, mode, midpoint };
   }
 
-  return out.height || out.metric || out.form ? out : null;
+  return out.height || out.metric || out.form || out.parcel || out.severity ? out : null;
 }
 
 /**

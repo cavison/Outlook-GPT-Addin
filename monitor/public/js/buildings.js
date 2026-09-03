@@ -26,6 +26,8 @@ const GEO = {
   // Cone with 4 sides = a pitched roof once rotated 45°.
   roof: new THREE.ConeGeometry(0.92, 0.62, 4),
   relayPad: new THREE.CylinderGeometry(0.24, 0.28, 0.1, 6),
+  pillar: new THREE.BoxGeometry(0.72, 1, 0.72),
+  pillarCap: new THREE.BoxGeometry(0.86, 0.12, 0.86),
   lamp: new THREE.SphereGeometry(0.17, 8, 6),
   chimney: new THREE.BoxGeometry(0.2, 0.5, 0.2),
 };
@@ -95,6 +97,11 @@ function mesh(geo, mat, { x = 0, y = 0, z = 0, sx = 1, sy = 1, sz = 1, ry = 0, r
 const MIN_HEIGHT = 0.55;
 const MAX_HEIGHT = 3.4;
 
+// Pillars: a flat plinth at zero, capped so one catastrophic KPI cannot make a
+// spike that hides the rest of the city behind it.
+const PILLAR_MIN = 0.12;
+const PILLAR_MAX = 6.0;
+
 /**
  * Resolve a building's height.
  *
@@ -103,6 +110,11 @@ const MAX_HEIGHT = 3.4;
  * a 2x value look 8x, and volume is the channel people misjudge worst.
  */
 export function heightFor(entity) {
+  // Severity wins: for a portfolio overview, height means "how bad", and a
+  // property with nothing wrong should read as flat ground.
+  const severity = entity.encode?.severity;
+  if (severity) return PILLAR_MIN + severity.value * (PILLAR_MAX - PILLAR_MIN);
+
   const spec = entity.encode?.height;
   if (!spec) return 0.75 + entity.weight * 0.55 + hash01(entity.id, 1) * 0.4;
 
@@ -129,9 +141,66 @@ export function createBuilding(entity) {
   const form = entity.encode?.form ?? entity.kind;
   // Relays stand on a fine grid and bring their own footing; the landmark pad
   // would be wider than their whole slot.
-  if (form !== 'relay') group.add(mesh(GEO.pad, SHELL_DARK, { y: 0.09, ry: r1 * Math.PI }));
+  if (form !== 'relay' && form !== 'pillar') {
+    group.add(mesh(GEO.pad, SHELL_DARK, { y: 0.09, ry: r1 * Math.PI }));
+  }
 
   switch (form) {
+    case 'pillar': {
+      // Deliberately plain. Detail comes later and only where it earns its
+      // place; right now the only job is that a bad KPI is visibly tall and a
+      // good one is visibly flat.
+      // Its own small plinth: the landmark pad is wider than a parcel spacing.
+      group.add(mesh(GEO.pad, SHELL_DARK, { y: 0.04, sx: 0.62, sz: 0.62, sy: 0.45 }));
+      const column = mesh(GEO.pillar, mat, { y: 0.02 + height / 2, sy: height });
+      group.add(column);
+      signals.push(column);
+      bodies.push(column);
+
+      // A cap only once the pillar has risen enough to have a top worth seeing.
+      if (height > 0.9) {
+        group.add(mesh(GEO.pillarCap, SHELL_DARK, { y: 0.02 + height + 0.06 }));
+      }
+      break;
+    }
+    case 'plot':
+    case 'plot-landmark': {
+      // A parcel with an address but no feed yet: a fenced construction plot.
+      // Deliberately NOT a neutral empty space — "no data" must never look like
+      // "nothing wrong", because that is how a KPI stops reporting and nobody
+      // notices for a month.
+      const big = form === 'plot-landmark';
+      const r = big ? 1.45 : 1.0;
+
+      const base = mesh(GEO.pad, SHELL_DARK, { y: 0.06, sx: r, sz: r, sy: 0.5 });
+      group.add(base);
+      bodies.push(base);
+
+      // Corner posts, tape strung between them.
+      for (let i = 0; i < 4; i++) {
+        const a = (i / 4) * Math.PI * 2 + Math.PI / 4;
+        group.add(mesh(GEO.mast, TRIM, {
+          x: Math.cos(a) * r * 0.8,
+          z: Math.sin(a) * r * 0.8,
+          y: 0.34,
+          sy: 0.5,
+          sx: 0.6,
+          sz: 0.6,
+        }));
+      }
+
+      // The marker post. Its colour is the entity's status, so the moment a
+      // connector starts feeding this parcel the plot lights up.
+      const marker = mesh(GEO.crate, mat, {
+        y: 0.62,
+        sx: big ? 2.2 : 1.5,
+        sy: big ? 2.2 : 1.5,
+        sz: 0.35,
+      });
+      group.add(marker);
+      signals.push(marker);
+      break;
+    }
     case 'relay': {
       // A small lamp on a post. Hundreds of these read as a lit field of
       // infrastructure; the eye picks out a DARK one instantly, which is

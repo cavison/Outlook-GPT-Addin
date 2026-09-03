@@ -7,7 +7,9 @@ import { MapControls } from './controls.js';
 import {
   createBuilding, createBeacon, statusMaterial, NEUTRAL_SHELL, NEUTRAL_SIGNAL, UNLIT,
 } from './buildings.js';
-import { statusColour, metricColour, ATTENTION, STATUS_GLYPH, hash01 } from './palette.js';
+import {
+  statusColour, metricColour, ATTENTION, STATUS_GLYPH, statusRank, hash01,
+} from './palette.js';
 
 // Buildings are authored at unit scale; this sizes them against the plate.
 // Tuned so a handful of structures reads as a settlement rather than as specks.
@@ -249,6 +251,8 @@ export class World {
     this.tileRadius = layout.tileRadius;
     this.slots = layout.slots;
     this.slotGrids = layout.slotGrids ?? { normal: layout.slots };
+    this.parcels = layout.parcels ?? [];
+    this.parcelByNumber = new Map(this.parcels.map((p) => [p.number, p]));
     for (const d of layout.districts) {
       const existing = this.districts.get(d.name);
       if (existing) this._refreshDistrict(existing, d);
@@ -290,6 +294,24 @@ export class World {
       group.add(edge);
     }
 
+    // Mark every parcel position, including the vacant ones. A site plan shows
+    // its empty lots; that is how you can see there is room, and it is what
+    // makes a vacant position read as deliberate rather than as missing.
+    if (this.parcels.length && (d.group || d.tiles.length === 1)) {
+      const lotGeo = new THREE.CircleGeometry(0.62, 16);
+      const lotMat = new THREE.MeshBasicMaterial({
+        color: 0x9fb6d8, transparent: true, opacity: 0.13, depthWrite: false,
+      });
+      for (const tile of d.tiles) {
+        for (const parcel of this.parcels) {
+          const lot = new THREE.Mesh(lotGeo, lotMat);
+          lot.rotation.x = -Math.PI / 2;
+          lot.position.set(tile.x + parcel.x, 0.17, tile.z + parcel.z);
+          group.add(lot);
+        }
+      }
+    }
+
     this.scene.add(group);
 
     const label = document.createElement('div');
@@ -323,6 +345,12 @@ export class World {
     const d = this.districts.get(districtName);
     if (!d) return null;
     const tile = d.tiles[placement.tile ?? 0] ?? d.tiles[0];
+    // A parcel is a fixed address within the hex; a slot is handed out on
+    // arrival. Parcels win.
+    if (placement.parcel) {
+      const parcel = this.parcelByNumber.get(placement.parcel);
+      if (parcel) return { x: tile.x + parcel.x, z: tile.z + parcel.z };
+    }
     const grid = this.slotGrids[d.density] ?? this.slots;
     const slot = grid[placement.slot] ?? { x: 0, z: 0 };
     return { x: tile.x + slot.x, z: tile.z + slot.z };
@@ -348,8 +376,13 @@ export class World {
     // Buildings are drawn at unit scale then sized here, so one constant tunes
     // how dense the skyline reads against the plate.
     // Relays sit on the fine grid, so they are drawn smaller than landmarks.
+    const formName = entity.encode?.form ?? entity.kind;
     group.userData.baseScale =
-      (entity.encode?.form ?? entity.kind) === 'relay' ? BUILDING_SCALE * 0.62 : BUILDING_SCALE;
+      formName === 'relay' ? BUILDING_SCALE * 0.62
+      : formName === 'plot' ? 0.55
+      : formName === 'pillar' ? 1.0
+      : formName === 'plot-landmark' ? 1.0
+      : BUILDING_SCALE;
     // Grow-in animation: new work visibly gets built.
     group.scale.setScalar(0.01);
     group.userData.spawnAt = performance.now();
@@ -413,35 +446,61 @@ export class World {
     const mat = unlit ? UNLIT : statusMaterial(entity.status);
     for (const signal of record.group.userData.signals ?? []) signal.material = mat;
 
-    const wants = ATTENTION.has(entity.status);
-    // A beacon's glyph changes with severity, so the three attention states are
-    // distinguishable without relying on colour.
-    if (wants && record.beacon && record.beacon.userData.glyph !== STATUS_GLYPH[entity.status]) {
-      this.scene.remove(record.beacon);
-      record.beacon = null;
-    }
-    if (wants && !record.beacon) {
-      const beacon = createBeacon(statusColour(entity.status), STATUS_GLYPH[entity.status]);
-      beacon.userData.glyph = STATUS_GLYPH[entity.status];
-      beacon.position.set(
-        record.group.position.x,
-        record.group.userData.height * BUILDING_SCALE + 2.0,
-        record.group.position.z,
-      );
-      this.scene.add(beacon);
-      record.beacon = beacon;
-    } else if (wants && record.beacon) {
-      const colour = new THREE.Color(statusColour(entity.status));
-      for (const part of Object.values(record.beacon.userData.parts)) part.material.color = colour;
-    } else if (!wants && record.beacon) {
-      this.scene.remove(record.beacon);
-      record.beacon = null;
-    }
+    // Beacons are clustered per district, not per entity. One badge saying
+    // "4 issues here" is a signpost; forty badges are wallpaper, and they hide
+    // the pillar heights that carry the actual meaning.
+    this._beaconsDirty = true;
 
     // Flash on any status change so a transition is visible even if you were
     // looking at another part of the map.
     if (record.entity && record.entity.status !== entity.status) {
       record.group.userData.flashAt = performance.now();
+    }
+  }
+
+  /**
+   * One beacon per district, coloured by its worst status and labelled with how
+   * many things are wrong. Far out it tells you WHERE; you zoom in to see what.
+   */
+  _syncClusterBeacons() {
+    this._beaconsDirty = false;
+    this.clusterBeacons ??= new Map();
+
+    const worst = new Map();
+    for (const record of this.entities.values()) {
+      if (!ATTENTION.has(record.entity.status)) continue;
+      const key = record.entity.district;
+      const row = worst.get(key) ?? { count: 0, status: 'warning', top: 0 };
+      row.count++;
+      if (statusRank(record.entity.status) < statusRank(row.status)) {
+        row.status = record.entity.status;
+      }
+      row.top = Math.max(row.top, record.group.userData.height * (record.group.userData.baseScale ?? 1));
+      worst.set(key, row);
+    }
+
+    for (const [name, beacon] of this.clusterBeacons) {
+      if (!worst.has(name)) {
+        this.scene.remove(beacon);
+        this.clusterBeacons.delete(name);
+      }
+    }
+
+    for (const [name, row] of worst) {
+      const district = this.districts.get(name);
+      if (!district) continue;
+      const signature = `${row.status}:${row.count}`;
+      let beacon = this.clusterBeacons.get(name);
+
+      if (!beacon || beacon.userData.signature !== signature) {
+        if (beacon) this.scene.remove(beacon);
+        beacon = createBeacon(statusColour(row.status), String(row.count));
+        beacon.userData.signature = signature;
+        this.scene.add(beacon);
+        this.clusterBeacons.set(name, beacon);
+      }
+      beacon.position.set(district.x, row.top + 3.4, district.z);
+      beacon.userData.baseY = row.top + 3.4;
     }
   }
 
@@ -452,6 +511,7 @@ export class World {
     if (record.beacon) this.scene.remove(record.beacon);
     this.pickables = this.pickables.filter((p) => p !== record.group);
     this.entities.delete(id);
+    this._beaconsDirty = true;
   }
 
   select(id) {
@@ -533,22 +593,18 @@ export class World {
       record.group.userData.lift += ((selected ? 0.9 : 0) - record.group.userData.lift) * 0.15;
       record.group.position.y = 0.12 + flash + record.group.userData.lift;
 
-      if (record.beacon) {
-        const b = record.beacon;
-        b.position.y =
-          record.group.userData.height * BUILDING_SCALE +
-          2.0 +
-          record.group.userData.lift +
-          Math.sin(elapsed * 2.2 + record.group.position.x) * 0.28;
-        const { halo, plate } = b.userData.parts;
-        // Billboard only the flat parts; the light shaft must stay vertical.
-        plate.quaternion.copy(this.camera.quaternion);
-        halo.quaternion.copy(this.camera.quaternion);
-        const s = 1 + Math.sin(elapsed * 3) * 0.12;
-        halo.scale.setScalar(s);
-        halo.material.opacity = 0.2 + 0.28 * (0.5 + 0.5 * Math.sin(elapsed * 3));
-        plate.material.opacity = 0.75 + 0.25 * (0.5 + 0.5 * Math.sin(elapsed * 3));
-      }
+    }
+
+    if (this._beaconsDirty) this._syncClusterBeacons();
+
+    for (const beacon of this.clusterBeacons?.values() ?? []) {
+      const { halo, plate } = beacon.userData.parts;
+      beacon.position.y = beacon.userData.baseY + Math.sin(elapsed * 2.2 + beacon.position.x) * 0.3;
+      plate.quaternion.copy(this.camera.quaternion);
+      halo.quaternion.copy(this.camera.quaternion);
+      const s = 1 + Math.sin(elapsed * 3) * 0.1;
+      halo.scale.setScalar(s);
+      halo.material.opacity = 0.2 + 0.28 * (0.5 + 0.5 * Math.sin(elapsed * 3));
     }
 
     this._updateLabels();

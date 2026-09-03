@@ -1,4 +1,5 @@
 import { readJson, writeJson } from './config.js';
+import { TILE_RADIUS, PARCEL_POSITIONS, PARCEL_POSITION_BY_NUMBER } from './parcels.js';
 
 // ---------------------------------------------------------------------------
 // Hex maths. Flat-top hexes. A district is not one tile but a *region* of one
@@ -6,7 +7,7 @@ import { readJson, writeJson } from './config.js';
 // the only way a district with 40 flows can render without stacking them.
 // ---------------------------------------------------------------------------
 
-export const TILE_RADIUS = 9;
+export { TILE_RADIUS };
 const SQRT3 = Math.sqrt(3);
 const APOTHEM = (TILE_RADIUS * SQRT3) / 2;
 const TILE_GAP = 0.55;
@@ -94,7 +95,9 @@ const DISTRICT_COLOURS = [
   0x6ee7ff, 0x9d6bff, 0x3ddc84, 0xff7a5c, 0x5a8dee,
 ];
 
-const DEFAULT_LAYOUT = { districts: {}, placements: {}, nextDistrictIndex: 0 };
+const DEFAULT_LAYOUT = {
+  districts: {}, placements: {}, nextDistrictIndex: 0, groupColours: {}, colourCursor: 0,
+};
 
 export class WorldLayout {
   constructor() {
@@ -102,6 +105,8 @@ export class WorldLayout {
     this.state.districts ??= {};
     this.state.placements ??= {};
     this.state.nextDistrictIndex ??= Object.keys(this.state.districts).length;
+    this.state.groupColours ??= {};
+    this.state.colourCursor ??= 0;
     this.dirty = false;
   }
 
@@ -129,6 +134,22 @@ export class WorldLayout {
       }
     }
 
+    // A property has no tiles of its own yet: sit it next to its neighbours, so
+    // one regional's whole book reads as a single contiguous patch.
+    if (district.group) {
+      const siblings = Object.values(this.state.districts).filter(
+        (d) => d.group === district.group && d.name !== district.name,
+      );
+      for (const sibling of siblings) {
+        for (const tile of sibling.tiles ?? []) {
+          for (const [dq, dr] of NEIGHBOURS) {
+            const key = `${tile.q + dq},${tile.r + dr}`;
+            if (!claimed.has(key)) return { q: tile.q + dq, r: tile.r + dr };
+          }
+        }
+      }
+    }
+
     // No free neighbour (or the district has no tiles yet): walk the spiral.
     const spiral = spiralCoords(claimed.size + 12);
     for (const coord of spiral) {
@@ -137,15 +158,25 @@ export class WorldLayout {
     return { q: 0, r: 0 };
   }
 
-  district(name, density = 'normal') {
+  district(name, density = 'normal', group = null) {
     if (!this.state.districts[name]) {
       const index = this.state.nextDistrictIndex++;
-      const stub = {
-        name,
-        tiles: [],
-        density,
-        colour: DISTRICT_COLOURS[index % DISTRICT_COLOURS.length],
-      };
+      // Properties in the same neighbourhood share a plate colour; the colour
+      // identifies the regional's patch, not the individual property.
+      // One shared cursor across groups and ungrouped districts, so a
+      // neighbourhood can never collide with the Town Centre.
+      const nextColour = () =>
+        DISTRICT_COLOURS[this.state.colourCursor++ % DISTRICT_COLOURS.length];
+      let colour;
+      if (group) {
+        if (this.state.groupColours[group] === undefined) {
+          this.state.groupColours[group] = nextColour();
+        }
+        colour = this.state.groupColours[group];
+      } else {
+        colour = nextColour();
+      }
+      const stub = { name, tiles: [], density, group, colour };
       this.state.districts[name] = stub;
       stub.tiles.push(this.claimCoord(stub));
       this.dirty = true;
@@ -158,12 +189,13 @@ export class WorldLayout {
       this.dirty = true;
     }
     existing.density ??= 'normal';
+    if (group && !existing.group) { existing.group = group; this.dirty = true; }
     return existing;
   }
 
   /** Grow the district until it has room for `count` buildings. */
-  ensureCapacity(name, count, density = 'normal') {
-    const district = this.district(name, density);
+  ensureCapacity(name, count, density = 'normal', group = null) {
+    const district = this.district(name, density, group);
     const perTile = slotsFor(district.density).length;
     while (district.tiles.length * perTile < count) {
       district.tiles.push(this.claimCoord(district));
@@ -178,6 +210,20 @@ export class WorldLayout {
     if (existing && existing.district === entity.district) return existing;
 
     const district = this.district(entity.district);
+
+    // A parcel is a fixed address, not a slot to be handed out. Position 04 is
+    // work orders on every property, forever.
+    const parcel = entity.encode?.parcel;
+    if (parcel) {
+      if (!PARCEL_POSITION_BY_NUMBER.has(parcel)) {
+        throw new Error(`entity ${entity.id} claims parcel "${parcel}", which is not a position`);
+      }
+      const placement = { district: entity.district, tile: 0, parcel };
+      this.state.placements[entity.id] = placement;
+      this.dirty = true;
+      return placement;
+    }
+
     const perTile = slotsFor(district.density).length;
     const taken = new Set(
       Object.values(this.state.placements)
@@ -231,12 +277,14 @@ export class WorldLayout {
       apothem: APOTHEM,
       slots: SLOTS,
       slotGrids: SLOT_GRIDS,
+      parcels: PARCEL_POSITIONS,
       districts: Object.values(this.state.districts).map((d) => {
         const tiles = d.tiles.map((t) => ({ ...t, ...axialToWorld(t.q, t.r) }));
         return {
           name: d.name,
           colour: d.colour,
           density: d.density ?? 'normal',
+          group: d.group ?? null,
           tiles,
           // Label anchor: the centroid of the region, not of one tile.
           x: tiles.reduce((s, t) => s + t.x, 0) / tiles.length,

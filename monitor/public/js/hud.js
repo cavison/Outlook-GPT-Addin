@@ -80,7 +80,21 @@ export class Hud {
 
     const groups = [];
 
-    const heightGeneric = entities.some((e) => !e.encode?.height);
+    const anySeverity = entities.some((e) => e.encode?.severity);
+    if (anySeverity) {
+      groups.push(`
+        <div class="legend-group">
+          <div class="legend-title">Pillar height</div>
+          <div class="legend-sub">How bad it is — flat is good</div>
+          <div class="height-key"><i style="height:12%"></i><i style="height:40%"></i><i style="height:70%"></i><i style="height:100%"></i></div>
+        </div>`);
+    }
+
+    // Parcels awaiting data have no height encoding at all; they should not
+    // summon a legend entry about activity volume.
+    const heightGeneric = entities.some(
+      (e) => !e.encode?.height && !e.encode?.severity && !e.encode?.parcel,
+    );
     if (heightGeneric) {
       groups.push(`
         <div class="legend-group">

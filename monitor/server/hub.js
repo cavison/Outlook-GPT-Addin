@@ -79,8 +79,11 @@ export class Hub extends EventEmitter {
       // arrivals in a big district would have nowhere to stand.
       const perDistrict = new Map();
       for (const entity of this.entities.values()) {
-        const row = perDistrict.get(entity.district) ?? { count: 0, compact: 0 };
-        row.count++;
+        const row = perDistrict.get(entity.district) ?? { count: 0, compact: 0, group: null };
+        row.group ??= entity.group ?? null;
+        // Parcels have fixed addresses inside one hex, so they never drive a
+        // property to claim more tiles.
+        if (!entity.encode?.parcel) row.count++;
         // A district built from small repeated units gets the fine grid, so a
         // fleet of hundreds reads as infrastructure rather than sprawl.
         if (entity.encode?.form === 'relay') row.compact++;
@@ -88,7 +91,7 @@ export class Hub extends EventEmitter {
       }
       for (const [name, row] of perDistrict) {
         const density = row.compact > row.count / 2 ? 'dense' : 'normal';
-        this.layout.ensureCapacity(name, row.count, density);
+        this.layout.ensureCapacity(name, row.count, density, row.group);
       }
       for (const entity of this.entities.values()) this.layout.place(entity);
       this.layout.prune(new Set(this.entities.keys()));

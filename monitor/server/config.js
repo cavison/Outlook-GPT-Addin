@@ -45,6 +45,8 @@ export const config = {
     // Scale model of the flow checker. Off by default; set FLOW_FLEET to the
     // number of flows you want to simulate.
     flowFleet: Number(process.env.FLOW_FLEET ?? 0) > 0,
+    // Phase 01: the property/parcel shell, driven by config/portfolio.json.
+    estate: bool(process.env.ENABLE_ESTATE, true),
   },
 
   // Entra ID (Azure AD) app registration. Device-code flow: no client secret,
@@ -53,6 +55,10 @@ export const config = {
     clientId: process.env.AZURE_CLIENT_ID ?? '',
     tenantId: process.env.AZURE_TENANT_ID ?? 'common',
   },
+
+  // Simulated severities until real connectors land, so the skyline has
+  // something to say on first run. Set false for the bare shell.
+  estateDemo: bool(process.env.ESTATE_DEMO, true),
 
   flowFleet: {
     size: Number(process.env.FLOW_FLEET ?? 0),

@@ -37,6 +37,12 @@ export const STATUS_LABEL = {
 
 export const ATTENTION = new Set(['failed', 'blocked', 'warning']);
 
+/** Worst first — matches the server's ordering. */
+const RANK = { failed: 0, blocked: 1, warning: 2, running: 3, healthy: 4, paused: 5, unknown: 6 };
+export function statusRank(status) {
+  return RANK[status] ?? RANK.unknown;
+}
+
 export const hex = (n) => `#${n.toString(16).padStart(6, '0')}`;
 
 export function statusColour(status) {

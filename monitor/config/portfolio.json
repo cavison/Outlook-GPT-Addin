@@ -1,0 +1,76 @@
+{
+  "_readme": [
+    "This file is the map. Edit it, restart, and the city changes — no code involved.",
+    "",
+    "PARCELS: position 01 is the centre landmark; 02-13 are the inner ring, 14-25 the",
+    "outer ring, both numbered clockwise from twelve o'clock. Position numbers are FIXED.",
+    "To add a KPI, give a vacant position a label and set assigned to true. Never",
+    "renumber — parcel 04 must stay work orders on every property forever, because that",
+    "positional consistency is what lets you read a hex without a legend.",
+    "",
+    "PROPERTIES: one hex each. They cluster automatically by neighbourhood."
+  ],
+
+  "region": "Region 1",
+
+  "neighbourhoods": [
+    { "name": "North", "manager": "Regional — North" },
+    { "name": "East", "manager": "Regional — East" },
+    { "name": "South", "manager": "Regional — South" }
+  ],
+
+  "properties": [
+    { "name": "412 Marlowe Ave", "neighbourhood": "North" },
+    { "name": "87 Ridgeway Ct", "neighbourhood": "North" },
+    { "name": "Halstead Mill", "neighbourhood": "North" },
+    { "name": "1130 Ferris St", "neighbourhood": "North" },
+    { "name": "9 Corbin Lane", "neighbourhood": "East" },
+    { "name": "Westgate Retail Pad", "neighbourhood": "East" },
+    { "name": "Ashcroft Row", "neighbourhood": "East" },
+    { "name": "55 Quarry Rd", "neighbourhood": "East" },
+    { "name": "Brayton Commons", "neighbourhood": "South" },
+    { "name": "Selby Point", "neighbourhood": "South" },
+    { "name": "Two Rivers", "neighbourhood": "South" },
+    { "name": "Kingsfield", "neighbourhood": "South" }
+  ],
+
+  "parcels": {
+    "01": { "label": "Budget — payroll & opex", "form": "landmark", "assigned": true },
+    "02": { "label": "Digital signage", "form": "screen", "assigned": true },
+    "03": { "label": "Shuttle", "form": "vehicle", "assigned": true },
+    "04": { "label": "Work orders", "form": "yard", "assigned": true },
+    "05": { "label": "Occupancy", "form": "block", "assigned": true },
+    "06": { "label": "Delinquency", "form": "mailboxes", "assigned": true },
+    "07": { "label": "Inspections", "form": "kiosk", "assigned": true },
+    "08": { "label": "Unit turns", "form": "scaffold", "assigned": true },
+    "09": { "label": "Safety & incidents", "form": "post", "assigned": true },
+    "10": { "label": "Reviews", "form": "signboard", "assigned": true },
+
+    "11": { "label": "", "assigned": false },
+    "12": { "label": "", "assigned": false },
+    "13": { "label": "", "assigned": false },
+    "14": { "label": "", "assigned": false },
+    "15": { "label": "", "assigned": false },
+    "16": { "label": "", "assigned": false },
+    "17": { "label": "", "assigned": false },
+    "18": { "label": "", "assigned": false },
+    "19": { "label": "", "assigned": false },
+    "20": { "label": "", "assigned": false },
+    "21": { "label": "", "assigned": false },
+    "22": { "label": "", "assigned": false },
+    "23": { "label": "", "assigned": false },
+    "24": { "label": "", "assigned": false },
+    "25": { "label": "", "assigned": false }
+  },
+
+  "townCentre": {
+    "name": "Town Centre",
+    "buildings": [
+      { "id": "library", "label": "SOP library", "parcel": "02" },
+      { "id": "post", "label": "Email oversight", "parcel": "03" },
+      { "id": "utilities", "label": "Flow checker", "parcel": "04" },
+      { "id": "records", "label": "Contracts & renewals", "parcel": "05" },
+      { "id": "depot", "label": "Vendors", "parcel": "06" }
+    ]
+  }
+}
