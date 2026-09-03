@@ -125,6 +125,60 @@ if (!rows.length) {
   process.exit(1);
 }
 
+// ---------------------------------------------------------------------------
+// Merges: properties the workbook reports separately that belong on one hex.
+// ---------------------------------------------------------------------------
+const mergePath = path.join(ROOT, 'data', 'merges.json');
+let applied = [];
+if (fs.existsSync(mergePath)) {
+  let spec;
+  try {
+    spec = JSON.parse(fs.readFileSync(mergePath, 'utf8'));
+  } catch (err) {
+    console.error(`data/merges.json is not valid JSON — ${err.message}`);
+    process.exit(1);
+  }
+
+  const present = new Set(rows.map((r) => r.property));
+  const problems = [];
+  for (const m of spec.merges ?? []) {
+    if (!present.has(m.from)) problems.push(`"${m.from}" (from) is not in the workbook`);
+    if (!present.has(m.into)) problems.push(`"${m.into}" (into) is not in the workbook`);
+  }
+  if (problems.length) {
+    // A merge that silently does nothing leaves two half-properties on the map
+    // and no way to notice, so an unmatched name stops the import.
+    console.error('\n  Merge targets not found:');
+    for (const p of problems) console.error(`    - ${p}`);
+    console.error('\n  Names must match the workbook exactly. Nothing was written.\n');
+    process.exit(1);
+  }
+
+  const into = new Map((spec.merges ?? []).map((m) => [m.from, m.into]));
+  if (into.size) {
+    const regionalOf = new Map();
+    for (const r of rows) if (!into.has(r.property)) regionalOf.set(r.property, r.regional);
+
+    const merged = new Map();
+    for (const r of rows) {
+      const target = into.get(r.property) ?? r.property;
+      const key = `${target}\u0000${r.item}`;
+      const existing = merged.get(key);
+      if (!existing) {
+        merged.set(key, { ...r, property: target, regional: regionalOf.get(target) ?? r.regional });
+      } else {
+        // Variance is budget - actual, so it sums as cleanly as its parts do.
+        existing.actual += r.actual;
+        existing.budget += r.budget;
+        existing.variance += r.variance;
+      }
+    }
+    applied = [...into].map(([from, target]) => ({ from, into: target }));
+    rows.length = 0;
+    rows.push(...merged.values());
+  }
+}
+
 // Sanity-check the sign convention rather than trusting it: variance should be
 // budget - actual. If a future export flips it, every pillar would be upside
 // down and nothing else would complain.
@@ -178,6 +232,7 @@ fs.writeFileSync(
 );
 
 console.log(`\n  Imported ${rows.length} rows from ${path.basename(file)}`);
+for (const m of applied) console.log(`  Merged "${m.from}" into "${m.into}"`);
 console.log(`  ${properties.length} properties · ${regionals.length} regionals`);
 console.log('\n  Severity scale per line item (90th percentile of unfavourable variance):');
 for (const [item, scale] of Object.entries(scales).sort((a, b) => b[1] - a[1])) {
