@@ -77,54 +77,45 @@
   ],
   "parcels": {
     "01": {
-      "label": "Budget — payroll & opex",
+      "label": "Property overall",
       "form": "landmark",
       "assigned": true
     },
     "02": {
-      "label": "Digital signage",
-      "form": "screen",
+      "label": "Payroll variance",
       "assigned": true
     },
     "03": {
-      "label": "Shuttle",
-      "form": "vehicle",
+      "label": "Life Enrichment (620080)",
       "assigned": true
     },
     "04": {
-      "label": "Work orders",
-      "form": "yard",
+      "label": "Automotive lease",
       "assigned": true
     },
     "05": {
-      "label": "Occupancy",
-      "form": "block",
+      "label": "Automotive gas & oil",
       "assigned": true
     },
     "06": {
-      "label": "Delinquency",
-      "form": "mailboxes",
+      "label": "Automotive repairs",
       "assigned": true
     },
     "07": {
-      "label": "Inspections",
-      "form": "kiosk",
+      "label": "Automotive expense",
       "assigned": true
     },
     "08": {
-      "label": "Unit turns",
-      "form": "scaffold",
-      "assigned": true
+      "label": "",
+      "assigned": false
     },
     "09": {
-      "label": "Safety & incidents",
-      "form": "post",
-      "assigned": true
+      "label": "",
+      "assigned": false
     },
     "10": {
-      "label": "Reviews",
-      "form": "signboard",
-      "assigned": true
+      "label": "",
+      "assigned": false
     },
     "11": {
       "label": "",
@@ -216,5 +207,39 @@
         "parcel": "06"
       }
     ]
+  },
+  "lineItems": {
+    "Total 610005 - Payroll - Expense": {
+      "parcel": "02",
+      "label": "Payroll",
+      "ceiling": 1.0,
+      "priority": true
+    },
+    "620080 - Life Enrichment Expense": {
+      "parcel": "03",
+      "label": "Life Enrichment",
+      "ceiling": 1.0,
+      "priority": true
+    },
+    "621020 - Automotive Lease Expense": {
+      "parcel": "04",
+      "label": "Automotive lease",
+      "ceiling": 0.6
+    },
+    "621040 - Automotive Gas & Oil Expense": {
+      "parcel": "05",
+      "label": "Automotive gas & oil",
+      "ceiling": 0.6
+    },
+    "621030 - Automotive Repairs & Maint. Expense": {
+      "parcel": "06",
+      "label": "Automotive repairs",
+      "ceiling": 0.6
+    },
+    "621010 - Automotive Expense": {
+      "parcel": "07",
+      "label": "Automotive expense",
+      "ceiling": 0.6
+    }
   }
 }
