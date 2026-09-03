@@ -40,6 +40,8 @@ export const config = {
     mock: bool(process.env.ENABLE_MOCK, true),
     powerAutomate: bool(process.env.ENABLE_POWER_AUTOMATE, false),
     graph: bool(process.env.ENABLE_GRAPH, false),
+    // A worked non-flow domain: properties sized by budget variance.
+    portfolio: bool(process.env.ENABLE_PORTFOLIO, true),
   },
 
   // Entra ID (Azure AD) app registration. Device-code flow: no client secret,

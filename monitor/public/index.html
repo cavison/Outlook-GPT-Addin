@@ -41,6 +41,10 @@
     </div>
 
     <div class="spacer"></div>
+    <div class="modes" id="modes" role="group" aria-label="Colour encoding">
+      <button class="mode active" data-mode="health">Health</button>
+      <button class="mode" data-mode="metric">Metric</button>
+    </div>
     <div id="providers" class="providers"></div>
     <div class="poll" id="poll">connecting…</div>
     <button class="ghost" id="refresh">Refresh</button>
@@ -81,6 +85,11 @@
       </div>
     </div>
   </div>
+
+  <aside id="legend" class="panel">
+    <div class="panel-head"><h2>Legend</h2></div>
+    <div class="panel-body" id="legend-body"></div>
+  </aside>
 
   <div id="toasts"></div>
 

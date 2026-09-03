@@ -21,6 +21,10 @@ const hud = new Hud({
     if (res.ok) hud.toast('Acknowledged — you own this one now', 'good');
     else hud.toast(res.message ?? 'Could not acknowledge', 'bad');
   },
+  onViewMode: (mode) => {
+    world.setViewMode(mode);
+    hud.setViewMode(mode);
+  },
   onRefresh: async () => {
     hud.setPollStatus('refreshing…');
     await post('/api/refresh', {});

@@ -4,8 +4,10 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { MapControls } from './controls.js';
-import { createBuilding, createBeacon, statusMaterial } from './buildings.js';
-import { statusColour, ATTENTION, hash01 } from './palette.js';
+import {
+  createBuilding, createBeacon, statusMaterial, NEUTRAL_SHELL, NEUTRAL_SIGNAL,
+} from './buildings.js';
+import { statusColour, metricColour, ATTENTION, STATUS_GLYPH, hash01 } from './palette.js';
 
 // Buildings are authored at unit scale; this sizes them against the plate.
 // Tuned so a handful of structures reads as a settlement rather than as specks.
@@ -72,6 +74,10 @@ export class World {
     this.selectedId = null;
     this.hoveredId = null;
     this.terraform = 0.5;
+    // 'health' paints by status; 'metric' paints by each provider's declared
+    // diverging metric. Only ever one at a time — two colour languages on one
+    // screen means neither can be trusted.
+    this.viewMode = 'health';
     this.onSelect = () => {};
     this.onHover = () => {};
 
@@ -323,6 +329,7 @@ export class World {
     if (existing) {
       this._applyStatus(existing, entity);
       existing.entity = entity;
+      this._applyViewMode(existing); // the metric may have moved
       return;
     }
 
@@ -344,6 +351,50 @@ export class World {
     const record = { entity, group, beacon: null, district: entity.district };
     this.entities.set(entity.id, record);
     this._applyStatus(record, entity);
+    this._applyViewMode(record);
+  }
+
+  /**
+   * Repaint one building's shell for the current view mode. In health mode the
+   * shell is neutral and status does the talking; in metric mode the shell
+   * carries the diverging value and status retreats to the beacons.
+   */
+  _applyViewMode(record) {
+    const { group, entity } = record;
+    const metric = entity.encode?.metric;
+    const bodies = group.userData.bodies ?? [];
+    const originals = group.userData.shellMaterials ?? [];
+
+    if (this.viewMode === 'metric') {
+      // In metric view the map answers exactly one question. Status retreats to
+      // the beacons — which carry a glyph, not just a colour — so nothing on the
+      // ground competes with the ramp.
+      for (const signal of group.userData.signals ?? []) signal.material = NEUTRAL_SIGNAL;
+
+      if (metric) {
+        group.userData.metricMaterial ??= new THREE.MeshStandardMaterial({
+          roughness: 0.6,
+          metalness: 0.05,
+        });
+        group.userData.metricMaterial.color.setHex(metricColour(metric));
+        for (const body of bodies) body.material = group.userData.metricMaterial;
+      } else {
+        // Declared no metric, so it does not participate in this view.
+        for (const body of bodies) body.material = NEUTRAL_SHELL;
+      }
+    } else {
+      const mat = statusMaterial(entity.status);
+      for (const signal of group.userData.signals ?? []) signal.material = mat;
+      bodies.forEach((body, i) => {
+        if (originals[i]) body.material = originals[i];
+      });
+    }
+  }
+
+  setViewMode(mode) {
+    if (mode === this.viewMode) return;
+    this.viewMode = mode;
+    for (const record of this.entities.values()) this._applyViewMode(record);
   }
 
   _applyStatus(record, entity) {
@@ -351,8 +402,15 @@ export class World {
     for (const signal of record.group.userData.signals ?? []) signal.material = mat;
 
     const wants = ATTENTION.has(entity.status);
+    // A beacon's glyph changes with severity, so the three attention states are
+    // distinguishable without relying on colour.
+    if (wants && record.beacon && record.beacon.userData.glyph !== STATUS_GLYPH[entity.status]) {
+      this.scene.remove(record.beacon);
+      record.beacon = null;
+    }
     if (wants && !record.beacon) {
-      const beacon = createBeacon(statusColour(entity.status));
+      const beacon = createBeacon(statusColour(entity.status), STATUS_GLYPH[entity.status]);
+      beacon.userData.glyph = STATUS_GLYPH[entity.status];
       beacon.position.set(
         record.group.position.x,
         record.group.userData.height * BUILDING_SCALE + 2.0,

@@ -289,6 +289,37 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   letter-spacing: 0.12em; color: #fff;
 }
 
+/* ---- mode switch + legend ---- */
+
+.modes { display: flex; gap: 2px; padding: 2px; border-radius: 9px; background: rgba(255,255,255,0.06); }
+.mode {
+  border: none; background: transparent; color: var(--muted);
+  padding: 5px 12px; border-radius: 7px; font-size: 12px; font-weight: 600;
+}
+.mode.active { background: rgba(90,162,255,0.24); color: #dce9ff; }
+.mode:disabled { opacity: 0.35; }
+
+#legend { right: 18px; bottom: 18px; width: 268px; max-height: 46vh; }
+
+.legend-group + .legend-group { margin-top: 12px; border-top: 1px solid var(--panel-line); padding-top: 10px; }
+.legend-title { font-size: 11px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.legend-sub { font-size: 11px; color: var(--muted); margin-bottom: 7px; }
+
+.legend-row { display: flex; align-items: center; gap: 8px; font-size: 12px; padding: 2px 0; }
+.legend-row .swatch { width: 12px; height: 12px; border-radius: 3px; flex: none; }
+.legend-row .glyph {
+  width: 15px; height: 15px; border-radius: 4px; flex: none;
+  display: grid; place-items: center; font-size: 10px; font-weight: 800; color: #0d1220;
+}
+
+/* Height key: a literal picture of the channel, since "taller = more" is the
+   one thing a viewer must not have to guess. */
+.height-key { display: flex; align-items: flex-end; gap: 4px; height: 34px; margin: 4px 0 6px; }
+.height-key i { flex: 1; background: linear-gradient(180deg, #9fb4d6, #55688c); border-radius: 2px 2px 0 0; }
+
+.ramp { height: 10px; border-radius: 3px; margin: 4px 0 4px; }
+.ramp-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); }
+
 #toasts { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); z-index: 50; display: grid; gap: 8px; }
 .toast {
   padding: 10px 16px; border-radius: 10px;

@@ -23,7 +23,23 @@ const GEO = {
   dish: new THREE.SphereGeometry(0.55, 16, 8, 0, Math.PI * 2, 0, Math.PI / 2.6),
   fin: new THREE.BoxGeometry(0.12, 0.5, 0.62),
   crate: new THREE.BoxGeometry(0.26, 0.26, 0.26),
+  // Cone with 4 sides = a pitched roof once rotated 45°.
+  roof: new THREE.ConeGeometry(0.92, 0.62, 4),
+  chimney: new THREE.BoxGeometry(0.2, 0.5, 0.2),
 };
+
+// Worn by everything that is not participating in the active metric view, so a
+// metric map never has stray status colour competing with its ramp.
+export const NEUTRAL_SHELL = new THREE.MeshStandardMaterial({
+  color: 0x9aa3b4,
+  roughness: 0.75,
+  metalness: 0.05,
+});
+export const NEUTRAL_SIGNAL = new THREE.MeshStandardMaterial({
+  color: 0x76809a,
+  roughness: 0.7,
+  metalness: 0.05,
+});
 
 /** One emissive material per status, shared and animated centrally. */
 const statusMaterials = new Map();
@@ -64,19 +80,80 @@ function mesh(geo, mat, { x = 0, y = 0, z = 0, sx = 1, sy = 1, sz = 1, ry = 0, r
  * status — the renderer swaps its material on every status change, so the
  * archetypes below only have to nominate which part glows.
  */
+/** Height range in world units. A common baseline plus a bounded range is what
+ *  makes two buildings comparable at a glance. */
+const MIN_HEIGHT = 0.55;
+const MAX_HEIGHT = 3.4;
+
+/**
+ * Resolve a building's height.
+ *
+ * When a provider declares `encode.height`, magnitude is mapped onto height and
+ * height ALONE — the footprint never changes. Scaling all three axes would make
+ * a 2x value look 8x, and volume is the channel people misjudge worst.
+ */
+export function heightFor(entity) {
+  const spec = entity.encode?.height;
+  if (!spec) return 0.75 + entity.weight * 0.55 + hash01(entity.id, 1) * 0.4;
+
+  const [lo, hi] = spec.domain;
+  const t = Math.max(0, Math.min(1, (spec.value - lo) / (hi - lo)));
+  // Square root so the tallest value does not dwarf everything else into
+  // unreadable stubs; still monotonic, so bigger always means bigger.
+  return MIN_HEIGHT + Math.sqrt(t) * (MAX_HEIGHT - MIN_HEIGHT);
+}
+
 export function createBuilding(entity) {
   const group = new THREE.Group();
   const r1 = hash01(entity.id, 1);
   const r2 = hash01(entity.id, 2);
   const r3 = hash01(entity.id, 3);
 
-  const height = 0.75 + entity.weight * 0.55 + r1 * 0.4;
+  const height = heightFor(entity);
   const mat = statusMaterial(entity.status);
   const signals = [];
+  // Parts that carry a domain metric in the diverging view. Kept separate from
+  // `signals` so status and metric never fight over the same surface.
+  const bodies = [];
 
   group.add(mesh(GEO.pad, SHELL_DARK, { y: 0.09, ry: r1 * Math.PI }));
 
-  switch (entity.kind) {
+  switch (entity.encode?.form ?? entity.kind) {
+    case 'house': {
+      // A house: fixed footprint, storeys stacked upward. Height is the whole
+      // message, so the silhouette must make height easy to compare.
+      const body = mesh(GEO.box, SHELL, {
+        y: 0.18 + height / 2,
+        sy: height,
+        sx: 0.92,
+        sz: 0.92,
+      });
+      group.add(body);
+      bodies.push(body);
+
+      const roof = mesh(GEO.roof, SHELL_DARK, {
+        y: 0.18 + height + 0.28,
+        ry: Math.PI / 4,
+        sx: 1.12,
+        sz: 1.12,
+      });
+      group.add(roof);
+      bodies.push(roof);
+
+      group.add(mesh(GEO.chimney, SHELL_DARK, { x: 0.3, y: 0.18 + height + 0.5, z: 0.22 }));
+
+      // Status rides a lit band at the eaves — small, and never the thing that
+      // encodes the money.
+      const band = mesh(GEO.crate, mat, {
+        y: 0.18 + height - 0.06,
+        sx: 3.7,
+        sy: 0.22,
+        sz: 3.7,
+      });
+      group.add(band);
+      signals.push(band);
+      break;
+    }
     case 'mailbox':
     case 'approval': {
       // Wide low block with a lit strip along the roof.
@@ -152,6 +229,17 @@ export function createBuilding(entity) {
 
   group.rotation.y = r1 * Math.PI * 2;
   group.userData.signals = signals;
+
+  // Every shell surface can carry a domain metric in the diverging view. These
+  // are collected rather than listed per-archetype so a new building shape gets
+  // metric shading for free.
+  if (!bodies.length) {
+    group.traverse((o) => {
+      if (o.isMesh && (o.material === SHELL || o.material === SHELL_DARK)) bodies.push(o);
+    });
+  }
+  group.userData.bodies = bodies;
+  group.userData.shellMaterials = bodies.map((b) => b.material);
   group.userData.height = 0.18 + height + 0.9;
   return group;
 }
@@ -161,10 +249,10 @@ export function createBuilding(entity) {
  * a light shaft down to the building, and a pulsing ground ring. This is the
  * whole reason to render a city instead of a table — an unmissable "here".
  */
-/** Rounded-square badge with an exclamation mark, drawn once and reused. */
-let badgeTexture = null;
-function getBadgeTexture() {
-  if (badgeTexture) return badgeTexture;
+/** Rounded-square badge, one per glyph, drawn once and cached. */
+const badgeTextures = new Map();
+function getBadgeTexture(glyph = '!') {
+  if (badgeTextures.has(glyph)) return badgeTextures.get(glyph);
   const size = 128;
   const canvas = document.createElement('canvas');
   canvas.width = canvas.height = size;
@@ -187,18 +275,19 @@ function getBadgeTexture() {
   ctx.font = 'bold 68px system-ui, sans-serif';
   ctx.textAlign = 'center';
   ctx.textBaseline = 'middle';
-  ctx.fillText('!', size / 2, size / 2 + 3);
+  ctx.fillText(glyph, size / 2, size / 2 + 3);
 
-  badgeTexture = new THREE.CanvasTexture(canvas);
-  return badgeTexture;
+  const tex = new THREE.CanvasTexture(canvas);
+  badgeTextures.set(glyph, tex);
+  return tex;
 }
 
-export function createBeacon(colour) {
+export function createBeacon(colour, glyph = '!') {
   const group = new THREE.Group();
 
   const glow = new THREE.MeshBasicMaterial({
     color: colour,
-    map: getBadgeTexture(),
+    map: getBadgeTexture(glyph),
     transparent: true,
     opacity: 0.95,
     depthWrite: false,

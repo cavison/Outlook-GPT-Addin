@@ -7,7 +7,7 @@
 /** Ordered worst-first. Used for sorting alerts and picking a district's colour. */
 export const STATUS = {
   failed: { rank: 0, label: 'Failed', colour: 0xff4d5a, beacon: true, emissive: 1.0 },
-  blocked: { rank: 1, label: 'Blocked', colour: 0xff9f3c, beacon: true, emissive: 0.9 },
+  blocked: { rank: 1, label: 'Blocked', colour: 0xb57bff, beacon: true, emissive: 0.9 },
   warning: { rank: 2, label: 'Degraded', colour: 0xffd23f, beacon: true, emissive: 0.7 },
   running: { rank: 3, label: 'Running', colour: 0x4fc3f7, beacon: false, emissive: 0.9 },
   healthy: { rank: 4, label: 'Healthy', colour: 0x5be7a9, beacon: false, emissive: 0.35 },
@@ -46,6 +46,7 @@ export function makeEntity(raw) {
     url = null,
     actions = [],
     weight = 1,
+    encode = null,
   } = raw;
 
   if (!id) throw new Error('entity requires an id');
@@ -63,8 +64,10 @@ export function makeEntity(raw) {
     status,
     detail,
     url,
-    // weight drives how tall/large the building is: busier things loom larger.
+    // weight drives how tall the building is when no explicit encoding is
+    // given: busier things loom larger.
     weight: Math.max(0.4, Math.min(3, weight)),
+    encode: normalizeEncoding(encode, id),
     metrics: {
       lastRunAt: metrics.lastRunAt ?? null,
       durationMs: metrics.durationMs ?? null,
@@ -84,6 +87,56 @@ export function makeEntity(raw) {
     })),
     updatedAt: new Date().toISOString(),
   };
+}
+
+/**
+ * How a provider declares what its data *means* visually.
+ *
+ * This is what makes the city a general instrument rather than a flow monitor:
+ * a district of houses sized by budget variance and a district of towers sized
+ * by run volume are the same machinery with different encodings.
+ *
+ * Two rules are enforced here rather than left to each provider:
+ *
+ * 1. **Magnitude rides height only, never footprint.** Scaling a building in
+ *    all three axes makes a 2x value look 8x — 3D volume is badly misjudged.
+ *    Height is a length from a common baseline, which is the one channel people
+ *    read accurately.
+ * 2. **A signed metric is a separate channel from status.** Colour in the world
+ *    means health; a diverging metric gets its own view mode so two colour
+ *    languages are never on screen at once.
+ */
+function normalizeEncoding(encode, id) {
+  if (!encode) return null;
+
+  const out = { form: encode.form ?? null };
+
+  if (encode.height) {
+    const { value, label, unit = '', domain } = encode.height;
+    if (typeof value !== 'number' || Number.isNaN(value)) {
+      throw new Error(`entity ${id} encode.height.value must be a number`);
+    }
+    if (!Array.isArray(domain) || domain.length !== 2 || domain[0] === domain[1]) {
+      throw new Error(`entity ${id} encode.height.domain must be [min, max] with min !== max`);
+    }
+    out.height = { value, label: label ?? 'Magnitude', unit, domain };
+  }
+
+  if (encode.metric) {
+    const { value, label, unit = '', domain, mode = 'diverging', midpoint = 0 } = encode.metric;
+    if (typeof value !== 'number' || Number.isNaN(value)) {
+      throw new Error(`entity ${id} encode.metric.value must be a number`);
+    }
+    if (!Array.isArray(domain) || domain.length !== 2) {
+      throw new Error(`entity ${id} encode.metric.domain must be [min, max]`);
+    }
+    if (!['diverging', 'sequential'].includes(mode)) {
+      throw new Error(`entity ${id} encode.metric.mode must be diverging or sequential`);
+    }
+    out.metric = { value, label: label ?? 'Metric', unit, domain, mode, midpoint };
+  }
+
+  return out.height || out.metric || out.form ? out : null;
 }
 
 /**

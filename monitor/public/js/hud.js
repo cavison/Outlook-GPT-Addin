@@ -1,4 +1,6 @@
-import { STATUS_LABEL, statusColour, hex, ATTENTION } from './palette.js';
+import {
+  STATUS_LABEL, STATUS_GLYPH, statusColour, metricColour, hex, ATTENTION, DIVERGING,
+} from './palette.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -18,7 +20,8 @@ function clockTime(iso) {
 }
 
 export class Hud {
-  constructor({ onSelect, onAction, onAcknowledge, onRefresh, onSignIn }) {
+  constructor({ onSelect, onAction, onAcknowledge, onRefresh, onSignIn, onViewMode }) {
+    this.viewMode = 'health';
     this.onSelect = onSelect;
     this.onAction = onAction;
     this.onAcknowledge = onAcknowledge;
@@ -33,6 +36,10 @@ export class Hud {
       if (row) this.onSelect(row.dataset.id);
     });
 
+    for (const btn of document.querySelectorAll('.mode')) {
+      btn.addEventListener('click', () => onViewMode(btn.dataset.mode));
+    }
+
     $('refresh').addEventListener('click', onRefresh);
     $('detail-close').addEventListener('click', () => this.select(null, true));
     $('signin-start').addEventListener('click', onSignIn);
@@ -44,6 +51,82 @@ export class Hud {
 
   setEntities(entities) {
     this.state.entities = entities;
+    this.renderLegend();
+  }
+
+  setViewMode(mode) {
+    this.viewMode = mode;
+    for (const btn of document.querySelectorAll('.mode')) {
+      btn.classList.toggle('active', btn.dataset.mode === mode);
+    }
+    this.renderLegend();
+  }
+
+  /**
+   * A map where height means different things in different districts is
+   * unreadable without this. The legend is generated from the encodings the
+   * providers actually declared, so it can never drift from what is drawn.
+   */
+  renderLegend() {
+    const entities = [...this.state.entities.values()];
+    if (!entities.length) return;
+
+    // One entry per (district, encoding) pair actually present.
+    const byDistrict = new Map();
+    for (const e of entities) {
+      if (!e.encode?.height && !e.encode?.metric) continue;
+      if (!byDistrict.has(e.district)) byDistrict.set(e.district, e.encode);
+    }
+
+    const groups = [];
+
+    const heightGeneric = entities.some((e) => !e.encode?.height);
+    if (heightGeneric) {
+      groups.push(`
+        <div class="legend-group">
+          <div class="legend-title">Building height</div>
+          <div class="legend-sub">Activity volume</div>
+          <div class="height-key"><i style="height:30%"></i><i style="height:55%"></i><i style="height:80%"></i><i style="height:100%"></i></div>
+        </div>`);
+    }
+
+    for (const [district, encode] of byDistrict) {
+      const parts = [`<div class="legend-title">${escapeHtml(district)}</div>`];
+      if (encode.height) {
+        parts.push(`<div class="legend-sub">Height — ${escapeHtml(encode.height.label)}</div>`);
+        parts.push('<div class="height-key"><i style="height:30%"></i><i style="height:55%"></i><i style="height:80%"></i><i style="height:100%"></i></div>');
+      }
+      if (encode.metric && this.viewMode === 'metric') {
+        const [lo, hi] = encode.metric.domain;
+        parts.push(`<div class="legend-sub">Colour — ${escapeHtml(encode.metric.label)}</div>`);
+        parts.push(
+          `<div class="ramp" style="background:linear-gradient(90deg,${hex(DIVERGING.low)},${hex(DIVERGING.mid)},${hex(DIVERGING.high)})"></div>` +
+          `<div class="ramp-labels"><span>${formatSigned(lo, encode.metric.unit)}</span>` +
+          `<span>on plan</span><span>${formatSigned(hi, encode.metric.unit)}</span></div>`,
+        );
+      }
+      groups.push(`<div class="legend-group">${parts.join('')}</div>`);
+    }
+
+    if (this.viewMode !== 'metric') {
+      groups.push(`
+        <div class="legend-group">
+          <div class="legend-title">Status colour</div>
+          ${['failed', 'blocked', 'warning', 'running', 'healthy', 'paused']
+            .map((s) => {
+              const c = hex(statusColour(s));
+              const glyph = STATUS_GLYPH[s];
+              return `<div class="legend-row">${
+                glyph
+                  ? `<span class="glyph" style="background:${c}">${glyph}</span>`
+                  : `<span class="swatch" style="background:${c}"></span>`
+              }<span>${STATUS_LABEL[s]}</span></div>`;
+            })
+            .join('')}
+        </div>`);
+    }
+
+    $('legend-body').innerHTML = groups.join('');
   }
 
   setConfig(config) {
@@ -192,12 +275,23 @@ export class Hud {
     const problem = ATTENTION.has(entity.status);
     const m = entity.metrics ?? {};
 
-    const metrics = [
-      ['Last run', m.lastRunAt ? relative(Date.now() - new Date(m.lastRunAt)) + ' ago' : '—'],
-      ['Runs today', m.runsToday ?? '—'],
-      ['Failures today', m.failuresToday ?? '—'],
-      ['Success rate', m.successRate != null ? `${Math.round(m.successRate * 100)}%` : '—'],
-    ];
+    // Which numbers matter depends on what the thing IS. A property has no
+    // "runs today", and showing four em-dashes is worse than showing nothing.
+    const metrics = entity.encode?.height || entity.encode?.metric
+      ? [
+          ...(m.budget != null ? [['Budget', formatSigned(m.budget, '$').replace('+', '')]] : []),
+          ...(m.actual != null ? [['Actual', formatSigned(m.actual, '$').replace('+', '')]] : []),
+          ...(m.variance != null ? [['Variance', formatSigned(m.variance, '$')]] : []),
+          ...(m.variancePct != null ? [['Variance %', `${(m.variancePct * 100).toFixed(1)}%`]] : []),
+          ...(m.phase ? [['Phase', m.phase]] : []),
+          ...(m.stalledDays ? [['Stalled', `${m.stalledDays} days`]] : []),
+        ]
+      : [
+          ['Last run', m.lastRunAt ? relative(Date.now() - new Date(m.lastRunAt)) + ' ago' : '—'],
+          ['Runs today', m.runsToday ?? '—'],
+          ['Failures today', m.failuresToday ?? '—'],
+          ['Success rate', m.successRate != null ? `${Math.round(m.successRate * 100)}%` : '—'],
+        ];
 
     const writesAllowed = this.state.config.allowWriteActions !== false;
 
@@ -321,6 +415,13 @@ export class Hud {
       <code>${code.userCode}</code>
       Leave this open — the colony connects itself once you finish.`;
   }
+}
+
+function formatSigned(value, unit) {
+  const sign = value > 0 ? '+' : value < 0 ? '−' : '';
+  const n = Math.abs(value);
+  const short = n >= 1000 ? `${(n / 1000).toFixed(n >= 10000 ? 0 : 1)}k` : `${Math.round(n)}`;
+  return unit === '$' ? `${sign}$${short}` : `${sign}${short}${unit}`;
 }
 
 function escapeHtml(value) {

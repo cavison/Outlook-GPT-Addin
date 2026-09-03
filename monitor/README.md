@@ -81,6 +81,51 @@ The **terraform** percentage is a slow-moving average of overall health. It
 drives the vegetation and light in the world: a neglected board goes barren, a
 well-run week visibly greens up.
 
+## Encoding: making the city mean something else
+
+The map is not hardcoded to flows. A provider can declare how its data maps to
+the visual channels, which is how a district of houses sized by budget variance
+and a district of towers sized by run volume coexist:
+
+```js
+encode: {
+  form: 'house',
+  height: { value: Math.abs(variance), label: 'Budget variance', unit: '$', domain: [0, max] },
+  metric: { value: variance, label: 'Over / under budget', unit: '$',
+            domain: [-bound, bound], mode: 'diverging', midpoint: 0 },
+}
+```
+
+See `server/providers/portfolio.js` for the worked example — it exists to be
+copied.
+
+Three rules are enforced rather than left to taste:
+
+**Magnitude rides height, never footprint.** Scaling a building in all three
+axes makes a 2× value look 8×; volume is the channel people misjudge worst.
+Height is a length from a common baseline, which people read accurately.
+
+**One colour language at a time.** The Health/Metric switch decides whether
+colour means status or means your metric. In Metric view everything without a
+declared metric goes neutral grey and status retreats to the beacons — so the
+ramp never competes with a stray green dome.
+
+**Diverging metrics get a neutral midpoint.** Blue ↔ grey ↔ red, so "exactly on
+plan" reads as *nothing*, not as a value.
+
+The legend is generated from the encodings providers actually declared, so it
+cannot drift from what is drawn.
+
+### On the status palette
+
+The status colours were validated with a palette checker rather than chosen by
+eye, and the first attempt failed: `warning` yellow and `blocked` orange scored
+ΔE 12.4 on normal vision — below the 15 floor — meaning two different severities
+looked alike. `blocked` is now violet, and the set passes (worst CVD ΔE 9.4,
+worst normal-vision ΔE 17.2, all ≥3:1 contrast). Each attention state also
+carries its own beacon glyph (`✕` failed, `‖` blocked, `!` degraded), so
+severity is never colour-alone.
+
 ## Adding a data source
 
 Write a class with two methods and register it in `server/providers/index.js`:
