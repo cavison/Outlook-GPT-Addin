@@ -14,7 +14,9 @@ export const STATUS_COLOUR = {
   running: 0x4fc3f7,
   healthy: 0x5be7a9,
   paused: 0x8892a6,
-  unknown: 0x6b7280,
+  // Achromatic and bright: there is no reading to colour, and grey-on-dark
+  // disappears against the deck. See STATUS in server/model.js.
+  unknown: 0xd7dde8,
 };
 
 // Secondary encoding: severity must never be carried by colour alone, so each
@@ -23,6 +25,7 @@ export const STATUS_GLYPH = {
   failed: '✕',
   blocked: '‖',
   warning: '!',
+  unknown: '?',
 };
 
 export const STATUS_LABEL = {
@@ -32,13 +35,15 @@ export const STATUS_LABEL = {
   running: 'Running',
   healthy: 'Healthy',
   paused: 'Paused',
-  unknown: 'Unknown',
+  unknown: 'No data',
 };
 
-export const ATTENTION = new Set(['failed', 'blocked', 'warning']);
+// A feed that stopped reporting is work, not a curiosity, so it queues with
+// the failures rather than sitting silently on the map.
+export const ATTENTION = new Set(['failed', 'blocked', 'warning', 'unknown']);
 
 /** Worst first — matches the server's ordering. */
-const RANK = { failed: 0, blocked: 1, warning: 2, running: 3, healthy: 4, paused: 5, unknown: 6 };
+const RANK = { failed: 0, blocked: 1, warning: 2, unknown: 3, running: 4, healthy: 5, paused: 6 };
 export function statusRank(status) {
   return RANK[status] ?? RANK.unknown;
 }

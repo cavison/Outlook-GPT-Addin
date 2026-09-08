@@ -12,7 +12,12 @@ export const STATUS = {
   running: { rank: 3, label: 'Running', colour: 0x4fc3f7, beacon: false, emissive: 0.9 },
   healthy: { rank: 4, label: 'Healthy', colour: 0x5be7a9, beacon: false, emissive: 0.35 },
   paused: { rank: 5, label: 'Paused', colour: 0x8892a6, beacon: false, emissive: 0.12 },
-  unknown: { rank: 6, label: 'Unknown', colour: 0x6b7280, beacon: false, emissive: 0.12 },
+  // "No data" earns a beacon. It now means one thing only — something that was
+  // reporting has stopped — and a feed that quietly died is the failure this
+  // whole map exists to catch, so it cannot be the one status that never asks
+  // for attention. Deliberately achromatic and BRIGHT: colourless because there
+  // is no reading to colour, bright because grey on a dark deck disappears.
+  unknown: { rank: 3, label: 'No data', colour: 0xd7dde8, beacon: true, emissive: 0.5 },
 };
 
 export const STATUSES = Object.keys(STATUS);

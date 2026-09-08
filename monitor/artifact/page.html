@@ -1,0 +1,242 @@
+<title>Portfolio Colony</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+:root{
+  --bg:#0d1220; --panel:rgba(14,20,36,.88); --line:rgba(120,160,220,.18);
+  --ink:#e8eefc; --muted:#96a3bd; --dim:#6b7891; --accent:#5aa2ff;
+  --failed:#ff4d5a; --blocked:#b57bff; --warning:#ffd23f; --healthy:#5be7a9;
+  --nodata:#d7dde8; --paused:#8892a6;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);
+  font-family:Archivo,"Helvetica Neue",Arial,sans-serif;font-size:14px;line-height:1.45;
+  font-variant-numeric:tabular-nums}
+#scene{position:fixed;inset:0;width:100%;height:100%;display:block;cursor:grab}
+#scene:active{cursor:grabbing}
+#labels{position:fixed;inset:0;pointer-events:none}
+.lab{position:absolute;padding:4px 12px;border-radius:999px;background:rgba(10,15,28,.78);
+  border:1px solid var(--c,var(--accent));color:#fff;font-size:11.5px;font-weight:600;
+  letter-spacing:.03em;white-space:nowrap;box-shadow:0 0 16px -4px var(--c,var(--accent));display:none}
+.lab.reg{font-size:15px;padding:7px 20px;background:rgba(10,15,28,.9);box-shadow:0 0 30px -6px var(--c)}
+.lab.dim{opacity:.22;box-shadow:none}
+#tip{position:fixed;z-index:25;pointer-events:none;display:none;max-width:290px;
+  padding:9px 12px;border-radius:10px;background:rgba(10,15,28,.95);
+  border:1px solid var(--tc,var(--line));box-shadow:0 14px 34px -12px rgba(0,0,0,.9)}
+#tip .t{font-weight:700;font-size:12.5px;line-height:1.3}
+#tip .r{font-size:10.5px;color:var(--muted);margin-top:1px}
+#tip .v{font:600 12px var(--mono);margin-top:6px;color:var(--tc,var(--ink))}
+#tip .m{font:400 10.5px var(--mono);color:var(--muted);margin-top:2px}
+
+/* ---------- top bar ---------- */
+#top{position:fixed;top:0;left:0;right:0;height:54px;display:flex;align-items:center;gap:20px;
+  padding:0 16px;background:linear-gradient(180deg,rgba(9,13,24,.95),rgba(9,13,24,.6));
+  border-bottom:1px solid var(--line);z-index:20;backdrop-filter:blur(14px)}
+.brand{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:.01em}
+.mark{width:14px;height:14px;background:conic-gradient(from 0deg,#5aa2ff,#b44ff5,#2fd8c3,#5aa2ff);
+  clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%)}
+.stat{display:flex;align-items:baseline;gap:6px}
+.stat b{font-size:18px;font-weight:700;font-family:var(--mono)}
+.stat span{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+.spacer{flex:1}
+.note{font-size:10.5px;color:var(--dim);font-family:var(--mono);max-width:250px;line-height:1.35;text-align:right}
+
+/* ---------- filter bar ---------- */
+#filterbar{position:fixed;top:54px;left:0;right:0;z-index:18;display:flex;align-items:center;
+  gap:14px;flex-wrap:wrap;padding:7px 16px;
+  background:linear-gradient(180deg,rgba(9,13,24,.94),rgba(9,13,24,.66));
+  border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}
+.fgroup{display:flex;align-items:center;gap:5px}
+.flabel{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin-right:2px}
+.fchip{border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--muted);
+  padding:3px 10px;border-radius:7px;font:600 11.5px Archivo,sans-serif;cursor:pointer}
+.fchip:hover{color:var(--ink)}
+.fchip.on{background:rgba(90,162,255,.24);color:#dce9ff;border-color:rgba(90,162,255,.5)}
+.fchip.crit.on{background:rgba(255,77,90,.24);color:#ffb4ba;border-color:rgba(255,77,90,.55)}
+.fchip.watch.on{background:rgba(255,210,63,.22);color:#ffe79a;border-color:rgba(255,210,63,.5)}
+.fchip.ok.on{background:rgba(91,231,169,.2);color:#a9f4d4;border-color:rgba(91,231,169,.45)}
+.fchip.gap.on{background:rgba(215,221,232,.22);color:#f2f5fa;border-color:rgba(215,221,232,.6)}
+.fchip.clear{color:#ffb4ba;border-color:rgba(255,77,90,.4)}
+.fspacer{flex:1}
+.fwarn{font-size:11px;color:#ffe79a}
+#filterbar select,.rctl select,.rctl input{appearance:none;background:rgba(255,255,255,.05);
+  color:var(--ink);border:1px solid var(--line);border-radius:7px;height:24px;
+  padding:0 9px;font:400 11.5px Archivo,sans-serif;min-width:0}
+#filterbar select,.rctl select{padding-right:24px;
+  background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),
+                   linear-gradient(135deg,var(--muted) 50%,transparent 50%);
+  background-position:calc(100% - 13px) 11px,calc(100% - 9px) 11px;
+  background-size:4px 4px;background-repeat:no-repeat}
+
+/* ---------- panels ---------- */
+.panel{position:fixed;background:var(--panel);border:1px solid var(--line);border-radius:13px;
+  backdrop-filter:blur(18px);box-shadow:0 22px 60px -20px rgba(0,0,0,.9);z-index:15;
+  display:flex;flex-direction:column;overflow:hidden}
+#roster{left:16px;top:108px;width:376px;max-height:calc(100vh - 132px)}
+#legend{right:16px;bottom:16px;width:238px}
+#card{right:16px;top:108px;width:340px;display:none;max-height:calc(100vh - 132px)}
+.head{display:flex;align-items:center;justify-content:space-between;padding:11px 13px;
+  border-bottom:1px solid var(--line)}
+.head h2{margin:0;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.body{overflow-y:auto;padding:7px}
+.body::-webkit-scrollbar{width:7px}
+.body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.13);border-radius:7px}
+
+/* ---------- roster ---------- */
+.tally{display:flex;flex-wrap:wrap;gap:5px;padding:9px 11px 0}
+.rchip{display:inline-flex;align-items:center;gap:5px;padding:2px 7px;border:1px solid var(--line);
+  border-radius:6px;background:rgba(255,255,255,.03);font-size:10.5px;color:var(--muted);white-space:nowrap}
+.rchip i{width:5px;height:5px;border-radius:1px;background:currentColor}
+.rchip b{color:var(--ink);font-weight:700;font-family:var(--mono)}
+.rchip.crit{color:var(--failed)}.rchip.watch{color:var(--warning)}
+.rchip.ok{color:var(--healthy)}.rchip.gap{color:var(--nodata)}
+.rchip b.bad{color:var(--failed)}.rchip b.good{color:var(--healthy)}
+.rctl{display:flex;gap:5px;padding:8px 11px;align-items:center}
+.rctl select{flex:1}.rctl input{flex:1}
+.toggle{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;
+  border:1px solid var(--line);border-radius:7px;background:rgba(255,255,255,.05);
+  color:var(--muted);font-size:11.5px;cursor:pointer;white-space:nowrap}
+.toggle i{width:7px;height:7px;border-radius:2px;background:rgba(255,255,255,.18)}
+.toggle[aria-pressed=true]{color:var(--ink)}
+.toggle[aria-pressed=true] i{background:var(--healthy)}
+.rlegend{display:flex;gap:3px 9px;flex-wrap:wrap;padding:0 11px 8px;font-size:9.5px;
+  color:var(--muted);max-height:48px;overflow-y:auto}
+.rlegend div{display:flex;align-items:center;gap:4px}
+.rlegend .pip{width:12px;height:12px}.rlegend .pip svg{width:8px;height:8px}
+
+.rlist{padding:4px 8px 10px;display:grid;gap:4px;align-content:start;overflow-y:auto}
+.rlist::-webkit-scrollbar{width:7px}
+.rlist::-webkit-scrollbar-thumb{background:rgba(255,255,255,.13);border-radius:7px}
+.ghead{display:flex;align-items:center;gap:9px;margin:8px 0 1px;padding:5px 7px 6px;
+  border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.05),transparent)}
+.ghead:first-child{margin-top:0}
+.ghead .nm{font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase}
+.ghead .ct{font-size:10px;color:var(--muted)}
+.ghead.un .nm{color:var(--blocked)}
+.ghead .avg{display:flex;align-items:center;gap:6px;margin-left:auto}
+.ghead .avg em{font-style:normal;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.ghead .avg .segs{width:76px}
+.ghead .hpnum{font-size:11px}
+
+.rcard{display:grid;grid-template-columns:minmax(0,1fr) 82px 30px;
+  grid-template-areas:"id segs hp" "pips pips var";align-items:center;gap:4px 8px;
+  padding:6px 8px;cursor:pointer;background:rgba(255,255,255,.035);
+  border:1px solid transparent;border-radius:8px;transition:opacity .1s,background .1s}
+.rcard:hover{background:rgba(255,255,255,.075)}
+.rcard.on{background:rgba(90,162,255,.15);border-color:rgba(90,162,255,.45)}
+.rlist.focused .rcard,.rlist.focused .ghead{opacity:.3}
+.rlist.focused .rcard.active{opacity:1}
+.rcard .rid{grid-area:id;min-width:0}
+.rcard .prop{display:block;font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rcard .dir{display:block;font-size:10.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rcard .dir .faint{color:rgba(150,163,189,.55);font-style:italic}
+.segs{grid-area:segs;display:flex;gap:1.5px;height:8px}
+.seg{flex:1;background:rgba(255,255,255,.09);border-radius:1px}
+.seg.on{background:var(--healthy)}
+.m-amber .seg.on{background:var(--warning)}
+.m-red .seg.on{background:var(--failed)}
+.hpnum{grid-area:hp;text-align:right;font:700 12px var(--mono);color:var(--healthy)}
+.m-amber .hpnum{color:var(--warning)}.m-red .hpnum{color:var(--failed)}
+.rcard .var{grid-area:var;text-align:right;font:400 10px var(--mono);color:var(--healthy);white-space:nowrap}
+.rcard .var.over{color:#ff9d9d}
+.pips{grid-area:pips;display:flex;gap:2.5px}
+.pip{width:14px;height:14px;flex:none;border-radius:3px;background:rgba(255,255,255,.07);
+  border:1px solid transparent;display:grid;place-items:center;color:rgba(160,175,200,.7)}
+.pip svg{width:9px;height:9px;display:block}
+.pip b{font:700 8px var(--mono);font-style:normal}
+.pip.met{background:rgba(91,231,169,.14);color:var(--healthy)}
+.pip.warn{background:rgba(255,210,63,.18);border-color:rgba(255,210,63,.5);color:var(--warning)}
+.pip.fail{background:rgba(255,77,90,.2);border-color:rgba(255,77,90,.6);color:#ff9d9d}
+.pip.gap{background:rgba(215,221,232,.22);border-color:rgba(215,221,232,.7);color:#f2f5fa}
+.pip.na{background:transparent;border:1px dashed rgba(150,163,189,.35)}
+.pip.wait{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05)}
+.empty{color:var(--muted);font-size:12px;padding:16px 8px;margin:0}
+
+/* ---------- detail card ---------- */
+#card .ch{padding:14px 15px 11px;border-bottom:1px solid var(--line);position:relative}
+#card .kind{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+#card h3{margin:4px 30px 8px 0;font-size:16px;line-height:1.25}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;
+  font:700 10.5px Archivo,sans-serif;letter-spacing:.05em;text-transform:uppercase}
+.close{position:absolute;top:8px;right:8px;width:26px;height:26px;padding:0;border:0;border-radius:7px;
+  background:rgba(255,255,255,.08);color:var(--muted);font-size:16px;line-height:1;cursor:pointer}
+.bars{padding:11px 15px 14px;display:grid;gap:7px;overflow-y:auto}
+.bar{display:grid;grid-template-columns:1fr auto;gap:3px 10px;align-items:center}
+.bar .bn{font-size:11.5px;color:#cdd8ee;display:flex;align-items:center;gap:6px}
+.bar .bv{font:600 11px var(--mono)}
+.bar.hit{background:rgba(90,162,255,.13);margin:0 -7px;padding:5px 7px;border-radius:7px}
+.bar .track{grid-column:1/-1;height:6px;border-radius:4px;background:rgba(255,255,255,.09);overflow:hidden}
+.bar .fill{height:100%;border-radius:4px}
+.bar.quiet .bn{color:var(--muted)}
+
+/* ---------- legend ---------- */
+.key{display:flex;align-items:center;gap:8px;padding:3px 0;font-size:11.5px;color:var(--muted)}
+.key i{width:11px;height:11px;border-radius:3px;flex:none}
+.hkey{display:flex;align-items:flex-end;gap:3px;height:30px;margin:5px 0 8px}
+.hkey i{flex:1;background:linear-gradient(180deg,#9fb4d6,#55688c);border-radius:2px 2px 0 0}
+.sub{font-size:11px;color:var(--muted);margin:0 0 2px}
+.ttl{font-size:11.5px;font-weight:600;margin:0}
+.grp{padding:10px 13px}
+.grp+.grp{border-top:1px solid var(--line)}
+@media (max-width:1100px){#roster{display:none}#card{width:280px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<canvas id="scene"></canvas>
+<div id="labels"></div>
+<div id="tip" role="status" aria-live="polite"></div>
+
+<header id="top">
+  <div class="brand"><span class="mark"></span>Portfolio Colony</div>
+  <div class="stat"><b id="s-props">0</b><span>properties</span></div>
+  <div class="stat"><b id="s-bad">0</b><span>need you</span></div>
+  <div class="stat"><b id="s-flat">0</b><span>on plan</span></div>
+  <div class="spacer"></div>
+  <div class="note" id="stamp"></div>
+</header>
+
+<div id="filterbar"></div>
+
+<aside class="panel" id="roster">
+  <div class="head"><h2>Roster</h2></div>
+  <div class="tally" id="r-tally"></div>
+  <div class="rctl">
+    <select id="r-sort" aria-label="Sort the roster">
+      <option value="hp">Weakest first</option>
+      <option value="name">Property name</option>
+      <option value="leader">Regional leader</option>
+      <option value="variance">Variance &mdash; worst first</option>
+      <option value="gaps">Most missing data</option>
+    </select>
+    <button class="toggle" id="r-group" aria-pressed="true"><i></i>By leader</button>
+    <input type="search" id="r-q" placeholder="Find a property" aria-label="Find a property" />
+  </div>
+  <div class="rlegend" id="r-legend"></div>
+  <div class="rlist" id="r-list"></div>
+</aside>
+
+<aside class="panel" id="card">
+  <div id="c-body"></div>
+</aside>
+
+<aside class="panel" id="legend">
+  <div class="grp">
+    <p class="ttl">Pillar height</p>
+    <p class="sub">How bad it is &mdash; flat is on plan</p>
+    <div class="hkey"><i style="height:10%"></i><i style="height:38%"></i><i style="height:68%"></i><i style="height:100%"></i></div>
+  </div>
+  <div class="grp">
+    <p class="ttl" style="margin-bottom:5px">Status</p>
+    <div class="key"><i style="background:var(--failed)"></i>Failed &mdash; 75%+ of the red line</div>
+    <div class="key"><i style="background:var(--blocked)"></i>Blocked &mdash; 50%+</div>
+    <div class="key"><i style="background:var(--warning)"></i>Degraded &mdash; 28%+</div>
+    <div class="key"><i style="background:var(--healthy)"></i>On plan</div>
+    <div class="key"><i style="background:var(--nodata)"></i>No data &mdash; a feed stopped</div>
+  </div>
+  <div class="grp">
+    <p class="sub" style="margin:0">The centre pillar is the property itself &mdash; same height on every
+    hex, so it reads as a ruler. Drag to orbit &middot; scroll to zoom &middot; click a pillar.</p>
+  </div>
+</aside>

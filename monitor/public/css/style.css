@@ -11,12 +11,14 @@
   --accent: #5aa2ff;
 
   --failed: #ff4d5a;
-  --blocked: #ff9f3c;
+  /* Kept in step with STATUS_COLOUR in js/palette.js — blocked moved to violet
+     because orange sat 12.4 ΔE from warning yellow, below the 15 floor. */
+  --blocked: #b57bff;
   --warning: #ffd23f;
   --running: #4fc3f7;
   --healthy: #5be7a9;
   --paused: #8892a6;
-  --unknown: #6b7280;
+  --unknown: #d7dde8;
 
   color-scheme: dark;
 }
@@ -189,7 +191,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .fchip.crit.on { background: rgba(255,77,90,0.24); color: #ffb4ba; border-color: rgba(255,77,90,0.55); }
 .fchip.watch.on { background: rgba(255,210,63,0.22); color: #ffe79a; border-color: rgba(255,210,63,0.5); }
 .fchip.ok.on { background: rgba(91,231,169,0.2); color: #a9f4d4; border-color: rgba(91,231,169,0.45); }
-.fchip.gap.on { background: rgba(181,123,255,0.24); color: #dcc6ff; border-color: rgba(181,123,255,0.55); }
+.fchip.gap.on { background: rgba(215,221,232,0.22); color: #f2f5fa; border-color: rgba(215,221,232,0.6); }
 .fchip.clear { color: #ffb4ba; border-color: rgba(255,77,90,0.4); }
 .fspacer { flex: 1; }
 .fwarn { font-size: 11px; color: #ffe79a; }
@@ -264,7 +266,7 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .rchip.crit { color: var(--failed); }
 .rchip.watch { color: var(--warning); }
 .rchip.ok { color: var(--healthy); }
-.rchip.gap { color: #b57bff; }
+.rchip.gap { color: #d7dde8; }
 .rchip b.bad { color: var(--failed); }
 .rchip b.good { color: var(--healthy); }
 
@@ -379,7 +381,8 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .pip.met { background: rgba(91,231,169,0.14); color: var(--healthy); }
 .pip.warn { background: rgba(255,210,63,0.18); border-color: rgba(255,210,63,0.5); color: var(--warning); }
 .pip.fail { background: rgba(255,77,90,0.2); border-color: rgba(255,77,90,0.6); color: #ff9d9d; }
-.pip.gap { background: rgba(181,123,255,0.2); border-color: rgba(181,123,255,0.65); color: #dcc6ff; }
+/* Matches the map: achromatic, and the brightest thing on the card. */
+.pip.gap { background: rgba(215,221,232,0.22); border-color: rgba(215,221,232,0.7); color: #f2f5fa; }
 .pip.na { background: transparent; border: 1px dashed rgba(150,163,189,0.35); }
 .pip.wait { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); }
 
