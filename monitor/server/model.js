@@ -124,15 +124,25 @@ function normalizeEncoding(encode, id) {
   // The cost is deliberate: normalising throws away raw magnitude, so $30k over
   // and four open work orders can stand the same height. The number itself
   // lives in the detail card; the skyline only answers "who needs me".
+  //
+  // `height: 'fixed'` keeps the severity for colour, sorting and the detail card
+  // but takes it off the height channel. The centre landmark needs this: it is
+  // the property itself, not a measurement, and a landmark that grew to match
+  // the tallest pillar beside it made every hex look like it had one more
+  // failing KPI than it did.
   if (encode.severity) {
-    const { value, label, raw } = encode.severity;
+    const { value, label, raw, height = 'scaled' } = encode.severity;
     if (typeof value !== 'number' || Number.isNaN(value)) {
       throw new Error(`entity ${id} encode.severity.value must be a number`);
+    }
+    if (!['scaled', 'fixed'].includes(height)) {
+      throw new Error(`entity ${id} encode.severity.height must be scaled or fixed`);
     }
     out.severity = {
       value: Math.max(0, Math.min(1, value)),
       label: label ?? 'Severity',
       raw: raw ?? null,
+      height,
     };
   }
 

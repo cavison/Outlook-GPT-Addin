@@ -102,6 +102,13 @@ const MAX_HEIGHT = 3.4;
 const PILLAR_MIN = 0.12;
 const PILLAR_MAX = 6.0;
 
+// The centre landmark stands for the property, not for a number, so it is the
+// same height on every hex. It used to rise with the property's worst line,
+// which read as a second failing KPI and made a hex with one bad pillar look
+// like a hex with two. A constant landmark also gives the eye a fixed ruler:
+// every other pillar on the map is now read against the same reference mark.
+const LANDMARK_HEIGHT = 1.35;
+
 /**
  * Resolve a building's height.
  *
@@ -113,7 +120,10 @@ export function heightFor(entity) {
   // Severity wins: for a portfolio overview, height means "how bad", and a
   // property with nothing wrong should read as flat ground.
   const severity = entity.encode?.severity;
-  if (severity) return PILLAR_MIN + severity.value * (PILLAR_MAX - PILLAR_MIN);
+  if (severity) {
+    if (severity.height === 'fixed') return LANDMARK_HEIGHT;
+    return PILLAR_MIN + severity.value * (PILLAR_MAX - PILLAR_MIN);
+  }
 
   const spec = entity.encode?.height;
   if (!spec) return 0.75 + entity.weight * 0.55 + hash01(entity.id, 1) * 0.4;

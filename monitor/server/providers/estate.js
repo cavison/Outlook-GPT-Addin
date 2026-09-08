@@ -8,9 +8,11 @@ import { severityFor, statusFor, rollUp, formatMoney } from '../severity.js';
 // The portfolio, driven by the monthly Actuals vs Budget import.
 //
 // One hex per property, one pillar per budget line item at its fixed parcel
-// address, and a centre landmark carrying the property's worst line. Height is
+// address, and a centre landmark standing for the property itself. Height is
 // severity, so a property that came in under budget everywhere reads as flat
-// ground and a property in trouble is visible from across the map.
+// ground and a property in trouble is visible from across the map. The centre
+// landmark is the one exception: constant height everywhere, so it acts as a
+// ruler rather than as another reading.
 //
 // Without an import it falls back to fenced plots — an address with no feed,
 // which must never be mistaken for an address with nothing wrong.
@@ -164,7 +166,16 @@ export class EstateProvider {
           encode: {
             parcel: '01',
             form: 'pillar-landmark',
-            severity: { value: overall, label: 'Worst budget line', raw: null },
+            // Constant height: the landmark is the property, not one of its
+            // numbers. The roll-up still sets its colour and drives sorting,
+            // but a landmark that matched the tallest pillar next to it read
+            // as a second failing KPI.
+            severity: {
+              value: overall,
+              label: 'Worst budget line',
+              raw: null,
+              height: 'fixed',
+            },
           },
           actions: [],
         }),
