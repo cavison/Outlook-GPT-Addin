@@ -50,13 +50,38 @@
     <button class="ghost" id="refresh">Refresh</button>
   </header>
 
-  <aside id="alerts" class="panel">
-    <div class="panel-head">
-      <h2>Beacons</h2>
-      <span class="count" id="alert-count">0</span>
+  <div id="filterbar"></div>
+
+  <aside id="left" class="panel">
+    <div class="panel-head tabs" role="tablist">
+      <button class="tab active" data-tab="roster" role="tab" aria-selected="true">Roster</button>
+      <button class="tab" data-tab="alerts" role="tab" aria-selected="false">
+        Beacons <span class="count" id="alert-count">0</span>
+      </button>
     </div>
-    <div class="panel-body" id="alert-list">
-      <p class="empty">Nothing needs you. The colony is quiet.</p>
+
+    <div class="tabpane" id="pane-roster">
+      <div class="roster-tally" id="roster-head"></div>
+      <div class="roster-ctl">
+        <select id="roster-sort" aria-label="Sort the roster">
+          <option value="hp">Weakest first</option>
+          <option value="name">Property name</option>
+          <option value="leader">Regional leader</option>
+          <option value="variance">Variance — worst first</option>
+          <option value="gaps">Most missing data</option>
+        </select>
+        <button class="toggle" id="roster-group" aria-pressed="true"><i></i>By leader</button>
+        <input type="search" id="roster-q" placeholder="Find a property"
+               aria-label="Filter by property, director or leader" />
+      </div>
+      <div class="roster-legend" id="roster-legend"></div>
+      <div class="panel-body roster" id="roster-list"></div>
+    </div>
+
+    <div class="tabpane hidden" id="pane-alerts">
+      <div class="panel-body" id="alert-list">
+        <p class="empty">Nothing needs you. The colony is quiet.</p>
+      </div>
     </div>
   </aside>
 

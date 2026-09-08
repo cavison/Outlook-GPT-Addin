@@ -53,6 +53,17 @@ export const NEUTRAL_SIGNAL = new THREE.MeshStandardMaterial({
   metalness: 0.05,
 });
 
+// Worn by everything a filter has excluded. Filtering greys the rest of the map
+// rather than deleting it: the shape of a neighbourhood is part of what you are
+// reading, and a map with holes punched in it is a different map.
+// Pale and matte rather than dark: against a near-black deck, a dark grey
+// building reads as a hole punched in the map instead of as a quiet one.
+export const FILTERED_OUT = new THREE.MeshStandardMaterial({
+  color: 0x707d92,
+  roughness: 0.95,
+  metalness: 0,
+});
+
 /** One emissive material per status, shared and animated centrally. */
 const statusMaterials = new Map();
 export function statusMaterial(status) {
@@ -135,6 +146,31 @@ export function heightFor(entity) {
   return MIN_HEIGHT + Math.sqrt(t) * (MAX_HEIGHT - MIN_HEIGHT);
 }
 
+/**
+ * Re-encode a pillar's height without rebuilding it.
+ *
+ * The height channel is a choice, not a fact: "worst KPI" is the honest default,
+ * but flattening everything except one KPI is the fastest way to answer "who is
+ * behind on signage" across 185 hexes. Both are the same buildings — only what
+ * height means changes, which is why this animates the mesh rather than
+ * respawning it.
+ */
+export function setHeight(group, height) {
+  const pillar = group.userData.pillar;
+  if (!pillar) return;
+  const h = Math.max(PILLAR_MIN, height);
+  pillar.column.scale.y = h;
+  pillar.column.position.y = 0.02 + h / 2;
+  pillar.cap.position.y = 0.02 + h + 0.06;
+  pillar.cap.visible = h > 0.9;
+}
+
+export function naturalHeight(group) {
+  return group.userData.pillar?.natural ?? 0;
+}
+
+export { PILLAR_MIN };
+
 export function createBuilding(entity) {
   const group = new THREE.Group();
   const r1 = hash01(entity.id, 1);
@@ -174,11 +210,16 @@ export function createBuilding(entity) {
       bodies.push(column);
 
       // A cap only once the pillar has risen enough to have a top worth seeing.
-      if (height > 0.9) {
-        group.add(mesh(GEO.pillarCap, SHELL_DARK, {
-          y: 0.02 + height + 0.06, sx: wide, sz: wide,
-        }));
-      }
+      // Always built, then hidden, so a height variant can reveal it without
+      // rebuilding the mesh.
+      const cap = mesh(GEO.pillarCap, SHELL_DARK, {
+        y: 0.02 + height + 0.06, sx: wide, sz: wide,
+      });
+      cap.visible = height > 0.9;
+      group.add(cap);
+
+      // Kept so the height channel can be re-encoded live — see setHeight().
+      group.userData.pillar = { column, cap, natural: height };
       break;
     }
     case 'lot': {

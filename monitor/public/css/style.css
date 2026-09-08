@@ -59,6 +59,15 @@ html, body {
   backdrop-filter: blur(6px);
   box-shadow: 0 0 18px -4px var(--district, var(--accent));
 }
+/* Excluded by a filter: still there, just no longer asking for attention. */
+.district-label.filtered { opacity: 0.25; box-shadow: none; }
+/* Pinned by a roster hover — this is the label you went looking for. */
+.district-label.highlight {
+  opacity: 1;
+  background: rgba(10, 15, 28, 0.95);
+  box-shadow: 0 0 26px -2px var(--district, var(--accent));
+  z-index: 2;
+}
 
 /* ---- top bar ---- */
 
@@ -155,9 +164,51 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 }
 .panel.hidden { display: none; }
 
-#alerts { left: 18px; top: 76px; }
-#quests { left: 18px; bottom: 18px; width: 320px; max-height: 40vh; }
-#detail { right: 18px; top: 76px; width: 372px; }
+/* The filter bar sits between the top bar and the map, so a filter reads as
+   something applied TO the map rather than as another panel floating over it. */
+#filterbar {
+  position: fixed; top: 58px; left: 0; right: 0; z-index: 18;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 7px 16px;
+  background: linear-gradient(180deg, rgba(9,13,24,0.94), rgba(9,13,24,0.66));
+  border-bottom: 1px solid var(--panel-line);
+  backdrop-filter: blur(14px);
+}
+.fgroup { display: flex; align-items: center; gap: 5px; }
+.flabel {
+  font-size: 10px; letter-spacing: 0.11em; text-transform: uppercase;
+  color: var(--muted); margin-right: 2px;
+}
+.fchip {
+  border: 1px solid var(--panel-line); background: rgba(255,255,255,0.04);
+  color: var(--muted); padding: 3px 10px; border-radius: 7px;
+  font-size: 11.5px; font-weight: 600; cursor: pointer;
+}
+.fchip:hover { color: var(--text); }
+.fchip.on { background: rgba(90,162,255,0.24); color: #dce9ff; border-color: rgba(90,162,255,0.5); }
+.fchip.crit.on { background: rgba(255,77,90,0.24); color: #ffb4ba; border-color: rgba(255,77,90,0.55); }
+.fchip.watch.on { background: rgba(255,210,63,0.22); color: #ffe79a; border-color: rgba(255,210,63,0.5); }
+.fchip.ok.on { background: rgba(91,231,169,0.2); color: #a9f4d4; border-color: rgba(91,231,169,0.45); }
+.fchip.gap.on { background: rgba(181,123,255,0.24); color: #dcc6ff; border-color: rgba(181,123,255,0.55); }
+.fchip.clear { color: #ffb4ba; border-color: rgba(255,77,90,0.4); }
+.fspacer { flex: 1; }
+.fwarn { font-size: 11px; color: #ffe79a; }
+#filterbar select {
+  appearance: none; background: rgba(255,255,255,0.05); color: var(--text);
+  border: 1px solid var(--panel-line); border-radius: 7px;
+  height: 24px; padding: 0 24px 0 9px; font-size: 11.5px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: calc(100% - 13px) 11px, calc(100% - 9px) 11px;
+  background-size: 4px 4px; background-repeat: no-repeat;
+}
+
+/* The left column is two stacked panels. The roster takes whatever the quest
+   log leaves, so the roster grows on a tall screen instead of being clipped. */
+#left { left: 18px; top: 112px; width: 372px; max-height: calc(74vh - 146px); }
+#quests { left: 18px; bottom: 18px; width: 372px; max-height: 26vh; }
+#detail { right: 18px; top: 112px; width: 372px; }
 
 .panel-head {
   display: flex; align-items: center; justify-content: space-between;
@@ -177,6 +228,160 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
 .panel-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 8px; }
 
 .empty { color: var(--muted); font-size: 13px; padding: 14px 6px; margin: 0; }
+
+/* ---- the roster ----
+
+   Every property as a party sheet. The pips are in PARCEL ORDER, which is the
+   same order they stand in on the hex — you learn one layout, not two — and the
+   card's colour is its worst KPI while its rank is the composite, so neither a
+   single catastrophe nor a broad slide can hide behind the other. */
+
+.panel-head.tabs { padding: 0; gap: 0; }
+.tab {
+  flex: 1; border: none; background: transparent; color: var(--muted);
+  padding: 11px 10px; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.tab.active { color: var(--text); border-bottom-color: var(--accent); }
+.tab .count { margin-left: 6px; }
+.tabpane { display: flex; flex-direction: column; min-height: 0; }
+.tabpane.hidden { display: none; }
+
+.roster-tally {
+  display: flex; flex-wrap: wrap; gap: 5px;
+  padding: 9px 11px 0;
+}
+.rchip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 7px; border: 1px solid var(--panel-line); border-radius: 6px;
+  background: rgba(255,255,255,0.03);
+  font-size: 10.5px; color: var(--muted); white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.rchip i { width: 5px; height: 5px; border-radius: 1px; background: currentColor; }
+.rchip b { color: var(--text); font-weight: 700; }
+.rchip.crit { color: var(--failed); }
+.rchip.watch { color: var(--warning); }
+.rchip.ok { color: var(--healthy); }
+.rchip.gap { color: #b57bff; }
+.rchip b.bad { color: var(--failed); }
+.rchip b.good { color: var(--healthy); }
+
+.roster-ctl { display: flex; gap: 5px; padding: 8px 11px; align-items: center; }
+.roster-ctl select, .roster-ctl input {
+  appearance: none; background: rgba(255,255,255,0.05); color: var(--text);
+  border: 1px solid var(--panel-line); border-radius: 7px;
+  height: 24px; padding: 0 8px; font-size: 11.5px; min-width: 0;
+}
+.roster-ctl select { flex: 1; padding-right: 22px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: calc(100% - 12px) 11px, calc(100% - 8px) 11px;
+  background-size: 4px 4px; background-repeat: no-repeat;
+}
+.roster-ctl input { flex: 1; }
+.toggle {
+  display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 9px;
+  border: 1px solid var(--panel-line); border-radius: 7px; background: rgba(255,255,255,0.05);
+  color: var(--muted); font-size: 11.5px; cursor: pointer; white-space: nowrap;
+}
+.toggle i { width: 7px; height: 7px; border-radius: 2px; background: rgba(255,255,255,0.18); }
+.toggle[aria-pressed="true"] { color: var(--text); }
+.toggle[aria-pressed="true"] i { background: var(--healthy); }
+
+/* The pip key. Worth its space: the pips are only readable at all because
+   position N is always the same KPI, and this is where that is stated. */
+.roster-legend {
+  display: flex; gap: 3px 9px; flex-wrap: wrap;
+  padding: 0 11px 8px; font-size: 9.5px; color: var(--muted);
+  max-height: 48px; overflow-y: auto;
+}
+.roster-legend div { display: flex; align-items: center; gap: 4px; }
+.roster-legend .pip { width: 12px; height: 12px; }
+.roster-legend .pip svg { width: 8px; height: 8px; }
+
+.roster { padding: 4px 8px 10px; display: grid; gap: 4px; align-content: start; }
+
+.ghead {
+  display: flex; align-items: center; gap: 9px;
+  margin: 8px 0 1px; padding: 5px 7px 6px;
+  border-top: 1px solid var(--panel-line);
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), transparent);
+}
+.ghead:first-child { margin-top: 0; }
+.ghead .nm { font-size: 10.5px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; }
+.ghead .ct { font-size: 10px; color: var(--muted); }
+.ghead.unassigned .nm { color: #b57bff; }
+.ghead .avg { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+.ghead .avg em { font-style: normal; font-size: 9.5px; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+.ghead .avg .segs { width: 76px; }
+.ghead .hpnum { font-size: 11px; }
+
+.rcard {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 82px 30px;
+  grid-template-areas: "id segs hp" "pips pips var";
+  align-items: center; gap: 4px 8px;
+  padding: 6px 8px; cursor: pointer;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid transparent; border-radius: 8px;
+  transition: opacity 0.1s linear, background 0.1s linear;
+}
+.rcard:hover, .rcard:focus-visible { background: rgba(255,255,255,0.075); outline: none; }
+.rcard.on { background: rgba(90,162,255,0.15); border-color: rgba(90,162,255,0.45); }
+/* Hovering one card dims the rest, so the eye can follow it to the map. */
+.roster.focused .rcard, .roster.focused .ghead { opacity: 0.3; }
+.roster.focused .rcard.active { opacity: 1; }
+
+.rcard .rid { grid-area: id; min-width: 0; }
+.rcard .prop {
+  display: block; font-size: 12px; font-weight: 600;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.rcard .dir {
+  display: block; font-size: 10.5px; color: var(--muted);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.rcard .dir .faint { color: rgba(150,163,189,0.55); font-style: italic; }
+
+.segs { grid-area: segs; display: flex; gap: 1.5px; height: 8px; }
+.seg { flex: 1; background: rgba(255,255,255,0.09); border-radius: 1px; }
+.seg.on { background: var(--healthy); }
+.m-amber .seg.on { background: var(--warning); }
+.m-red .seg.on { background: var(--failed); }
+
+.hpnum {
+  grid-area: hp; text-align: right;
+  font-size: 12px; font-weight: 700; color: var(--healthy);
+  font-variant-numeric: tabular-nums;
+}
+.m-amber .hpnum { color: var(--warning); }
+.m-red .hpnum { color: var(--failed); }
+
+.rcard .var {
+  grid-area: var; text-align: right; font-size: 10px;
+  color: var(--healthy); white-space: nowrap; font-variant-numeric: tabular-nums;
+}
+.rcard .var.over { color: #ff9d9d; }
+
+.pips { grid-area: pips; display: flex; gap: 2.5px; }
+.pip {
+  width: 14px; height: 14px; flex: none; border-radius: 3px;
+  background: rgba(255,255,255,0.07); border: 1px solid transparent;
+  display: grid; place-items: center; color: rgba(160,175,200,0.7);
+}
+.pip svg { width: 9px; height: 9px; display: block; }
+.pip b { font-size: 8px; font-weight: 700; font-style: normal; }
+/* Five states, five different objects — the same discipline the hex uses. A
+   feed that died must never look like a KPI that is merely fine. */
+.pip.met { background: rgba(91,231,169,0.14); color: var(--healthy); }
+.pip.warn { background: rgba(255,210,63,0.18); border-color: rgba(255,210,63,0.5); color: var(--warning); }
+.pip.fail { background: rgba(255,77,90,0.2); border-color: rgba(255,77,90,0.6); color: #ff9d9d; }
+.pip.gap { background: rgba(181,123,255,0.2); border-color: rgba(181,123,255,0.65); color: #dcc6ff; }
+.pip.na { background: transparent; border: 1px dashed rgba(150,163,189,0.35); }
+.pip.wait { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); }
 
 /* ---- alert rows ---- */
 

@@ -1,5 +1,7 @@
 import { World } from './world.js';
 import { Hud } from './hud.js';
+import { Roster } from './roster.js';
+import { Filters } from './filters.js';
 import { STATUS_LABEL, ATTENTION } from './palette.js';
 
 const world = new World(document.getElementById('scene'));
@@ -7,6 +9,7 @@ const world = new World(document.getElementById('scene'));
 window.__world = world;
 const entities = new Map();
 const placements = new Map();
+let registry = {};
 
 const hud = new Hud({
   onSelect: (id, fromCard = false) => {
@@ -39,7 +42,43 @@ const hud = new Hud({
   },
 });
 
-world.onSelect = (id) => hud.select(id, true);
+const roster = new Roster({
+  onSelect: (id) => {
+    hud.select(id, true);
+    world.select(id);
+  },
+  // Pointing at a card pins that property's label on the map. Without it,
+  // finding a name from the roster means hunting 185 identical hexes.
+  onHover: (name) => world.highlight(name),
+});
+
+// One filter state drives the map and the roster. Two views of one portfolio
+// disagreeing about what is on screen is worse than having no filter at all.
+const filters = new Filters({
+  onChange: (f) => {
+    const predicate = f.predicate();
+    roster.setFilter(predicate);
+    world.setFilter(predicate ? new Set(roster.visibleRows().map((r) => r.name)) : null);
+    world.setHeightVariant(f.height, f.focusKpi);
+  },
+});
+
+for (const tab of document.querySelectorAll('.tab')) {
+  tab.addEventListener('click', () => {
+    for (const other of document.querySelectorAll('.tab')) {
+      const on = other === tab;
+      other.classList.toggle('active', on);
+      other.setAttribute('aria-selected', String(on));
+      document.getElementById(`pane-${other.dataset.tab}`).classList.toggle('hidden', !on);
+    }
+  });
+}
+
+world.onSelect = (id) => {
+  hud.select(id, true);
+  const entity = entities.get(id);
+  if (entity) roster.setSelected(entity.district);
+};
 
 async function post(url, body) {
   try {
@@ -70,7 +109,24 @@ function applySnapshot(snapshot) {
   hud.setEntities(entities);
   hud.setProviders(snapshot.providers ?? []);
   hud.setGame(snapshot.game);
+
+  if (snapshot.kpis) {
+    registry = snapshot.kpis;
+    roster.setRegistry(registry);
+    filters.setRegistry(registry);
+  }
+  refreshRoster();
   markPoll(snapshot.lastPollAt);
+}
+
+/** Rebuild the roster, then re-apply the filter so the map agrees with it. */
+function refreshRoster() {
+  roster.setEntities(entities);
+  filters.setNeighbourhoods(new Set(roster.rows.map((r) => r.neighbourhood)));
+  const predicate = filters.predicate();
+  roster.setFilter(predicate);
+  world.setFilter(predicate ? new Set(roster.visibleRows().map((r) => r.name)) : null);
+  world.setHeightVariant(filters.height, filters.focusKpi);
 }
 
 function applyDelta(delta) {
@@ -103,6 +159,7 @@ function applyDelta(delta) {
   hud.setEntities(entities);
   hud.renderAlerts();
   hud.renderDetail();
+  refreshRoster();
   markPoll(delta.at);
 }
 

@@ -34,6 +34,7 @@
   ],
   "kpis": {
     "payroll": {
+      "icon": "coin",
       "label": "Payroll",
       "kind": "variance",
       "parcel": "02",
@@ -45,6 +46,7 @@
       "description": "YTD payroll variance. The single biggest controllable line."
     },
     "life-enrichment-opex": {
+      "icon": "coin",
       "label": "Life Enrichment",
       "kind": "variance",
       "parcel": "03",
@@ -56,6 +58,7 @@
       "description": "YTD 620080 operating variance."
     },
     "automotive-lease": {
+      "icon": "van",
       "label": "Automotive lease",
       "kind": "variance",
       "parcel": "04",
@@ -65,6 +68,7 @@
       "source": "Actuals vs Budget workbook — Dashboard Data tab"
     },
     "automotive-fuel": {
+      "icon": "van",
       "label": "Automotive gas & oil",
       "kind": "variance",
       "parcel": "05",
@@ -74,6 +78,7 @@
       "source": "Actuals vs Budget workbook — Dashboard Data tab"
     },
     "automotive-repairs": {
+      "icon": "van",
       "label": "Automotive repairs",
       "kind": "variance",
       "parcel": "06",
@@ -83,6 +88,7 @@
       "source": "Actuals vs Budget workbook — Dashboard Data tab"
     },
     "automotive-expense": {
+      "icon": "van",
       "label": "Automotive expense",
       "kind": "variance",
       "parcel": "07",
@@ -92,6 +98,7 @@
       "source": "Actuals vs Budget workbook — Dashboard Data tab"
     },
     "food-service-requests": {
+      "icon": "tray",
       "label": "Food service requests",
       "kind": "count",
       "parcel": "08",
@@ -103,6 +110,7 @@
       "description": "PLACEHOLDER target — requests entered per week."
     },
     "interest-assessments": {
+      "icon": "clipboard",
       "label": "Interest assessments",
       "kind": "ratio",
       "parcel": "09",
@@ -112,6 +120,7 @@
       "description": "Completed assessments out of residents due one."
     },
     "signage-online": {
+      "icon": "screen",
       "label": "Signage screens online",
       "kind": "ratio",
       "parcel": "10",
@@ -121,6 +130,7 @@
       "description": "Screens reporting in out of screens installed."
     },
     "facebook-posts": {
+      "icon": "chat",
       "label": "Facebook posting",
       "kind": "count",
       "parcel": "11",
@@ -132,6 +142,7 @@
       "description": "PLACEHOLDER target — posts in the last seven days."
     },
     "monthly-submission": {
+      "icon": "doc",
       "label": "Monthly submission",
       "kind": "boolean",
       "parcel": "12",
@@ -139,6 +150,7 @@
       "source": "not connected yet"
     },
     "move-in-newsletter": {
+      "icon": "mail",
       "label": "Move-in newsletter on file",
       "kind": "boolean",
       "parcel": "13",
@@ -146,6 +158,7 @@
       "source": "not connected yet"
     },
     "ptpt": {
+      "icon": "people",
       "label": "PTPT happening",
       "kind": "boolean",
       "parcel": "14",
@@ -154,6 +167,7 @@
       "description": "Send applicable: false for properties that do not run PTPT — that is a different answer from 'not done' and is scored as neither."
     },
     "menu-upload": {
+      "icon": "menu",
       "label": "Menu upload",
       "kind": "boolean",
       "parcel": "15",
@@ -161,6 +175,7 @@
       "source": "not connected yet"
     },
     "calendar-current": {
+      "icon": "calendar",
       "label": "Calendar up to date",
       "kind": "boolean",
       "parcel": "16",
@@ -168,6 +183,7 @@
       "source": "not connected yet"
     },
     "director": {
+      "icon": "people",
       "label": "Life Enrichment Director",
       "kind": "label",
       "cadence": "quarterly",

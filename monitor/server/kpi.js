@@ -101,6 +101,9 @@ export function loadRegistry() {
       target: spec.target ?? null,
       direction: spec.direction ?? 'at-least',
       unit: spec.unit ?? null,
+      // Roster pip glyph. Falls back to the parcel number, which is never
+      // wrong — position IS the identity here.
+      icon: spec.icon ?? null,
       priority: Boolean(spec.priority),
       // Adapter hint: which line in the Actuals vs Budget workbook feeds this.
       // Only the importer reads it; every other source names the KPI directly.

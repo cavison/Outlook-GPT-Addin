@@ -5,7 +5,8 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { MapControls } from './controls.js';
 import {
-  createBuilding, createBeacon, statusMaterial, NEUTRAL_SHELL, NEUTRAL_SIGNAL, UNLIT,
+  createBuilding, createBeacon, statusMaterial, setHeight, naturalHeight,
+  NEUTRAL_SHELL, NEUTRAL_SIGNAL, UNLIT, FILTERED_OUT, PILLAR_MIN,
 } from './buildings.js';
 import {
   statusColour, metricColour, ATTENTION, STATUS_GLYPH, statusRank, hash01,
@@ -80,6 +81,12 @@ export class World {
     // diverging metric. Only ever one at a time — two colour languages on one
     // screen means neither can be trusted.
     this.viewMode = 'health';
+    // Null means no filter. A Set of property names means everything outside it
+    // is greyed — never removed, because the shape of the map is information.
+    this.filterSet = null;
+    this.heightVariant = 'worst';
+    this.focusKpi = null;
+    this.highlighted = null;
     this.onSelect = () => {};
     this.onHover = () => {};
 
@@ -348,6 +355,9 @@ export class World {
 
     return {
       group, label, colour: d.colour, x: d.x, z: d.z,
+      // Kept so a filter can dim the region's outline without touching the
+      // buildings' own materials.
+      edgeMat,
       tiles: d.tiles, density: d.density ?? 'normal',
       // Named `neighbourhood`, not `group` — `group` is already the THREE.Group.
       neighbourhood: d.group ?? null,
@@ -435,6 +445,7 @@ export class World {
       this._applyStatus(existing, entity);
       existing.entity = entity;
       this._applyViewMode(existing); // the metric may have moved
+      this._applyHeight(existing);
       return;
     }
 
@@ -465,6 +476,7 @@ export class World {
     this.entities.set(entity.id, record);
     this._applyStatus(record, entity);
     this._applyViewMode(record);
+    this._applyHeight(record);
   }
 
   /**
@@ -477,6 +489,14 @@ export class World {
     const metric = entity.encode?.metric;
     const bodies = group.userData.bodies ?? [];
     const originals = group.userData.shellMaterials ?? [];
+
+    // Filtered out wins over every colour mode: the point of a filter is that
+    // the excluded properties stop competing for attention.
+    if (this.filterSet && !this.filterSet.has(record.district)) {
+      for (const signal of group.userData.signals ?? []) signal.material = FILTERED_OUT;
+      for (const body of bodies) body.material = FILTERED_OUT;
+      return;
+    }
 
     if (this.viewMode === 'metric') {
       // In metric view the map answers exactly one question. Status retreats to
@@ -511,11 +531,75 @@ export class World {
     for (const record of this.entities.values()) this._applyViewMode(record);
   }
 
+  /**
+   * Restrict the map to a set of properties.
+   *
+   * @param {Set<string>|null} names  null clears the filter
+   */
+  setFilter(names) {
+    const same =
+      (this.filterSet === null && names === null) ||
+      (this.filterSet && names && this.filterSet.size === names.size &&
+        [...names].every((n) => this.filterSet.has(n)));
+    if (same) return;
+
+    this.filterSet = names;
+    for (const record of this.entities.values()) this._applyViewMode(record);
+    for (const [name, d] of this.districts) {
+      const out = names ? !names.has(name) : false;
+      d.label.classList.toggle('filtered', out);
+      if (d.edgeMat) d.edgeMat.opacity = out ? 0.1 : 0.9;
+    }
+    // A beacon on a property you have filtered out is the map arguing with the
+    // filter, so the cluster counts are rebuilt against the visible set.
+    this._beaconsDirty = true;
+  }
+
+  /**
+   * What pillar height means.
+   *
+   * @param {'worst'|'focus'|'flat'} variant
+   * @param {string|null} focusKpi  the KPI to raise, when variant is 'focus'
+   */
+  setHeightVariant(variant, focusKpi = null) {
+    if (variant === this.heightVariant && focusKpi === this.focusKpi) return;
+    this.heightVariant = variant;
+    this.focusKpi = focusKpi;
+    for (const record of this.entities.values()) this._applyHeight(record);
+  }
+
+  _applyHeight(record) {
+    const { group, entity } = record;
+    if (!group.userData.pillar) return;
+    // The landmark is a fixed ruler in every variant — that is the whole point
+    // of it — so it is never re-encoded.
+    if (entity.encode?.severity?.height === 'fixed') return;
+
+    const natural = naturalHeight(group);
+    if (this.heightVariant === 'flat') { setHeight(group, PILLAR_MIN); return; }
+    if (this.heightVariant === 'focus') {
+      const mine = this.focusKpi && entity.metrics?.kpi === this.focusKpi;
+      setHeight(group, mine ? natural : PILLAR_MIN);
+      return;
+    }
+    setHeight(group, natural);
+  }
+
+  /** Hovering a roster card lifts its hex out of the block. */
+  highlight(propertyName) {
+    if (this.highlighted === propertyName) return;
+    this.highlighted = propertyName;
+    for (const [name, d] of this.districts) {
+      d.label.classList.toggle('highlight', name === propertyName);
+    }
+  }
+
   _applyStatus(record, entity) {
     // "Not running" is drawn as darkness, not as another colour — for a relay
     // field that is literally what the failure is.
+    const filteredOut = this.filterSet && !this.filterSet.has(record.district);
     const unlit = record.group.userData.unlitStatuses?.has(entity.status);
-    const mat = unlit ? UNLIT : statusMaterial(entity.status);
+    const mat = filteredOut ? FILTERED_OUT : unlit ? UNLIT : statusMaterial(entity.status);
     for (const signal of record.group.userData.signals ?? []) signal.material = mat;
 
     // Beacons are clustered per district, not per entity. One badge saying
@@ -541,6 +625,9 @@ export class World {
     const worst = new Map();
     for (const record of this.entities.values()) {
       if (!ATTENTION.has(record.entity.status)) continue;
+      // A beacon over a property the filter excluded is the map arguing with
+      // the filter.
+      if (this.filterSet && !this.filterSet.has(record.district)) continue;
       const key = record.entity.district;
       const row = worst.get(key) ?? { count: 0, status: 'warning', top: 0 };
       row.count++;
@@ -630,8 +717,11 @@ export class World {
         `${((-v.y + 1) / 2) * rect.height}px)`;
     };
 
-    for (const d of this.districts.values()) {
-      if (!showProperties) {
+    for (const [name, d] of this.districts) {
+      // A property you are pointing at on the roster keeps its name wherever it
+      // is — that is the whole reason to hover it from across the portfolio.
+      const pinned = name === this.highlighted;
+      if (!showProperties && !pinned) {
         d.label.style.display = 'none';
         continue;
       }
