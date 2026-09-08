@@ -74,6 +74,10 @@ export const config = {
 
   // Guard rail — a flow re-run is a real production event.
   requireConfirmForWrites: bool(process.env.REQUIRE_CONFIRM, true),
+
+  // Shared secret for POST /api/ingest. Blank is fine while the server only
+  // listens on localhost; set it before exposing the port to anything else.
+  ingestToken: process.env.INGEST_TOKEN ?? '',
 };
 
 fs.mkdirSync(DATA_DIR, { recursive: true });

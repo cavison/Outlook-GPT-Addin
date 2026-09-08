@@ -4,21 +4,26 @@
 //   node scripts/import-financials.mjs <file.xlsx> [--sheet DashboardData]
 //
 // Reads the tidy tab (Regional LED / Property / Budget Line Item / YTD Actual /
-// YTD Budget / Variance F/(U)) and writes two files, both into data/, which is
-// gitignored:
+// YTD Budget / Variance F/(U)) and writes, all into data/, which is gitignored:
 //
-//   financials.json      the figures, plus a severity scale per line item
-//   portfolio.local.json the property roster and regional names
+//   measurements/<kpi>.json  one batch per budget line named in the registry
+//   portfolio.local.json     the property roster and regional names
+//
+// This is an ADAPTER, not a special case. It produces exactly the batch format
+// that scripts/ingest.mjs and POST /api/ingest produce, so the workbook has no
+// privileged path into the map — swap it for a Power Automate flow tomorrow and
+// nothing downstream changes. Which budget line goes on which parcel is settled
+// in config/kpis.json via `workbookLine`.
 //
 // Property-level figures, the property list and named regionals are all
 // business data and none of it belongs in a repository. config/portfolio.json
-// stays a neutral template holding only the parcel structure.
+// stays a neutral template.
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import xlsx from 'xlsx';
-import { buildScales } from '../server/severity.js';
+import { loadRegistry, validateBatch, writeBatch, scaleFor } from '../server/kpi.js';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -197,24 +202,66 @@ if (flipped) {
   console.warn('  Check the sign convention before trusting the map.\n');
 }
 
-const scales = buildScales(rows);
 const properties = [...new Set(rows.map((r) => r.property))].sort();
 const regionals = [...new Set(rows.map((r) => r.regional))].sort();
 
-const payload = {
-  importedAt: new Date().toISOString(),
-  source: path.basename(file),
-  rowCount: rows.length,
-  scales,
-  rows,
-};
+// ---------------------------------------------------------------------------
+// One batch per registered budget line.
+// ---------------------------------------------------------------------------
+const registry = loadRegistry();
+const wanted = Object.values(registry).filter((k) => k.workbookLine);
 
-fs.mkdirSync(path.join(ROOT, 'data'), { recursive: true });
-fs.writeFileSync(path.join(ROOT, 'data', 'financials.json'), JSON.stringify(payload, null, 2));
+const presentLines = new Set(rows.map((r) => r.item));
+const unmatched = wanted.filter((k) => !presentLines.has(k.workbookLine));
+if (unmatched.length === wanted.length) {
+  // Every configured line missing means the workbook changed its account names
+  // — writing nothing here would leave the map showing last month's figures as
+  // if they were current, which is the failure this whole design is against.
+  console.error('\n  None of the budget lines in config/kpis.json are in this workbook.');
+  console.error('  Looking for:');
+  for (const k of wanted) console.error(`    - ${k.workbookLine}`);
+  console.error('\n  Workbook has:');
+  for (const line of [...presentLines].sort()) console.error(`    - ${line}`);
+  console.error('\n  Nothing was written.\n');
+  process.exit(1);
+}
+
+// The reading date is the workbook's period, not today: importing July's
+// numbers in October must not make them look like October's.
+const asOf = flagValue('--as-of') ?? new Date().toISOString();
+
+const written = [];
+const skipped = [];
+for (const kpi of wanted) {
+  const lines = rows.filter((r) => r.item === kpi.workbookLine);
+  if (!lines.length) { skipped.push(kpi); continue; }
+
+  const batch = {
+    kpi: kpi.id,
+    asOf,
+    source: `workbook:${path.basename(file)}`,
+    rows: lines.map((r) => ({
+      property: r.property,
+      value: r.variance,
+      budget: r.budget,
+      actual: r.actual,
+    })),
+  };
+
+  const result = validateBatch(batch, registry);
+  if (!result.ok) {
+    console.error(`\n  ${kpi.id}: ${result.errors.length} problem(s) — nothing was written:`);
+    for (const e of result.errors.slice(0, 10)) console.error(`    - ${e}`);
+    process.exit(1);
+  }
+  writeBatch(result.batch);
+  written.push({ kpi, batch: result.batch, scale: scaleFor(result.batch) });
+}
 
 // The roster goes to data/, not into the tracked config: real property names
 // and named regionals are business data and do not belong in a repository.
 const localPath = path.join(ROOT, 'data', 'portfolio.local.json');
+fs.mkdirSync(path.join(ROOT, 'data'), { recursive: true });
 fs.writeFileSync(
   localPath,
   `${JSON.stringify(
@@ -234,9 +281,19 @@ fs.writeFileSync(
 console.log(`\n  Imported ${rows.length} rows from ${path.basename(file)}`);
 for (const m of applied) console.log(`  Merged "${m.from}" into "${m.into}"`);
 console.log(`  ${properties.length} properties · ${regionals.length} regionals`);
-console.log('\n  Severity scale per line item (90th percentile of unfavourable variance):');
-for (const [item, scale] of Object.entries(scales).sort((a, b) => b[1] - a[1])) {
-  console.log(`    $${String(Math.round(scale)).padStart(7)}   ${item}`);
+console.log(`  Readings dated ${asOf.slice(0, 10)}`);
+
+console.log('\n  Wrote one batch per budget line (scale = 90th percentile unfavourable):');
+for (const w of [...written].sort((a, b) => (b.scale ?? 0) - (a.scale ?? 0))) {
+  const scale = w.scale ? `$${String(Math.round(w.scale)).padStart(7)}` : '       —';
+  console.log(`    parcel ${w.kpi.parcel}  ${scale}   ${w.kpi.label}  (${w.batch.rows.length} rows)`);
 }
-console.log('\n  Wrote data/financials.json and data/portfolio.local.json');
-console.log('  Both are gitignored — figures, property names and regionals stay off GitHub.\n');
+for (const k of skipped) console.log(`    parcel ${k.parcel}         —   ${k.label}  NOT IN THIS WORKBOOK`);
+
+console.log('\n  Wrote data/measurements/*.json and data/portfolio.local.json');
+console.log('  data/ is gitignored — figures, property names and regionals stay off GitHub.\n');
+
+function flagValue(name) {
+  const i = args.indexOf(name);
+  return i === -1 ? null : args[i + 1];
+}

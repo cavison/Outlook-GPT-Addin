@@ -1,0 +1,178 @@
+{
+  "_readme": [
+    "The KPI registry. This file decides what the city measures and where each",
+    "measurement stands on a property hex. Everything else — the importer, the",
+    "HTTP ingest endpoint, the roster, the legend — reads it.",
+    "",
+    "PARCEL NUMBERS ARE PERMANENT. Position 10 is signage on every property,",
+    "forever. Renumbering would move every object on every hex and destroy the",
+    "layout you had learned to read. To add a KPI, take the next vacant number;",
+    "never reuse or shuffle one. 01 is the centre landmark and belongs to no KPI.",
+    "",
+    "KIND decides how a reading becomes a pillar height:",
+    "  variance  money. value = budget - actual, so NEGATIVE is overspent and bad.",
+    "            Scaled against the 90th percentile of its own unfavourable",
+    "            readings, so payroll dollars and fuel dollars stay comparable.",
+    "  ratio     value out of total (screens online out of screens installed).",
+    "            Height is the shortfall against target. total 0 = nothing here.",
+    "  count     value against target, with direction at-least or at-most.",
+    "  boolean   done or not done.",
+    "  label     text about the property, not a reading. No parcel, no pillar —",
+    "            it shows up on the roster and the detail card.",
+    "",
+    "CADENCE sets how long a reading stays believable: realtime 1 day, daily 3,",
+    "weekly 10, monthly 45, quarterly 120. Past that the parcel goes back to",
+    "'no data' rather than showing a stale value, because a feed that quietly",
+    "died is the failure mode this whole map exists to catch.",
+    "",
+    "CEILING caps a KPI below full height. The automotive lines are real but",
+    "secondary; without a cap a few hundred dollars of fuel out-shouts a",
+    "five-figure payroll overrun.",
+    "",
+    "TARGETS marked PLACEHOLDER below are guesses. Set them to your real",
+    "standards before trusting the colours."
+  ],
+  "kpis": {
+    "payroll": {
+      "label": "Payroll",
+      "kind": "variance",
+      "parcel": "02",
+      "cadence": "monthly",
+      "ceiling": 1.0,
+      "priority": true,
+      "workbookLine": "Total 610005 - Payroll - Expense",
+      "source": "Actuals vs Budget workbook — Dashboard Data tab",
+      "description": "YTD payroll variance. The single biggest controllable line."
+    },
+    "life-enrichment-opex": {
+      "label": "Life Enrichment",
+      "kind": "variance",
+      "parcel": "03",
+      "cadence": "monthly",
+      "ceiling": 1.0,
+      "priority": true,
+      "workbookLine": "620080 - Life Enrichment Expense",
+      "source": "Actuals vs Budget workbook — Dashboard Data tab",
+      "description": "YTD 620080 operating variance."
+    },
+    "automotive-lease": {
+      "label": "Automotive lease",
+      "kind": "variance",
+      "parcel": "04",
+      "cadence": "monthly",
+      "ceiling": 0.6,
+      "workbookLine": "621020 - Automotive Lease Expense",
+      "source": "Actuals vs Budget workbook — Dashboard Data tab"
+    },
+    "automotive-fuel": {
+      "label": "Automotive gas & oil",
+      "kind": "variance",
+      "parcel": "05",
+      "cadence": "monthly",
+      "ceiling": 0.6,
+      "workbookLine": "621040 - Automotive Gas & Oil Expense",
+      "source": "Actuals vs Budget workbook — Dashboard Data tab"
+    },
+    "automotive-repairs": {
+      "label": "Automotive repairs",
+      "kind": "variance",
+      "parcel": "06",
+      "cadence": "monthly",
+      "ceiling": 0.6,
+      "workbookLine": "621030 - Automotive Repairs & Maint. Expense",
+      "source": "Actuals vs Budget workbook — Dashboard Data tab"
+    },
+    "automotive-expense": {
+      "label": "Automotive expense",
+      "kind": "variance",
+      "parcel": "07",
+      "cadence": "monthly",
+      "ceiling": 0.6,
+      "workbookLine": "621010 - Automotive Expense",
+      "source": "Actuals vs Budget workbook — Dashboard Data tab"
+    },
+    "food-service-requests": {
+      "label": "Food service requests",
+      "kind": "count",
+      "parcel": "08",
+      "cadence": "weekly",
+      "direction": "at-least",
+      "target": 4,
+      "unit": "entered",
+      "source": "not connected yet",
+      "description": "PLACEHOLDER target — requests entered per week."
+    },
+    "interest-assessments": {
+      "label": "Interest assessments",
+      "kind": "ratio",
+      "parcel": "09",
+      "cadence": "monthly",
+      "target": 1,
+      "source": "not connected yet",
+      "description": "Completed assessments out of residents due one."
+    },
+    "signage-online": {
+      "label": "Signage screens online",
+      "kind": "ratio",
+      "parcel": "10",
+      "cadence": "daily",
+      "target": 1,
+      "source": "not connected yet",
+      "description": "Screens reporting in out of screens installed."
+    },
+    "facebook-posts": {
+      "label": "Facebook posting",
+      "kind": "count",
+      "parcel": "11",
+      "cadence": "weekly",
+      "direction": "at-least",
+      "target": 3,
+      "unit": "posts",
+      "source": "not connected yet",
+      "description": "PLACEHOLDER target — posts in the last seven days."
+    },
+    "monthly-submission": {
+      "label": "Monthly submission",
+      "kind": "boolean",
+      "parcel": "12",
+      "cadence": "monthly",
+      "source": "not connected yet"
+    },
+    "move-in-newsletter": {
+      "label": "Move-in newsletter on file",
+      "kind": "boolean",
+      "parcel": "13",
+      "cadence": "monthly",
+      "source": "not connected yet"
+    },
+    "ptpt": {
+      "label": "PTPT happening",
+      "kind": "boolean",
+      "parcel": "14",
+      "cadence": "monthly",
+      "source": "not connected yet",
+      "description": "Send applicable: false for properties that do not run PTPT — that is a different answer from 'not done' and is scored as neither."
+    },
+    "menu-upload": {
+      "label": "Menu upload",
+      "kind": "boolean",
+      "parcel": "15",
+      "cadence": "monthly",
+      "source": "not connected yet"
+    },
+    "calendar-current": {
+      "label": "Calendar up to date",
+      "kind": "boolean",
+      "parcel": "16",
+      "cadence": "weekly",
+      "source": "not connected yet"
+    },
+    "director": {
+      "label": "Life Enrichment Director",
+      "kind": "label",
+      "cadence": "quarterly",
+      "source": "not connected yet",
+      "description": "Who runs life enrichment at this property. Shown on the roster and the detail card; it has no parcel because it is not a reading."
+    }
+  }
+}

@@ -151,7 +151,7 @@ export function createBuilding(entity) {
   const form = entity.encode?.form ?? entity.kind;
   // Relays stand on a fine grid and bring their own footing; the landmark pad
   // would be wider than their whole slot.
-  if (form !== 'relay' && !form.startsWith('pillar')) {
+  if (form !== 'relay' && form !== 'lot' && !form.startsWith('pillar')) {
     group.add(mesh(GEO.pad, SHELL_DARK, { y: 0.09, ry: r1 * Math.PI }));
   }
 
@@ -179,6 +179,16 @@ export function createBuilding(entity) {
           y: 0.02 + height + 0.06, sx: wide, sz: wide,
         }));
       }
+      break;
+    }
+    case 'lot': {
+      // "Not applicable here" — a paved, finished, empty lot. Deliberately the
+      // quietest object on the map and deliberately NOT a fenced plot: a
+      // property that does not run PTPT has answered the question, and must not
+      // look like one whose feed died. Nothing stands up, so it reads as ground.
+      const pad = mesh(GEO.pad, SHELL_DARK, { y: 0.03, sx: 0.5, sz: 0.5, sy: 0.3 });
+      group.add(pad);
+      bodies.push(pad);
       break;
     }
     case 'plot':
@@ -356,7 +366,7 @@ export function createBuilding(entity) {
   // Small repeated parcel objects opt out of shadows entirely. The shadow pass
   // redraws the whole scene, so at portfolio scale these cost more than the
   // grounding they provide — the landmark still casts, which is what sells it.
-  if (form === 'pillar' || form === 'plot' || form === 'relay') {
+  if (form === 'pillar' || form === 'plot' || form === 'lot' || form === 'relay') {
     group.traverse((o) => {
       if (o.isMesh) { o.castShadow = false; o.receiveShadow = false; }
     });

@@ -1,245 +1,43 @@
 {
   "_readme": [
-    "This file is the map. Edit it, restart, and the city changes — no code involved.",
+    "The roster: who is in the city. One hex per property, clustered into",
+    "neighbourhoods by regional leader. Edit, restart, and the map changes.",
     "",
-    "PARCELS: position 01 is the centre landmark; 02-13 are the inner ring, 14-25 the",
-    "outer ring, both numbered clockwise from twelve o'clock. Position numbers are FIXED.",
-    "To add a KPI, give a vacant position a label and set assigned to true. Never",
-    "renumber — parcel 04 must stay work orders on every property forever, because that",
-    "positional consistency is what lets you read a hex without a legend.",
+    "WHAT EACH KPI MEASURES AND WHERE IT STANDS lives in config/kpis.json, not",
+    "here. One file assigns parcel addresses so the two can never disagree.",
     "",
-    "PROPERTIES: one hex each. They cluster automatically by neighbourhood."
+    "This tracked copy is a neutral template. Real property names and regional",
+    "names are business data: they belong in data/portfolio.local.json, which is",
+    "gitignored and overrides this file. `node scripts/import-financials.mjs`",
+    "writes that file for you."
   ],
   "region": "Example Region",
   "neighbourhoods": [
-    {
-      "name": "North",
-      "manager": "Regional — North"
-    },
-    {
-      "name": "East",
-      "manager": "Regional — East"
-    },
-    {
-      "name": "South",
-      "manager": "Regional — South"
-    }
+    { "name": "North", "manager": "Regional — North" },
+    { "name": "East", "manager": "Regional — East" },
+    { "name": "South", "manager": "Regional — South" }
   ],
   "properties": [
-    {
-      "name": "Example Property 01",
-      "neighbourhood": "North"
-    },
-    {
-      "name": "Example Property 02",
-      "neighbourhood": "North"
-    },
-    {
-      "name": "Example Property 03",
-      "neighbourhood": "North"
-    },
-    {
-      "name": "Example Property 04",
-      "neighbourhood": "North"
-    },
-    {
-      "name": "Example Property 05",
-      "neighbourhood": "East"
-    },
-    {
-      "name": "Example Property 06",
-      "neighbourhood": "East"
-    },
-    {
-      "name": "Example Property 07",
-      "neighbourhood": "East"
-    },
-    {
-      "name": "Example Property 08",
-      "neighbourhood": "East"
-    },
-    {
-      "name": "Example Property 09",
-      "neighbourhood": "South"
-    },
-    {
-      "name": "Example Property 10",
-      "neighbourhood": "South"
-    },
-    {
-      "name": "Example Property 11",
-      "neighbourhood": "South"
-    },
-    {
-      "name": "Example Property 12",
-      "neighbourhood": "South"
-    }
+    { "name": "Example Property 01", "neighbourhood": "North" },
+    { "name": "Example Property 02", "neighbourhood": "North" },
+    { "name": "Example Property 03", "neighbourhood": "North" },
+    { "name": "Example Property 04", "neighbourhood": "North" },
+    { "name": "Example Property 05", "neighbourhood": "East" },
+    { "name": "Example Property 06", "neighbourhood": "East" },
+    { "name": "Example Property 07", "neighbourhood": "East" },
+    { "name": "Example Property 08", "neighbourhood": "East" },
+    { "name": "Example Property 09", "neighbourhood": "South" },
+    { "name": "Example Property 10", "neighbourhood": "South" },
+    { "name": "Example Property 11", "neighbourhood": "South" },
+    { "name": "Example Property 12", "neighbourhood": "South" }
   ],
-  "parcels": {
-    "01": {
-      "label": "Property overall",
-      "form": "landmark",
-      "assigned": true
-    },
-    "02": {
-      "label": "Payroll variance",
-      "assigned": true
-    },
-    "03": {
-      "label": "Life Enrichment (620080)",
-      "assigned": true
-    },
-    "04": {
-      "label": "Automotive lease",
-      "assigned": true
-    },
-    "05": {
-      "label": "Automotive gas & oil",
-      "assigned": true
-    },
-    "06": {
-      "label": "Automotive repairs",
-      "assigned": true
-    },
-    "07": {
-      "label": "Automotive expense",
-      "assigned": true
-    },
-    "08": {
-      "label": "",
-      "assigned": false
-    },
-    "09": {
-      "label": "",
-      "assigned": false
-    },
-    "10": {
-      "label": "",
-      "assigned": false
-    },
-    "11": {
-      "label": "",
-      "assigned": false
-    },
-    "12": {
-      "label": "",
-      "assigned": false
-    },
-    "13": {
-      "label": "",
-      "assigned": false
-    },
-    "14": {
-      "label": "",
-      "assigned": false
-    },
-    "15": {
-      "label": "",
-      "assigned": false
-    },
-    "16": {
-      "label": "",
-      "assigned": false
-    },
-    "17": {
-      "label": "",
-      "assigned": false
-    },
-    "18": {
-      "label": "",
-      "assigned": false
-    },
-    "19": {
-      "label": "",
-      "assigned": false
-    },
-    "20": {
-      "label": "",
-      "assigned": false
-    },
-    "21": {
-      "label": "",
-      "assigned": false
-    },
-    "22": {
-      "label": "",
-      "assigned": false
-    },
-    "23": {
-      "label": "",
-      "assigned": false
-    },
-    "24": {
-      "label": "",
-      "assigned": false
-    },
-    "25": {
-      "label": "",
-      "assigned": false
-    }
-  },
   "townCentre": {
     "name": "Town Centre",
-    "buildings": [
-      {
-        "id": "library",
-        "label": "SOP library",
-        "parcel": "02"
-      },
-      {
-        "id": "post",
-        "label": "Email oversight",
-        "parcel": "03"
-      },
-      {
-        "id": "utilities",
-        "label": "Flow checker",
-        "parcel": "04"
-      },
-      {
-        "id": "records",
-        "label": "Contracts & renewals",
-        "parcel": "05"
-      },
-      {
-        "id": "depot",
-        "label": "Vendors",
-        "parcel": "06"
-      }
+    "_readme": [
+      "Ten blank hexes held in the middle, where the neighbourhoods converge.",
+      "Reserved for items that belong to nobody in particular — the SOP library,",
+      "email oversight, the Power Automate flow checker. Nothing is built here",
+      "yet, and the ground is held so that adding one later moves nothing."
     ]
-  },
-  "lineItems": {
-    "Total 610005 - Payroll - Expense": {
-      "parcel": "02",
-      "label": "Payroll",
-      "ceiling": 1.0,
-      "priority": true
-    },
-    "620080 - Life Enrichment Expense": {
-      "parcel": "03",
-      "label": "Life Enrichment",
-      "ceiling": 1.0,
-      "priority": true
-    },
-    "621020 - Automotive Lease Expense": {
-      "parcel": "04",
-      "label": "Automotive lease",
-      "ceiling": 0.6
-    },
-    "621040 - Automotive Gas & Oil Expense": {
-      "parcel": "05",
-      "label": "Automotive gas & oil",
-      "ceiling": 0.6
-    },
-    "621030 - Automotive Repairs & Maint. Expense": {
-      "parcel": "06",
-      "label": "Automotive repairs",
-      "ceiling": 0.6
-    },
-    "621010 - Automotive Expense": {
-      "parcel": "07",
-      "label": "Automotive expense",
-      "ceiling": 0.6
-    }
   }
 }

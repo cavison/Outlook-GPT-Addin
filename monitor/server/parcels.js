@@ -109,23 +109,9 @@ export function loadPortfolio() {
     }
   }
 
-  const parcels = raw.parcels ?? {};
-  for (const number of Object.keys(parcels)) {
-    if (!PARCEL_POSITION_BY_NUMBER.has(number)) {
-      errors.push(`parcel "${number}" is not a valid position (01–25)`);
-    }
-    if (parcels[number].assigned && !parcels[number].label) {
-      errors.push(`parcel ${number} is marked assigned but has no label`);
-    }
-  }
-
-  for (const [item, mapping] of Object.entries(raw.lineItems ?? {})) {
-    if (!PARCEL_POSITION_BY_NUMBER.has(mapping.parcel)) {
-      errors.push(`line item "${item}" maps to parcel "${mapping.parcel}", which is not a position`);
-    } else if (!parcels[mapping.parcel]?.assigned) {
-      errors.push(`line item "${item}" maps to parcel ${mapping.parcel}, which is not marked assigned`);
-    }
-  }
+  // Which parcel holds which KPI is settled in config/kpis.json — the registry
+  // is the only place an address is assigned, so the two files cannot disagree
+  // about what position 10 means.
 
   const geometry = validateGeometry();
   errors.push(...geometry);
@@ -138,15 +124,6 @@ export function loadPortfolio() {
     region: raw.region ?? 'Region',
     neighbourhoods,
     properties: raw.properties,
-    parcels,
-    lineItems: raw.lineItems ?? {},
     townCentre: raw.townCentre ?? null,
-    /** Assigned parcels, in position order. */
-    assigned: Object.entries(parcels)
-      .filter(([, p]) => p.assigned)
-      .map(([number, p]) => ({ number, ...p, ...PARCEL_POSITION_BY_NUMBER.get(number) }))
-      .sort((a, b) => a.number.localeCompare(b.number)),
-    /** Positions with nothing on them yet — drawn as finished, empty lots. */
-    vacant: PARCEL_POSITIONS.filter((p) => !parcels[p.number]?.assigned),
   };
 }

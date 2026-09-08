@@ -3,9 +3,12 @@ import express from 'express';
 import { config, ROOT } from './config.js';
 import { Hub } from './hub.js';
 import { auth } from './auth.js';
+import { loadRegistry, validateBatch, writeBatch } from './kpi.js';
 
 const app = express();
-app.use(express.json());
+// A monthly batch for 200 properties is comfortably under this; the default
+// 100kb is not.
+app.use(express.json({ limit: '4mb' }));
 
 const hub = new Hub();
 hub.start();
@@ -98,6 +101,60 @@ app.post('/api/auth/login', async (_req, res) => {
 app.post('/api/auth/logout', (_req, res) => {
   auth.signOut();
   res.json({ ok: true });
+});
+
+// ---------------------------------------------------------------------------
+// Ingest. The door a Power Automate flow, a scheduled agent or a script pushes
+// readings through. Same normalizer and same validation as the CLI, so nothing
+// can reach the map by a route that skips the checks.
+//
+// The server binds to localhost, so this is not exposed to your network. If you
+// ever put it behind a tunnel so a cloud flow can reach it, put a shared secret
+// in INGEST_TOKEN first — an unauthenticated writer could otherwise quietly
+// turn every KPI green.
+// ---------------------------------------------------------------------------
+app.get('/api/kpis', (_req, res) => {
+  try {
+    res.json({ ok: true, kpis: loadRegistry() });
+  } catch (err) {
+    res.status(500).json({ ok: false, message: err.message });
+  }
+});
+
+app.post('/api/ingest', async (req, res) => {
+  if (config.ingestToken && req.get('x-ingest-token') !== config.ingestToken) {
+    return res.status(401).json({ ok: false, message: 'bad or missing x-ingest-token' });
+  }
+
+  let registry;
+  try {
+    registry = loadRegistry();
+  } catch (err) {
+    return res.status(500).json({ ok: false, message: err.message });
+  }
+
+  // Accept one batch or several, so a flow that gathers three KPIs in one run
+  // does not have to make three calls and half-succeed.
+  const batches = Array.isArray(req.body) ? req.body : [req.body];
+  const checked = batches.map((b) => validateBatch(b, registry));
+  const bad = checked.filter((c) => !c.ok);
+  if (bad.length) {
+    // All or nothing: a partly-applied push would leave the map in a state
+    // nobody asked for and nobody can see.
+    return res.status(400).json({
+      ok: false,
+      message: `${bad.length} of ${batches.length} batch(es) rejected — nothing was written`,
+      errors: bad.flatMap((c) => c.errors).slice(0, 50),
+    });
+  }
+
+  const written = checked.map((c) => {
+    writeBatch(c.batch);
+    return { kpi: c.batch.kpi, rows: c.batch.rows.length, asOf: c.batch.asOf };
+  });
+
+  await hub.poll(); // show it now rather than at the next tick
+  res.json({ ok: true, written });
 });
 
 app.post('/api/refresh', async (_req, res) => {

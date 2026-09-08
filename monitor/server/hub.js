@@ -144,6 +144,10 @@ export class Hub extends EventEmitter {
         entities.map((e) => [e.id, this.layout.place(e)]),
       ),
       game: this.game.snapshot(),
+      // The KPI registry travels with the state so the roster, the legend and
+      // the filters all name a parcel the same way the server does. Deriving
+      // labels client-side is how a legend starts lying about what it shows.
+      kpis: this.describeKpis(),
       providers: [...this.providerHealth.values()],
       alerts: entities
         .filter((e) => needsAttention(e.status))
@@ -155,6 +159,15 @@ export class Hub extends EventEmitter {
       },
       lastPollAt: this.lastPollAt,
     };
+  }
+
+  /** Merged KPI registries from every provider that publishes one. */
+  describeKpis() {
+    const out = {};
+    for (const provider of this.providers) {
+      if (typeof provider.describeKpis === 'function') Object.assign(out, provider.describeKpis());
+    }
+    return out;
   }
 
   entity(id) {
