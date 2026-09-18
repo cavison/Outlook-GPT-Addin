@@ -1,0 +1,100 @@
+/* ============ SOURCE PANEL ============
+   Every card carries the sources behind it. A link with u: is the page itself.
+   A link with q: runs the exact-phrase search that confirms the quote, which is
+   the check we actually ran. Where nothing public was captured the panel says so
+   rather than inventing a URL. */
+function sQ(q){ return "https://www.google.com/search?q="+encodeURIComponent(q); }
+var GRADE={OP:"OPERATOR",INT:"INTERNAL",AGG:"OUR MATH",CALL:"THE CALL"};
+function srcHTML(ids,hdr){
+  if(!ids)return "";
+  if(typeof ids==="string")ids=[ids];
+  var out='<div class="srcwrap"><div class="srchdr">'+(hdr||"Where this comes from — click to open")+'</div>';
+  ids.forEach(function(id){
+    var s=SRC[id];
+    if(!s){ return; }
+    out+='<details class="srcbox"><summary><span class="gr gr-'+s.g+'">'+GRADE[s.g]+'</span>'+
+         '<span class="who">'+s.who+'</span><span class="car">&#9656;</span></summary><div class="inner">';
+    out+='<p>'+s.basis+'</p>';
+    if(s.quote)out+='<p class="srcq">'+s.quote+'</p>';
+    if(s.how)out+='<p class="srcnote">'+s.how+'</p>';
+    if(s.links&&s.links.length){
+      out+='<div class="srclinks">';
+      s.links.forEach(function(l){
+        var href=l.u?l.u:sQ(l.q);
+        var tag=l.u?"OPEN PAGE":"RUN SEARCH";
+        out+='<a href="'+href+'" target="_blank" rel="noopener noreferrer"><span class="ic">'+tag+'</span><span>'+l.t+'</span></a>';
+      });
+      out+='</div>';
+    }else{
+      out+='<p class="nolink">No public URL captured for this one. Confirm it yourself before quoting it outside the building.</p>';
+    }
+    out+='</div></details>';
+  });
+  return out+'</div>';
+}
+
+/* ============ DOSSIER MODE ============ */
+var MODE="drill", DIDX=-1;
+function chapterForOp(name){
+  for(var i=0;i<CH.length;i++){ if(CH[i].op===name)return i; }
+  return -1;
+}
+function setMode(m){
+  MODE=m; DIDX=-1;
+  document.getElementById("mode").textContent = (m==="doss")?"DRILLS":"DOSSIERS";
+  document.getElementById("rail").style.display = (m==="doss")?"none":"";
+  document.querySelector(".cprog").style.display = (m==="doss")?"none":"";
+  document.getElementById("opbar").className="opbar";
+  render();
+}
+function renderDossList(){
+  var h='<div class="dhdr"><h2>Operator dossiers</h2><p>Eight operators, '+DOSS_TOTAL.sites+
+    ' communities and '+DOSS_TOTAL.units+' villas between them. Look one up before you speak to them, '+
+    'or drill it until you can say it cold. Every claim opens its own source.</p></div><div class="dlist">';
+  DOSS.forEach(function(o,i){
+    h+='<button class="dcard" type="button" data-i="'+i+'">'+
+       '<p class="dt">'+o.tag+'</p><p class="dn">'+o.n+'</p><p class="dl">'+o.line+'</p>'+
+       '<div class="dm"><span>'+o.ns+' communities</span><span>'+o.units+' villas</span>'+
+       '<span>'+o.f.filter(function(f){return f.n>0;}).length+' of 6 functions listed</span></div></button>';
+  });
+  h+='</div>';
+  stage.innerHTML=h;
+  Array.prototype.forEach.call(stage.querySelectorAll(".dcard"),function(b){
+    b.addEventListener("click",function(){ SFX.tick(); DIDX=Number(b.dataset.i); render(); });
+  });
+}
+function renderDossOne(){
+  var o=DOSS[DIDX], ci=chapterForOp(o.n);
+  var h='<div class="dhdr"><p class="dt" style="font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--brass);margin:0 0 4px">'+o.tag+'</p>'+
+    '<h2>'+o.n+'</h2><p>'+o.ns+' communities &middot; '+o.units+' villas in the inventory</p></div>'+
+    '<div class="card"><p class="ctx" style="font-size:15px;color:var(--ink)">'+o.pb+'</p>'+
+    '<div class="say"><div class="lab">Say it like this</div><p>'+o.say+'</p></div>'+
+    srcHTML(o.s,"Where this operator profile comes from")+
+    '<div class="actions">'+(ci>=0?'<button class="btn" type="button" id="drillop">Drill '+CH[ci].name+'</button>':'')+
+    '<button class="btn ghost" type="button" id="backd">All dossiers</button></div></div>';
+
+  h+='<div class="sechdr">What they do, function by function</div><div class="card">';
+  o.f.forEach(function(f){
+    h+='<div class="frow"><p class="fname">'+f.k+' <span class="fv'+(f.n===0?" zero":"")+'">'+f.v+'</span></p>';
+    if(f.ph&&f.ph.length){
+      h+='<ul class="phr">';
+      f.ph.forEach(function(p){
+        h+='<li><span class="pc">&times;'+p.c+'</span>'+p.t+'<span class="ps">'+p.s.join(" &middot; ")+'</span></li>';
+      });
+      h+='</ul>';
+    }
+    h+='</div>';
+  });
+  h+='</div>';
+
+  h+='<div class="sechdr">The portfolio</div><div class="card"><ul class="sites">';
+  o.sites.forEach(function(s){
+    h+='<li><span class="sn">'+s.nm+'</span><span class="sl">'+s.loc+'</span><span class="su">'+s.u+'</span></li>';
+  });
+  h+='</ul></div>';
+  stage.innerHTML=h;
+  document.getElementById("backd").addEventListener("click",function(){ SFX.tick(); DIDX=-1; render(); });
+  var db=document.getElementById("drillop");
+  if(db)db.addEventListener("click",function(){ SFX.tick(); S.ch=ci; S.i=0; Q=queueFor(ci); save(); setMode("drill"); });
+}
+

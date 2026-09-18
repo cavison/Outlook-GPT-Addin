@@ -1,0 +1,1117 @@
+{
+ "Life Care Services": {
+  "n": 9,
+  "sites": [
+   {
+    "nm": "Friendship Village Kalamazoo",
+    "loc": "Kalamazoo, MI",
+    "units": "50 villas"
+   },
+   {
+    "nm": "Newcastle Place",
+    "loc": "Mequon, WI",
+    "units": "29 Villas (1718 – 1982 sq ft)"
+   },
+   {
+    "nm": "The Heritage at Brentwood",
+    "loc": "Brentwood, TN",
+    "units": "65 villas (1803 – 2171 sq ft)"
+   },
+   {
+    "nm": "Marquette",
+    "loc": "Indianapolis, IN",
+    "units": "36 villas"
+   },
+   {
+    "nm": "Wyndemere",
+    "loc": "Wheaton, IL",
+    "units": "26 villas"
+   },
+   {
+    "nm": "Green Hills Community",
+    "loc": "Ames, IA",
+    "units": "82 villas (1306 – 2986 sq ft)"
+   },
+   {
+    "nm": "Greenwood Village South",
+    "loc": "Greenwood, IN",
+    "units": "78 villas"
+   },
+   {
+    "nm": "Rose Senior Living Avon",
+    "loc": "Avon, OH",
+    "units": "76 villas (966 – 1404 sq ft)"
+   },
+   {
+    "nm": "Friendship Village of Dublin",
+    "loc": "Dublin, OH",
+    "units": "20 villas (1380 – 1886 sq ft); 2 Bed/2 Bath, some w/ den"
+   }
+  ],
+  "f": {
+   "Transportation": {
+    "n": 4,
+    "incl": 4,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Transportation",
+      "count": 4,
+      "sites": [
+       "Friendship Village Kalamazoo",
+       "The Heritage at Brentwood",
+       "Wyndemere",
+       "Friendship Village of Dublin"
+      ]
+     }
+    ]
+   },
+   "Life Enrichment": {
+    "n": 2,
+    "incl": 2,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Main Campus amenities (pool; gym w/ trainer; chaplain; café; general store)",
+      "count": 1,
+      "sites": [
+       "Friendship Village Kalamazoo"
+      ]
+     },
+     {
+      "txt": "Campus amenities (multiple dining venues; putting green; bocce court; woodworking shop; art studio; greenhouse/gardening area; market; medical clinic; bank services)",
+      "count": 1,
+      "sites": [
+       "The Heritage at Brentwood"
+      ]
+     }
+    ]
+   },
+   "Culinary": {
+    "n": 1,
+    "incl": 1,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "$540 in monthly meal credits",
+      "count": 1,
+      "sites": [
+       "Friendship Village of Dublin"
+      ]
+     }
+    ]
+   },
+   "Housekeeping": {
+    "n": 3,
+    "incl": 3,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Bi-Weekly Housekeeping",
+      "count": 1,
+      "sites": [
+       "Friendship Village Kalamazoo"
+      ]
+     },
+     {
+      "txt": "Bi-weekly housekeeping & linen service",
+      "count": 1,
+      "sites": [
+       "Newcastle Place"
+      ]
+     },
+     {
+      "txt": "Bi-weekly housekeeping; weekly linen services",
+      "count": 1,
+      "sites": [
+       "Friendship Village of Dublin"
+      ]
+     }
+    ]
+   },
+   "Wellness": {
+    "n": 2,
+    "incl": 2,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "(via campus amenities) Main Campus amenities (pool; gym w/ trainer; chaplain; café; general store)",
+      "count": 1,
+      "sites": [
+       "Friendship Village Kalamazoo"
+      ]
+     },
+     {
+      "txt": "(via campus amenities) Campus amenities (multiple dining venues; putting green; bocce court; woodworking shop; art studio; greenhouse/gardening area; market; medical clinic; bank services)",
+      "count": 1,
+      "sites": [
+       "The Heritage at Brentwood"
+      ]
+     }
+    ]
+   },
+   "Maintenance": {
+    "n": 4,
+    "incl": 4,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Interior/exterior maintenance",
+      "count": 2,
+      "sites": [
+       "Wyndemere",
+       "Green Hills Community"
+      ]
+     },
+     {
+      "txt": "“Maintenance-free living”",
+      "count": 1,
+      "sites": [
+       "Marquette"
+      ]
+     },
+     {
+      "txt": "Exterior/interior maintenance",
+      "count": 1,
+      "sites": [
+       "Greenwood Village South"
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "Trilogy Health Services": {
+  "n": 8,
+  "sites": [
+   {
+    "nm": "The Villas at Westlake",
+    "loc": "Commerce Charter Twp, MI",
+    "units": "34 villas"
+   },
+   {
+    "nm": "Waunakee Valley Senior Living",
+    "loc": "Waunakee, WI",
+    "units": "8 villas"
+   },
+   {
+    "nm": "Triple Creek Retirement Community",
+    "loc": "Cincinnati, OH",
+    "units": "28 villas"
+   },
+   {
+    "nm": "Harrison Springs",
+    "loc": "Corydon, IN",
+    "units": "42 villas"
+   },
+   {
+    "nm": "Forest Springs",
+    "loc": "Louisville, KY",
+    "units": "34 villas"
+   },
+   {
+    "nm": "The Willows at Springhurst",
+    "loc": "Louisville, KY",
+    "units": "58 villas"
+   },
+   {
+    "nm": "The Villages at Historic Silvercrest",
+    "loc": "New Albany, IN",
+    "units": "38 villas"
+   },
+   {
+    "nm": "Rivercrest",
+    "loc": "New Albany, IN",
+    "units": "16 villas"
+   }
+  ],
+  "f": {
+   "Transportation": {
+    "n": 0
+   },
+   "Life Enrichment": {
+    "n": 2,
+    "incl": 2,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Campus amenities (fitness center; café; salon)",
+      "count": 1,
+      "sites": [
+       "Waunakee Valley Senior Living"
+      ]
+     },
+     {
+      "txt": "Club house",
+      "count": 1,
+      "sites": [
+       "Rivercrest"
+      ]
+     }
+    ]
+   },
+   "Culinary": {
+    "n": 3,
+    "incl": 0,
+    "extra": 3,
+    "top": [
+     {
+      "txt": "Meal options available",
+      "count": 3,
+      "sites": [
+       "The Willows at Springhurst",
+       "The Villages at Historic Silvercrest",
+       "Rivercrest"
+      ]
+     }
+    ]
+   },
+   "Housekeeping": {
+    "n": 8,
+    "incl": 3,
+    "extra": 5,
+    "top": [
+     {
+      "txt": "Bi-Weekly housekeeping; Laundry service available",
+      "count": 2,
+      "sites": [
+       "Harrison Springs",
+       "Forest Springs"
+      ]
+     },
+     {
+      "txt": "Bi-weekly housekeeping; Laundry services available",
+      "count": 2,
+      "sites": [
+       "The Villages at Historic Silvercrest",
+       "Rivercrest"
+      ]
+     },
+     {
+      "txt": "Bi-weekly housekeeping",
+      "count": 1,
+      "sites": [
+       "The Villas at Westlake"
+      ]
+     },
+     {
+      "txt": "Bi-monthly “interior cleaning services”",
+      "count": 1,
+      "sites": [
+       "Waunakee Valley Senior Living"
+      ]
+     },
+     {
+      "txt": "Bi-monthly housekeeping (”Interior Cleaning Services”)",
+      "count": 1,
+      "sites": [
+       "Triple Creek Retirement Community"
+      ]
+     },
+     {
+      "txt": "Bi-monthly housekeeping; Laundry services available",
+      "count": 1,
+      "sites": [
+       "The Willows at Springhurst"
+      ]
+     }
+    ]
+   },
+   "Wellness": {
+    "n": 6,
+    "incl": 3,
+    "extra": 3,
+    "top": [
+     {
+      "txt": "Fitness center; Rehab facilities",
+      "count": 2,
+      "sites": [
+       "Harrison Springs",
+       "Forest Springs"
+      ]
+     },
+     {
+      "txt": "(via campus amenities) Campus amenities (fitness center; café; salon)",
+      "count": 1,
+      "sites": [
+       "Waunakee Valley Senior Living"
+      ]
+     },
+     {
+      "txt": "Rehab services available",
+      "count": 1,
+      "sites": [
+       "The Willows at Springhurst"
+      ]
+     },
+     {
+      "txt": "Rehab therapy available",
+      "count": 1,
+      "sites": [
+       "The Villages at Historic Silvercrest"
+      ]
+     },
+     {
+      "txt": "Rehab therapy available; Fitness center",
+      "count": 1,
+      "sites": [
+       "Rivercrest"
+      ]
+     }
+    ]
+   },
+   "Maintenance": {
+    "n": 7,
+    "incl": 7,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Interior/exterior maintenance",
+      "count": 6,
+      "sites": [
+       "Triple Creek Retirement Community",
+       "Harrison Springs",
+       "Forest Springs",
+       "The Willows at Springhurst",
+       "The Villages at Historic Silvercrest",
+       "Rivercrest"
+      ]
+     },
+     {
+      "txt": "24 hour emergency maintenance",
+      "count": 1,
+      "sites": [
+       "Waunakee Valley Senior Living"
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "Arrow Senior Living": {
+  "n": 7,
+  "sites": [
+   {
+    "nm": "Vitalia Senior Residences at Strongsville",
+    "loc": "Strongsville, OH",
+    "units": "71 Villas (1191 – 1383 sq ft)"
+   },
+   {
+    "nm": "Vitalia North Royalton",
+    "loc": "North Royalton, OH",
+    "units": "16 villas"
+   },
+   {
+    "nm": "Vitalia at Stow",
+    "loc": "Stow, OH",
+    "units": "6 villas"
+   },
+   {
+    "nm": "Vitalia at Montrose",
+    "loc": "Copley, OH",
+    "units": "19 villas"
+   },
+   {
+    "nm": "Vitalia Mentor",
+    "loc": "Mentor, OH",
+    "units": "59 villas (1191 – 1371 sq ft)"
+   },
+   {
+    "nm": "Vitalia at Rockside",
+    "loc": "Seven Hills, OH",
+    "units": "18 villas (1191 – 1383 sq ft)"
+   },
+   {
+    "nm": "Vitalia North Olmsted",
+    "loc": "North Olmsted, OH",
+    "units": "8 villas"
+   }
+  ],
+  "f": {
+   "Transportation": {
+    "n": 0
+   },
+   "Life Enrichment": {
+    "n": 4,
+    "incl": 4,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Campus amenities (wellness center; library; demonstration kitchen)",
+      "count": 2,
+      "sites": [
+       "Vitalia Senior Residences at Strongsville",
+       "Vitalia North Royalton"
+      ]
+     },
+     {
+      "txt": "Campus amenities (wellness center; library; demonstration kitchen; indoor pool; bistro; movie theater; billiards)",
+      "count": 2,
+      "sites": [
+       "Vitalia at Stow",
+       "Vitalia at Montrose"
+      ]
+     }
+    ]
+   },
+   "Culinary": {
+    "n": 0
+   },
+   "Housekeeping": {
+    "n": 0
+   },
+   "Wellness": {
+    "n": 4,
+    "incl": 4,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "(via campus amenities) Campus amenities (wellness center; library; demonstration kitchen)",
+      "count": 2,
+      "sites": [
+       "Vitalia Senior Residences at Strongsville",
+       "Vitalia North Royalton"
+      ]
+     },
+     {
+      "txt": "(via campus amenities) Campus amenities (wellness center; library; demonstration kitchen; indoor pool; bistro; movie theater; billiards)",
+      "count": 2,
+      "sites": [
+       "Vitalia at Stow",
+       "Vitalia at Montrose"
+      ]
+     }
+    ]
+   },
+   "Maintenance": {
+    "n": 3,
+    "incl": 3,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Interior/exterior maintenance",
+      "count": 3,
+      "sites": [
+       "Vitalia Mentor",
+       "Vitalia at Rockside",
+       "Vitalia North Olmsted"
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "Traditions Management": {
+  "n": 7,
+  "sites": [
+   {
+    "nm": "Traditions of Columbus",
+    "loc": "Columbus, IN",
+    "units": "30 villas (1481 – 1530 sq ft)"
+   },
+   {
+    "nm": "Traditions at North Willow",
+    "loc": "Indianapolis, IN",
+    "units": "50 villas (850 – 1300 sq ft)"
+   },
+   {
+    "nm": "Traditions at Solana",
+    "loc": "Indianapolis, IN",
+    "units": "24 villas (1134 – 1818 sq ft)"
+   },
+   {
+    "nm": "Traditions at Brookside",
+    "loc": "McCordsville, IN",
+    "units": "42 villas"
+   },
+   {
+    "nm": "Traditions at Reagan Park",
+    "loc": "Avon, IN",
+    "units": "44 villas (927 – 1615 sq ft)"
+   },
+   {
+    "nm": "Traditions at Beaumont",
+    "loc": "Louisville, KY",
+    "units": "32 villas (1567 sq ft; all 2BR/1.5Bath)"
+   },
+   {
+    "nm": "Traditions at Hunter Station",
+    "loc": "Sellersburg, IN",
+    "units": "36 villas"
+   }
+  ],
+  "f": {
+   "Transportation": {
+    "n": 4,
+    "incl": 4,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Transportation",
+      "count": 4,
+      "sites": [
+       "Traditions at Brookside",
+       "Traditions at Reagan Park",
+       "Traditions at Beaumont",
+       "Traditions at Hunter Station"
+      ]
+     }
+    ]
+   },
+   "Life Enrichment": {
+    "n": 3,
+    "incl": 3,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Campus amenities (pub; chapel; movie theater; fitness center; salon)",
+      "count": 1,
+      "sites": [
+       "Traditions of Columbus"
+      ]
+     },
+     {
+      "txt": "Clubhouse with fitness center; Enclosed dog park",
+      "count": 1,
+      "sites": [
+       "Traditions at North Willow"
+      ]
+     },
+     {
+      "txt": "Chapel",
+      "count": 1,
+      "sites": [
+       "Traditions at Beaumont"
+      ]
+     }
+    ]
+   },
+   "Culinary": {
+    "n": 3,
+    "incl": 2,
+    "extra": 1,
+    "top": [
+     {
+      "txt": "30 meals/month",
+      "count": 2,
+      "sites": [
+       "Traditions at Solana",
+       "Traditions at Reagan Park"
+      ]
+     },
+     {
+      "txt": "Meal plans available",
+      "count": 1,
+      "sites": [
+       "Traditions at Beaumont"
+      ]
+     }
+    ]
+   },
+   "Housekeeping": {
+    "n": 2,
+    "incl": 2,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Interior/exterior maintenance/housekeeping",
+      "count": 2,
+      "sites": [
+       "Traditions at Solana",
+       "Traditions at Reagan Park"
+      ]
+     }
+    ]
+   },
+   "Wellness": {
+    "n": 3,
+    "incl": 3,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "(via campus amenities) Campus amenities (pub; chapel; movie theater; fitness center; salon)",
+      "count": 1,
+      "sites": [
+       "Traditions of Columbus"
+      ]
+     },
+     {
+      "txt": "(via campus amenities) Clubhouse with fitness center",
+      "count": 1,
+      "sites": [
+       "Traditions at North Willow"
+      ]
+     },
+     {
+      "txt": "Fitness Center",
+      "count": 1,
+      "sites": [
+       "Traditions at Beaumont"
+      ]
+     }
+    ]
+   },
+   "Maintenance": {
+    "n": 5,
+    "incl": 5,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Interior/exterior maintenance/housekeeping",
+      "count": 2,
+      "sites": [
+       "Traditions at Solana",
+       "Traditions at Reagan Park"
+      ]
+     },
+     {
+      "txt": "Interior/exterior maintenance",
+      "count": 2,
+      "sites": [
+       "Traditions at Beaumont",
+       "Traditions at Hunter Station"
+      ]
+     },
+     {
+      "txt": "Interior/exterior maintenance/groundskeeping",
+      "count": 1,
+      "sites": [
+       "Traditions at North Willow"
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "Five Star Senior Living": {
+  "n": 5,
+  "sites": [
+   {
+    "nm": "Five Star Residences of Clearwater",
+    "loc": "Indianapolis, IN",
+    "units": "11 villas"
+   },
+   {
+    "nm": "Five Star Senior Residences of Noblesville",
+    "loc": "Noblesville, IN",
+    "units": "54 villas"
+   },
+   {
+    "nm": "Five Star Residences of Fort Wayne",
+    "loc": "Fort Wayne, IN",
+    "units": "24 villas (1200 – 1355 sq ft)"
+   },
+   {
+    "nm": "Five Star Residences of Banta Pointe",
+    "loc": "Indianapolis, IN",
+    "units": "22 villas (922 – 1106 sq ft)"
+   },
+   {
+    "nm": "The Forum at Brookside",
+    "loc": "Louisville, KY",
+    "units": "108 villas (939 – 1117 sq ft); 2Bed/1 Bath, 2Bed/1.5 Bath, and 2Bed/1.5 Bath w/ Den options"
+   }
+  ],
+  "f": {
+   "Transportation": {
+    "n": 0
+   },
+   "Life Enrichment": {
+    "n": 0
+   },
+   "Culinary": {
+    "n": 2,
+    "incl": 2,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Three daily meals",
+      "count": 1,
+      "sites": [
+       "Five Star Residences of Clearwater"
+      ]
+     },
+     {
+      "txt": "One daily meal",
+      "count": 1,
+      "sites": [
+       "Five Star Residences of Banta Pointe"
+      ]
+     }
+    ]
+   },
+   "Housekeeping": {
+    "n": 5,
+    "incl": 5,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Weekly housekeeping and flat linen service; Interior/exterior maintenance/housekeeping",
+      "count": 1,
+      "sites": [
+       "Five Star Residences of Clearwater"
+      ]
+     },
+     {
+      "txt": "Interior/exterior maintenance/housekeeping; Weekly housekeeping and flat linen service",
+      "count": 1,
+      "sites": [
+       "Five Star Senior Residences of Noblesville"
+      ]
+     },
+     {
+      "txt": "Weekly housekeeping and linen services",
+      "count": 1,
+      "sites": [
+       "Five Star Residences of Fort Wayne"
+      ]
+     },
+     {
+      "txt": "Weekly housekeeping and flat linen service",
+      "count": 1,
+      "sites": [
+       "Five Star Residences of Banta Pointe"
+      ]
+     },
+     {
+      "txt": "Bi-weekly housekeeping w/ flat linen service",
+      "count": 1,
+      "sites": [
+       "The Forum at Brookside"
+      ]
+     }
+    ]
+   },
+   "Wellness": {
+    "n": 1,
+    "incl": 0,
+    "extra": 1,
+    "top": [
+     {
+      "txt": "Physical therapy available",
+      "count": 1,
+      "sites": [
+       "The Forum at Brookside"
+      ]
+     }
+    ]
+   },
+   "Maintenance": {
+    "n": 5,
+    "incl": 5,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Interior/exterior maintenance/housekeeping",
+      "count": 2,
+      "sites": [
+       "Five Star Residences of Clearwater",
+       "Five Star Senior Residences of Noblesville"
+      ]
+     },
+     {
+      "txt": "“Maintenance of home, building and grounds”",
+      "count": 1,
+      "sites": [
+       "Five Star Residences of Fort Wayne"
+      ]
+     },
+     {
+      "txt": "“Maintenance of home, building and grounds",
+      "count": 1,
+      "sites": [
+       "Five Star Residences of Banta Pointe"
+      ]
+     },
+     {
+      "txt": "Interior/exterior maintenance",
+      "count": 1,
+      "sites": [
+       "The Forum at Brookside"
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "American Senior Communities": {
+  "n": 5,
+  "sites": [
+   {
+    "nm": "Zionsville Meadows",
+    "loc": "Zionsville, IN",
+    "units": "60 villas"
+   },
+   {
+    "nm": "Brownsburg Meadows",
+    "loc": "Brownsburg, IN",
+    "units": "23 villas"
+   },
+   {
+    "nm": "Coventry Meadows",
+    "loc": "Fort Wayne, IN",
+    "units": "36 villas (650 – 2970 sq ft)"
+   },
+   {
+    "nm": "Rosegate Assisted Living",
+    "loc": "Indianapolis, IN",
+    "units": "79 villas (12 one-bedroom and 67 two-bedroom)"
+   },
+   {
+    "nm": "Beech Grove Meadows",
+    "loc": "Beech Grove, IN",
+    "units": "35 villas"
+   }
+  ],
+  "f": {
+   "Transportation": {
+    "n": 5,
+    "incl": 5,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Transportation",
+      "count": 5,
+      "sites": [
+       "Zionsville Meadows",
+       "Brownsburg Meadows",
+       "Coventry Meadows",
+       "Rosegate Assisted Living",
+       "Beech Grove Meadows"
+      ]
+     }
+    ]
+   },
+   "Life Enrichment": {
+    "n": 0
+   },
+   "Culinary": {
+    "n": 0
+   },
+   "Housekeeping": {
+    "n": 1,
+    "incl": 1,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Interior/exterior maintenance/housekeeping",
+      "count": 1,
+      "sites": [
+       "Zionsville Meadows"
+      ]
+     }
+    ]
+   },
+   "Wellness": {
+    "n": 0
+   },
+   "Maintenance": {
+    "n": 3,
+    "incl": 3,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Interior/exterior maintenance",
+      "count": 2,
+      "sites": [
+       "Coventry Meadows",
+       "Rosegate Assisted Living"
+      ]
+     },
+     {
+      "txt": "Interior/exterior maintenance/housekeeping",
+      "count": 1,
+      "sites": [
+       "Zionsville Meadows"
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "Life Enriching Communities": {
+  "n": 5,
+  "sites": [
+   {
+    "nm": "Wesley Woods",
+    "loc": "New Albany, OH",
+    "units": "12 villas (1347 – 1617 sq ft)"
+   },
+   {
+    "nm": "Twin Lakes",
+    "loc": "Cincinnati, OH",
+    "units": "143 villas (1495 – 1670 sq ft)"
+   },
+   {
+    "nm": "Twin Towers",
+    "loc": "Cincinnati, OH",
+    "units": "130 villas"
+   },
+   {
+    "nm": "Wesley Glen",
+    "loc": "Columbus, OH",
+    "units": "14 villas (968 – 1180 sq ft)"
+   },
+   {
+    "nm": "Wesley Ridge",
+    "loc": "Reynoldsburg, OH",
+    "units": "16 villas (1245 – 1475 sq ft)"
+   }
+  ],
+  "f": {
+   "Transportation": {
+    "n": 2,
+    "incl": 2,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Transportation",
+      "count": 2,
+      "sites": [
+       "Twin Lakes",
+       "Twin Towers"
+      ]
+     }
+    ]
+   },
+   "Life Enrichment": {
+    "n": 0
+   },
+   "Culinary": {
+    "n": 4,
+    "incl": 1,
+    "extra": 3,
+    "top": [
+     {
+      "txt": "“Flexible meal allowance”",
+      "count": 3,
+      "sites": [
+       "Twin Lakes",
+       "Twin Towers",
+       "Wesley Glen"
+      ]
+     },
+     {
+      "txt": "Daily continental breakfast",
+      "count": 1,
+      "sites": [
+       "Wesley Woods"
+      ]
+     }
+    ]
+   },
+   "Housekeeping": {
+    "n": 5,
+    "incl": 5,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Bi-weekly housekeeping",
+      "count": 3,
+      "sites": [
+       "Wesley Woods",
+       "Wesley Glen",
+       "Wesley Ridge"
+      ]
+     },
+     {
+      "txt": "Light monthly housekeeping",
+      "count": 2,
+      "sites": [
+       "Twin Lakes",
+       "Twin Towers"
+      ]
+     }
+    ]
+   },
+   "Wellness": {
+    "n": 1,
+    "incl": 0,
+    "extra": 1,
+    "top": [
+     {
+      "txt": "Yearly allowance for health/wellness services",
+      "count": 1,
+      "sites": [
+       "Twin Lakes"
+      ]
+     }
+    ]
+   },
+   "Maintenance": {
+    "n": 5,
+    "incl": 5,
+    "extra": 0,
+    "top": [
+     {
+      "txt": "Interior/exterior maintenance",
+      "count": 5,
+      "sites": [
+       "Wesley Woods",
+       "Twin Lakes",
+       "Twin Towers",
+       "Wesley Glen",
+       "Wesley Ridge"
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "Capri Communities": {
+  "n": 4,
+  "sites": [
+   {
+    "nm": "Village Pointe Commons",
+    "loc": "Grafton, WI",
+    "units": "16 villas (1520 – 1632 sq ft)"
+   },
+   {
+    "nm": "The Gables of Germantown",
+    "loc": "Germantown, WI",
+    "units": "22 villas (1500 sq ft)"
+   },
+   {
+    "nm": "Grace Commons",
+    "loc": "Menomonee Falls, WI",
+    "units": "16 villas"
+   },
+   {
+    "nm": "Wilson Commons",
+    "loc": "Milwaukee, WI",
+    "units": "17 villas"
+   }
+  ],
+  "f": {
+   "Transportation": {
+    "n": 0
+   },
+   "Life Enrichment": {
+    "n": 0
+   },
+   "Culinary": {
+    "n": 1,
+    "incl": 0,
+    "extra": 1,
+    "top": [
+     {
+      "txt": "$100 dining allowance per month",
+      "count": 1,
+      "sites": [
+       "Grace Commons"
+      ]
+     }
+    ]
+   },
+   "Housekeeping": {
+    "n": 0
+   },
+   "Wellness": {
+    "n": 0
+   },
+   "Maintenance": {
+    "n": 0
+   }
+  }
+ }
+}

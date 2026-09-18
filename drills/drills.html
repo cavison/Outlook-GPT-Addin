@@ -1,0 +1,1436 @@
+<title>Cottage Service Drills</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#FBFAF8; --surface:#FFFFFF; --sunk:#F2F0EC;
+  --ink:#14181D; --slate:#58616F; --faint:#8C94A0; --rule:#E3E0DA;
+  --brass:#9A722F; --brass-bg:#F4E9D6;
+  --good:#47723A; --good-bg:#E7EFE3;
+  --better:#2A6899; --better-bg:#E2EDF6;
+  --best:#A95C26; --best-bg:#F8E8DA;
+  --flag:#A93C34; --flag-bg:#F9E3E1;
+  --gold:#C8912F;
+  --shadow:0 1px 2px rgba(20,24,29,.05),0 10px 28px rgba(20,24,29,.07);
+  --display:'Archivo','Helvetica Neue',Arial,sans-serif;
+  --body:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#111419;--surface:#191D24;--sunk:#222830;
+  --ink:#ECEEF1;--slate:#A2AAB6;--faint:#79828E;--rule:#2B323B;
+  --brass:#D9AC5E;--brass-bg:#382E1B;
+  --good:#8FC07E;--good-bg:#253320;--better:#79B4E0;--better-bg:#1B2E3D;
+  --best:#E39A62;--best-bg:#3A2616;--flag:#E58079;--flag-bg:#3B1E1C;--gold:#E2B75C;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35);
+}}
+:root[data-theme="dark"]{
+  --paper:#111419;--surface:#191D24;--sunk:#222830;
+  --ink:#ECEEF1;--slate:#A2AAB6;--faint:#79828E;--rule:#2B323B;
+  --brass:#D9AC5E;--brass-bg:#382E1B;
+  --good:#8FC07E;--good-bg:#253320;--better:#79B4E0;--better-bg:#1B2E3D;
+  --best:#E39A62;--best-bg:#3A2616;--flag:#E58079;--flag-bg:#3B1E1C;--gold:#E2B75C;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:0 72px}
+
+/* ===== HUD ===== */
+.hud{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--paper);border-bottom:1px solid var(--rule)}
+.hud-in{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:10px}
+.hud-top{display:flex;align-items:center;gap:10px}
+.rank{font-family:var(--display);font-weight:800;font-size:15px;letter-spacing:-.01em;margin-right:auto;display:flex;align-items:center;gap:8px}
+.lvl{font-family:var(--mono);font-size:10.5px;background:var(--ink);color:var(--paper);border-radius:4px;padding:2px 6px;font-weight:600}
+.xp{font-family:var(--mono);font-size:12.5px;color:var(--slate);font-variant-numeric:tabular-nums}
+.xp b{font-family:var(--display);font-size:15px;color:var(--brass);font-weight:800}
+.streak{font-family:var(--mono);font-size:12.5px;color:var(--faint);font-variant-numeric:tabular-nums;transition:transform .18s ease,color .18s ease}
+.streak.hot{color:var(--best);font-weight:600}
+.streak.pop{transform:scale(1.35)}
+.icon-btn{font:inherit;font-size:14px;line-height:1;border:1px solid var(--rule);background:var(--surface);color:var(--slate);border-radius:6px;padding:5px 8px;cursor:pointer}
+.icon-btn:hover{border-color:var(--brass);color:var(--brass)}
+.xpbar{height:4px;background:var(--sunk);border-radius:99px;margin-top:8px;overflow:hidden}
+.xpbar i{display:block;height:100%;background:linear-gradient(90deg,var(--brass),var(--gold));width:0;transition:width .45s cubic-bezier(.2,.8,.3,1)}
+
+/* ===== chapter rail ===== */
+.rail{display:flex;gap:5px;padding-block:12px 0;overflow-x:auto;scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;font-family:var(--display);font-weight:600;font-size:12px;border:1px solid var(--rule);background:var(--surface);color:var(--faint);border-radius:999px;padding:5px 11px;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:5px}
+.chip:hover{color:var(--ink);border-color:var(--faint)}
+.chip[aria-current="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chip .dot{width:6px;height:6px;border-radius:50%;background:var(--rule)}
+.chip.done .dot{background:var(--good)}
+.chip[aria-current="true"] .dot{background:var(--gold)}
+.cprog{font-family:var(--mono);font-size:11.5px;color:var(--faint);padding-block:9px 0;display:flex;gap:10px;align-items:center}
+.cprog .fillbar{flex:1;height:3px;background:var(--sunk);border-radius:99px;overflow:hidden}
+.cprog .fillbar i{display:block;height:100%;background:var(--brass);width:0;transition:width .35s ease}
+
+/* ===== card ===== */
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:16px;padding:24px;box-shadow:var(--shadow);margin-top:16px;position:relative;overflow:hidden}
+.card.flash-ok{animation:flashok .5s ease}
+.card.flash-no{animation:flashno .45s ease}
+@keyframes flashok{0%{box-shadow:0 0 0 0 rgba(71,114,58,.5),var(--shadow)}100%{box-shadow:0 0 0 14px rgba(71,114,58,0),var(--shadow)}}
+@keyframes flashno{0%,100%{transform:translateX(0)}22%{transform:translateX(-6px)}55%{transform:translateX(5px)}80%{transform:translateX(-2px)}}
+.kind{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;display:inline-block;padding:3px 8px;border-radius:5px;margin-bottom:14px}
+.k-learn{background:var(--better-bg);color:var(--better)}
+.k-quiz{background:var(--brass-bg);color:var(--brass)}
+.k-boss{background:var(--best-bg);color:var(--best)}
+.bignum{font-family:var(--display);font-weight:900;font-size:clamp(46px,13vw,76px);line-height:.92;letter-spacing:-.04em;color:var(--brass);font-variant-numeric:tabular-nums;margin:2px 0 6px}
+.bigsub{font-family:var(--display);font-weight:700;font-size:17px;line-height:1.3;letter-spacing:-.01em;text-wrap:balance;margin:0 0 10px}
+.ctx{color:var(--slate);font-size:14.5px;margin:0}
+.q{font-family:var(--display);font-weight:700;font-size:20px;line-height:1.32;letter-spacing:-.015em;text-wrap:balance;margin:0}
+.q em{font-style:normal;color:var(--brass)}
+.say{background:var(--brass-bg);border-left:3px solid var(--brass);border-radius:0 10px 10px 0;padding:13px 15px;margin-top:14px}
+.say .lab{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);margin-bottom:5px}
+.say p{margin:0;font-size:14.5px}
+
+/* ===== options ===== */
+.opts{display:grid;gap:8px;margin-top:18px}
+.opt{font:inherit;text-align:left;background:var(--sunk);border:1.5px solid transparent;color:var(--ink);border-radius:10px;padding:13px 15px;cursor:pointer;display:flex;gap:11px;align-items:flex-start;transition:border-color .12s,background .12s,transform .12s}
+.opt:hover:not([disabled]){border-color:var(--faint);transform:translateX(2px)}
+.opt .k{font-family:var(--mono);font-size:12px;color:var(--faint);flex:0 0 auto;padding-top:1px;font-weight:600}
+.opt.right{background:var(--good-bg);border-color:var(--good)}
+.opt.right .k{color:var(--good)}
+.opt.wrong{background:var(--flag-bg);border-color:var(--flag)}
+.opt.dim{opacity:.4}
+.opt[disabled]{cursor:default}
+
+.res{margin-top:18px;border-top:1px solid var(--rule);padding-top:16px}
+.verdict{font-family:var(--display);font-weight:800;font-size:20px;letter-spacing:-.015em;margin:0 0 7px}
+.verdict.ok{color:var(--good)} .verdict.no{color:var(--flag)}
+.why{margin:0;font-size:14.5px;color:var(--slate)}
+.why strong{color:var(--ink);font-weight:600}
+
+.actions{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+.btn{font:inherit;font-size:14px;font-weight:600;font-family:var(--display);border:1.5px solid var(--ink);background:var(--ink);color:var(--paper);border-radius:9px;padding:11px 18px;cursor:pointer}
+.btn:hover{opacity:.88}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--rule)}
+.btn.ghost:hover{border-color:var(--brass);color:var(--brass);opacity:1}
+
+/* ===== floating xp ===== */
+.float{position:fixed;left:50%;top:38%;transform:translateX(-50%);font-family:var(--display);font-weight:900;font-size:40px;color:var(--gold);pointer-events:none;z-index:60;text-shadow:0 2px 14px rgba(200,145,47,.4)}
+@keyframes rise{0%{opacity:0;transform:translateX(-50%) translateY(10px) scale(.8)}18%{opacity:1;transform:translateX(-50%) translateY(-4px) scale(1.12)}100%{opacity:0;transform:translateX(-50%) translateY(-70px) scale(1)}}
+.float.go{animation:rise 1s ease forwards}
+
+/* ===== toast ===== */
+.toasts{position:fixed;left:0;right:0;bottom:calc(16px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;align-items:center;gap:8px;z-index:70;pointer-events:none;padding-inline:16px}
+.toast{background:var(--ink);color:var(--paper);border-radius:11px;padding:11px 16px;box-shadow:0 8px 30px rgba(0,0,0,.28);display:flex;gap:10px;align-items:center;max-width:420px}
+.toast .tt{font-family:var(--display);font-weight:800;font-size:14px}
+.toast .ts{font-size:13px;opacity:.82}
+.toast .em{font-size:20px}
+@keyframes toastin{0%{opacity:0;transform:translateY(14px) scale(.95)}100%{opacity:1;transform:none}}
+.toast{animation:toastin .3s cubic-bezier(.2,.9,.3,1)}
+
+/* ===== confetti ===== */
+.conf{position:fixed;inset:0;pointer-events:none;z-index:55;overflow:hidden}
+.conf i{position:absolute;width:8px;height:12px;border-radius:2px;opacity:0}
+@keyframes fall{0%{opacity:1;transform:translateY(-20px) rotate(0)}100%{opacity:0;transform:translateY(90vh) rotate(680deg)}}
+
+/* ===== chapter done ===== */
+.done-card{text-align:center;padding:34px 24px}
+.done-card .big{font-family:var(--display);font-weight:900;font-size:clamp(30px,8vw,44px);letter-spacing:-.03em;margin:0 0 6px;color:var(--good)}
+.done-card p{color:var(--slate);margin:0 auto;max-width:44ch}
+.scorerow{display:flex;justify-content:center;gap:26px;margin:20px 0 4px;flex-wrap:wrap}
+.scorerow div{text-align:center}
+.scorerow b{display:block;font-family:var(--display);font-weight:900;font-size:26px;color:var(--brass);font-variant-numeric:tabular-nums}
+.scorerow span{font-family:var(--mono);font-size:11px;color:var(--faint);text-transform:uppercase;letter-spacing:.07em}
+
+.foot{margin-top:24px;font-size:12.5px;color:var(--faint);text-align:center}
+:focus-visible{outline:2px solid var(--brass);outline-offset:2px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== operator bar (shown on operator chapters) ===== */
+.opbar{display:none;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;background:var(--sunk);border:1px solid var(--rule);border-radius:11px;padding:9px 12px}
+.opbar.on{display:flex}
+.opbar .onm{font-family:var(--display);font-weight:800;font-size:13.5px;letter-spacing:-.01em}
+.opbar .ometa{font-family:var(--mono);font-size:11.5px;color:var(--faint)}
+.opbar .ogo{margin-left:auto}
+.minibtn{font:inherit;font-family:var(--display);font-weight:600;font-size:11.5px;border:1px solid var(--rule);background:var(--surface);color:var(--brass);border-radius:7px;padding:5px 10px;cursor:pointer;white-space:nowrap}
+.minibtn:hover{border-color:var(--brass)}
+.chip .optag{font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;background:var(--brass-bg);color:var(--brass);border-radius:3px;padding:1px 4px}
+.chip[aria-current="true"] .optag{background:var(--gold);color:var(--ink)}
+
+/* ===== source panel ===== */
+.srcwrap{margin-top:16px;border-top:1px dashed var(--rule);padding-top:13px}
+.srchdr{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+.srcbox{border:1px solid var(--rule);border-radius:10px;background:var(--sunk);margin-bottom:7px;overflow:hidden}
+.srcbox>summary{cursor:pointer;list-style:none;padding:9px 12px;display:flex;gap:9px;align-items:flex-start;font-size:13px;color:var(--ink)}
+.srcbox>summary::-webkit-details-marker{display:none}
+.srcbox>summary:hover{background:var(--brass-bg)}
+.srcbox>summary .who{flex:1;font-weight:600;line-height:1.35}
+.srcbox>summary .car{font-family:var(--mono);font-size:11px;color:var(--faint)}
+.srcbox[open]>summary .car{transform:rotate(90deg)}
+.srcbox .inner{padding:2px 12px 13px;font-size:13.5px;color:var(--slate)}
+.srcbox .inner p{margin:0 0 9px}
+.gr{font-family:var(--mono);font-size:9.5px;letter-spacing:.09em;border-radius:4px;padding:2px 5px;flex:0 0 auto;font-weight:600;margin-top:1px}
+.gr-OP{background:var(--good-bg);color:var(--good)}
+.gr-INT{background:var(--better-bg);color:var(--better)}
+.gr-AGG{background:var(--brass-bg);color:var(--brass)}
+.gr-CALL{background:var(--best-bg);color:var(--best)}
+.srcq{border-left:3px solid var(--rule);padding:2px 0 2px 11px;margin:0 0 9px;font-size:13.5px;color:var(--ink);font-style:italic}
+.srcnote{font-family:var(--mono);font-size:11.5px;color:var(--faint);margin:0 0 9px}
+.srclinks{display:flex;flex-direction:column;gap:5px;margin-top:2px}
+.srclinks a{font-size:12.5px;color:var(--brass);text-decoration:none;border:1px solid var(--rule);background:var(--surface);border-radius:7px;padding:7px 10px;display:flex;gap:7px;align-items:center}
+.srclinks a:hover{border-color:var(--brass);text-decoration:underline}
+.srclinks .ic{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;color:var(--faint);flex:0 0 auto}
+.nolink{font-family:var(--mono);font-size:11.5px;color:var(--flag);background:var(--flag-bg);border-radius:6px;padding:6px 9px;margin:0}
+
+/* ===== dossier mode ===== */
+.dhdr{margin-top:18px}
+.dhdr h2{font-family:var(--display);font-weight:900;font-size:clamp(24px,6.5vw,34px);letter-spacing:-.03em;margin:0 0 4px}
+.dhdr p{color:var(--slate);margin:0;font-size:14.5px}
+.dlist{display:grid;gap:10px;margin-top:16px}
+.dcard{text-align:left;font:inherit;background:var(--surface);border:1px solid var(--rule);border-radius:13px;padding:15px 17px;cursor:pointer;box-shadow:var(--shadow);display:block;width:100%}
+.dcard:hover{border-color:var(--brass)}
+.dcard .dn{font-family:var(--display);font-weight:800;font-size:16px;letter-spacing:-.015em;margin:0 0 2px}
+.dcard .dt{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--brass);margin:0 0 7px}
+.dcard .dl{color:var(--slate);font-size:13.5px;margin:0 0 9px}
+.dcard .dm{font-family:var(--mono);font-size:11.5px;color:var(--faint);display:flex;gap:12px;flex-wrap:wrap}
+.frow{border-top:1px solid var(--rule);padding:12px 0}
+.frow:first-of-type{border-top:0}
+.fname{font-family:var(--display);font-weight:800;font-size:14px;letter-spacing:-.01em;margin:0 0 2px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.fv{font-family:var(--mono);font-size:11px;color:var(--slate);font-weight:400;letter-spacing:0}
+.fv.zero{color:var(--flag)}
+.phr{margin:7px 0 0;padding:0;list-style:none;display:grid;gap:5px}
+.phr li{background:var(--sunk);border-radius:8px;padding:8px 10px;font-size:13px}
+.phr .pc{font-family:var(--mono);font-size:10.5px;color:var(--brass);font-weight:600;margin-right:6px}
+.phr .ps{display:block;font-family:var(--mono);font-size:10.5px;color:var(--faint);margin-top:3px;line-height:1.5}
+.sites{margin:8px 0 0;padding:0;list-style:none;display:grid;gap:4px}
+.sites li{display:flex;gap:9px;font-size:13px;border-bottom:1px solid var(--rule);padding-bottom:4px;flex-wrap:wrap}
+.sites .sn{font-weight:600;flex:1 1 180px}
+.sites .sl{font-family:var(--mono);font-size:11px;color:var(--faint)}
+.sites .su{font-family:var(--mono);font-size:11px;color:var(--brass);flex:0 0 auto}
+.sechdr{font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--faint);margin:20px 0 4px}
+</style>
+
+<div class="hud">
+  <div class="hud-in">
+    <div class="hud-top">
+      <div class="rank"><span class="lvl" id="lvlNum">LV 1</span><span id="rankName">Skimming</span></div>
+      <div class="streak" id="streak">no streak</div>
+      <div class="xp"><b id="xp">0</b> XP</div>
+      <button class="icon-btn" id="mode" type="button" title="Browse the operator dossiers">DOSSIERS</button>
+      <button class="icon-btn" id="sound" type="button" title="Sound">SOUND ON</button>
+      <button class="icon-btn" id="reset" type="button" title="Start over">RESET</button>
+    </div>
+    <div class="xpbar"><i id="xpbar"></i></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="rail" id="rail"></div>
+  <div class="cprog"><span id="cLabel"></span><span class="fillbar"><i id="cFill"></i></span><span id="cCount"></span></div>
+  <div class="opbar" id="opbar"></div>
+  <div id="stage"></div>
+  <p class="foot">Every figure comes from the benchmark workbook, and every card shows its source. Learn cards teach it, drill cards prove it, boss rounds are what an owner will actually ask. Where no public page was captured, the panel says so instead of guessing a link.</p>
+</div>
+<div class="toasts" id="toasts"></div>
+
+<script>
+"use strict";
+/* ============ AUDIO (synthesized, no files) ============ */
+var AC=null, SOUND=true;
+function ac(){ if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ AC=null; } } if(AC&&AC.state==="suspended"){AC.resume();} return AC; }
+function tone(freq,start,dur,vol,type){
+  var c=ac(); if(!c||!SOUND) return;
+  var o=c.createOscillator(), g=c.createGain();
+  o.type=type||"sine"; o.frequency.setValueAtTime(freq,c.currentTime+start);
+  g.gain.setValueAtTime(0.0001,c.currentTime+start);
+  g.gain.exponentialRampToValueAtTime(vol,c.currentTime+start+0.012);
+  g.gain.exponentialRampToValueAtTime(0.0001,c.currentTime+start+dur);
+  o.connect(g); g.connect(c.destination);
+  o.start(c.currentTime+start); o.stop(c.currentTime+start+dur+0.02);
+}
+var SFX={
+  tick:function(){tone(660,0,.08,.05,"triangle");},
+  learn:function(){tone(523,0,.1,.06,"triangle");tone(784,.07,.14,.05,"triangle");},
+  right:function(n){ var base=[523,659,784,1047]; for(var i=0;i<3;i++)tone(base[i],i*.055,.16,.07,"triangle");
+                     if(n>=3)tone(1319,.17,.22,.06,"sine"); },
+  wrong:function(){tone(196,0,.16,.07,"sine");tone(165,.09,.2,.06,"sine");},
+  streak:function(){[784,988,1175,1568].forEach(function(f,i){tone(f,i*.05,.2,.06,"triangle");});},
+  level:function(){[523,659,784,1047,1319].forEach(function(f,i){tone(f,i*.07,.35,.075,"triangle");});},
+  chapter:function(){[523,659,784,1047,1319,1568].forEach(function(f,i){tone(f,i*.08,.45,.08,"triangle");}); tone(2093,.55,.6,.05,"sine");}
+};
+
+/* ============ CONTENT: chapters of learn+quiz pairs ============ */
+/* every figure below is taken from the benchmark workbook */
+/* DOSS: per-operator reference dossiers. Counts, community lists and quoted
+   phrases are generated from the aggregation, not typed by hand. */
+var DOSS=[
+{n:"Trilogy Health Services",nick:"Trilogy",tag:"The a la carte end",ns:8,units:258,
+ line:"Bi-weekly housekeeping in the fee. Almost everything else sold as an option.",
+ pb:"Trilogy is the most consistent operator in the study and the most deliberately unbundled. Housekeeping appears at all eight villa communities — bi-weekly at five, bi-monthly at three — and the clean itself is recorded as included, though five of those eight lines name laundry service as available rather than included. Dining appears at only three and is an option at all three. Laundry and rehab therapy are always \"available\". Transportation is not listed at a single one of the eight. Maintenance is in the fee at seven of eight, including one that leads with 24-hour emergency maintenance.",
+ say:"Trilogy lists housekeeping at all eight and sells the rest. Bi-weekly at most of them, maintenance in the fee at seven of eight, laundry and dining only as options, and no transportation anywhere in the portfolio.",
+ s:["lopez","trilogy_phr"],
+ sites:[{nm:"The Villas at Westlake",loc:"Commerce Charter Twp, MI",u:"34 villas"},{nm:"Waunakee Valley Senior Living",loc:"Waunakee, WI",u:"8 villas"},{nm:"Triple Creek Retirement Community",loc:"Cincinnati, OH",u:"28 villas"},{nm:"Harrison Springs",loc:"Corydon, IN",u:"42 villas"},{nm:"Forest Springs",loc:"Louisville, KY",u:"34 villas"},{nm:"The Willows at Springhurst",loc:"Louisville, KY",u:"58 villas"},{nm:"The Villages at Historic Silvercrest",loc:"New Albany, IN",u:"38 villas"},{nm:"Rivercrest",loc:"New Albany, IN",u:"16 villas"}],
+ f:[{k:"Transportation",n:0,incl:0,extra:0,v:"Not listed at any of the 8",ph:[]},
+   {k:"Life Enrichment",n:2,incl:2,extra:0,v:"At 2 of 8, recorded as included",ph:[{t:"Campus amenities (fitness center; café; salon)",c:1,s:["Waunakee Valley Senior Living"]},{t:"Club house",c:1,s:["Rivercrest"]}]},
+   {k:"Culinary",n:3,incl:0,extra:3,v:"At 3 of 8, recorded as available at extra cost",ph:[{t:"Meal options available",c:3,s:["The Willows at Springhurst","The Villages at Historic Silvercrest","Rivercrest"]}]},
+   {k:"Housekeeping",n:8,incl:3,extra:5,v:"At all 8: 3 recorded as included, 5 flagged available — read the phrase, the flag often applies to an add-on in the same line",ph:[{t:"Bi-Weekly housekeeping; Laundry service available",c:2,s:["Harrison Springs","Forest Springs"]},{t:"Bi-weekly housekeeping; Laundry services available",c:2,s:["The Villages at Historic Silvercrest","Rivercrest"]},{t:"Bi-weekly housekeeping",c:1,s:["The Villas at Westlake"]},{t:"Bi-monthly “interior cleaning services”",c:1,s:["Waunakee Valley Senior Living"]},{t:"Bi-monthly housekeeping (”Interior Cleaning Services”)",c:1,s:["Triple Creek Retirement Community"]},{t:"Bi-monthly housekeeping; Laundry services available",c:1,s:["The Willows at Springhurst"]}]},
+   {k:"Wellness",n:6,incl:3,extra:3,v:"At 6 of 8: 3 recorded as included, 3 flagged available — read the phrase, the flag often applies to an add-on in the same line",ph:[{t:"Fitness center; Rehab facilities",c:2,s:["Harrison Springs","Forest Springs"]},{t:"(via campus amenities) Campus amenities (fitness center; café; salon)",c:1,s:["Waunakee Valley Senior Living"]},{t:"Rehab services available",c:1,s:["The Willows at Springhurst"]},{t:"Rehab therapy available",c:1,s:["The Villages at Historic Silvercrest"]},{t:"Rehab therapy available; Fitness center",c:1,s:["Rivercrest"]}]},
+   {k:"Maintenance",n:7,incl:7,extra:0,v:"At 7 of 8, recorded as included",ph:[{t:"Interior/exterior maintenance",c:6,s:["Triple Creek Retirement Community","Harrison Springs","Forest Springs","The Willows at Springhurst","The Villages at Historic Silvercrest","Rivercrest"]},{t:"24 hour emergency maintenance",c:1,s:["Waunakee Valley Senior Living"]}]}]},
+{n:"Five Star Senior Living",nick:"Five Star",tag:"The bundled end",ns:5,units:219,
+ line:"Weekly housekeeping with flat linen, and full maintenance, at every property.",
+ pb:"Five Star has the most bundled service profile of any operator here. Housekeeping is in the fee at all five communities and four of the five say weekly, three of those naming flat linen service explicitly. Maintenance is in the fee at all five, described as maintenance of home, building and grounds, or interior and exterior. Dining shows up at only two of the five, but where it does it is included rather than sold: three daily meals at one, one daily meal at another. Transportation and life enrichment are not listed at any of the five.",
+ say:"Five Star is the bundled end. Weekly housekeeping with flat linen and full maintenance at every property, meals included where they appear at all, and no transportation listed.",
+ s:["lopez","fivestar_phr"],
+ sites:[{nm:"Five Star Residences of Clearwater",loc:"Indianapolis, IN",u:"11 villas"},{nm:"Five Star Senior Residences of Noblesville",loc:"Noblesville, IN",u:"54 villas"},{nm:"Five Star Residences of Fort Wayne",loc:"Fort Wayne, IN",u:"24 villas (1200 – 1355 sq ft)"},{nm:"Five Star Residences of Banta Pointe",loc:"Indianapolis, IN",u:"22 villas (922 – 1106 sq ft)"},{nm:"The Forum at Brookside",loc:"Louisville, KY",u:"108 villas (939 – 1117 sq ft); 2Bed/1 Bath, 2Bed/1.5 Bath, and 2Bed/1.5 Bath w/ Den options"}],
+ f:[{k:"Transportation",n:0,incl:0,extra:0,v:"Not listed at any of the 5",ph:[]},
+   {k:"Life Enrichment",n:0,incl:0,extra:0,v:"Not listed at any of the 5",ph:[]},
+   {k:"Culinary",n:2,incl:2,extra:0,v:"At 2 of 5, recorded as included",ph:[{t:"Three daily meals",c:1,s:["Five Star Residences of Clearwater"]},{t:"One daily meal",c:1,s:["Five Star Residences of Banta Pointe"]}]},
+   {k:"Housekeeping",n:5,incl:5,extra:0,v:"At all 5, recorded as included",ph:[{t:"Weekly housekeeping and flat linen service; Interior/exterior maintenance/housekeeping",c:1,s:["Five Star Residences of Clearwater"]},{t:"Interior/exterior maintenance/housekeeping; Weekly housekeeping and flat linen service",c:1,s:["Five Star Senior Residences of Noblesville"]},{t:"Weekly housekeeping and linen services",c:1,s:["Five Star Residences of Fort Wayne"]},{t:"Weekly housekeeping and flat linen service",c:1,s:["Five Star Residences of Banta Pointe"]},{t:"Bi-weekly housekeeping w/ flat linen service",c:1,s:["The Forum at Brookside"]}]},
+   {k:"Wellness",n:1,incl:0,extra:1,v:"At 1 of 5, recorded as available at extra cost",ph:[{t:"Physical therapy available",c:1,s:["The Forum at Brookside"]}]},
+   {k:"Maintenance",n:5,incl:5,extra:0,v:"At all 5, recorded as included",ph:[{t:"Interior/exterior maintenance/housekeeping",c:2,s:["Five Star Residences of Clearwater","Five Star Senior Residences of Noblesville"]},{t:"“Maintenance of home, building and grounds”",c:1,s:["Five Star Residences of Fort Wayne"]},{t:"“Maintenance of home, building and grounds",c:1,s:["Five Star Residences of Banta Pointe"]},{t:"Interior/exterior maintenance",c:1,s:["The Forum at Brookside"]}]}]},
+{n:"American Senior Communities",nick:"ASC",tag:"Transportation, and little else",ns:5,units:233,
+ line:"Transportation at all five Garden Home properties, in one identical corporate sentence.",
+ pb:"American Senior Communities is the transportation operator. Every one of its five Garden Home properties in the inventory lists transportation, and its own marketing carries one sentence verbatim across all five, naming three trip purposes: shopping, restaurants and appointments. That is the only function it covers broadly. Housekeeping appears at one of five. Maintenance at three. Dining, life enrichment and wellness are not listed at any of the five. The one concrete operational detail anywhere in the research came from a resident review of Coventry Meadows, not from marketing: a shuttle bus, no charge, mainly doctor appointments, with social outings described as occasional.",
+ say:"American Senior Communities promises transportation at every Garden Home property, in one identical sentence, and it is shopping, restaurants and appointments. They list almost nothing else.",
+ s:["lopez","asc_sentence","asc_review"],
+ sites:[{nm:"Zionsville Meadows",loc:"Zionsville, IN",u:"60 villas"},{nm:"Brownsburg Meadows",loc:"Brownsburg, IN",u:"23 villas"},{nm:"Coventry Meadows",loc:"Fort Wayne, IN",u:"36 villas (650 – 2970 sq ft)"},{nm:"Rosegate Assisted Living",loc:"Indianapolis, IN",u:"79 villas (12 one-bedroom and 67 two-bedroom)"},{nm:"Beech Grove Meadows",loc:"Beech Grove, IN",u:"35 villas"}],
+ f:[{k:"Transportation",n:5,incl:5,extra:0,v:"At all 5, recorded as included",ph:[{t:"Transportation",c:5,s:["Zionsville Meadows","Brownsburg Meadows","Coventry Meadows","Rosegate Assisted Living","Beech Grove Meadows"]}]},
+   {k:"Life Enrichment",n:0,incl:0,extra:0,v:"Not listed at any of the 5",ph:[]},
+   {k:"Culinary",n:0,incl:0,extra:0,v:"Not listed at any of the 5",ph:[]},
+   {k:"Housekeeping",n:1,incl:1,extra:0,v:"At 1 of 5, recorded as included",ph:[{t:"Interior/exterior maintenance/housekeeping",c:1,s:["Zionsville Meadows"]}]},
+   {k:"Wellness",n:0,incl:0,extra:0,v:"Not listed at any of the 5",ph:[]},
+   {k:"Maintenance",n:3,incl:3,extra:0,v:"At 3 of 5, recorded as included",ph:[{t:"Interior/exterior maintenance",c:2,s:["Coventry Meadows","Rosegate Assisted Living"]},{t:"Interior/exterior maintenance/housekeeping",c:1,s:["Zionsville Meadows"]}]}]},
+{n:"Arrow Senior Living",nick:"Arrow / Vitalia",tag:"Amenity-led, service-light",ns:7,units:197,
+ line:"Campus amenities and maintenance. Nothing else listed across seven communities.",
+ pb:"Arrow's Vitalia portfolio is the thinnest service profile of any multi-site operator in the study, and it is consistent about it. Across all seven Ohio communities the only things listed are campus amenities, which is where the wellness centre, library and demonstration kitchen sit, and interior and exterior maintenance at three of the seven. Transportation, housekeeping and dining are absent at all seven. Arrow sells the building and the amenity set, not services.",
+ say:"Vitalia is amenity-led. Across seven communities they list campus amenities and maintenance, and nothing else. No transportation, no housekeeping, no dining anywhere in the portfolio.",
+ s:["lopez","arrow_phr"],
+ sites:[{nm:"Vitalia Senior Residences at Strongsville",loc:"Strongsville, OH",u:"71 Villas (1191 – 1383 sq ft)"},{nm:"Vitalia North Royalton",loc:"North Royalton, OH",u:"16 villas"},{nm:"Vitalia at Stow",loc:"Stow, OH",u:"6 villas"},{nm:"Vitalia at Montrose",loc:"Copley, OH",u:"19 villas"},{nm:"Vitalia Mentor",loc:"Mentor, OH",u:"59 villas (1191 – 1371 sq ft)"},{nm:"Vitalia at Rockside",loc:"Seven Hills, OH",u:"18 villas (1191 – 1383 sq ft)"},{nm:"Vitalia North Olmsted",loc:"North Olmsted, OH",u:"8 villas"}],
+ f:[{k:"Transportation",n:0,incl:0,extra:0,v:"Not listed at any of the 7",ph:[]},
+   {k:"Life Enrichment",n:4,incl:4,extra:0,v:"At 4 of 7, recorded as included",ph:[{t:"Campus amenities (wellness center; library; demonstration kitchen)",c:2,s:["Vitalia Senior Residences at Strongsville","Vitalia North Royalton"]},{t:"Campus amenities (wellness center; library; demonstration kitchen; indoor pool; bistro; movie theater; billiards)",c:2,s:["Vitalia at Stow","Vitalia at Montrose"]}]},
+   {k:"Culinary",n:0,incl:0,extra:0,v:"Not listed at any of the 7",ph:[]},
+   {k:"Housekeeping",n:0,incl:0,extra:0,v:"Not listed at any of the 7",ph:[]},
+   {k:"Wellness",n:4,incl:4,extra:0,v:"At 4 of 7, recorded as included",ph:[{t:"(via campus amenities) Campus amenities (wellness center; library; demonstration kitchen)",c:2,s:["Vitalia Senior Residences at Strongsville","Vitalia North Royalton"]},{t:"(via campus amenities) Campus amenities (wellness center; library; demonstration kitchen; indoor pool; bistro; movie theater; billiards)",c:2,s:["Vitalia at Stow","Vitalia at Montrose"]}]},
+   {k:"Maintenance",n:3,incl:3,extra:0,v:"At 3 of 7, recorded as included",ph:[{t:"Interior/exterior maintenance",c:3,s:["Vitalia Mentor","Vitalia at Rockside","Vitalia North Olmsted"]}]}]},
+{n:"Life Care Services",nick:"Life Care Services",tag:"The biggest portfolio, the thinnest description",ns:9,units:462,
+ line:"Nine communities, 462 villas, and mostly the bare word \"Transportation\".",
+ pb:"Life Care Services manages the largest villa footprint in the study, nine communities and 462 units, and publishes the least about what residents get. Transportation appears at four of the nine as the bare noun with no detail. Housekeeping appears at three, bi-weekly at all three, twice with linen service alongside. Dining appears at exactly one, Friendship Village of Dublin, as $540 in monthly meal credits, which is the single most specific dining figure in the whole inventory. Life enrichment and wellness reach villa residents through main-campus amenities rather than as villa services.",
+ say:"Life Care Services has the biggest villa footprint and the thinnest published detail. Bi-weekly housekeeping where they mention it, transportation as a single word, and one community running five hundred and forty dollars a month in meal credits.",
+ s:["lopez","lcs_phr"],
+ sites:[{nm:"Friendship Village Kalamazoo",loc:"Kalamazoo, MI",u:"50 villas"},{nm:"Newcastle Place",loc:"Mequon, WI",u:"29 Villas (1718 – 1982 sq ft)"},{nm:"The Heritage at Brentwood",loc:"Brentwood, TN",u:"65 villas (1803 – 2171 sq ft)"},{nm:"Marquette",loc:"Indianapolis, IN",u:"36 villas"},{nm:"Wyndemere",loc:"Wheaton, IL",u:"26 villas"},{nm:"Green Hills Community",loc:"Ames, IA",u:"82 villas (1306 – 2986 sq ft)"},{nm:"Greenwood Village South",loc:"Greenwood, IN",u:"78 villas"},{nm:"Rose Senior Living Avon",loc:"Avon, OH",u:"76 villas (966 – 1404 sq ft)"},{nm:"Friendship Village of Dublin",loc:"Dublin, OH",u:"20 villas (1380 – 1886 sq ft); 2 Bed/2 Bath, some w/ den"}],
+ f:[{k:"Transportation",n:4,incl:4,extra:0,v:"At 4 of 9, recorded as included",ph:[{t:"Transportation",c:4,s:["Friendship Village Kalamazoo","The Heritage at Brentwood","Wyndemere","Friendship Village of Dublin"]}]},
+   {k:"Life Enrichment",n:2,incl:2,extra:0,v:"At 2 of 9, recorded as included",ph:[{t:"Main Campus amenities (pool; gym w/ trainer; chaplain; café; general store)",c:1,s:["Friendship Village Kalamazoo"]},{t:"Campus amenities (multiple dining venues; putting green; bocce court; woodworking shop; art studio; greenhouse/gardening area; market; medical clinic; bank services)",c:1,s:["The Heritage at Brentwood"]}]},
+   {k:"Culinary",n:1,incl:1,extra:0,v:"At 1 of 9, recorded as included",ph:[{t:"$540 in monthly meal credits",c:1,s:["Friendship Village of Dublin"]}]},
+   {k:"Housekeeping",n:3,incl:3,extra:0,v:"At 3 of 9, recorded as included",ph:[{t:"Bi-Weekly Housekeeping",c:1,s:["Friendship Village Kalamazoo"]},{t:"Bi-weekly housekeeping & linen service",c:1,s:["Newcastle Place"]},{t:"Bi-weekly housekeeping; weekly linen services",c:1,s:["Friendship Village of Dublin"]}]},
+   {k:"Wellness",n:2,incl:2,extra:0,v:"At 2 of 9, recorded as included",ph:[{t:"(via campus amenities) Main Campus amenities (pool; gym w/ trainer; chaplain; café; general store)",c:1,s:["Friendship Village Kalamazoo"]},{t:"(via campus amenities) Campus amenities (multiple dining venues; putting green; bocce court; woodworking shop; art studio; greenhouse/gardening area; market; medical clinic; bank services)",c:1,s:["The Heritage at Brentwood"]}]},
+   {k:"Maintenance",n:4,incl:4,extra:0,v:"At 4 of 9, recorded as included",ph:[{t:"Interior/exterior maintenance",c:2,s:["Wyndemere","Green Hills Community"]},{t:"“Maintenance-free living”",c:1,s:["Marquette"]},{t:"Exterior/interior maintenance",c:1,s:["Greenwood Village South"]}]}]},
+{n:"Traditions Management",nick:"Traditions",tag:"Two-tier language",ns:7,units:258,
+ line:"Villa residents get the word. Higher acuity gets the defined service.",
+ pb:"Traditions is the cleanest example of two-tier language in the market. Transportation appears at four of the seven villa communities as the bare noun, inside a sentence about utilities and full access to dining, amenities, activities and transportation. On the same operator's assisted living and memory care pages the identical benefit is defined: scheduled transportation to medical appointments and outings. The villa resident is told the word; the higher-acuity resident is told what it does. Dining is the other distinctive piece: 30 meals a month at two communities, an actual countable allotment rather than a plan. Maintenance is in the fee at five of seven.",
+ say:"Traditions describes transportation only for its higher-acuity tiers. Villa residents get the word on its own. And two of their communities publish thirty meals a month, which is a countable allotment, not a meal plan.",
+ s:["lopez","traditions_twotier","traditions_hunter"],
+ sites:[{nm:"Traditions of Columbus",loc:"Columbus, IN",u:"30 villas (1481 – 1530 sq ft)"},{nm:"Traditions at North Willow",loc:"Indianapolis, IN",u:"50 villas (850 – 1300 sq ft)"},{nm:"Traditions at Solana",loc:"Indianapolis, IN",u:"24 villas (1134 – 1818 sq ft)"},{nm:"Traditions at Brookside",loc:"McCordsville, IN",u:"42 villas"},{nm:"Traditions at Reagan Park",loc:"Avon, IN",u:"44 villas (927 – 1615 sq ft)"},{nm:"Traditions at Beaumont",loc:"Louisville, KY",u:"32 villas (1567 sq ft; all 2BR/1.5Bath)"},{nm:"Traditions at Hunter Station",loc:"Sellersburg, IN",u:"36 villas"}],
+ f:[{k:"Transportation",n:4,incl:4,extra:0,v:"At 4 of 7, recorded as included",ph:[{t:"Transportation",c:4,s:["Traditions at Brookside","Traditions at Reagan Park","Traditions at Beaumont","Traditions at Hunter Station"]}]},
+   {k:"Life Enrichment",n:3,incl:3,extra:0,v:"At 3 of 7, recorded as included",ph:[{t:"Campus amenities (pub; chapel; movie theater; fitness center; salon)",c:1,s:["Traditions of Columbus"]},{t:"Clubhouse with fitness center; Enclosed dog park",c:1,s:["Traditions at North Willow"]},{t:"Chapel",c:1,s:["Traditions at Beaumont"]}]},
+   {k:"Culinary",n:3,incl:2,extra:1,v:"At 3 of 7: 2 recorded as included, 1 flagged available — read the phrase, the flag often applies to an add-on in the same line",ph:[{t:"30 meals/month",c:2,s:["Traditions at Solana","Traditions at Reagan Park"]},{t:"Meal plans available",c:1,s:["Traditions at Beaumont"]}]},
+   {k:"Housekeeping",n:2,incl:2,extra:0,v:"At 2 of 7, recorded as included",ph:[{t:"Interior/exterior maintenance/housekeeping",c:2,s:["Traditions at Solana","Traditions at Reagan Park"]}]},
+   {k:"Wellness",n:3,incl:3,extra:0,v:"At 3 of 7, recorded as included",ph:[{t:"(via campus amenities) Campus amenities (pub; chapel; movie theater; fitness center; salon)",c:1,s:["Traditions of Columbus"]},{t:"(via campus amenities) Clubhouse with fitness center",c:1,s:["Traditions at North Willow"]},{t:"Fitness Center",c:1,s:["Traditions at Beaumont"]}]},
+   {k:"Maintenance",n:5,incl:5,extra:0,v:"At 5 of 7, recorded as included",ph:[{t:"Interior/exterior maintenance/housekeeping",c:2,s:["Traditions at Solana","Traditions at Reagan Park"]},{t:"Interior/exterior maintenance",c:2,s:["Traditions at Beaumont","Traditions at Hunter Station"]},{t:"Interior/exterior maintenance/groundskeeping",c:1,s:["Traditions at North Willow"]}]}]},
+{n:"Life Enriching Communities",nick:"Life Enriching",tag:"The allowance playbook",ns:5,units:315,
+ line:"Housekeeping bundled at all five, but light. Dining runs on a flexible meal allowance.",
+ pb:"Life Enriching Communities bundles housekeeping at all five communities and does it lightly: bi-weekly at three, light monthly at two. Maintenance is interior and exterior at all five, the most uniform maintenance language of any operator here. Dining is where they are distinctive. Their phrase is flexible meal allowance, used at three of the five, and they run a yearly allowance for health and wellness services at Twin Lakes. An allowance is a credit, which is a purchase with a subsidy rather than a giveaway.",
+ say:"Life Enriching uses a flexible meal allowance rather than a meal count, and a yearly wellness allowance too. Housekeeping is bundled at all five but it is light, bi-weekly or monthly.",
+ s:["lopez","lec_phr"],
+ sites:[{nm:"Wesley Woods",loc:"New Albany, OH",u:"12 villas (1347 – 1617 sq ft)"},{nm:"Twin Lakes",loc:"Cincinnati, OH",u:"143 villas (1495 – 1670 sq ft)"},{nm:"Twin Towers",loc:"Cincinnati, OH",u:"130 villas"},{nm:"Wesley Glen",loc:"Columbus, OH",u:"14 villas (968 – 1180 sq ft)"},{nm:"Wesley Ridge",loc:"Reynoldsburg, OH",u:"16 villas (1245 – 1475 sq ft)"}],
+ f:[{k:"Transportation",n:2,incl:2,extra:0,v:"At 2 of 5, recorded as included",ph:[{t:"Transportation",c:2,s:["Twin Lakes","Twin Towers"]}]},
+   {k:"Life Enrichment",n:0,incl:0,extra:0,v:"Not listed at any of the 5",ph:[]},
+   {k:"Culinary",n:4,incl:1,extra:3,v:"At 4 of 5: 1 recorded as included, 3 flagged available — read the phrase, the flag often applies to an add-on in the same line",ph:[{t:"“Flexible meal allowance”",c:3,s:["Twin Lakes","Twin Towers","Wesley Glen"]},{t:"Daily continental breakfast",c:1,s:["Wesley Woods"]}]},
+   {k:"Housekeeping",n:5,incl:5,extra:0,v:"At all 5, recorded as included",ph:[{t:"Bi-weekly housekeeping",c:3,s:["Wesley Woods","Wesley Glen","Wesley Ridge"]},{t:"Light monthly housekeeping",c:2,s:["Twin Lakes","Twin Towers"]}]},
+   {k:"Wellness",n:1,incl:0,extra:1,v:"At 1 of 5, recorded as available at extra cost",ph:[{t:"Yearly allowance for health/wellness services",c:1,s:["Twin Lakes"]}]},
+   {k:"Maintenance",n:5,incl:5,extra:0,v:"At all 5, recorded as included",ph:[{t:"Interior/exterior maintenance",c:5,s:["Wesley Woods","Twin Lakes","Twin Towers","Wesley Glen","Wesley Ridge"]}]}]},
+{n:"Capri Communities",nick:"Capri",tag:"Publishes nothing",ns:4,units:71,
+ line:"Four Wisconsin communities, 71 villas, and one dining allowance between them.",
+ pb:"Capri is the control case. Across four Wisconsin communities the inventory records no transportation, no housekeeping, no maintenance, no life enrichment and no wellness. The single service data point in the entire portfolio is a $100 dining allowance per month at Grace Commons. That is either a genuinely bare product or an operator that does not publish, and the inventory cannot tell you which. It is worth saying out loud, because it is the honest floor of the market.",
+ say:"Capri publishes essentially nothing for its villas: one hundred dollars a month in dining at one community and no other service recorded across four. Either the product is bare or they do not publish it, and we cannot tell which from outside.",
+ s:["lopez"],
+ sites:[{nm:"Village Pointe Commons",loc:"Grafton, WI",u:"16 villas (1520 – 1632 sq ft)"},{nm:"The Gables of Germantown",loc:"Germantown, WI",u:"22 villas (1500 sq ft)"},{nm:"Grace Commons",loc:"Menomonee Falls, WI",u:"16 villas"},{nm:"Wilson Commons",loc:"Milwaukee, WI",u:"17 villas"}],
+ f:[{k:"Transportation",n:0,incl:0,extra:0,v:"Not listed at any of the 4",ph:[]},
+   {k:"Life Enrichment",n:0,incl:0,extra:0,v:"Not listed at any of the 4",ph:[]},
+   {k:"Culinary",n:1,incl:0,extra:1,v:"At 1 of 4, recorded as available at extra cost",ph:[{t:"$100 dining allowance per month",c:1,s:["Grace Commons"]}]},
+   {k:"Housekeeping",n:0,incl:0,extra:0,v:"Not listed at any of the 4",ph:[]},
+   {k:"Wellness",n:0,incl:0,extra:0,v:"Not listed at any of the 4",ph:[]},
+   {k:"Maintenance",n:0,incl:0,extra:0,v:"Not listed at any of the 4",ph:[]}]},
+];
+var DOSS_TOTAL={ops:8,sites:50,units:2013};
+
+/* ============ SOURCES ============
+   Every card points at one or more of these. Four grades:
+     OP   = the operator's own published words, exact-phrase verified
+     INT  = an internal source document, as reported to us
+     AGG  = our own arithmetic over an internal source
+     CALL = the 17 September call, by speaker and timestamp
+   A link with u: goes to the page itself. A link with q: runs the exact-phrase
+   search that confirms the quote, which is the check we actually ran. Where no
+   public page was captured, the panel says so rather than guessing a URL. */
+var SRC={
+
+/* ---- internal source documents ---- */
+lopez:{g:"INT",who:"Laura Lopez — cottage & villa inventory, October 2023",
+  basis:"Listing research covering 215 cottage and villa products, mostly Midwest, recording unit counts, square footage and the service lines each community lists. The document records no URLs, so individual lines are traceable to the community and the phrase, not to a page.",
+  how:"To confirm any line, search the phrase against that community's own site. The phrase is distinctive enough that a real page will surface and a fabricated one will not.",
+  links:[]},
+witzgall:{g:"INT",who:"Ken Witzgall — rental cottage model report",
+  basis:"Internal report on the rental cottage model, including the argument that rental cottages command a 15–30% premium over apartments and lease up faster with no six-figure buy-in.",
+  how:"Internal document. Not published anywhere and not independently verifiable.",links:[]},
+wood:{g:"INT",who:"Scott Wood — service comparison table",
+  basis:"Two-operator service table supplied internally.",how:"Internal document.",links:[]},
+saxman:{g:"INT",who:"Jennifer Saxman — service summary",
+  basis:"Emailed service summary supplied internally.",how:"Internal document.",links:[]},
+
+/* ---- our aggregation over the inventory ---- */
+agg_215:{g:"AGG",who:"Our count across all four internal sources",
+  basis:"215 communities in Laura's villa inventory, plus Ken's rental-model report and two supplied service tables, consolidated to 230 rows with the source named on every row.",
+  how:"Consolidated Data tab of the workbook. The live source counts on the Sources & Method tab read 215 / 2 / 2 / 11 and are formulas, not typed numbers.",
+  links:[]},
+agg_nostd:{g:"AGG",who:"Our read of the whole inventory",
+  basis:"Packages in the inventory range from a garage and a washer-dryer to a fully bundled villa, with no service line appearing at even half of the 215.",
+  how:"Nobody publishes a category standard, so this is a conclusion from the spread, not a quotable market fact. Say it as our finding.",links:[]},
+agg_maint:{g:"AGG",who:"Our count over Laura's inventory",
+  basis:"Maintenance mentioned at 103 of 215 communities, and included in the fee at 99% of those. Exactly one community anywhere prices it separately. Every multi-site operator in the study lists it.",
+  how:"Reproduce by counting the Maintenance column on the Consolidated Data tab.",links:[]},
+agg_hk:{g:"AGG",who:"Our count over Laura's inventory",
+  basis:"Housekeeping mentioned at 69 of 215, included in the fee at 87% of those. Bi-weekly is the most common cadence; 44 communities mention weekly.",
+  how:"Counted from the Housekeeping column. The 87% is the number that puts the market ahead of our current internal position.",links:[]},
+agg_din:{g:"AGG",who:"Our count over Laura's inventory",
+  basis:"Dining mentioned at only 53 of 215, the fewest of the six in-scope functions, with 68% of those genuinely included. Seventeen are optional or credit-based rather than a meal plan.",
+  how:"Counted from the Culinary column. Cottages have full kitchens, which is the likely reason for the low base.",links:[]},
+agg_trans:{g:"AGG",who:"Our count over Laura's inventory",
+  basis:"Transportation appears at 55 of 215, and every one of those 55 entries is the bare word Transportation — no radius, no days, no hours, no price.",
+  how:"This is why transportation got its own deep dive. The Transportation Detail tab holds 95 rows of what could and could not be verified about it.",links:[]},
+agg_well:{g:"AGG",who:"Our count over Laura's inventory",
+  basis:"49 communities mention fitness or pool access. Only 5 mention anything clinical. Medication management appears at zero.",
+  how:"Counted from the Wellness column.",links:[]},
+agg_le:{g:"AGG",who:"Our count over Laura's inventory",
+  basis:"Life enrichment appears at 54 of 215 and 96% of those include it, almost always as access to campus amenities on the same basis as apartment residents.",
+  how:"Counted from the Life Enrichment column. Only outings and specialty classes are ever priced.",links:[]},
+agg_fee:{g:"AGG",who:"Our count over Laura's inventory",
+  basis:"54 communities published a monthly figure. Median $2,800, range $515 to $6,900. The low end mixes rental rates with CCRC service fees that sit on top of a six-figure entrance fee.",
+  how:"Median and range are live formulas on the Sources & Method tab, not typed values.",links:[]},
+agg_ef:{g:"AGG",who:"Our count over Laura's inventory, with Ken Witzgall's report",
+  basis:"63 of 215 require an entrance fee. The rest are rental or did not state one. Ken's report supplies the 15–30% rental premium argument.",
+  how:"Entrance-fee count is from the inventory. The premium figure is Ken's internal analysis and is not independently published.",links:[]},
+
+/* ---- the operator aggregations: what backs them, and what does not ---- */
+trilogy_phr:{g:"AGG",who:"Our aggregation over Laura's inventory — Trilogy Health Services, 8 communities",
+  basis:"Housekeeping at 8 of 8, bi-weekly at every one. Maintenance in the fee at 7 of 8. Dining at 3 of 8 and an option at all three. Transportation at 0 of 8.",
+  how:"No public URL was captured for Trilogy. The inventory records the phrases but not the pages, so this rests on Laura's October 2023 listing research. Confirm it yourself against the operator's own villa pages before quoting it to anyone outside.",
+  links:[{t:"Exact-phrase check — the housekeeping cadence",q:"\"Bi-weekly housekeeping\" Trilogy villas"},
+         {t:"Exact-phrase check — a named community",q:"\"Harrison Springs\" villas housekeeping laundry"}]},
+fivestar_phr:{g:"AGG",who:"Our aggregation over Laura's inventory — Five Star Senior Living, 5 communities",
+  basis:"Housekeeping in the fee at 5 of 5, weekly at four of them, with flat linen service named at three. Maintenance in the fee at 5 of 5. Transportation and life enrichment at 0 of 5.",
+  how:"No public URL was captured for Five Star. The flat-linen phrasing is distinctive enough to confirm quickly against the operator's own pages, and it is worth doing before you use the 5-of-5 claim externally.",
+  links:[{t:"Exact-phrase check — the distinctive phrase",q:"\"flat linen service\" \"Five Star\" villas"},
+         {t:"Exact-phrase check — a named community",q:"\"Five Star Residences of Fort Wayne\" villas housekeeping"}]},
+arrow_phr:{g:"AGG",who:"Our aggregation over Laura's inventory — Arrow Senior Living / Vitalia, 7 communities",
+  basis:"Campus amenities at 4 of 7, interior and exterior maintenance at 3 of 7, and nothing else. Transportation, housekeeping and dining absent at all seven.",
+  how:"No public URL was captured for Arrow. An absence finding is the more reliable kind — a search can fail to surface text that exists, but is unlikely to invent a portfolio-wide absence across seven differently-named communities. Still, confirm before saying it in front of anyone who knows the portfolio.",
+  links:[{t:"Exact-phrase check — does Vitalia list any service?",q:"Vitalia villas \"included\" housekeeping transportation Arrow Senior Living"}]},
+lcs_phr:{g:"AGG",who:"Our aggregation over Laura's inventory — Life Care Services, 9 communities",
+  basis:"Transportation as the bare word at 4 of 9. Bi-weekly housekeeping at 3 of 9. Dining at exactly one: $540 in monthly meal credits at Friendship Village of Dublin.",
+  how:"No public URL was captured for the Life Care Services portfolio as a whole. The $540 credit figure is the single most specific dining number in the inventory and the one most worth confirming directly.",
+  links:[{t:"Exact-phrase check — the $540 credit",q:"\"Friendship Village of Dublin\" villas \"meal credits\""},
+         {t:"Note — one FVD quote we had to demote",q:"\"Friendship Village of Dublin\" villas services included"}]},
+lec_phr:{g:"AGG",who:"Our aggregation over Laura's inventory — Life Enriching Communities, 5 communities",
+  basis:"Housekeeping in the fee at 5 of 5: bi-weekly at three, light monthly at two. Maintenance at 5 of 5. “Flexible meal allowance” at three of the five, plus a yearly health and wellness allowance at Twin Lakes.",
+  how:"The allowance phrasing is the operator's own vocabulary as recorded in the inventory. No page was captured. The phrase is unusual enough to confirm in one search.",
+  links:[{t:"Exact-phrase check — the allowance language",q:"\"flexible meal allowance\" \"Twin Lakes\" OR \"Wesley\" villas"}]},
+
+/* ---- verified operator language, with the check that confirmed it ---- */
+asc_sentence:{g:"OP",who:"American Senior Communities — its own marketing, verbatim at all five Garden Home properties",
+  basis:"Verified by exact-phrase probe.",
+  quote:"Garden Home residents enjoy the company of their neighbors and opportunities to participate in a wide range of planned social activities, scheduled transportation to shopping, restaurants and appointments.",
+  how:"One corporate sentence replicated five times, so it is one promise rather than five data points. Note what it does not say: no medical-first framing, and no worship, banking, pharmacy, dialysis, errands or airport anywhere in the portfolio.",
+  links:[{t:"Exact-phrase check — the corporate sentence",q:"\"scheduled transportation to shopping, restaurants and appointments\""}]},
+asc_review:{g:"OP",who:"Coventry Meadows — resident review on caring.com",
+  basis:"The only concrete operational fact in the entire transportation research, and it came from a resident, not from marketing.",
+  quote:"shuttle buses that take you for no charge to doctor's appointments and even have occasional community activities that they take people to.",
+  how:"Vehicle: shuttle bus. Cost: no charge. Primary purpose: doctor appointments. Social outings characterised as occasional. Resident reviews turned out to be far more grounded than directory prose.",
+  links:[{t:"Exact-phrase check — the review text",q:"\"shuttle buses that take you for no charge to doctor's appointments\""}]},
+cardon_cottage:{g:"OP",who:"CarDon — its own inclusion language, naming the cottage product",
+  basis:"Contractual register rather than marketing register, and it names the product explicitly.",
+  quote:"Included with a selected apartment or cottage is all interior, exterior and grounds maintenance, plus housekeeping and scheduled transportation.",
+  how:"This is the cleanest published statement anywhere in the research that a cottage resident specifically gets transportation. CarDon also customises copy per property, so a thin description at one of its communities is probably a real signal rather than lazy copywriting.",
+  links:[{t:"Operator page — the one page a domain-restricted probe returned",u:"https://hamiltontrace.us/independent-living/residences/"},
+         {t:"Exact-phrase check — the inclusion sentence",q:"\"Included with a selected apartment or cottage\""}]},
+traditions_twotier:{g:"OP",who:"Traditions Management — identical corporate copy across four sites",
+  basis:"The two-tier asymmetry, verified in the operator's own words on both sides.",
+  quote:"Garden homes: “…utilities and full access to dining, amenities, social activities and events and transportation.”  Assisted living and memory care: “…scheduled transportation to medical appointments and outings.”",
+  how:"Same operator, same benefit, two registers. The villa resident is given the noun; the higher-acuity resident is told what the service does. Whether that reflects a thinner benefit or lazier copy cannot be determined from published sources — say it as a competitive-intelligence gap, not as a finding about service levels.",
+  links:[{t:"Exact-phrase check — the defined version",q:"Traditions \"scheduled transportation to medical appointments and outings\""},
+         {t:"Exact-phrase check — the villa version",q:"Traditions garden homes \"dining, amenities, social activities and events\""}]},
+traditions_hunter:{g:"OP",who:"Traditions at Hunter Station and Traditions at Beaumont — their own pages",
+  basis:"The two exceptions to the operator's own pattern.",
+  quote:"Hunter Station lists transportation as a discrete line item in the villa inclusion list: home maintenance, yard work, snow removal, trash, all utilities, transportation, activities, emergency pendant. Beaumont is the only property to extend the benefit to independent living residents by name, and the only one anywhere with a frequency hint: a community bus to appointments and to scheduled weekly activities.",
+  how:"Two of seven break the pattern, which is worth knowing if you are asked whether the two-tier reading is universal. It is not.",
+  links:[{t:"Exact-phrase check — Beaumont's IL wording",q:"\"Traditions at Beaumont\" transportation \"independent living\""}]},
+np_faq:{g:"OP",who:"New Perspective Senior Living — operator FAQ (Woodland Terrace of Danville)",
+  basis:"The strongest single data point in the whole transportation research, and the only explicit scope exclusion found anywhere. Returned near-identically across two independent queries.",
+  quote:"New Perspective does not provide transportation to appointments; however, they do have a community van that is used to transport residents to events outside of the community. In addition, there may be commercial transportation options available for medical or other appointments, such as ride sharing programs, that they can assist in coordinating.",
+  how:"Directory sites flatly contradict this, claiming transportation for doctor visits. Trust the operator FAQ. This is the citable proof that a directory transportation checkbox cannot be relied on. Woodland Terrace has 50 cottage-style townhomes, but the FAQ does not state cottage residents' entitlement specifically.",
+  links:[{t:"Exact-phrase check — the exclusion",q:"\"does not provide transportation to appointments\" \"New Perspective\""}]},
+tlc_absence:{g:"OP",who:"TLC Management — absence on its own sites",
+  basis:"An absence finding, which the research treated as more reliable than a positive directory quote.",
+  quote:"Transportation does not appear on TLC's amenities, independent living or living-options pages. Services are “included in the monthly rent”, and transportation is not among the enumerated inclusions. A third party describes them only as setting up rides for doctor visits — coordination, not provision.",
+  how:"At Village of Avon, transportation appears on-site only as an admission criterion, meaning something the resident must manage independently. Log as unverified, never as included.",
+  links:[{t:"Exact-phrase check — the inclusion language",q:"\"included in the monthly rent\" \"Village at Hamilton Pointe\""}]},
+zarrow:{g:"OP",who:"Zarrow Pointe — The Villas, published brochure",
+  basis:"Verified by domain-scoped probe. The one confirmed case in the research where the cottage product gets a better transportation benefit than the apartments.",
+  quote:"The Villas inclusion list carries a discrete medical-transportation line, described as private car service for medical appointments.",
+  how:"Direct link below is the operator's own villa brochure PDF. Fee amount not published.",
+  links:[{t:"Operator document — The Villas brochure (PDF)",u:"https://zarrowpointe.org/wp-content/uploads/2022/01/2022-VIL-Brochure.pdf"},
+         {t:"Operator page — living options / The Villas",u:"https://zarrowpointe.org/living-options/the-villas/"}]},
+laurel:{g:"OP",who:"Laurel Lake — its own FAQ (Hudson, OH; The Villas, 1,600–2,700+ sq ft)",
+  basis:"One of only four communities in the deep research that publish an explicit included-versus-chargeable split.",
+  quote:"Laurel Lake buses provide transportation for regularly scheduled weekly and monthly courtesy trips… residents may also engage the services of a Laurel Lake driver.",
+  how:"Courtesy trips are included; a personal driver is chargeable. The fee amount is not published, which is true of every community in the research.",
+  links:[{t:"Operator page — FAQ",u:"https://laurellake.org/faqs/"}]},
+garbry:{g:"OP",who:"Garbry Ridge (Piqua, OH) — its own cottage page",
+  basis:"Exact-verified. Shows the specific mechanism by which cottage residents get transportation.",
+  quote:"The cottage inclusion list carries scheduled group social outings as included, with personal shopping trips and special outings chargeable.",
+  how:"The clearest published example of the split we are considering: group trips in the fee, individual trips priced.",
+  links:[{t:"Operator page — cottage services and amenities",u:"https://garbryridge.com/services-and-amenities/cottages/"}]},
+cedarhurst:{g:"OP",who:"Cedarhurst — corporate cottage language, exact-verified",
+  basis:"The paragraph we originally read half of. Reading the whole thing reversed our conclusion.",
+  quote:"Cedarhurst Cottages operate separately from the Assisted Living and Memory Care neighborhoods… and the same paragraph then affirmatively grants cottage residents access to the services and options already available at the community's Assisted Living and Memory Care neighborhoods.",
+  how:"The first half reads as an exclusion, the second half grants access. The same construction appears on the Topeka, Waterloo and Springfield cottage pages, so it is corporate boilerplate. Cedarhurst is parity, not a lesser tier, and no Cedarhurst page prices transportation for cottages.",
+  links:[{t:"Exact-phrase check — the disclaimer",q:"\"Cedarhurst Cottages operate separately from the Assisted Living\""}]},
+research_noprice:{g:"AGG",who:"Our two-round market research, roughly fifty communities in depth",
+  basis:"Not one community published a rate for any paid service. The vocabulary is nominal, a small fee, for a fee, at cost, flat fee. Paid tiers are disclosed; their prices are withheld. Zero of eight in one operator set published a radius, a fee, hours or a lead time.",
+  how:"Any price we set has to come from mystery shopping, not desk research. This is also the differentiation argument: publishing terms costs nothing to operate.",
+  links:[]},
+verify_method:{g:"AGG",who:"Our own verification programme, two rounds",
+  basis:"Market claims were re-checked with exact-phrase probes and searches restricted to the operator's own domain. The programme overturned two of our conclusions and removed four fabricated details. Every market claim in the workbook now carries a status of verified, likely or falsified.",
+  how:"The reliable discriminator is a search restricted to the operator's own domain. Directory sites publish fluent, specific, plausible prose that does not survive it — and the details a benchmarking study most wants are the least trustworthy things on those sites.",
+  links:[]},
+verify_cottage:{g:"AGG",who:"Round-two verification across seven detached-cottage communities",
+  basis:"Zero confirmed cases of cottage residents getting a lesser transportation tier. One verified case of better, at Zarrow Pointe. Four cases of parity. We had previously concluded the opposite and reversed it.",
+  how:"The reversal is disclosed in the workbook rather than quietly corrected. What actually varies between communities is whether the operator documents the terms at all.",
+  links:[{t:"Operator page — the one verified better case",u:"https://zarrowpointe.org/living-options/the-villas/"}]},
+radius:{g:"AGG",who:"Two internal sources plus third-party guidance",
+  basis:"A ten-mile radius appears in two of our internal sources, and third-party guidance calls ten to fifteen miles a norm. No operator publishes a radius anywhere in the research.",
+  how:"A five-mile radius claim with a weekly schedule that we had recorded was falsified by an operator-domain-restricted search and removed. Say common operating practice. Never say published or standard.",
+  links:[]},
+fabrications:{g:"AGG",who:"Four claims we removed, documented in the workbook",
+  basis:"A detailed Hamilton Trace transportation line failed an exact-phrase probe with zero matching pages. A Beech Grove courtesy-transportation line was unverifiable. A five-mile radius with a weekly schedule was falsified. A directory quote named Northwestern Memorial Hospital-Evanston, which does not exist.",
+  how:"All four came from directory sites, not operators, and all four were the kind of specific operational detail a benchmarking study most wants. That is the pattern to distrust.",
+  links:[{t:"Exact-phrase check — returns nothing, which is the point",q:"\"dialysis, and outpatient therapy, as well as rides to local shopping, banking\""}]},
+
+/* ---- the 17 September call ---- */
+kevin_anchor:{g:"CALL",who:"Kevin Penn, culinary — 0:03",
+  basis:"His anchor rule, stated at the top of the call and restated unchanged at the end.",
+  quote:"You can purchase meals as a meal package or meals a la carte, but you have to come to the main building to eat them.",
+  how:"Purchased, not included, and eaten on site. Quote it as the position rather than paraphrasing it.",links:[]},
+kevin_delivery:{g:"CALL",who:"Kevin Penn, culinary — 11:42 (final position), with 4:56 and 12:08",
+  basis:"He said earlier in the call that he would deliver at a cost, then reversed. Cite the later position.",
+  quote:"In a community type where they don't have a large enough dining room, honestly, I don't want to offer anything. Delivery. Degrades the product… It's not pizza. (11:42)  Pick up is better. (12:08)  Degrade your product by at least 30%. (4:56)",
+  how:"Do not cite the earlier 3:31 exchange where he said he would deliver — he moved off it. Delivery appears at one of the 215 communities anyway, so declining it costs nothing competitively.",links:[]},
+kevin_ceiling:{g:"CALL",who:"Kevin Penn, culinary — 4:12 and 16:01",
+  basis:"The most he offered on inclusion, and his request for a fourth state.",
+  quote:"I guess you could include one meal a week or something like that… not every day of the week, and then hope for them to stagger that enough. (4:12)  You might have to add another category for culinary, which is worst, which means I can't do it. (16:01)",
+  how:"The one-meal-a-week ceiling is a hypothetical he floated, not a commitment. The fourth state is a real request and it is still an open decision.",links:[]},
+kevin_labor:{g:"CALL",who:"Kevin Penn, culinary — 2:13",
+  basis:"How funding actually flows.",
+  quote:"Census flows through per-resident-day funding, but labor is not calculated like that right now.",
+  how:"Food gets funded by census. Labour does not, so any added service has to arrive with a staffing number attached.",links:[]},
+justin_alc:{g:"CALL",who:"Justin Hollabaugh, settings — 14:26",
+  basis:"His framing of housekeeping, in his own words.",
+  quote:"We a la carte includes the packages.",
+  how:"Housekeeping is purchased, and a package is one way of purchasing it. This is the gap against the market, where 87% of operators who mention housekeeping include it. Present it as an open decision, not a settled one.",links:[]},
+justin_4cond:{g:"CALL",who:"Justin Hollabaugh, settings — 14:58 and 15:17",
+  basis:"The four conditions, and the limit on how far he will generalise.",
+  quote:"They have the right equipment, the right people… we determine what that's actually going to be and it's not a loss in revenue. (14:58)  We'd have to go community by community, because I can't universally say that. (15:17)",
+  how:"All four conditions, on the record. He will not commit universally, which means any tier we publish has to be gated per community.",links:[]},
+justin_flourish:{g:"CALL",who:"Justin Hollabaugh, settings — 6:27 and 7:13",
+  basis:"The live example, and the strongest argument in the room.",
+  quote:"Yeah, we are right now, but it's got to change. (7:13, on Flourish cottages getting routine housekeeping and laundry today)  A proper clean runs two to four hours. (6:27)",
+  how:"A bundled cottage housekeeping model running today and being pulled back on cost. It is our own evidence, which makes it far stronger than anything from the market.",links:[]},
+call_capacity:{g:"CALL",who:"Both leaders — Justin 15:17, Kevin 16:01, plus Justin 12:58 and 13:26 and Kevin 13:57 on staffing",
+  basis:"The shared position that capability, not ambition, sets the tier.",
+  quote:"The dining room either seats the extra covers or it does not; housekeeping either has the equipment and the people or it does not. Both raised staffing fragility on a spread-out site independently.",
+  how:"A cottage neighbourhood adds staff travel time for housekeeping, maintenance and emergency response, and one dedicated person quitting is an immediate problem. That argues for raised ratios across existing staff rather than a single dedicated role.",links:[]},
+call_rates:{g:"CALL",who:"Justin 8:36 and Curtis 15:07 — both hypothetical",
+  basis:"The two numbers that came up, and why neither is a commitment.",
+  quote:"25 cents a square foot — Justin, 8:36, prefaced with “we might say”. $40–50 an hour — Curtis's own illustration at 15:07. One FTE a day, or an extra eight hours a week — also Curtis, illustrative.",
+  how:"No rate was agreed. Quoting either as a rate would be the easiest mistake to make and the hardest to walk back, and the market publishes nothing to anchor against.",links:[]},
+maint_open:{g:"CALL",who:"Not confirmed — maintenance was never discussed as a separate service line",
+  basis:"On the recorded portion of the call, maintenance came up only as part of settings. It was never agreed as a standalone cottage service line with its own scope or owner.",
+  how:"Say it is our proposal, not his commitment. It needs to go back to Justin before it appears in anything an owner reads as agreed.",links:[]},
+
+/* ---- our own recommendation ---- */
+gbb:{g:"AGG",who:"Good-Better-Best tab — our recommendation, not a market observation",
+  basis:"Thirty tier rows across the functions, each carrying the market evidence it was built from and a status where a leader has not signed up to it.",
+  how:"This is our proposal. Where a tier depends on something a leader has not committed to, the workbook flags it OPEN rather than presenting it as settled.",links:[]},
+gbb_menu:{g:"AGG",who:"Good-Better-Best tab, plus two internal sources that converged",
+  basis:"Two of the four internal sources arrived at a Base-plus-Choice structure independently, and both paired it with a published à la carte menu billed monthly.",
+  how:"At Better the menu is the product. Without a published menu, residents experience services as unavailable rather than optional — which is the same experience as not offering them.",links:[]}
+};
+
+/* ============ OPERATOR CHAPTERS ============
+   One chapter per operator, so each portfolio gets learned on its own terms
+   instead of three of them being compressed into a single boss answer. Every
+   count here matches the aggregation in DOSS, which is generated from the
+   inventory rather than typed. */
+var OPCH=[
+
+{name:"Trilogy",op:"Trilogy Health Services",
+ blurb:"Eight communities, 258 villas. The most consistent operator in the study, and the most deliberately unbundled.",
+ items:[
+ {n:"8 of 8",t:"housekeeping at every Trilogy villa community",s:["trilogy_phr","lopez"],
+  c:"Housekeeping is the one service Trilogy lists everywhere: bi-weekly at five communities, bi-monthly at three. The clean itself is recorded as included. What five of those eight lines add is laundry service as available — so laundry is the thing being sold, not the clean.",
+  q:"What is Trilogy's housekeeping standard across its eight villa communities?",
+  o:["Weekly, at every community","Bi-weekly or bi-monthly, at every community","Only at their largest communities","Not offered to villa residents"],a:1,
+  w:"Eight of eight. Bi-weekly at five, bi-monthly at three. Read the phrase carefully: the laundry is the add-on, not the clean.",
+  say:"Trilogy lists housekeeping at all eight of their villa communities, bi-weekly at most of them, and they sell laundry on top of it."},
+ {n:"Zero",t:"Trilogy villa communities list transportation",s:["trilogy_phr","verify_method"],
+  c:"Not one of the eight. This is the clearest portfolio-level absence in the study, and Trilogy is a large, sophisticated operator, so it reads as a decision rather than an oversight.",
+  q:"How many of Trilogy's eight villa communities list transportation?",
+  o:["All eight","Zero","Four","Two"],a:1,
+  w:"Zero of eight. Absence findings are the more reliable kind — a search can fail to surface text that exists, but it rarely invents a portfolio-wide absence.",
+  say:"Trilogy does not list transportation at a single one of their eight villa communities."},
+ {n:"Available",t:"is Trilogy's word for everything they sell",s:["trilogy_phr"],
+  c:"Dining is Meal options available at three communities. Laundry is available. Rehab therapy is available. One word carries their entire à la carte layer, and anything genuinely in the fee is simply stated without it.",
+  q:"Which single word marks Trilogy's à la carte layer?",
+  o:["Included","Available","Complimentary","Optional"],a:1,
+  w:"Meal options available, laundry services available, rehab therapy available. Three functions, one word.",
+  say:"Watch their vocabulary. Anything Trilogy sells is described as available. Anything in the fee is just stated."},
+ {n:"3 of 8",t:"list dining at all, and none of the three include it",s:["trilogy_phr"],
+  c:"Meal options available, at The Willows at Springhurst, Historic Silvercrest and Rivercrest. The other five say nothing about dining for villa residents whatsoever.",
+  q:"How does Trilogy handle dining for villa residents?",
+  o:["One meal a day included","An option at three communities, included at none","Three meals at all eight","A monthly dining credit"],a:1,
+  w:"Three of eight, sold. Five do not mention dining at all. Villas have full kitchens, which is the likely reason.",
+  say:"Trilogy sells meals as an option at three communities and does not mention dining at the other five."},
+ {n:"7 of 8",t:"maintenance in the fee, one of them leading with emergency cover",s:["trilogy_phr"],
+  c:"Interior and exterior maintenance at six communities, and Waunakee leads with 24-hour emergency maintenance instead. Maintenance is Trilogy's floor, as it is for every operator in the study.",
+  q:"Where does maintenance sit in Trilogy's model?",
+  o:["Sold by the hour","In the fee at nearly every community","Not offered","Only for two-bedroom villas"],a:1,
+  w:"Seven of eight, in the fee. Nobody in this study itemises maintenance, Trilogy included.",
+  say:"Maintenance is in the fee at seven of their eight, and one of them leads with twenty-four hour emergency coverage."}],
+ boss:{q:"Trilogy is in our market. What does a Trilogy villa resident actually get?",
+  say:"Bi-weekly housekeeping and maintenance in the fee, and then a menu. They list housekeeping at all eight of their villa communities and maintenance at seven, and everything else is sold with the word available — laundry, meals, rehab therapy. They list no transportation at any of the eight. So Trilogy is the à la carte end of the market, and they are completely consistent about it across the portfolio.",
+  ev:"Our aggregation over Laura's October 2023 inventory: 8 communities, 258 villas. No public URL was captured for Trilogy — confirm before quoting externally.",
+  s:["trilogy_phr","lopez"]}},
+
+{name:"Five Star",op:"Five Star Senior Living",
+ blurb:"Five communities, 219 villas. The bundled end of the market, and the benchmark if we want to be generous.",
+ items:[
+ {n:"5 of 5",t:"weekly housekeeping with linen, in the fee",s:["fivestar_phr","lopez"],
+  c:"Housekeeping is in the fee at every Five Star community. Four say weekly and one, The Forum at Brookside, says bi-weekly. Linen is named at all five, and four of them use the distinctive phrase flat linen service.",
+  q:"What is Five Star's housekeeping standard?",
+  o:["Bi-weekly, laundry sold separately","Weekly with linen service, in the fee","Monthly, at extra cost","Not published"],a:1,
+  w:"Five of five in the fee, weekly at four of them, and linen included rather than sold. This is the most bundled housekeeping profile in the study.",
+  say:"Five Star runs weekly housekeeping with flat linen service at essentially every property, and it is in the fee."},
+ {n:"5 of 5",t:"maintenance of home, building and grounds",s:["fivestar_phr"],
+  c:"Every one of the five includes maintenance, described either as interior and exterior maintenance or as maintenance of home, building and grounds. Two communities use the same combined maintenance-and-housekeeping line.",
+  q:"How does Five Star describe its maintenance obligation?",
+  o:["Emergency repairs only","Maintenance of home, building and grounds","Exterior only, interior is the resident's","Available at an hourly rate"],a:1,
+  w:"Five of five, in the fee, and the phrasing is broad: the home, the building and the grounds.",
+  say:"Five Star takes the home, the building and the grounds at all five properties, and it is in the fee."},
+ {n:"24/7",t:"concierge service, at all five",s:["fivestar_phr","lopez"],
+  c:"Every Five Star community in the inventory carries 24/7 concierge service. It is the only operator here with a round-the-clock service promise at every property, and it sits outside the six core functions entirely.",
+  q:"What does Five Star offer at all five properties that no other operator here does?",
+  o:["Airport transfers","24/7 concierge service","A private chef","On-site urgent care"],a:1,
+  w:"A round-the-clock concierge at every property. It is a staffing commitment, which is exactly the thing our own leaders flagged as the constraint.",
+  say:"All five Five Star properties carry a twenty-four seven concierge. That is a staffing commitment, not an amenity."},
+ {n:"2 of 5",t:"list dining, and both of them include it",s:["fivestar_phr"],
+  c:"Three daily meals at Clearwater and one daily meal at Banta Pointe. The other three say nothing about dining. So Five Star mentions dining rarely, but where they do, it is in the fee rather than sold.",
+  q:"Where Five Star lists dining, how is it priced?",
+  o:["Always à la carte","Included in the fee","A monthly credit","Delivered at a surcharge"],a:1,
+  w:"Two of five, both included: three daily meals at one community, one daily meal at another.",
+  say:"Five Star only lists dining at two of the five, but where they do it is included, not sold."},
+ {n:"Zero",t:"transportation and zero life enrichment across the portfolio",s:["fivestar_phr","verify_method"],
+  c:"The most bundled operator on housekeeping lists no transportation and no life enrichment at any of the five. Being generous on one function tells you nothing about the others.",
+  q:"What does Five Star not list anywhere in its villa portfolio?",
+  o:["Maintenance","Transportation and life enrichment","Housekeeping","Concierge"],a:1,
+  w:"Zero of five on both. The bundled end of housekeeping is not the bundled end of everything.",
+  say:"The most generous operator on housekeeping lists no transportation at all. Generosity in one function does not travel."}],
+ boss:{q:"If we wanted to be the most generous operator in the market, what would we have to match?",
+  say:"Five Star, and specifically weekly housekeeping with flat linen service in the fee at every property, full maintenance of the home, building and grounds, and a twenty-four seven concierge at all five. That is the ceiling in this study. What is interesting is that they buy it selectively: they list no transportation and no life enrichment anywhere, and they only mention dining at two of the five. So the bundled end is not bundled across the board — they picked housekeeping and concierge and spent there.",
+  ev:"Our aggregation over Laura's October 2023 inventory: 5 communities, 219 villas. No public URL captured — the flat-linen phrasing is distinctive enough to confirm in one search.",
+  s:["fivestar_phr","lopez"]}},
+
+{name:"ASC",op:"American Senior Communities",
+ blurb:"Five Garden Home properties, 233 villas. The transportation operator, and the best-verified piece of language in the whole study.",
+ items:[
+ {n:"5 of 5",t:"list transportation — one sentence, replicated",s:["asc_sentence","lopez"],
+  c:"ASC is the only operator here that lists transportation at every property, and its own marketing carries one sentence verbatim across all five: Garden Home residents enjoy the company of their neighbors and opportunities to participate in a wide range of planned social activities, scheduled transportation to shopping, restaurants and appointments.",
+  q:"Which three trip purposes does ASC name, verbatim, at all five properties?",
+  o:["Medical, dialysis and therapy","Shopping, restaurants and appointments","Worship, banking and pharmacy","Airport, rail and personal errands"],a:1,
+  w:"One corporate sentence replicated five times, so it is one promise and not five data points. Note it leads with shopping, not medical.",
+  say:"American Senior Communities promises transportation at every Garden Home property in one identical sentence, and it is shopping, restaurants and appointments."},
+ {n:"No charge",t:"and it came from a resident, not from marketing",s:["asc_review"],
+  c:"The only concrete operational fact in the entire transportation research is a Coventry Meadows resident review: shuttle buses that take you for no charge to doctor's appointments and even have occasional community activities that they take people to. Vehicle, cost, purpose and frequency, all in one sentence a resident wrote.",
+  q:"Where did the one concrete operational fact about ASC transportation come from?",
+  o:["Their corporate website","A resident review","A state filing","A brochure"],a:1,
+  w:"A resident review on a directory site. Note the word occasional about social outings — marketing never says that.",
+  say:"The only hard detail anyone published about their shuttle came from a resident: a bus, no charge, mainly doctor appointments, with outings described as occasional."},
+ {n:"Almost nothing",t:"else appears in the ASC portfolio",s:["lopez","verify_method"],
+  c:"Housekeeping appears at one of the five. Maintenance at three. Dining, life enrichment and wellness are not listed at any of them. ASC leads with transportation and says very little else about the Garden Home product.",
+  q:"Apart from transportation, what does ASC list broadly across its Garden Homes?",
+  o:["Housekeeping","Dining","Very little — maintenance at three, housekeeping at one","Wellness"],a:2,
+  w:"One function covered at all five, and thin coverage everywhere else. They are the mirror image of Five Star.",
+  say:"Transportation at all five, and then almost nothing. Housekeeping at one, maintenance at three, and no dining, enrichment or wellness anywhere."},
+ {n:"Careful",t:"two ASC transportation details were fabrications",s:["fabrications","verify_method"],
+  c:"A detailed line about dialysis and outpatient therapy at a CarDon community, and a courtesy-transportation line at Beech Grove, both failed exact-phrase probes. They came from directory sites, not from ASC. Both were removed from our workbook.",
+  q:"What happened to the most detailed transportation claims we found?",
+  o:["They were confirmed","They failed exact-phrase probes and were removed","They were priced","They were from the operator"],a:1,
+  w:"The specific operational detail a benchmarking study most wants is the least trustworthy thing on a directory site.",
+  say:"The most detailed claims we found turned out to be invented by directory sites, and we took them out."}],
+ boss:{q:"Somebody says transportation is table stakes. Is it?",
+  say:"No, it is the most polarised service in the market. American Senior Communities lists it at all five of their Garden Home properties in one identical corporate sentence — shopping, restaurants and appointments — and it is the only function they really cover. Meanwhile Trilogy lists none at eight communities, Five Star none at five, Arrow none at seven. That is twenty communities with no transportation at all against one operator who built their pitch around it. So it is a strategic choice, not a box to tick.",
+  ev:"ASC sentence exact-phrase verified. Absences from our aggregation: Trilogy 0/8, Five Star 0/5, Arrow 0/7.",
+  s:["asc_sentence","trilogy_phr","fivestar_phr","arrow_phr"]}},
+
+{name:"Arrow / Vitalia",op:"Arrow Senior Living",
+ blurb:"Seven Ohio communities, 197 villas. The thinnest service profile of any multi-site operator here — and consistent about it.",
+ items:[
+ {n:"0 of 7",t:"transportation, housekeeping and dining",s:["arrow_phr","verify_method"],
+  c:"Across all seven Vitalia communities the inventory records no transportation, no housekeeping and no dining for villa residents. Three functions, seven communities, nothing listed.",
+  q:"What does Arrow's Vitalia portfolio list for transportation, housekeeping and dining?",
+  o:["All three at every community","Nothing, at any of the seven","Housekeeping only","Dining only"],a:1,
+  w:"Zero of seven on all three. An absence this consistent across seven differently-named communities is a portfolio position.",
+  say:"Vitalia lists no transportation, no housekeeping and no dining at any of their seven communities."},
+ {n:"Campus amenities",t:"are the whole Vitalia offer",s:["arrow_phr"],
+  c:"Four of the seven list campus amenities, and that phrase is where the wellness centre, library and demonstration kitchen sit. Two of them add an indoor pool, bistro, movie theatre and billiards. Arrow sells the building and the amenity set.",
+  q:"What is Vitalia's actual offer to a villa resident?",
+  o:["A bundled service package","Access to campus amenities","Daily meals","Weekly housekeeping"],a:1,
+  w:"Amenities, not services. Their wellness offer is the wellness centre itself, counted through the same amenity line.",
+  say:"Vitalia is amenity-led. What a villa resident buys is access to the campus — the wellness centre, the pool, the theatre — not a service package."},
+ {n:"3 of 7",t:"maintenance, which is the only service they name",s:["arrow_phr"],
+  c:"Interior and exterior maintenance at three of the seven, and even that is not portfolio-wide. It is the only recognisable service line anywhere in the Vitalia portfolio.",
+  q:"What is the only service line Arrow names at all?",
+  o:["Transportation","Interior and exterior maintenance","Housekeeping","Meal plans"],a:1,
+  w:"Three of seven. Even the universal function of the study is only partly present here.",
+  say:"Maintenance at three of the seven is the only service they name anywhere in the portfolio."},
+ {n:"The honest read",t:"is that we cannot tell bare from unpublished",s:["arrow_phr","verify_method"],
+  c:"A portfolio-wide absence in listing research means the service was not listed. It does not prove the service does not exist. With Arrow the absence is so consistent that it reads as a real position, but the distinction is worth making out loud before an owner makes it for you.",
+  q:"What does an absence in the inventory actually prove?",
+  o:["The service is not offered","That it was not listed, which is not the same thing","Nothing at all","That the community is small"],a:1,
+  w:"Absence findings are more reliable than positive directory quotes, but they are still absence of evidence. Say it that way.",
+  say:"They list nothing, which is not quite the same as offering nothing. With seven communities all silent, though, it reads as a position."}],
+ boss:{q:"Is there an operator that just does not offer services? What does that tell us?",
+  say:"Arrow's Vitalia portfolio, seven Ohio communities and 197 villas, and across all seven the inventory records no transportation, no housekeeping and no dining. What they sell is campus amenities — the wellness centre, library, demonstration kitchen, and at two of them a pool, bistro and theatre — plus interior and exterior maintenance at three. So there is a viable amenity-led model at one end of this market. I would be careful with it, though: what we know is that they do not list these services, which is not proof they do not provide them.",
+  ev:"Our aggregation over Laura's October 2023 inventory: 7 communities, 197 villas. No public URL captured.",
+  s:["arrow_phr","verify_method"]}},
+
+{name:"Life Care Services",op:"Life Care Services",
+ blurb:"Nine communities, 462 villas — the largest footprint in the study, and the least published about it.",
+ items:[
+ {n:"462",t:"villas across nine communities, the biggest footprint here",s:["lcs_phr","lopez"],
+  c:"Life Care Services manages more villa units in this study than any other operator: Green Hills at 82, Greenwood Village South at 78, Rose Senior Living Avon at 76, The Heritage at Brentwood at 65, and five more. Scale did not produce detail.",
+  q:"Which operator has the largest villa footprint in the study?",
+  o:["Trilogy","Life Care Services","Five Star","Traditions"],a:1,
+  w:"Nine communities and 462 units. Trilogy and Traditions are next at 258 each.",
+  say:"Life Care Services has the biggest villa footprint in the study, nine communities and over four hundred and sixty units."},
+ {n:"4 of 9",t:"say Transportation and nothing else",s:["lcs_phr","agg_trans"],
+  c:"Four of the nine list transportation, and all four entries are the bare word. That is the market-wide pattern in miniature: all 55 transportation entries across the whole inventory are the word on its own, with no radius, days, hours or price.",
+  q:"How does Life Care Services describe transportation?",
+  o:["With a published radius and schedule","As the bare word, with no detail","As a paid add-on","It does not appear at all"],a:1,
+  w:"Four of nine, bare word. The largest operator in the study publishes the least about what it actually provides.",
+  say:"Four of their nine list transportation, and every one is just the word. No radius, no schedule, no price."},
+ {n:"$540",t:"in monthly meal credits, at one community",s:["lcs_phr"],
+  c:"Friendship Village of Dublin runs $540 a month in meal credits, the single most specific dining figure in the whole inventory. Dining appears at exactly one of the nine Life Care Services communities.",
+  q:"What is the most specific dining number in the entire inventory?",
+  o:["Three meals a day","$540 in monthly meal credits","30 meals a month","$100 a month"],a:1,
+  w:"$540 monthly credits at Friendship Village of Dublin. A credit is a purchase with a subsidy, not a giveaway — which is exactly the framing our culinary leader is comfortable with.",
+  say:"One of their communities runs five hundred and forty dollars a month in meal credits, which is the most specific dining number anywhere in our research."},
+ {n:"3 of 9",t:"housekeeping, bi-weekly every time",s:["lcs_phr"],
+  c:"Bi-weekly at all three that list it, and two of those pair it with linen service — weekly linen at Friendship Village of Dublin, bi-weekly linen at Newcastle Place. Where they bundle, they bundle lightly.",
+  q:"What cadence does Life Care Services use where it lists housekeeping?",
+  o:["Weekly","Bi-weekly","Monthly","Daily"],a:1,
+  w:"Bi-weekly at three of three. Same pattern as Trilogy and Life Enriching: one cadence, applied portfolio-wide.",
+  say:"Where they list housekeeping it is bi-weekly every time, sometimes with linen service alongside."},
+ {n:"Via the campus",t:"is how enrichment and wellness reach villa residents",s:["lcs_phr","agg_le"],
+  c:"Life enrichment and wellness appear at two of the nine, and both times as main-campus amenities: pool, gym with a trainer, chaplain, café, general store at Kalamazoo; putting green, bocce, woodworking, art studio, greenhouse, market and medical clinic at Brentwood. Villa residents get campus access, not villa services.",
+  q:"How do villa residents get enrichment and wellness at Life Care Services?",
+  o:["Dedicated villa programming","Through main-campus amenity access","Not at all","At extra cost"],a:1,
+  w:"Campus access on the same basis as apartment residents — which is how 96% of life enrichment works across the whole inventory.",
+  say:"Enrichment and wellness reach their villa residents through main-campus access, not as separate villa services."}],
+ boss:{q:"Who is the biggest player here, and what can we learn from them?",
+  say:"Life Care Services — nine communities and 462 villas, the largest footprint in the study. What is striking is how little they publish. Four of the nine list transportation and every one is the bare word. Three list housekeeping, bi-weekly each time. Dining appears at exactly one community, as five hundred and forty dollars a month in meal credits. So the biggest operator in the market has not solved this and has not documented it either, which is the gap we can step into: publish the terms.",
+  ev:"Our aggregation over Laura's October 2023 inventory: 9 communities, 462 villas. No public URL captured for the portfolio.",
+  s:["lcs_phr","lopez","research_noprice"]}},
+
+{name:"Traditions",op:"Traditions Management",
+ blurb:"Seven communities, 258 villas. The cleanest example of two-tier language in the market — and we verified both halves of it.",
+ items:[
+ {n:"Two tiers",t:"of language for the same benefit",s:["traditions_twotier"],
+  c:"On their garden-home pages, transportation appears inside a list: utilities and full access to dining, amenities, social activities and events and transportation. On their assisted living and memory care pages, the same operator writes scheduled transportation to medical appointments and outings. The villa resident gets the noun. The higher-acuity resident gets the definition.",
+  q:"What does Traditions do differently for villa residents versus assisted living?",
+  o:["Charges them more","Describes the same benefit but only defines it for higher acuity","Excludes them from transport","Uses a different vehicle"],a:1,
+  w:"Identical corporate copy across four sites, verified on both sides. Whether that is a thinner benefit or lazier copy cannot be determined from published sources — call it an intelligence gap.",
+  say:"Traditions only defines transportation for their higher-acuity tiers. Villa residents get the word on its own."},
+ {n:"30 meals",t:"a month, at two communities",s:["lopez","traditions_hunter"],
+  c:"Traditions at Solana and Traditions at Reagan Park both publish 30 meals a month. That is a countable allotment rather than a plan or a credit, and it is the only operator in the study using that construction.",
+  q:"How does Traditions express its dining benefit?",
+  o:["Three meals a day","30 meals a month","A dollar credit","Unlimited dining"],a:1,
+  w:"A count, not a plan and not a credit. Beaumont is the third dining mention and it is meal plans available, which is sold.",
+  say:"Two of their communities publish thirty meals a month, which is a countable allotment rather than a meal plan."},
+ {n:"2 of 7",t:"exceptions that break their own pattern",s:["traditions_hunter"],
+  c:"Hunter Station lists transportation as a discrete line item in the villa inclusion list, alongside home maintenance, yard work, snow removal, trash, utilities, activities and an emergency pendant. Beaumont is the only property anywhere to extend the benefit to independent living residents by name, and the only one with a frequency hint: a community bus to appointments and to scheduled weekly activities.",
+  q:"What do Hunter Station and Beaumont show?",
+  o:["That the two-tier reading is universal","That two of seven break the operator's own pattern","That transportation is always sold","That villas get less"],a:1,
+  w:"Useful if you are asked whether the two-tier reading is a rule. It is not — two of seven are more generous than the corporate template.",
+  say:"Two of their seven break the pattern. Hunter Station itemises transportation for villas and Beaumont names independent living residents explicitly."},
+ {n:"5 of 7",t:"maintenance, and housekeeping hiding inside it",s:["lopez"],
+  c:"Maintenance is in the fee at five of the seven. At Solana and Reagan Park the line reads interior/exterior maintenance/housekeeping — one line covering both functions, which is why housekeeping only counts at two of seven here.",
+  q:"Why does housekeeping only appear at two Traditions communities?",
+  o:["They do not clean","It is bundled inside a combined maintenance and housekeeping line","It is sold separately","The data is missing"],a:1,
+  w:"A combined line. This is the thing to watch in any benchmark: one phrase can carry two functions and distort both counts.",
+  say:"Their housekeeping is folded into a combined maintenance and housekeeping line, which is why the count looks low."},
+ {n:"Boilerplate",t:"is the risk with this operator",s:["fabrications","verify_method"],
+  c:"An exact-phrase probe on scheduled shuttles to physician offices, dialysis or therapy sessions returned zero senior living communities, yet near-identical constructions were attributed to three different Traditions properties by directory sites. Same skeleton, swapped nouns, no primary source.",
+  q:"What did the probe on directory language about Traditions prove?",
+  o:["The claims were accurate","Directory sites reused one invented skeleton across three properties","Traditions had changed its copy","Nothing conclusive"],a:1,
+  w:"Never admit a dialysis, service radius or scheduled-in-advance claim on directory authority alone. Resident reviews are far more grounded than directory prose.",
+  say:"Directory sites attributed the same invented sentence to three different Traditions properties. That is why we verify by exact phrase."}],
+ boss:{q:"Does anybody give cottage residents a lesser service than apartment residents?",
+  say:"Not in service terms — in language terms, yes, and Traditions is the clean example. Their garden-home pages list transportation as a bare word inside a list of inclusions. The same operator's assisted living and memory care pages define it: scheduled transportation to medical appointments and outings. Same benefit, two registers. But two of their seven actually break that pattern in the villa resident's favour, and when we verified the broader question across seven detached-cottage communities we found zero confirmed cases of a lesser tier, one better and four at parity. So what varies is documentation, not entitlement.",
+  ev:"Traditions two-tier copy verified on both sides. Cottage-tier verification: 0 lesser, 1 better, 4 parity.",
+  s:["traditions_twotier","verify_cottage"]}},
+
+{name:"Life Enriching",op:"Life Enriching Communities",
+ blurb:"Five Ohio communities, 315 villas. The allowance playbook, and the most uniform maintenance language of anyone here.",
+ items:[
+ {n:"Allowance",t:"is their word for dining, and it matters",s:["lec_phr"],
+  c:"Flexible meal allowance, used at Twin Lakes, Twin Towers and Wesley Glen. Wesley Woods is the exception with a daily continental breakfast. An allowance is a credit toward a purchase, not a giveaway — which is exactly the framing our culinary leader is comfortable with.",
+  q:"How does Life Enriching Communities express its dining benefit?",
+  o:["Three meals a day","A flexible meal allowance","30 meals a month","No dining at all"],a:1,
+  w:"A credit model. Presbyterian Homes runs $490 in meals and Life Care Services $540 in monthly credits — the sophisticated operators all converge on credits.",
+  say:"Life Enriching uses a flexible meal allowance rather than a meal count. It is a credit, which means it is still a purchase."},
+ {n:"5 of 5",t:"housekeeping in the fee, but deliberately light",s:["lec_phr"],
+  c:"Bi-weekly at Wesley Woods, Wesley Glen and Wesley Ridge; light monthly at Twin Lakes and Twin Towers. Every community bundles it, and every community keeps it small. Bundled does not have to mean generous.",
+  q:"How does Life Enriching bundle housekeeping?",
+  o:["Weekly, at every community","At all five, but bi-weekly or light monthly","Only at Twin Lakes","It is sold separately"],a:1,
+  w:"Five of five in the fee, and the cadence is the lever. Light monthly at their two largest communities is the cheapest possible version of included.",
+  say:"They include housekeeping at all five but keep it light — bi-weekly at three and light monthly at their two biggest."},
+ {n:"5 of 5",t:"interior and exterior maintenance, identical wording",s:["lec_phr"],
+  c:"The same phrase at all five communities. It is the most uniform maintenance language of any operator in the study, which tells you it is set centrally and applied without variation.",
+  q:"What does the identical maintenance wording at all five tell you?",
+  o:["It was copied by mistake","It is a corporate standard applied portfolio-wide","Each site wrote its own","Maintenance is outsourced"],a:1,
+  w:"Corporate standard. Cadence and scope are set once and applied everywhere — the same pattern as housekeeping cadence.",
+  say:"All five use identical maintenance wording, which tells you it is set once at the corporate level."},
+ {n:"Yearly",t:"wellness allowance, at Twin Lakes",s:["lec_phr","agg_well"],
+  c:"A yearly allowance for health and wellness services. It is one of the only wellness constructions in the study that is neither a gym nor a pool, and across the whole inventory only five communities offer anything clinical at all.",
+  q:"What is unusual about Twin Lakes' wellness offer?",
+  o:["An on-site hospital","A yearly allowance for health and wellness services","Free medication management","A resident physician"],a:1,
+  w:"They apply the allowance model to wellness too. Wellness is wide-open ground: only five of 215 communities offer anything clinical.",
+  say:"They run a yearly allowance for wellness services as well as dining. The allowance is their whole playbook."},
+ {n:"2 of 5",t:"transportation, and only at the two largest",s:["lec_phr"],
+  c:"Twin Lakes and Twin Towers, their two big Cincinnati campuses at 143 and 130 villas. The three smaller communities list none. Scale appears to buy the shuttle.",
+  q:"Which Life Enriching communities list transportation?",
+  o:["All five","Only the two largest campuses","Only the smallest","None"],a:1,
+  w:"Twin Lakes and Twin Towers only. Worth noting when we size our own transportation decision against a community's unit count.",
+  say:"Only their two largest campuses list transportation. At that scale a shuttle pays for itself and below it apparently does not."}],
+ boss:{q:"Is there a way to include services without carrying the full cost?",
+  say:"Yes, and Life Enriching Communities is the model. Two moves. First, cadence: they include housekeeping at all five communities but run it bi-weekly at three and light monthly at their two biggest, so it is genuinely in the fee and genuinely cheap. Second, allowances: a flexible meal allowance for dining and a yearly allowance for wellness. An allowance is a credit toward a purchase, so the resident feels included and we are not giving away covers. Those two levers let you say included without underwriting unlimited consumption.",
+  ev:"Our aggregation over Laura's October 2023 inventory: 5 communities, 315 villas. Allowance phrasing is the operator's own vocabulary as recorded.",
+  s:["lec_phr","kevin_ceiling"]}},
+
+{name:"Capri",op:"Capri Communities",
+ blurb:"Four Wisconsin communities, 71 villas. The control case: an operator that publishes essentially nothing.",
+ items:[
+ {n:"$100",t:"a month in dining, and that is the entire portfolio",s:["lopez"],
+  c:"Across four Wisconsin communities the inventory records one service data point: a $100 dining allowance per month at Grace Commons. No transportation, no housekeeping, no maintenance, no enrichment, no wellness anywhere in the portfolio.",
+  q:"What is the only service Capri publishes across four communities?",
+  o:["Weekly housekeeping","A $100 monthly dining allowance at one community","Transportation","Maintenance"],a:1,
+  w:"One data point in four communities. Even maintenance, the universal function of this study, does not appear.",
+  say:"Capri publishes one service across four communities: a hundred dollars a month in dining at one of them."},
+ {n:"Bare or unpublished",t:"and the inventory cannot tell you which",s:["lopez","verify_method"],
+  c:"Either the product really is that bare, or it is an operator that does not publish. Listing research cannot separate the two. Saying that out loud is more credible than guessing, and it is the honest floor of the market.",
+  q:"What can we conclude from Capri's silence?",
+  o:["They offer nothing","Either a bare product or a non-publishing operator — we cannot tell","They are the cheapest","They are the most expensive"],a:1,
+  w:"Say the limit of the evidence. It is the difference between sounding rigorous and sounding confident.",
+  say:"Either the product is bare or they do not publish it, and we cannot tell which from outside. That is the honest answer."},
+ {n:"71",t:"villas, the smallest footprint of the eight",s:["lopez"],
+  c:"Sixteen to twenty-two villas per community. The operators with the thinnest service lists in this study also tend to be the ones with the smallest villa clusters, which fits what both of our own leaders said about staffing a spread-out site.",
+  q:"What does Capri's small footprint suggest about service economics?",
+  o:["Small clusters make a service package harder to staff","Smaller is always cheaper to serve","Size is irrelevant","Small sites bundle more"],a:0,
+  w:"Sixteen to twenty-two units per site. Our own leaders raised exactly this: a scattered handful of cottages carries staff travel time with no density to absorb it.",
+  say:"Their villa clusters are sixteen to twenty-two units. At that size a service package is hard to staff, which is the same constraint our own leaders raised."}],
+ boss:{q:"What does the bottom of this market look like?",
+  say:"Capri Communities, four Wisconsin properties, seventy-one villas between them, and one published service in the whole portfolio: a hundred dollars a month in dining at Grace Commons. Not even maintenance, which everyone else in the study includes. I would be careful how I say it, though — either the product is genuinely that bare or they simply do not publish, and listing research cannot tell the two apart. What it does tell us is that there is no floor being enforced by the market. Nobody is obliged to offer anything.",
+  ev:"Our aggregation over Laura's October 2023 inventory: 4 communities, 71 villas, one recorded service line.",
+  s:["lopez","verify_method"]}},
+
+{name:"In Their Own Words",
+ blurb:"Seven operators whose actual published language we captured and verified. These are the claims you can click through to.",
+ items:[
+ {n:"CarDon",t:"names the cottage, in contractual language",s:["cardon_cottage"],
+  c:"Included with a selected apartment or cottage is all interior, exterior and grounds maintenance, plus housekeeping and scheduled transportation. That is the cleanest published statement anywhere in the research that a cottage resident specifically gets transportation — and it names housekeeping and maintenance in the same breath.",
+  q:"Why does the CarDon sentence matter more than a directory listing?",
+  o:["It is longer","It names the cottage product explicitly, in inclusion language","It has a price","It is newer"],a:1,
+  w:"Contractual register, and the product is named. CarDon also customises copy per property, so a thin description at one of their communities is probably a real signal rather than lazy writing.",
+  say:"CarDon publishes that interior, exterior and grounds maintenance plus housekeeping and scheduled transportation are included with a cottage. They name the product."},
+ {n:"New Perspective",t:"publishes the only scope exclusion we found",s:["np_faq"],
+  c:"Their FAQ says plainly that they do not provide transportation to appointments; they have a community van for events outside the community, and for medical appointments they can assist in coordinating a rideshare. Directory sites claim the opposite about the same operator.",
+  q:"What makes the New Perspective FAQ the strongest data point in the research?",
+  o:["It is the longest quote","It is the only explicit statement of what is NOT provided","It gives a price","It names a radius"],a:1,
+  w:"Everything else in the market states what is offered. This one states a boundary — and the directories flatly contradict it, which is the proof that a directory checkbox is worthless.",
+  say:"New Perspective publishes that they do not provide transportation to appointments, only to community events, and they will help you book a rideshare. It is the only boundary anyone states."},
+ {n:"Coordination",t:"is not provision, and TLC proves it",s:["tlc_absence"],
+  c:"Transportation appears nowhere on TLC Management's own amenities, independent living or living-options pages, and services are described as included in the monthly rent without transportation among them. A third party describes them only as setting up rides. At Village of Avon, transportation appears on-site as an admission criterion — something the resident must manage themselves.",
+  q:"How should a community that only helps book rides be recorded?",
+  o:["As transportation included","As unverified, never as included","As transportation at cost","As no transportation"],a:1,
+  w:"Recording coordination as inclusion would overstate the benefit substantially, and it is the most common way a benchmark like this goes wrong.",
+  say:"Two operators only coordinate rides rather than providing them. Coordination is not provision, and a benchmark that counts it as included is wrong."},
+ {n:"Zarrow Pointe",t:"is the one verified case of cottages doing better",s:["zarrow","verify_cottage"],
+  c:"Their Villas inclusion list carries a discrete medical-transportation line — private car service for medical appointments — that the apartment product does not get. It is the single confirmed instance in seven detached-cottage communities where the cottage resident is treated better, and it is in the operator's own brochure.",
+  q:"What is unusual about Zarrow Pointe's villa transportation?",
+  o:["It is chargeable","It is a private car for medical appointments, better than the apartments get","It is shared with a taxi firm","It is unverified"],a:1,
+  w:"Verified by domain-scoped probe, and the brochure is linked. Fee amount not published, which is true of every community in the research.",
+  say:"Zarrow Pointe gives villa residents a private car for medical appointments, which is better than their apartment residents get. It is the only verified case of that."},
+ {n:"Garbry Ridge",t:"publishes the exact split we are considering",s:["garbry"],
+  c:"Their cottage inclusion list makes scheduled group social outings included, with personal shopping trips and special outings chargeable. Group in the fee, individual priced. It is the clearest published version of a Good-to-Better transportation boundary anywhere in the research.",
+  q:"What does Garbry Ridge include versus charge for?",
+  o:["Everything included","Group outings included, personal trips charged","Everything charged","Medical only"],a:1,
+  w:"This is a real operator publishing the boundary we are debating internally. Worth citing when someone asks whether the split is workable.",
+  say:"Garbry Ridge includes scheduled group outings and charges for personal shopping trips. That is the boundary, published, by an operator already doing it."},
+ {n:"Laurel Lake",t:"publishes courtesy trips and a paid driver",s:["laurel"],
+  c:"Laurel Lake buses provide transportation for regularly scheduled weekly and monthly courtesy trips, and residents may also engage the services of a Laurel Lake driver. Courtesy trips in the fee, a personal driver chargeable. One of only four communities in the deep research that publish an included-versus-chargeable split at all.",
+  q:"What is the Laurel Lake model?",
+  o:["Everything free","Scheduled courtesy trips included, a personal driver chargeable","Everything chargeable","Rideshare vouchers"],a:1,
+  w:"Four of about fifty communities publish this kind of split. The fee amount is still not published — nobody publishes a price.",
+  say:"Laurel Lake runs scheduled courtesy trips in the fee and sells a driver on top. They are one of only four communities that publish the split at all."},
+ {n:"Cedarhurst",t:"is why you read the whole paragraph",s:["cedarhurst","verify_cottage"],
+  c:"Cedarhurst Cottages operate separately from the Assisted Living and Memory Care neighborhoods — and the same paragraph then grants cottage residents access to the services and options already available in those neighbourhoods. We built a headline finding on the first half. The second half reverses it.",
+  q:"What did reading the second half of the Cedarhurst paragraph do to our conclusion?",
+  o:["Confirmed it","Reversed it — Cedarhurst is parity, not a lesser tier","Made it stronger","Nothing"],a:1,
+  w:"The same construction appears on their Topeka, Waterloo and Springfield cottage pages, so it is corporate boilerplate. We reversed the finding across the workbook and disclosed the reversal rather than quietly fixing it.",
+  say:"We had read half a Cedarhurst paragraph and drawn the wrong conclusion. The second half grants cottage residents access, so it is parity. We reversed it and said so."}],
+ boss:{q:"How do we know any of this is real?",
+  say:"Because we checked it twice and it cost us two conclusions. The internal data is as reported by our four sources. The market research was verified quote by quote with exact-phrase probes and searches restricted to the operator's own domain, and that process overturned two of our own findings and removed four fabricated details — including a directory quote naming a hospital that does not exist. Every market claim in the workbook now carries a status: verified, likely or falsified. Where I have an operator's own words I can show you the page. Where the claim rests on our October listing research, I will tell you that instead of pretending there is a link.",
+  ev:"Two-round verification programme, documented in the workbook. Four fabrications removed, two conclusions reversed.",
+  s:["verify_method","fabrications","verify_cottage"]}}
+
+];
+
+var CH=[
+{name:"The Shape",blurb:"What this study is, and the one finding that frames everything.",items:[
+ {s:["agg_215","lopez"],n:"215",t:"communities in the villa study",c:"Laura's inventory covers 215 cottage and villa products, mostly Midwest. Add Ken's rental-model report and service tables from two operators, and the workbook holds 230 rows from four sources.",
+  q:"How many communities does the core inventory cover?",o:["About 50","215","Roughly 1,000","12"],a:1,
+  w:"215 in the villa study, 230 rows once the other three sources are added.",
+  say:"We looked at two hundred and fifteen cottage and villa products, mostly across the Midwest."},
+ {s:["agg_nostd","lopez"],n:"No standard",t:"there is no standard cottage service model",c:"Packages range from a garage and a washer-dryer to a fully bundled villa. This is the most important finding, and it means nobody can tell you what the industry does.",
+  q:"What is the headline finding of the whole study?",o:["Most operators include one meal a day","There is no standard cottage service model","Cottages always cost more than apartments","Transportation is the top amenity"],a:1,
+  w:"No standard model. What IS consistent is that operators remove the work of owning a house.",
+  say:"There is no standard cottage service model. Anyone who tells you there is has not looked."},
+ {s:["agg_maint"],n:"Maintenance",t:"is the one thing every operator does",c:"Of the six services we care about, maintenance is the only one that shows up across essentially every operator's portfolio. It is the floor, and nobody sells it separately.",
+  q:"Which of our six services is universal across operators?",o:["Culinary","Maintenance","Transportation","Wellness"],a:1,
+  w:"103 of 215 communities mention it and 99% of those include it. Every multi-site operator in the study lists it.",
+  say:"Maintenance is the floor. Every operator does it and nobody itemises it."},
+ {s:["fivestar_phr","trilogy_phr","arrow_phr"],n:"Three brackets",t:"hold the whole market, and we have to pick one",c:"Five Star is the bundled end: weekly housekeeping with flat linen in the fee at all five of their properties. Trilogy is the \u00e0 la carte end: bi-weekly housekeeping and then a menu, and no transportation at any of eight. Arrow's Vitalia is amenity-led and lists almost no services at all across seven. Those three bracket everything else.",
+  q:"Which three operators bracket the market?",o:["Five Star, Trilogy and Arrow","Capri, Traditions and ASC","Only the CCRCs","Life Care Services alone"],a:0,
+  w:"Bundled, \u00e0 la carte, amenity-led. Twenty communities between Trilogy, Five Star and Arrow list no transportation at all.",
+  say:"Three operators bracket this market. Five Star is bundled, Trilogy is \u00e0 la carte, and Vitalia is amenity-led with almost no services listed at all."}
+]},
+{name:"The Six Functions",blurb:"How often each of the six in-scope services actually appears.",items:[
+ {s:["agg_maint"],n:"103",t:"communities mention maintenance, the most of our six",c:"And 99% of those include it in the fee. Only one community anywhere prices it separately. This is the least contested finding in the workbook.",
+  q:"Which of the six appears most often across the inventory?",o:["Transportation","Culinary","Maintenance","Housekeeping"],a:2,
+  w:"Maintenance 103, then housekeeping 69, wellness 60, transportation 55, life enrichment 54, culinary 53.",
+  say:"Maintenance is the most common service in the market and the most consistently included."},
+ {s:["agg_hk","justin_alc"],n:"69",t:"communities mention housekeeping, second of our six",c:"And 87% of those include it in the fee. Bi-weekly is the most common cadence, with 44 communities mentioning weekly. The market bundles housekeeping more than we currently plan to.",
+  q:"What share of housekeeping mentions are included in the fee?",o:["87%","50%","33%","99%"],a:0,
+  w:"This is the number that puts the market ahead of where our settings leader has landed.",
+  say:"Eighty-seven per cent of operators who mention housekeeping include it. If we sell it, that is a deliberate position, not the norm."},
+ {s:["agg_din"],n:"68%",t:"of dining mentions are genuinely included",c:"Only 53 of 215 mention dining at all, the fewest of our six, and seventeen of those are optional or credit-based rather than a real meal plan. The most variable function in the market.",
+  q:"Dining is the outlier. What share of dining mentions are actually included?",o:["68%","95%","82%","41%"],a:0,
+  w:"A third of operators who mention dining do not include it. Cottages have full kitchens.",
+  say:"Dining is the most variable function. A third of the operators who mention it do not include it at all."},
+ {s:["agg_trans"],n:"55",t:"communities list transportation, and all 55 say only the word",c:"Every one of those entries is the bare word Transportation. No radius, no days, no hours, no price. The least defined service in the market.",
+  q:"What is remarkable about the 55 transportation entries?",o:["They all include airport runs","Every one is just the bare word, with no detail","They are all fee-based","They all limit it to ten miles"],a:1,
+  w:"Which is why we ran a separate deep dive on transportation alone.",
+  say:"Fifty-five communities list transportation, and every single entry is nothing but the word itself."},
+ {s:["agg_well"],n:"5",t:"communities mention a wellness clinic",c:"Wellness for cottage residents is almost entirely gym and pool access. Forty-nine mention fitness or pool, but only five offer anything clinical, and medication management appears at zero.",
+  q:"How many of the 215 mention an actual wellness clinic?",o:["5","38","71","112"],a:0,
+  w:"Wide-open ground. A light monthly clinic would stand out cheaply.",
+  say:"Only five communities offer cottage residents anything clinical at all. Wellness is wide open."},
+ {s:["agg_le"],n:"96%",t:"of life enrichment mentions are included",c:"54 communities list campus amenity access and nearly all include it. Both of our operators said cottage residents simply get what apartment residents get. Near-zero marginal cost.",
+  q:"How do operators treat life enrichment for cottage residents?",o:["Sold separately","Included, on the same basis as apartment residents","Not offered to cottages","Only at premium communities"],a:1,
+  w:"Universal inclusion. Only outings and specialty classes are ever priced.",
+  say:"Life enrichment is included everywhere and costs almost nothing at the margin. Never withhold it."}
+]},
+{name:"Money",blurb:"The pricing picture, and the thing the market refuses to publish.",items:[
+ {s:["agg_fee"],n:"$2,800",t:"median monthly fee where one was published",c:"Fifty-four communities published a monthly figure, spanning $515 to $6,900. The low end mixes rental rates with CCRC service fees that sit on top of a six-figure entry fee.",
+  q:"What is the median published monthly fee?",o:["About $1,200","About $2,800","About $4,500","About $6,000"],a:1,
+  w:"Quote the spread, not just the median, because the bottom of the range is a different product.",
+  say:"Median is around twenty-eight hundred a month, though the spread runs five hundred to sixty-nine hundred because the bottom end sits on top of an entry fee."},
+ {s:["agg_ef","witzgall"],n:"63",t:"communities require an entrance fee",c:"Out of 215. The rest are rental or did not state one. Ken's report argues rental cottages command a fifteen to thirty per cent premium over apartments and lease up faster because there is no six-figure buy-in.",
+  q:"Roughly how many of the 215 require an entrance fee?",o:["63","6","150","199"],a:0,
+  w:"Rental is the majority, which supports a no-buy-in cottage product.",
+  say:"About sixty-three require an entrance fee. The majority are rental, and rental leases up faster."},
+ {s:["research_noprice"],n:"Zero",t:"communities publish a price for any paid service",c:"Across roughly fifty communities researched in depth, not one published a rate. The vocabulary is nominal, a small fee, for a fee, at cost, flat fee. Paid tiers are disclosed and their prices withheld.",
+  q:"How many communities publish an actual rate for a paid service?",o:["Zero","About a dozen","Most of them","Around 40"],a:0,
+  w:"Any pricing we set has to come from mystery shopping, not desk research.",
+  say:"Not one operator publishes a price. They all disclose that a paid tier exists and none say what it costs."}
+]},
+{name:"The Tiers",blurb:"How Good, Better and Best differ, and what decides the level.",items:[
+ {s:["gbb"],n:"Good",t:"is the maintenance-free floor",c:"Maintenance, grounds, a scheduled shuttle and full campus access. Dining, housekeeping and convenience are bought separately at published prices.",
+  q:"What defines the Good tier?",o:["Everything included in one fee","Remove the work of owning a house, and nothing more","No services at all","Only dining and housekeeping"],a:1,
+  w:"The lightest viable package, matched to a buyer who still drives and still cooks.",
+  say:"Good removes the work of owning a house and stops there. Everything else is bought at a published price."},
+ {s:["gbb_menu","wood","saxman"],n:"Better",t:"is Base plus Choice",c:"The floor plus a bundled mid-level package, and crucially a published à la carte menu billed monthly. Two of our four sources arrived at this structure independently.",
+  q:"What actually makes the Better tier work?",o:["A published à la carte menu","Three meals a day","A bigger garage","Free airport transfers"],a:0,
+  w:"At Better the menu IS the product. Without one, Base plus Choice is just Base.",
+  say:"Better is Base plus Choice. The published menu is the product, because without it residents experience things as unavailable rather than optional."},
+ {s:["call_capacity","kevin_ceiling"],n:"Capacity",t:"decides the tier, not ambition",c:"Both leaders said the answer depends on what a community can physically do. The dining room either seats the extra covers or it does not. The tier is gated by the building.",
+  q:"What determines which tier a community can offer?",o:["The resident's budget","What the building and staffing can physically support","Corporate policy","The age of the campus"],a:1,
+  w:"Which is why culinary needs a fourth state meaning we cannot do it here.",
+  say:"The tier is gated by the building. Where the dining room cannot seat them, the honest answer is that we do not offer it."}
+]},
+{name:"What Our Leaders Said",blurb:"The positions Kevin and Justin actually committed to on the call.",items:[
+ {s:["kevin_anchor"],n:"Main building",t:"is where meals get eaten",c:"Kevin Penn's anchor rule: residents can purchase meals as a package or à la carte, but they come to the main building to eat them. He restated it at the end of the call unchanged.",
+  q:"What is the culinary position on meals?",o:["Delivered to the villa door","Buy it, and eat it in the main building","Three meals included in the fee","No meals at any community"],a:1,
+  w:"Purchased, not included, and eaten on site where the dining room has capacity.",
+  say:"Residents buy meals as a package or à la carte, and they eat them in the main building."},
+ {s:["kevin_delivery"],n:"No delivery",t:"and that is his settled position",c:"He said early in the call that he would deliver at a cost, then reversed. His final position is that delivery degrades the product by at least thirty per cent and he does not want to offer it. Pickup he accepts.",
+  q:"Where did culinary land on delivery?",o:["Yes, with a golf cart","No. Pickup is acceptable, delivery is not","Yes, at an extra fee","Only in summer"],a:1,
+  w:"Cite the later position. Delivery appears at just one of the 215 communities anyway, so refusing it costs nothing.",
+  say:"No delivery. He will accept residents picking up, but he will not put food in a box and drive it across a parking lot."},
+ {s:["justin_alc","agg_hk"],n:"À la carte",t:"includes packages, in the settings leader's words",c:"Justin Hollabaugh's framing is that housekeeping is purchased, and a package is one way of purchasing it. He will offer full service if they want it, at a unit we define.",
+  q:"How does settings frame housekeeping?",o:["Included in the base fee","Purchased, and a package counts as purchased","Not offered at all","Included only at Best"],a:1,
+  w:"This is the gap. The market includes housekeeping 87% of the time and every multi-site operator bundles a cadence. He sells it.",
+  say:"He frames housekeeping as purchased, and in his words à la carte includes the packages."},
+ {s:["justin_4cond"],n:"4 conditions",t:"before settings will commit",c:"Right equipment, right people, we determine what the service actually is, and it is not a loss in revenue. He also said it cannot be universal and has to go community by community.",
+  q:"What does settings require before offering cottage housekeeping?",o:["Only more staff","Equipment, people, a defined scope, and no revenue loss","A corporate mandate","Nothing, he is ready now"],a:1,
+  w:"All four, in his own words, on the record at 14:58.",
+  say:"He needs the right equipment, the right people, a scope we define, and it cannot be a loss in revenue."},
+ {s:["justin_flourish"],n:"Flourish",t:"is the live proof that bundling is hard",c:"Cottages there get routine housekeeping and laundry today. A proper clean runs two to four hours, and he said plainly that it has to change. It is the strongest argument in the room and it is ours.",
+  q:"Why does Flourish matter to this conversation?",o:["It is our newest community","It runs the bundled model today and is being withdrawn","It has the biggest dining room","It has no cottages"],a:1,
+  w:"A live experiment in the bundled tier that is failing on cost.",
+  say:"Flourish runs the bundled version today and we are pulling it back, because a proper clean takes two to four hours."},
+ {s:["kevin_labor","call_capacity"],n:"Hours first",t:"or none of it happens",c:"Census flows through per-resident-day funding but labour is not calculated that way. Both leaders raised it. Any service we add has to arrive with a staffing number attached.",
+  q:"What is the shared precondition from both leaders?",o:["A new building","Added services must come with added staffing hours","Higher rents","A marketing campaign"],a:1,
+  w:"Food gets funded through census. Labour does not, so it has to be budgeted up front.",
+  say:"None of this happens without the hours. Census funds the food, but labour is not calculated that way."}
+]},
+{name:"What Not To Say",blurb:"The four things that would actually damage you in the room.",items:[
+ {s:["verify_cottage","cedarhurst"],n:"Careful",t:"cottage residents do NOT get less than apartment residents",c:"We believed they did. Verification across seven detached-cottage communities found zero confirmed cases of a lesser tier, one case of a better one, and four of parity.",
+  q:"Can you say cottage residents get a lesser service tier?",o:["Yes, it is well evidenced","No. We checked and it is not true","Only for transportation","Only at CCRCs"],a:1,
+  w:"What actually varies is whether the operator documents the terms at all.",
+  say:"They generally get the same service, sometimes better. What varies is whether anyone writes it down."},
+ {s:["radius"],n:"Careful",t:"the ten-mile radius is practice, not published policy",c:"It appears in two of our internal sources and third-party guidance calls ten to fifteen miles a norm. But no operator publishes it anywhere, and a five-mile claim we found turned out to be fabricated.",
+  q:"How should you describe the ten-mile radius?",o:["Industry standard policy","Common operating practice, not published anywhere","A legal requirement","Our own rule"],a:1,
+  w:"Say common practice. Do not say published or standard.",
+  say:"Ten to fifteen miles is common practice, but no operator actually publishes a radius."},
+ {s:["fabrications","verify_method"],n:"Careful",t:"four fabricated findings were removed",c:"Senior living directory sites publish AI-generated detail. One named a destination hospital that does not exist. Every market claim in the workbook now carries a status of verified, likely or falsified.",
+  q:"Why does the workbook carry a status on every market claim?",o:["For legal reasons","Because directory sites invented details we had to remove","To track who wrote it","For version control"],a:1,
+  w:"Four fabrications were caught and removed. Verification changed our conclusions twice.",
+  say:"We verified this quote by quote, and it changed our conclusions twice. Four invented details came out."},
+ {s:["call_rates","research_noprice"],n:"Careful",t:"never quote a rate as agreed",c:"Two figures came up on the call: twenty-five cents a square foot and forty to fifty dollars an hour. Both were hypothetical, one was our own illustration, and no community in the research published any price.",
+  q:"What is the status of the pricing figures from the call?",o:["Agreed rates","Both hypothetical, neither is a commitment","Market benchmarks","Approved by finance"],a:1,
+  w:"Quoting either as agreed would be the easiest mistake to make and the hardest to walk back.",
+  say:"No rates are set. The numbers that came up were illustrations, and the market publishes nothing to anchor against."}
+]}
+];
+
+/* operator chapters sit between the market shape and the money, so the
+   portfolios are learned one at a time rather than in one boss answer */
+CH=CH.slice(0,2).concat(OPCH,CH.slice(2));
+
+/* one boss round per chapter, keyed by chapter name. The operator chapters
+   carry their own, defined with the chapter in OPCH. */
+var CORE_BOSS={
+"The Shape":{
+  q:"Give me the thirty-second version. What did you look at, and what did you find?",
+  say:"Two hundred and fifteen cottage and villa products, mostly Midwest, from four internal sources, consolidated into one workbook with the source named on every row. The headline is that there is no standard cottage service model — packages run from a garage and a washer-dryer to a fully bundled villa. What is consistent is that operators remove the work of owning a house: maintenance shows up at a hundred and three communities and is included at ninety-nine per cent of them. Everything above that floor is a choice, and three operators bracket the range.",
+  ev:"215 communities, 230 consolidated rows, four internal sources. Maintenance 103 mentions, 99% included.",
+  s:["agg_215","agg_nostd","agg_maint"]},
+"The Six Functions":{
+  q:"Everybody else includes housekeeping. Why are we selling it?",
+  say:"That is the one place the market is ahead of us, and I would not pretend otherwise. Eighty-seven per cent of operators who mention housekeeping include it, and every multi-site operator in the study sets one cadence across its whole portfolio — Five Star weekly at all five, Trilogy bi-weekly at all eight, Life Enriching at all five but light. Our settings leader frames housekeeping as purchased, and Flourish is the live example of why bundling is hard: a proper clean runs two to four hours and he said plainly it has to change. So this is an open decision, not a settled one.",
+  ev:"Housekeeping 87% included across 69 mentions. Justin Hollabaugh, 14:26 and 7:13.",
+  s:["agg_hk","justin_alc","justin_flourish"]},
+"Money":{
+  q:"What differentiates us if we include less than everyone else?",
+  say:"Publishing the terms. Across roughly fifty communities researched in depth, not one publishes a price for any paid service, and not one publishes a radius, hours or a booking lead time. The vocabulary is nominal, a small fee, at cost. The category sells a one-word amenity list — all fifty-five transportation entries in our inventory are literally just the word. If we publish what a resident actually gets, we differentiate on transparency at no operating cost, and only four communities anywhere have even published an included-versus-chargeable split.",
+  ev:"Zero of about fifty communities publish a rate. Four publish an included-versus-chargeable split.",
+  s:["research_noprice","laurel","garbry"]},
+"The Tiers":{
+  q:"So which tier do we actually launch with?",
+  say:"Good everywhere, and Better only where the building supports it. Good is the maintenance-free floor: maintenance, grounds, a scheduled shuttle and full campus access, with everything else bought at a published price. Better adds a bundled mid-level package and, crucially, a published à la carte menu — at Better the menu is the product, because without one residents experience services as unavailable rather than optional. And the gate is physical, not financial: the dining room either seats the extra covers or it does not, and our settings leader said he cannot commit universally and would have to go community by community. So the honest answer is one floor everywhere and a tier that is gated per site.",
+  ev:"Good-Better-Best tab, 30 tier rows. Justin Hollabaugh 15:17, Kevin Penn 16:01.",
+  s:["gbb","gbb_menu","call_capacity","justin_4cond"]},
+"What Our Leaders Said":{
+  q:"What is the biggest risk in this plan?",
+  say:"Staffing fragility on a spread-out site, and both leaders raised it independently. A cottage neighbourhood adds staff travel time for housekeeping, maintenance and emergency response, and if one dedicated person quits you are in a bind immediately. That argues for raised ratios across existing staff rather than a single dedicated role. The second risk is funding shape: census flows through per-resident-day, but labour is not calculated that way, so any service we add has to arrive with a staffing number attached or it will not happen. And I should flag that maintenance was never discussed as a separate service line on the call — that part is our proposal, not his commitment.",
+  ev:"Justin Hollabaugh 12:58 and 13:26; Kevin Penn 13:57 and 2:13. Maintenance not confirmed as a separate line.",
+  s:["call_capacity","kevin_labor","maint_open"]},
+"What Not To Say":{
+  q:"How confident are you in this research?",
+  say:"Confident in the shape, careful about the specifics, and I can show you the difference. The internal data is as reported by our four sources. The market research was verified quote by quote with exact-phrase probes and searches restricted to the operator's own domain, and that process overturned two of our own conclusions and removed four fabricated details — one of them a directory quote naming a hospital that does not exist. Every market claim in the workbook now carries a status: verified, likely or falsified. Where I have the operator's own words I can put the page in front of you. Where a claim rests on our October listing research, I will say so rather than pretend there is a link.",
+  ev:"Two-round verification programme. Four fabrications removed, two conclusions reversed and disclosed.",
+  s:["verify_method","fabrications","verify_cottage"]}
+};
+
+CH.forEach(function(c){ if(CORE_BOSS[c.name])c.boss=CORE_BOSS[c.name]; });
+
+var RANKS=[
+ {xp:0,n:"Skimming"},{xp:250,n:"Getting the Shape"},{xp:700,n:"Knows the Core"},
+ {xp:1300,n:"Knows the Operators"},{xp:2000,n:"Briefing Ready"},{xp:2800,n:"Owner Ready"},
+ {xp:3600,n:"Speaks Operator"},{xp:4500,n:"Owns the Room"},{xp:5400,n:"Cold on Every Portfolio"},
+ {xp:6200,n:"Wrote the Playbook"}
+];
+
+/* ============ STATE ============ */
+var KEY="cottage-drills-v3";
+var S={xp:0,streak:0,best:0,ch:0,i:0,done:{},badges:{},right:0,wrong:0,checked:0};
+try{var r=localStorage.getItem(KEY); if(r){S=Object.assign(S,JSON.parse(r)||{});}
+  else{ /* carry xp and badges over from the pre-dossier version; chapters renumbered */
+    var old=localStorage.getItem("cottage-drills-v2");
+    if(old){ var o=JSON.parse(old)||{};
+      S.xp=o.xp||0; S.best=o.best||0; S.right=o.right||0; S.wrong=o.wrong||0; S.badges=o.badges||{}; }
+  }}catch(e){}
+try{var sv=localStorage.getItem(KEY+"-snd"); if(sv==="0")SOUND=false;}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+
+/* build the queue for a chapter: learn a, learn b, quiz a, quiz b ... in pairs */
+function queueFor(ci){
+  var items=CH[ci].items, q=[];
+  for(var s=0;s<items.length;s+=2){
+    var grp=items.slice(s,s+2);
+    grp.forEach(function(it,k){q.push({t:"learn",ci:ci,ii:s+k});});
+    grp.map(function(it,k){return {t:"quiz",ci:ci,ii:s+k};})
+       .sort(function(){return Math.random()-.5;})
+       .forEach(function(x){q.push(x);});
+  }
+  q.push({t:"boss",ci:ci});
+  return q;
+}
+var Q=queueFor(S.ch||0);
+if(S.i>=Q.length)S.i=0;
+
+/* ============ HUD ============ */
+function rankFor(xp){var r=RANKS[0],i;for(i=0;i<RANKS.length;i++){if(xp>=RANKS[i].xp)r=RANKS[i];}return r;}
+function rankIdx(xp){var k=0,i;for(i=0;i<RANKS.length;i++){if(xp>=RANKS[i].xp)k=i;}return k;}
+function hud(){
+  var ri=rankIdx(S.xp), cur=RANKS[ri], nxt=RANKS[ri+1];
+  document.getElementById("lvlNum").textContent="LV "+(ri+1);
+  document.getElementById("rankName").textContent=cur.n;
+  document.getElementById("xp").textContent=S.xp;
+  var pct = nxt ? ((S.xp-cur.xp)/(nxt.xp-cur.xp))*100 : 100;
+  document.getElementById("xpbar").style.width=Math.max(2,Math.min(100,pct))+"%";
+  var st=document.getElementById("streak");
+  st.textContent = S.streak>0 ? ("streak "+S.streak+(S.streak>=3?" x"+mult():"")) : "no streak";
+  st.className="streak"+(S.streak>=3?" hot":"");
+  document.getElementById("sound").textContent = SOUND?"SOUND ON":"SOUND OFF";
+}
+function mult(){ return S.streak>=8?3:(S.streak>=5?2:(S.streak>=3?1.5:1)); }
+
+function rail(){
+  var el=document.getElementById("rail"); el.innerHTML="";
+  CH.forEach(function(c,i){
+    var b=document.createElement("button"); b.className="chip"+(S.done["ch"+i]?" done":"");
+    b.type="button"; if(i===S.ch)b.setAttribute("aria-current","true");
+    b.innerHTML='<span class="dot"></span>'+c.name+(c.op?'<span class="optag">OP</span>':'');
+    b.addEventListener("click",function(){ S.ch=i; S.i=0; Q=queueFor(i); save(); rail(); render(); });
+    el.appendChild(b);
+  });
+  document.getElementById("cLabel").textContent=CH[S.ch].name;
+  document.getElementById("cCount").textContent=Math.min(S.i+1,Q.length)+" / "+Q.length;
+  document.getElementById("cFill").style.width=((S.i)/Q.length*100)+"%";
+  opbar();
+}
+
+/* the strip that names the operator whose chapter you are in, with a way
+   straight into its full dossier */
+function opbar(){
+  var el=document.getElementById("opbar"), c=CH[S.ch];
+  if(!c.op){ el.className="opbar"; el.innerHTML=""; return; }
+  var di=-1,i; for(i=0;i<DOSS.length;i++){ if(DOSS[i].n===c.op)di=i; }
+  var o=di>=0?DOSS[di]:null;
+  el.className="opbar on";
+  el.innerHTML='<span class="onm">'+c.op+'</span>'+
+    (o?'<span class="ometa">'+o.ns+' communities &middot; '+o.units+' villas</span>':'')+
+    (o?'<span class="ogo"><button class="minibtn" type="button" id="opgo">Open the full dossier</button></span>':'');
+  var g=document.getElementById("opgo");
+  if(g)g.addEventListener("click",function(){ SFX.tick(); DIDX=di; setMode("doss"); });
+}
+
+/* ============ FEEDBACK ============ */
+function floatXP(txt){
+  var d=document.createElement("div"); d.className="float"; d.textContent=txt;
+  document.body.appendChild(d); requestAnimationFrame(function(){d.classList.add("go");});
+  setTimeout(function(){d.remove();},1050);
+}
+function toast(em,tt,ts){
+  var w=document.getElementById("toasts");
+  var d=document.createElement("div"); d.className="toast";
+  d.innerHTML='<span class="em">'+em+'</span><span><span class="tt">'+tt+'</span><br><span class="ts">'+ts+'</span></span>';
+  w.appendChild(d);
+  setTimeout(function(){d.style.transition="opacity .4s,transform .4s";d.style.opacity="0";d.style.transform="translateY(10px)";setTimeout(function(){d.remove();},420);},2600);
+}
+function confetti(){
+  var c=document.createElement("div"); c.className="conf"; document.body.appendChild(c);
+  var cols=["#C8912F","#47723A","#2A6899","#A95C26","#9A722F"];
+  for(var i=0;i<46;i++){
+    var p=document.createElement("i");
+    p.style.left=(Math.random()*100)+"%"; p.style.top="-16px";
+    p.style.background=cols[i%cols.length];
+    p.style.animation="fall "+(1.5+Math.random()*1.4)+"s "+(Math.random()*.45)+"s ease-in forwards";
+    c.appendChild(p);
+  }
+  setTimeout(function(){c.remove();},3600);
+}
+function badge(id,em,tt,ts){
+  if(S.badges[id])return; S.badges[id]=1; save();
+  setTimeout(function(){toast(em,tt,ts);SFX.streak();},420);
+}
+function award(n,label){
+  var before=rankIdx(S.xp);
+  S.xp+=n; save(); hud();
+  floatXP("+"+n+(label?"":""));
+  var after=rankIdx(S.xp);
+  if(after>before){
+    setTimeout(function(){ SFX.level(); confetti(); toast("⭐","Level "+(after+1)+" — "+RANKS[after].n,"You are moving up. Keep going."); },520);
+  }
+}
+
+/* ============ SOURCE PANEL ============
+   Every card carries the sources behind it. A link with u: is the page itself.
+   A link with q: runs the exact-phrase search that confirms the quote, which is
+   the check we actually ran. Where nothing public was captured the panel says so
+   rather than inventing a URL. */
+function sQ(q){ return "https://www.google.com/search?q="+encodeURIComponent(q); }
+var GRADE={OP:"OPERATOR",INT:"INTERNAL",AGG:"OUR MATH",CALL:"THE CALL"};
+function srcHTML(ids,hdr){
+  if(!ids)return "";
+  if(typeof ids==="string")ids=[ids];
+  var out='<div class="srcwrap"><div class="srchdr">'+(hdr||"Where this comes from — click to open")+'</div>';
+  ids.forEach(function(id){
+    var s=SRC[id];
+    if(!s){ return; }
+    out+='<details class="srcbox"><summary><span class="gr gr-'+s.g+'">'+GRADE[s.g]+'</span>'+
+         '<span class="who">'+s.who+'</span><span class="car">&#9656;</span></summary><div class="inner">';
+    out+='<p>'+s.basis+'</p>';
+    if(s.quote)out+='<p class="srcq">'+s.quote+'</p>';
+    if(s.how)out+='<p class="srcnote">'+s.how+'</p>';
+    if(s.links&&s.links.length){
+      out+='<div class="srclinks">';
+      s.links.forEach(function(l){
+        var href=l.u?l.u:sQ(l.q);
+        var tag=l.u?"OPEN PAGE":"RUN SEARCH";
+        out+='<a href="'+href+'" target="_blank" rel="noopener noreferrer"><span class="ic">'+tag+'</span><span>'+l.t+'</span></a>';
+      });
+      out+='</div>';
+    }else{
+      out+='<p class="nolink">No public URL captured for this one. Confirm it yourself before quoting it outside the building.</p>';
+    }
+    out+='</div></details>';
+  });
+  return out+'</div>';
+}
+
+/* ============ DOSSIER MODE ============ */
+var MODE="drill", DIDX=-1;
+function chapterForOp(name){
+  for(var i=0;i<CH.length;i++){ if(CH[i].op===name)return i; }
+  return -1;
+}
+function setMode(m){
+  MODE=m; DIDX=-1;
+  document.getElementById("mode").textContent = (m==="doss")?"DRILLS":"DOSSIERS";
+  document.getElementById("rail").style.display = (m==="doss")?"none":"";
+  document.querySelector(".cprog").style.display = (m==="doss")?"none":"";
+  document.getElementById("opbar").className="opbar";
+  render();
+}
+function renderDossList(){
+  var h='<div class="dhdr"><h2>Operator dossiers</h2><p>Eight operators, '+DOSS_TOTAL.sites+
+    ' communities and '+DOSS_TOTAL.units+' villas between them. Look one up before you speak to them, '+
+    'or drill it until you can say it cold. Every claim opens its own source.</p></div><div class="dlist">';
+  DOSS.forEach(function(o,i){
+    h+='<button class="dcard" type="button" data-i="'+i+'">'+
+       '<p class="dt">'+o.tag+'</p><p class="dn">'+o.n+'</p><p class="dl">'+o.line+'</p>'+
+       '<div class="dm"><span>'+o.ns+' communities</span><span>'+o.units+' villas</span>'+
+       '<span>'+o.f.filter(function(f){return f.n>0;}).length+' of 6 functions listed</span></div></button>';
+  });
+  h+='</div>';
+  stage.innerHTML=h;
+  Array.prototype.forEach.call(stage.querySelectorAll(".dcard"),function(b){
+    b.addEventListener("click",function(){ SFX.tick(); DIDX=Number(b.dataset.i); render(); });
+  });
+}
+function renderDossOne(){
+  var o=DOSS[DIDX], ci=chapterForOp(o.n);
+  var h='<div class="dhdr"><p class="dt" style="font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--brass);margin:0 0 4px">'+o.tag+'</p>'+
+    '<h2>'+o.n+'</h2><p>'+o.ns+' communities &middot; '+o.units+' villas in the inventory</p></div>'+
+    '<div class="card"><p class="ctx" style="font-size:15px;color:var(--ink)">'+o.pb+'</p>'+
+    '<div class="say"><div class="lab">Say it like this</div><p>'+o.say+'</p></div>'+
+    srcHTML(o.s,"Where this operator profile comes from")+
+    '<div class="actions">'+(ci>=0?'<button class="btn" type="button" id="drillop">Drill '+CH[ci].name+'</button>':'')+
+    '<button class="btn ghost" type="button" id="backd">All dossiers</button></div></div>';
+
+  h+='<div class="sechdr">What they do, function by function</div><div class="card">';
+  o.f.forEach(function(f){
+    h+='<div class="frow"><p class="fname">'+f.k+' <span class="fv'+(f.n===0?" zero":"")+'">'+f.v+'</span></p>';
+    if(f.ph&&f.ph.length){
+      h+='<ul class="phr">';
+      f.ph.forEach(function(p){
+        h+='<li><span class="pc">&times;'+p.c+'</span>'+p.t+'<span class="ps">'+p.s.join(" &middot; ")+'</span></li>';
+      });
+      h+='</ul>';
+    }
+    h+='</div>';
+  });
+  h+='</div>';
+
+  h+='<div class="sechdr">The portfolio</div><div class="card"><ul class="sites">';
+  o.sites.forEach(function(s){
+    h+='<li><span class="sn">'+s.nm+'</span><span class="sl">'+s.loc+'</span><span class="su">'+s.u+'</span></li>';
+  });
+  h+='</ul></div>';
+  stage.innerHTML=h;
+  document.getElementById("backd").addEventListener("click",function(){ SFX.tick(); DIDX=-1; render(); });
+  var db=document.getElementById("drillop");
+  if(db)db.addEventListener("click",function(){ SFX.tick(); S.ch=ci; S.i=0; Q=queueFor(ci); save(); setMode("drill"); });
+}
+
+/* ============ RENDER ============ */
+var stage=document.getElementById("stage");
+function render(){
+  hud();
+  if(MODE==="doss"){ return DIDX<0?renderDossList():renderDossOne(); }
+  rail();
+  if(S.i>=Q.length){ return renderChapterDone(); }
+  var step=Q[S.i];
+  if(step.t==="learn")return renderLearn(step);
+  if(step.t==="quiz")return renderQuiz(step);
+  return renderBoss(step);
+}
+
+function renderLearn(step){
+  var d=CH[step.ci].items[step.ii];
+  stage.innerHTML='<div class="card"><span class="kind k-learn">Learn</span>'+
+    '<div class="bignum">'+d.n+'</div>'+
+    '<h2 class="bigsub">'+d.t+'</h2>'+
+    '<p class="ctx">'+d.c+'</p>'+
+    '<div class="say"><div class="lab">Say it like this</div><p>'+d.say+'</p></div>'+
+    srcHTML(d.s)+
+    '<div class="actions"><button class="btn" type="button" id="got">Got it</button></div></div>';
+  document.getElementById("got").addEventListener("click",function(){
+    SFX.learn(); award(10);
+    S.i++; save(); render();
+  });
+}
+
+function renderQuiz(step){
+  var d=CH[step.ci].items[step.ii];
+  var html='<div class="card" id="qc"><span class="kind k-quiz">Drill</span>'+
+    '<h2 class="q">'+d.q+'</h2><div class="opts">';
+  d.o.forEach(function(o,i){ html+='<button class="opt" type="button" data-i="'+i+'"><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+o+'</span></button>'; });
+  html+='</div></div>';
+  stage.innerHTML=html;
+  var card=document.getElementById("qc");
+  Array.prototype.forEach.call(stage.querySelectorAll(".opt"),function(b){
+    b.addEventListener("click",function(){
+      var ok=Number(b.dataset.i)===d.a;
+      Array.prototype.forEach.call(stage.querySelectorAll(".opt"),function(x){
+        x.disabled=true;
+        if(Number(x.dataset.i)===d.a)x.classList.add("right");
+        else if(x===b)x.classList.add("wrong");
+        else x.classList.add("dim");
+      });
+      var gain=0;
+      if(ok){
+        S.streak++; S.right++;
+        if(S.streak>(S.best||0))S.best=S.streak;
+        gain=Math.round(25*mult());
+        card.classList.add("flash-ok"); SFX.right(S.streak);
+        var st=document.getElementById("streak"); st.classList.add("pop"); setTimeout(function(){st.classList.remove("pop");},200);
+        if(S.streak===3){badge("hat","🔥","Hat trick","Three in a row. Multiplier is live at 1.5x.");}
+        if(S.streak===5){badge("fire","⚡","On fire","Five straight. Multiplier now 2x.");}
+        if(S.streak===8){badge("unstop","🎯","Unstoppable","Eight straight. Multiplier now 3x.");}
+        if(S.right===1){badge("first","✅","First one down","That is the loop. Learn it, then prove it.");}
+      }else{
+        S.wrong++; S.streak=0; gain=5;
+        card.classList.add("flash-no"); SFX.wrong();
+      }
+      save(); hud(); award(gain);
+      var res=document.createElement("div"); res.className="res";
+      res.innerHTML='<p class="verdict '+(ok?"ok":"no")+'">'+(ok?"Right":"Not quite — but now you own it")+'</p>'+
+        '<p class="why">'+d.w+'</p>'+
+        '<div class="say"><div class="lab">Say it like this</div><p>'+d.say+'</p></div>'+
+        srcHTML(d.s)+
+        '<div class="actions"><button class="btn" type="button" id="nx">Next</button></div>';
+      card.appendChild(res);
+      document.getElementById("nx").addEventListener("click",function(){ SFX.tick(); S.i++; save(); render(); });
+    });
+  });
+}
+
+function renderBoss(step){
+  var c=CH[step.ci], d=c.boss;
+  if(!d){ return finishChapter(); }
+  stage.innerHTML='<div class="card"><span class="kind k-boss">Boss round — '+
+    (c.op?'you are in the room about '+c.op:'an owner asks')+'</span>'+
+    '<h2 class="q">“'+d.q+'”</h2>'+
+    '<p class="ctx" style="margin-top:10px">Say your answer out loud, then reveal. No peeking — the whole point is producing it.</p>'+
+    '<div class="actions"><button class="btn" type="button" id="rev">I answered it — reveal</button></div></div>';
+  document.getElementById("rev").addEventListener("click",function(){
+    SFX.tick();
+    stage.innerHTML='<div class="card"><span class="kind k-boss">Boss round</span>'+
+      '<h2 class="q">“'+d.q+'”</h2>'+
+      '<div class="res"><div class="say"><div class="lab">A strong answer</div><p>'+d.say+'</p></div>'+
+      '<p class="why" style="margin-top:12px"><strong>Evidence:</strong> '+d.ev+'</p>'+
+      srcHTML(d.s,"Every claim in that answer — click to check it")+
+      '<div class="actions"><button class="btn" type="button" id="y">I had that — +60</button>'+
+      '<button class="btn ghost" type="button" id="n">Not yet — +15</button></div></div></div>';
+    document.getElementById("y").addEventListener("click",function(){ SFX.right(3); award(60); finishChapter(); });
+    document.getElementById("n").addEventListener("click",function(){ SFX.tick(); award(15); finishChapter(); });
+  });
+}
+function finishChapter(){ S.i=Q.length; save(); setTimeout(render,260); }
+
+function renderChapterDone(){
+  var first=!S.done["ch"+S.ch];
+  if(first){ S.done["ch"+S.ch]=1; save(); SFX.chapter(); confetti();
+    var c=CH[S.ch];
+    if(c.op)badge("op-"+S.ch,"🏛️",c.op+" briefed","You can hold that conversation now. Their whole portfolio, not one site.");
+    var ops=CH.filter(function(x){return x.op;});
+    var allops=ops.every(function(x){return S.done["ch"+CH.indexOf(x)];});
+    if(allops)badge("allops","🗺️","Every operator learned","Eight portfolios, fifty communities. You know who does what.");
+    var all=CH.every(function(x,i){return S.done["ch"+i];});
+    if(all)badge("allch","🏆","Every chapter cleared","You have been through the whole brief. Run the weak ones again.");
+  }
+  var more=S.ch<CH.length-1;
+  stage.innerHTML='<div class="card done-card">'+
+    '<p class="big">'+CH[S.ch].name+' cleared</p>'+
+    '<p>'+CH[S.ch].blurb+'</p>'+
+    '<div class="scorerow"><div><b>'+S.xp+'</b><span>total xp</span></div>'+
+    '<div><b>'+(S.best||0)+'</b><span>best streak</span></div>'+
+    '<div><b>'+S.right+'</b><span>drills right</span></div>'+
+    '<div><b>'+(S.checked||0)+'</b><span>sources opened</span></div></div>'+
+    '<div class="actions" style="justify-content:center">'+
+    (more?'<button class="btn" type="button" id="nextch">Next chapter — '+CH[S.ch+1].name+'</button>':'')+
+    '<button class="btn ghost" type="button" id="again">Run this chapter again</button></div></div>';
+  var nb=document.getElementById("nextch");
+  if(nb)nb.addEventListener("click",function(){ SFX.tick(); S.ch++; S.i=0; Q=queueFor(S.ch); save(); render(); });
+  document.getElementById("again").addEventListener("click",function(){ SFX.tick(); S.i=0; Q=queueFor(S.ch); save(); render(); });
+}
+
+/* ============ CONTROLS ============ */
+document.getElementById("sound").addEventListener("click",function(){
+  SOUND=!SOUND; try{localStorage.setItem(KEY+"-snd",SOUND?"1":"0");}catch(e){}
+  hud(); if(SOUND){ac();SFX.learn();}
+});
+document.getElementById("reset").addEventListener("click",function(){
+  S={xp:0,streak:0,best:0,ch:0,i:0,done:{},badges:{},right:0,wrong:0,checked:0};
+  save(); Q=queueFor(0); MODE="drill"; DIDX=-1; setMode("drill");
+});
+document.getElementById("mode").addEventListener("click",function(){
+  SFX.tick(); setMode(MODE==="doss"?"drill":"doss");
+});
+/* opening a source is the habit worth rewarding, so it scores */
+document.addEventListener("click",function(e){
+  var a=e.target&&e.target.closest?e.target.closest(".srclinks a"):null;
+  if(!a)return;
+  S.checked=(S.checked||0)+1; save();
+  award(15); SFX.learn();
+  if(S.checked===1)badge("recpt1","🔎","Checked a source","That link is the difference between briefing an owner and reading them a deck.");
+  if(S.checked===5)badge("recpt5","📎","Five receipts pulled","You are now harder to argue with than the research is.");
+});
+document.addEventListener("click",function once(){ ac(); document.removeEventListener("click",once); },{once:true});
+render();
+</script>
