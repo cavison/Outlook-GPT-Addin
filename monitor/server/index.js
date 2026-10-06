@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import path from 'node:path';
 import express from 'express';
 import { config, ROOT } from './config.js';
@@ -17,6 +18,19 @@ hub.start();
 app.use(express.static(path.join(ROOT, 'public')));
 app.use('/vendor/three', express.static(path.join(ROOT, 'node_modules/three/build')));
 app.use('/vendor/three-addons', express.static(path.join(ROOT, 'node_modules/three/examples/jsm')));
+
+// The command deck: the launcher screen. Its source is written for the
+// claude.ai artifact host, which supplies the document skeleton, so the same
+// file is wrapped here rather than kept twice. Read per request so an edit
+// shows on reload. Outside the artifact host it saves to the browser instead.
+app.get('/hub', (_req, res) => {
+  const body = fs.readFileSync(path.join(ROOT, 'hub', 'command-deck.html'), 'utf8');
+  res.type('html').send(
+    '<!doctype html><html lang="en"><head><meta charset="utf-8">' +
+      '<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">' +
+      `</head><body>${body}</body></html>`,
+  );
+});
 
 app.get('/api/state', (_req, res) => {
   res.json(hub.snapshot());
