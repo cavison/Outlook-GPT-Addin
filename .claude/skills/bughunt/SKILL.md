@@ -1,6 +1,6 @@
 ---
 name: bughunt
-description: Read-only, multi-agent bug hunt of an app or codebase using a dynamic workflow, the method Anthropic used to find 66 of 70 planted bugs where a single agent found 14-27. Fresh-context hunter agents each review one slice of the code, then independent skeptic agents try to disprove every finding, and only the survivors are reported. Writes a report under .bughunt/ and never edits code. Use when the user asks to check, scan, audit or analyze an app or codebase for bugs.
+description: Read-only, multi-agent bug hunt of an app or codebase using a dynamic workflow, the method Anthropic used to find 66 of 70 planted bugs where a single agent found 14-27. Fresh-context hunter agents check every slice of the code against every required checkpoint, independent skeptic agents try to disprove every finding, and a script verifies every quoted piece of evidence. Only the survivors are reported, with a coverage grid. Writes a report under .bughunt/ and never edits code. Use when the user asks to check, scan, audit or analyze an app or codebase for bugs.
 argument-hint: "[path] [--mode auto|lean|small|medium|large|max] [--focus \"text\"] [--threshold critical|high|medium|low]"
 ---
 
@@ -21,19 +21,21 @@ This skill is strictly read-only. Do not edit, create or delete any file of the 
 
 ## 2. Size and cost check
 
+Every checkpoint in the workflow's checkpoint list is a required pass. Every slice is checked against every slice checkpoint (core logic, edge cases, security, contracts, plus Power Apps on slices with Power Apps source), and the whole-codebase checkpoints (cross-file contracts, cross-file security, shared state, config, plus Power Apps app-wide) run once. Related checkpoints share an agent to hold cost down.
+
 Tier comes from `total_lines` unless `--mode` is given: small < 3,000 lines, medium < 30,000, large otherwise.
 
-| tier | lines per slice | hunter cap | cross-cutting hunters | skeptics per finding | rounds |
-|---|---|---|---|---|---|
-| lean | 4,000 | 8 | 1 | 1 | 1 |
-| small | 1,500 | 6 | 1 | 1 | 1 |
-| medium | 2,500 | 24 | 3 | 3 for critical/high, else 1 | up to 2 |
-| large | 3,000 | 48 | 4 | 3 (majority vote) | up to 3 |
-| max | 1,500 | 80 | 4 | 5 for critical/high, else 3 | up to 3 |
+| tier | lines per slice | slice cap | agents per slice | whole-codebase agents | skeptics per bug | extra sweeps |
+|---|---|---|---|---|---|---|
+| lean | 4,000 | 8 | 1 (all checkpoints together) | 1 (all together) | 1 | none |
+| small | 1,500 | 6 | 2 (correctness; security + contracts) | 1 (all together) | 1 | none |
+| medium | 2,500 | 24 | 2 | 4 (one each) | 3 for critical/high, else 1 | up to 1 |
+| large | 3,000 | 48 | 2 | 4 | 3 (majority vote) | up to 2 |
+| max | 1,500 | 80 | 4 (one per checkpoint) | 4 | 5 for critical/high, else 3 | up to 2 |
 
-One extra cross-cutting hunter is added when Power Apps source is detected. Extra rounds re-hunt each slice through a different lens (edge cases, then security) and stop as soon as a round confirms nothing new.
+Slices with Power Apps source get one more agent, and Power Apps apps get one more whole-codebase agent. Warnings and other non-bug findings get one skeptic. Extra sweeps re-check every slice with fresh eyes and stop as soon as a sweep confirms nothing new.
 
-Estimate hunters as ceil(lines / slice size) + cross-cutting, per round, and skeptics as 1 to 3 per finding. A rough cost is 50k to 100k tokens per agent (Anthropic's demo used about 1.3M tokens for 15 agents).
+Estimate agents as (slices × agents per slice) + whole-codebase agents, plus 1 to 3 skeptics per finding, plus extra sweeps on medium and larger apps. A rough cost is 50k to 100k tokens per agent (Anthropic's demo used about 1.3M tokens for 15 agents).
 
 - small or lean: proceed without asking.
 - medium, large or max: show the tier, estimated agent count and rough token range, and ask the user to confirm before launching. Offer `lean` as the cheaper option.
@@ -52,7 +54,8 @@ Call the Workflow tool with `name: "bughunt-scan"` and `args` as a JSON object (
   "focus": "<--focus text, if any>",
   "app_context": "<your 1-3 sentences>",
   "powerapps": "<scope.powerapps>",
-  "clean_threshold": "<--threshold or medium>"
+  "clean_threshold": "<--threshold or medium>",
+  "disable_checkpoints": ["<only if the user asked to skip specific checkpoint ids>"]
 }
 ```
 
@@ -63,11 +66,19 @@ From `/bugloop` also pass `previous_bugs` as the loop instructs. The workflow ru
 When the workflow completes:
 
 1. If `ok` is false, show the error. If it says the agent types are not loaded, tell the user to start a new Claude Code session (agents in `.claude/agents/` load at session start) and run `/bughunt` again.
-2. Save the full result as `findings.json` in the run directory.
-3. Write `report.md` in the run directory following `report-format.md` in this skill's directory.
-4. Reply in chat with:
-   - the verdict (CLEAN or NOT CLEAN at the threshold) and counts by severity, plus disputed and refuted counts;
-   - a table of the confirmed bugs (ID, severity, `file:line`, one-line title);
-   - any coverage gap (failed slices, files not reviewed, dropped agents). A run with gaps is never called clean;
+2. Save the full result, exactly as returned, as `findings.json` in the run directory.
+3. **Run the evidence gate:** `node <this skill's directory>/evidence-gate.mjs <run dir>/findings.json`. This plain script (no AI):
+   - checks that each finding's quoted code really appears in the cited file near the cited line (or, for runtime findings, that the screenshot exists and the steps are non-empty);
+   - moves failures to `rejected_evidence`;
+   - corrects line numbers when the quote is found elsewhere in the same file;
+   - recomputes `clean`.
+
+   If `node` is not available, tell the user the evidence could not be checked. Nothing from this run can then enter a fix plan, because the plan step refuses unchecked findings.
+4. Write `report.md` in the run directory from the gated `findings.json`, following `report-format.md` in this skill's directory. Include the coverage grid.
+5. Reply in chat with:
+   - the verdict (CLEAN or NOT CLEAN). Only `bug` findings at or above the threshold block; warnings (such as Power Apps delegation limits) and other non-bug kinds are reported but never block;
+   - counts of bugs by severity, warnings and other kinds, plus disputed, refuted and evidence-rejected counts;
+   - a table of the blocking bugs (ID, severity, checkpoint, `file:line`, one-line title), then a shorter list of non-blocking findings;
+   - coverage: for each checkpoint, how many slices were checked, plus any gaps (failed or unsigned cells). A run with gaps is never called clean;
    - the report path;
    - next step: `/bugfix-plan` to design fixes (nothing is changed until you approve), or `/bugloop` for the full repair loop.

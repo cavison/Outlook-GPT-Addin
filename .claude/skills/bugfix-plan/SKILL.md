@@ -1,7 +1,7 @@
 ---
 name: bugfix-plan
 description: Design and stress-test fixes for bugs confirmed by /bughunt without changing any code. Read-only planner agents propose root-cause fixes with alternatives, independent critic agents try to break each fix, and a final end-of-plan review says what works, what does not, and what could cause new bugs. Ends with a numbered plan and asks the user which items to approve.
-argument-hint: "[run dir or findings.json] [--ids B1,B3] [--include-low] [--include-disputed D1,D2]"
+argument-hint: "[run dir or findings.json] [--ids B1,B3] [--include-low] [--include-warnings] [--include-disputed D1,D2]"
 ---
 
 # Fix plan (read-only)
@@ -13,11 +13,16 @@ Turn confirmed bugs into a fix plan the user can approve. Do not edit any app fi
 - Use the run directory or `findings.json` given as an argument. Otherwise use the newest `.bughunt/runs/*/findings.json`. When called from `/bugloop`, use the current cycle directory.
 - Read `scope.json` from the same run for `root` and `powerapps`.
 
-## 2. Choose the bugs
+## 2. Choose the findings
 
-- Default: confirmed bugs at or above the run's `clean_threshold` (normally medium).
-- `--include-low` adds low-severity confirmed bugs. `--ids B1,B3` restricts the plan to those IDs.
+Only findings that passed the evidence gate are eligible: entries in `confirmed` or `disputed` whose `evidence_check.ok` is true. Findings under `rejected_evidence` never enter a plan. The planning workflow also refuses any finding without a passed evidence check, so do not try to work around it.
+
+- Default: blocking findings, meaning `kind` is `bug` and `blocks` is true (bugs at or above the run's threshold, normally medium).
+- `--include-low` adds lower-severity bugs.
+- `--include-warnings` adds non-blocking kinds: warnings, and later code health, accessibility and cosmetic findings.
+- `--ids B1,W2` restricts the plan to those IDs.
 - Disputed items (D-IDs) are included only when the user names them with `--include-disputed`.
+- If `findings.json` has no `evidence_gate` section, the gate never ran. Run `node .claude/skills/bughunt/evidence-gate.mjs <findings.json>` first.
 - If nothing is selected, say so and stop.
 
 ## 3. Find the checks that will run after fixes
@@ -49,6 +54,7 @@ Wait for the completion notification instead of polling.
 - Write `fix-plan.md` following `report-format.md` in the bughunt skill's directory (`.claude/skills/bughunt/report-format.md` in a project install).
 - If `end_review` is null, say clearly that the whole-plan review did not complete and every item is on hold.
 - If `failed` lists bug IDs, say no proposal was produced for them.
+- If `rejected_no_evidence` lists IDs, say they were refused because their evidence did not pass the check.
 
 ## 6. Ask for approval
 

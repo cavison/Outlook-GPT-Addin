@@ -7,25 +7,41 @@ Shared by `/bughunt`, `/bugfix-plan`, `/bugfix-apply` and `/bugloop`. Write plai
 ```markdown
 # Bug hunt: <project folder name>, <YYYY-MM-DD HH:MM>
 
-**Verdict:** CLEAN | NOT CLEAN (blocking threshold: <threshold> and above)
-**Scope:** <files> files, <lines> lines · tier <tier> · <slices> slices of ~<slice_lines> lines · <rounds_run> round(s)
+**Verdict:** CLEAN | NOT CLEAN. Blocking: bugs of severity <threshold> and above. Warnings, code health, accessibility and cosmetic findings are reported but never block.
+**Scope:** <files> files, <lines> lines · tier <tier> · <slices> slices of ~<slice_lines> lines · <required_slice_passes> required slice passes + <whole_codebase_passes> whole-codebase · <rounds_run - 1> extra sweep(s)
 **Agents:** <hunters_run> hunters, <skeptics_run> skeptics (<agents_used> total)
+**Evidence check:** <passed>/<checked> findings passed; <rejected> rejected; <lines_corrected> line numbers corrected
 
 ## Summary
 
-| Severity | Confirmed |
+| Bugs by severity | Count |
 |---|---|
 | Critical | n |
 | High | n |
 | Medium | n |
 | Low | n |
 
-Disputed (skeptics split): n · False alarms removed by skeptics: n · Duplicate reports merged: n
+Warnings: n · Code health: n · Accessibility: n · Cosmetic: n (only kinds that occurred)
+Disputed (skeptics split): n · False alarms removed by skeptics: n · Rejected for missing evidence: n · Duplicate reports merged: n
 
-## Confirmed bugs
+## Coverage grid
+
+Every slice must be checked against every checkpoint that applies to it. ✓ checked · – not applicable · off = turned off for this run · ✗ failed (agent did not complete) · ? not signed off.
+
+| Slice | Files | <checkpoint name> | <checkpoint name> | … |
+|---|---|---|---|---|
+| S1 | <first file> (+n more) | ✓ | ✓ | – |
+
+Whole codebase: <checkpoint name> ✓ · <checkpoint name> ✓ · … (same symbols)
+
+Gaps: <coverage.gaps, or "none">. Any ✗ or ? means the run cannot be called clean.
+(For more than 30 slices, show the per-checkpoint totals from coverage.summary instead of every row, and list only the rows that have a gap.)
+
+## Blocking bugs
 
 ### B1 · HIGH · <title>
-- **Where:** `<file>:<line>`
+- **Where:** `<file>:<line>` (line corrected from <n>, if the evidence gate corrected it)
+- **Checkpoint:** <checkpoint_name>
 - **What is wrong:** <description>
 - **Trigger and outcome:** <trigger>
 - **Evidence:**
@@ -36,20 +52,33 @@ Disputed (skeptics split): n · False alarms removed by skeptics: n · Duplicate
 - **Found by:** <found_by><, also_found_by if any>
 - **Severity:** <severity> (hunter said <hunter_severity>, if different)
 
+## Other bugs (below the threshold)
+<same layout>
+
+## Warnings (do not block)
+<same layout for each W-item; then sections for code health (H), accessibility (A) and cosmetic (V) findings if any>
+
 ## Disputed: needs your judgment
 <same layout for each D-item, plus each skeptic's reason>
 
 ## Regression check of previous fixes
 <only in loop cycles 2+: table of bug ID, status, evidence, new_problem>
 
-## Coverage
-- Complete: yes/no
-- Failed slices: <list, or none>
+## Coverage details
 - Files hunters reported they could not review: <list, or none>
 - Agents dropped by caps: <list, or none>
 - Errors: <list, or none>
 
-<details><summary>False alarms removed (n)</summary>
+<details><summary>Rejected: no valid evidence (n)</summary>
+
+These findings were removed by the evidence-gate script and cannot enter a fix plan.
+
+| Claim | Where | Why rejected |
+|---|---|---|
+
+</details>
+
+<details><summary>False alarms removed by skeptics (n)</summary>
 
 | Claim | Where | Why refuted |
 |---|---|---|

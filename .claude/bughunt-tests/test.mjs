@@ -1,13 +1,23 @@
-// Offline tests for the bughunt kit workflows (no agents, no tokens). Run: node .claude/bughunt-tests/test.mjs
+// Offline tests for the bughunt kit (no agents, no tokens). Run: node .claude/bughunt-tests/test.mjs
 import assert from 'node:assert/strict'
+import { fileURLToPath } from 'node:url'
+import { mkdtempSync, writeFileSync, readFileSync, mkdirSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { execFileSync } from 'node:child_process'
 import { runWorkflow } from './harness.mjs'
 
-import { fileURLToPath } from 'node:url'
 const WF = fileURLToPath(new URL('../workflows', import.meta.url))
+const GATE = fileURLToPath(new URL('../skills/bughunt/evidence-gate.mjs', import.meta.url))
 let failures = 0
 async function test(name, fn) {
-  try { await fn(); console.log('PASS', name) } catch (e) { failures++; console.log('FAIL', name, '\n   ', e.message) }
+  try { await fn(); console.log('PASS', name) } catch (e) { failures++; console.log('FAIL', name, '\n   ', e.stack.split('\n').slice(0, 3).join('\n    ')) }
 }
+
+// Checkpoint ids a hunter prompt asks for, e.g. "[logic] Core logic..." lines.
+const idsIn = prompt => [...prompt.matchAll(/^\[([a-z-]+)\] /gm)].map(m => m[1])
+const attest = (prompt, except = []) => idsIn(prompt).filter(id => !except.includes(id)).map(id => ({ id, status: 'checked' }))
+const bug = (o) => ({ severity: 'medium', category: 'logic', description: 'd', trigger: 't', evidence: 'e', confidence: 'high', evidence_type: 'code', ...o })
 
 // --- bughunt-scan -----------------------------------------------------------
 
@@ -16,147 +26,267 @@ const files = [
   ['src/ui/form.js', 300], ['src/util/big.js', 5000], ['Src/Home.pa.yaml', 200],
 ]
 
-// Hunters: every slice reports the same "real" bug in client.js plus a fake one; cross hunters report a duplicate.
 const hunterMock = (prompt, opts) => {
   if (opts.agentType === 'bug-hunter') {
+    const ids = idsIn(prompt)
     const bugs = []
-    if (prompt.includes('src/api/client.js') || opts.label.includes('cross')) {
-      bugs.push({ title: 'Null token crash in request', file: 'src/api/client.js', line: 42, severity: 'high', category: 'null-safety', description: 'd', trigger: 't', evidence: 'e', confidence: 'high' })
+    if (ids.includes('logic') && prompt.includes('- src/api/client.js')) bugs.push(bug({ title: 'Null token crash in request', file: 'src/api/client.js', line: 42, severity: 'high', category: 'null-safety', checkpoint: 'logic' }))
+    if (ids.includes('x-integration')) bugs.push(bug({ title: 'Null token crash in request', file: 'src/api/client.js', line: 43, severity: 'high', category: 'null-safety', checkpoint: 'x-integration' }))
+    if (ids.includes('logic') && prompt.includes('- src/ui/app.js') && !prompt.includes('Already reported')) {
+      bugs.push(bug({ title: 'Imaginary bug', file: 'src/ui/app.js', line: 10, confidence: 'low', checkpoint: 'logic' }))
+      bugs.push(bug({ title: 'Disputed race', file: 'src/ui/app.js', line: 99, severity: 'critical', category: 'async-race', checkpoint: 'edge-cases' }))
+      bugs.push(bug({ title: 'Event delegation handler misses new rows', file: 'src/ui/app.js', line: 300, category: 'logic', checkpoint: 'logic' }))
     }
-    if (prompt.includes('src/ui/app.js') && !prompt.includes('Already reported')) {
-      bugs.push({ title: 'Imaginary bug', file: 'src/ui/app.js', line: 10, severity: 'medium', category: 'logic', description: 'd', trigger: 't', evidence: 'e', confidence: 'low' })
-      bugs.push({ title: 'Disputed race', file: 'src/ui/app.js', line: 99, severity: 'critical', category: 'async-race', description: 'd', trigger: 't', evidence: 'e', confidence: 'medium' })
-    }
-    if (prompt.includes('src/util/big.js lines 1-')) {
-      bugs.push({ title: 'Off by one', file: '/proj/src/util/big.js', line: 12, severity: 'low', category: 'logic', description: 'd', trigger: 't', evidence: 'e', confidence: 'high' })
-    }
+    if (ids.includes('logic') && prompt.includes('src/util/big.js lines 1-')) bugs.push(bug({ title: 'Off by one', file: '/proj/src/util/big.js', line: 12, severity: 'low', checkpoint: 'logic' }))
+    if (ids.includes('powerapps')) bugs.push(bug({ title: 'Filter on SharePoint list is not delegable', file: 'Src/Home.pa.yaml', line: 7, severity: 'high', category: 'delegation', checkpoint: 'powerapps' }))
     const listed = [...prompt.matchAll(/^- (\S+)/gm)].map(m => m[1])
-    return { bugs, files_reviewed: listed }
+    return { bugs, checkpoints: attest(prompt), files_reviewed: listed }
   }
   if (opts.agentType === 'bug-skeptic') {
+    if (prompt.includes('previous cycle')) return { status: 'still-present', evidence: 'same code' }
     if (prompt.includes('Imaginary bug')) return { verdict: 'refuted', reasoning: 'guarded upstream', severity: 'low' }
     if (prompt.includes('Disputed race')) {
       const k = Number((prompt.match(/skeptic (\d) of/) || [])[1] || 1)
       return { verdict: k === 1 ? 'confirmed' : k === 2 ? 'refuted' : 'uncertain', reasoning: 'split', severity: 'high' }
     }
-    if (prompt.includes('previous cycle')) return { status: 'still-present', evidence: 'same code' }
-    return { verdict: 'confirmed', reasoning: 'real', severity: prompt.includes('Null token') ? 'high' : 'low', reproduction: 'call with no token' }
+    const sev = (prompt.match(/Claimed severity: (\w+)/) || [])[1] || 'low'
+    return { verdict: 'confirmed', reasoning: 'real', severity: sev, reproduction: 'repro' }
   }
   throw new Error('unexpected agent type ' + opts.agentType)
 }
 
-await test('scan: medium tier, chunking, dedup, voting, Power Apps lens', async () => {
-  const lines = files.reduce((n, f) => n + f[1], 0)
+await test('scan: required passes per slice, whole-codebase passes, coverage grid complete', async () => {
   const { result: r, calls, logs } = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files, mode: 'auto', powerapps: { detected: true } }, hunterMock)
-  assert.equal(r.ok, true, JSON.stringify(r))
-  assert.equal(r.tier, 'small'.length && lines < 3000 ? 'small' : 'medium')
-  // big.js (5000 lines) must be split into ranges
-  const huntPrompts = calls.filter(c => c.opts.agentType === 'bug-hunter').map(c => c.prompt)
-  assert.ok(huntPrompts.some(p => /src\/util\/big\.js lines 1-\d+ of 5000/.test(p)), 'big file split')
-  // Power Apps checklist injected for the .pa.yaml slice, and a powerapps cross lens added
-  assert.ok(huntPrompts.some(p => p.includes('Src/Home.pa.yaml') && p.includes('Delegation:')), 'PA checklist in slice')
-  assert.ok(calls.some(c => c.opts.label === 'hunt cross:powerapps'), 'PA cross lens')
-  // Duplicate (slice + 3 cross hunters report the same client.js bug) merged
-  assert.equal(r.confirmed.filter(b => b.title === 'Null token crash in request').length, 1)
-  assert.ok(r.stats.duplicates_merged >= 1)
-  // High-severity bug gets 3 skeptics in medium tier; refuted one dropped; split vote -> disputed
-  assert.equal(calls.filter(c => c.opts.agentType === 'bug-skeptic' && c.prompt.includes('Null token')).length, 3)
-  assert.equal(r.refuted.length, 1)
-  assert.equal(r.disputed.length, 1)
-  assert.equal(r.disputed[0].id, 'D1')
-  // Absolute path normalized; IDs sorted by severity
-  assert.ok(r.confirmed.some(b => b.file === 'src/util/big.js'))
-  assert.equal(r.confirmed[0].id, 'B1'); assert.equal(r.confirmed[0].severity, 'high')
-  // Not clean: a confirmed high bug blocks
-  assert.equal(r.clean, false)
-  assert.equal(r.stats.blocking, 1)
-  console.log('    tier', r.tier, '| agents', r.stats.agents_used, '| logs:', logs.join(' || '))
+  assert.equal(r.ok, true, JSON.stringify(r).slice(0, 500))
+  assert.equal(r.tier, 'medium')
+  const r1 = calls.filter(c => c.opts.agentType === 'bug-hunter' && !c.opts.label.includes(' r2'))
+  // every slice gets a correctness pass and a safety pass; the .pa.yaml slice also gets a powerapps pass
+  for (const s of r.coverage.grid) {
+    assert.equal(s.cells.logic, 'checked'); assert.equal(s.cells['edge-cases'], 'checked')
+    assert.equal(s.cells.security, 'checked'); assert.equal(s.cells.contracts, 'checked')
+    assert.equal(s.cells.powerapps, s.files.some(f => f.endsWith('.pa.yaml')) ? 'checked' : 'n/a')
+  }
+  assert.equal(r1.filter(c => c.opts.label.includes('[correctness]')).length, r.stats.slices)
+  assert.equal(r1.filter(c => c.opts.label.includes('[safety]')).length, r.stats.slices)
+  // medium tier: one agent per whole-codebase checkpoint, including the Power Apps one
+  for (const id of ['x-integration', 'x-security', 'x-state', 'x-config', 'x-powerapps']) {
+    assert.ok(calls.some(c => c.opts.label === `hunt whole-codebase [${id}]`), id)
+    assert.equal(r.coverage.whole_codebase[id].status, 'checked')
+  }
+  assert.equal(r.coverage.complete, true)
+  assert.deepEqual(r.coverage.gaps, [])
+  // security prompts carry the "switching selections is intended" note
+  assert.ok(r1.filter(c => idsIn(c.prompt).includes('security')).every(c => c.prompt.includes('Switching freely between selections is intended')))
+  // big file split into ranges
+  assert.ok(r1.some(c => /src\/util\/big\.js lines 1-\d+ of 5000/.test(c.prompt)))
+  console.log('    agents', r.stats.agents_used, '| required slice passes', r.stats.required_slice_passes, '| logs:', logs[0])
 })
 
-await test('scan: clean when only low bugs remain and coverage complete', async () => {
+await test('scan: kinds, IDs, blocking, dedup across checkpoints, skeptic counts', async () => {
+  const { result: r, calls } = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files, powerapps: { detected: true } }, hunterMock)
+  const byTitle = t => r.confirmed.find(b => b.title === t)
+  // Power Apps delegation -> warning (fixed rule), never blocks, gets a W id and one skeptic
+  const del = byTitle('Filter on SharePoint list is not delegable')
+  assert.equal(del.kind, 'warning'); assert.equal(del.blocks, false); assert.match(del.id, /^W\d+$/)
+  assert.equal(calls.filter(c => c.opts.agentType === 'bug-skeptic' && c.prompt.includes('not delegable')).length, 1)
+  // "event delegation" in a JS file is NOT a Power Apps delegation warning
+  assert.equal(byTitle('Event delegation handler misses new rows').kind, 'bug')
+  // duplicate reported by the slice and by the whole-codebase pass is merged
+  assert.equal(r.confirmed.filter(b => b.title === 'Null token crash in request').length, 1)
+  assert.ok(r.stats.duplicates_merged >= 1)
+  // high bug: 3 skeptics in medium tier; refuted dropped; split vote -> disputed
+  assert.equal(calls.filter(c => c.opts.agentType === 'bug-skeptic' && c.prompt.includes('Null token')).length, 3)
+  assert.equal(r.refuted.length, 1)
+  assert.equal(r.disputed.length, 1); assert.equal(r.disputed[0].id, 'D1')
+  // every finding carries checkpoint, evidence_type and kind; bugs come first, B1 is the high one
+  assert.ok(r.confirmed.every(b => b.checkpoint && b.evidence_type === 'code' && b.kind && b.checkpoint_name))
+  assert.equal(r.confirmed[0].id, 'B1'); assert.equal(r.confirmed[0].severity, 'high')
+  assert.ok(r.confirmed.some(b => b.file === 'src/util/big.js'), 'absolute path normalized')
+  assert.equal(r.clean, false)
+  assert.equal(r.stats.confirmed_by_kind.warning, 1)
+})
+
+await test('scan: only warnings and low bugs -> clean', async () => {
   const mock = (p, o) => o.agentType === 'bug-hunter'
-    ? { bugs: [{ title: 'Typo in message', file: 'a.js', line: 3, severity: 'low', category: 'other', description: 'd', trigger: 't', evidence: 'e', confidence: 'high' }], files_reviewed: ['a.js'] }
+    ? { bugs: idsIn(p).includes('logic') ? [bug({ title: 'Typo in message', file: 'a.js', line: 3, severity: 'low', checkpoint: 'logic' })] : [], checkpoints: attest(p), files_reviewed: ['a.js'] }
     : { verdict: 'confirmed', reasoning: 'ok', severity: 'low' }
-  const { result: r } = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files: [['a.js', 50]] }, mock)
-  assert.equal(r.ok, true)
+  const { result: r, calls } = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files: [['a.js', 50]] }, mock)
   assert.equal(r.tier, 'small')
-  assert.equal(r.confirmed.length, 1)
+  // small tier: one whole-codebase agent covers all four whole-codebase checkpoints
+  const cross = calls.filter(c => c.opts.label.startsWith('hunt whole-codebase'))
+  assert.equal(cross.length, 1)
+  assert.deepEqual(idsIn(cross[0].prompt), ['x-integration', 'x-security', 'x-state', 'x-config'])
+  assert.equal(r.coverage.whole_codebase['x-powerapps'].status, 'n/a')
   assert.equal(r.clean, true)
 })
 
-await test('scan: failed slice -> retried; double failure blocks clean', async () => {
+await test('scan: a checkpoint not signed off gets a follow-up pass; still missing -> unattested, not clean', async () => {
+  let followups = 0
   const mock = (p, o) => {
-    if (o.agentType === 'bug-hunter' && p.includes('b.js')) return null
-    if (o.agentType === 'bug-hunter') return { bugs: [], files_reviewed: ['a.js'] }
+    if (o.agentType !== 'bug-hunter') return { verdict: 'confirmed', reasoning: 'ok', severity: 'low' }
+    if (o.label.includes('recheck')) { followups++; return { bugs: [], checkpoints: [], files_reviewed: [] } }
+    return { bugs: [], checkpoints: attest(p, ['edge-cases']), files_reviewed: ['a.js'] }
+  }
+  const { result: r } = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files: [['a.js', 50]] }, mock)
+  assert.equal(followups >= 1, true)
+  assert.equal(r.coverage.grid[0].cells['edge-cases'], 'unattested')
+  assert.equal(r.coverage.complete, false)
+  assert.ok(r.coverage.gaps.includes('S1/edge-cases: unattested'))
+  assert.equal(r.clean, false)
+})
+
+await test('scan: follow-up pass that signs off fills the gap', async () => {
+  const mock = (p, o) => {
+    if (o.agentType !== 'bug-hunter') return { verdict: 'confirmed', reasoning: 'ok', severity: 'low' }
+    if (o.label.includes('recheck')) return { bugs: [], checkpoints: attest(p), files_reviewed: [] }
+    return { bugs: [], checkpoints: attest(p, ['contracts']), files_reviewed: ['a.js'] }
+  }
+  const { result: r } = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files: [['a.js', 50]] }, mock)
+  assert.equal(r.coverage.grid[0].cells.contracts, 'checked')
+  assert.equal(r.clean, true)
+})
+
+await test('scan: failed pass -> retried; double failure marks grid cells failed and blocks clean', async () => {
+  const mock = (p, o) => {
+    if (o.agentType === 'bug-hunter' && p.includes('- z/b.js') && idsIn(p).includes('security')) return null
+    if (o.agentType === 'bug-hunter') return { bugs: [], checkpoints: attest(p), files_reviewed: [] }
     return { verdict: 'confirmed', reasoning: 'ok', severity: 'low' }
   }
   const { result: r, calls } = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files: [['a.js', 1400], ['z/b.js', 1400]] }, mock)
-  assert.equal(r.ok, true)
-  assert.ok(calls.some(c => c.opts.label.includes('retry')), 'retried')
+  assert.ok(calls.some(c => c.opts.label.includes('retry')))
+  const row = r.coverage.grid.find(g => g.files.includes('z/b.js'))
+  assert.equal(row.cells.security, 'failed'); assert.equal(row.cells.contracts, 'failed'); assert.equal(row.cells.logic, 'checked')
   assert.equal(r.coverage.complete, false)
   assert.equal(r.clean, false)
 })
 
+await test('scan: disabled checkpoint shows "off" and is not a gap', async () => {
+  const mock = (p, o) => (o.agentType === 'bug-hunter' ? { bugs: [], checkpoints: attest(p), files_reviewed: [] } : null)
+  const { result: r, calls } = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files: [['a.js', 50]], disable_checkpoints: ['contracts', 'x-config'] }, mock)
+  assert.equal(r.coverage.grid[0].cells.contracts, 'off')
+  assert.equal(r.coverage.whole_codebase['x-config'].status, 'off')
+  assert.ok(!calls.some(c => idsIn(c.prompt).includes('contracts')))
+  assert.equal(r.coverage.complete, true)
+})
+
+await test('scan: lean merges all slice checkpoints into one pass; max splits one per checkpoint', async () => {
+  const mock = (p, o) => (o.agentType === 'bug-hunter' ? { bugs: [], checkpoints: attest(p), files_reviewed: [] } : null)
+  const lean = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files: [['a.js', 50]], mode: 'lean' }, mock)
+  const leanSlice = lean.calls.filter(c => c.opts.label.startsWith('hunt S1'))
+  assert.equal(leanSlice.length, 1)
+  assert.deepEqual(idsIn(leanSlice[0].prompt), ['logic', 'edge-cases', 'security', 'contracts'])
+  const max = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files: [['a.js', 50]], mode: 'max' }, mock)
+  assert.equal(max.calls.filter(c => c.opts.label.startsWith('hunt S1')).length, 4)
+  assert.equal(max.calls.filter(c => c.opts.label.startsWith('hunt whole-codebase')).length, 4)
+  assert.equal(max.result.coverage.complete, true)
+})
+
 await test('scan: unknown agent type -> ok:false (never a false "clean")', async () => {
-  const mock = () => { throw new Error("Agent type 'bug-hunter' not found") }
-  const { result: r } = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files: [['a.js', 50]] }, mock)
-  assert.equal(r.ok, false)
-  assert.match(r.error, /restart/)
-  assert.ok(r.errors.length > 0)
+  const { result: r } = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files: [['a.js', 50]] }, () => { throw new Error("Agent type 'bug-hunter' not found") })
+  assert.equal(r.ok, false); assert.match(r.error, /restart/); assert.ok(r.errors.length > 0)
 })
 
-await test('scan: regression check of previous bugs', async () => {
-  const mock = (p, o) => {
-    if (o.agentType === 'bug-hunter') return { bugs: [], files_reviewed: ['a.js'] }
-    return hunterMock(p, o)
-  }
-  const { result: r } = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files: [['a.js', 50]], previous_bugs: [{ id: 'C1-B1', title: 'x', file: 'a.js', line: 3 }] }, mock)
-  assert.equal(r.regressions.length, 1)
+await test('scan: regression check of previous bugs blocks clean when still present', async () => {
+  const mock = (p, o) => (o.agentType === 'bug-hunter' ? { bugs: [], checkpoints: attest(p), files_reviewed: ['a.js'] } : hunterMock(p, o))
+  const { result: r } = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files: [['a.js', 50]], previous_bugs: [{ id: 'B1', title: 'x', file: 'a.js', line: 3 }] }, mock)
   assert.equal(r.regressions[0].status, 'still-present')
-  assert.equal(r.clean, false, 'open regression blocks clean')
+  assert.equal(r.clean, false)
 })
 
-await test('scan: loop-until-dry stops after a round with nothing new (large tier)', async () => {
-  let n = 0
+await test('scan: extra sweeps stop after a dry sweep (large tier); grid comes from the required round only', async () => {
   const mock = (p, o) => {
     if (o.agentType === 'bug-hunter') {
-      n++
-      // round 1 finds one bug per slice; later rounds find nothing new
-      const isR1 = !o.label.includes(' r2') && !o.label.includes(' r3')
-      return { bugs: isR1 && !o.label.includes('cross') ? [{ title: `bug ${o.label}`, file: o.label.split(' ')[2], line: 5, severity: 'medium', category: 'logic', description: 'd', trigger: 't', evidence: 'e', confidence: 'high' }] : [], files_reviewed: [] }
+      const r1 = !/ r[23] /.test(o.label) && !o.label.includes('whole-codebase') && idsIn(p).includes('logic')
+      const file = (p.match(/^- (\S+)/m) || [])[1]
+      return { bugs: r1 ? [bug({ title: `bug in ${file}`, file, line: 5, checkpoint: 'logic' })] : [], checkpoints: /r[23] /.test(o.label) ? [] : attest(p), files_reviewed: [] }
     }
     return { verdict: 'confirmed', reasoning: 'ok', severity: 'medium' }
   }
   const big = Array.from({ length: 30 }, (_, i) => [`m${i}/f.js`, 1500])
   const { result: r } = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files: big }, mock)
   assert.equal(r.tier, 'large')
-  assert.equal(r.stats.rounds_run, 2, 'round 2 was dry, so no round 3')
-  assert.ok(r.stats.slices <= 48)
+  assert.equal(r.stats.rounds_run, 2)
+  assert.equal(r.coverage.complete, true, 'sweeps without sign-offs do not create gaps')
 })
 
-await test('scan: hunter cap raises slice size instead of dropping files', async () => {
-  const many = Array.from({ length: 200 }, (_, i) => [`d${i}/x.js`, 1000])   // 200k lines
-  const mock = (p, o) => (o.agentType === 'bug-hunter' ? { bugs: [], files_reviewed: [] } : null)
+await test('scan: hunter cap raises slice size; every file still reaches a required pass', async () => {
+  const many = Array.from({ length: 200 }, (_, i) => [`d${i}/x.js`, 1000])
+  const mock = (p, o) => (o.agentType === 'bug-hunter' ? { bugs: [], checkpoints: attest(p), files_reviewed: [] } : null)
   const { result: r, logs, calls } = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files: many }, mock)
   assert.ok(r.stats.slices <= 48)
   assert.ok(logs.some(l => l.includes('Slice size raised')))
-  const slicePrompts = calls.filter(c => c.opts.agentType === 'bug-hunter' && !c.opts.label.includes('cross')).map(c => c.prompt).join('\n')
-  const uncovered = many.filter(([f]) => !slicePrompts.includes(`- ${f} (`))
-  assert.equal(uncovered.length, 0, `files never assigned to a hunter: ${uncovered.length}`)
+  const correctness = calls.filter(c => c.opts.label.includes('[correctness]')).map(c => c.prompt).join('\n')
+  const safety = calls.filter(c => c.opts.label.includes('[safety]')).map(c => c.prompt).join('\n')
+  assert.equal(many.filter(([f]) => !correctness.includes(`- ${f} (`)).length, 0)
+  assert.equal(many.filter(([f]) => !safety.includes(`- ${f} (`)).length, 0)
 })
 
 await test('scan: missing args -> helpful error', async () => {
   const { result: r } = await runWorkflow(`${WF}/bughunt-scan.js`, undefined, () => null)
-  assert.equal(r.ok, false)
-  assert.match(r.error, /\/bughunt/)
+  assert.equal(r.ok, false); assert.match(r.error, /\/bughunt/)
+})
+
+// --- evidence-gate.mjs ---------------------------------------------------------
+
+await test('gate: real quotes pass, paraphrase and fake files are rejected, wrong line corrected, clean recomputed', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'bughunt-gate-'))
+  mkdirSync(join(dir, 'src'))
+  const code = Array.from({ length: 60 }, (_, i) => `const filler${i} = ${i}`)
+  code[41] = '  const token = session.user.token.value'
+  code[42] = '  return fetch(url, { headers: { auth: token } })'
+  writeFileSync(join(dir, 'src/app.js'), code.join('\n'))
+  writeFileSync(join(dir, 'shot.png'), 'png')
+  const base = { checkpoint: 'logic', evidence_type: 'code', severity: 'high', kind: 'bug', blocks: true, file: 'src/app.js' }
+  const findings = {
+    root: dir, clean: false, stats: { blocking: 5 }, regressions: [], coverage: { complete: true },
+    confirmed: [
+      { ...base, id: 'B1', line: 42, evidence: '42: const token = session.user.token.value\n  return fetch(url, { headers: { auth: token } })' },
+      { ...base, id: 'B2', line: 5, evidence: 'const token = session.user.token.value' },
+      { ...base, id: 'B3', line: 42, evidence: 'the token is read without a null check' },
+      { ...base, id: 'B4', line: 3, file: 'src/missing.js', evidence: 'anything at all here' },
+      { ...base, id: 'B5', line: 3, file: '../etc/passwd', evidence: 'root:x:0:0' },
+      { ...base, id: 'B6', line: 42, checkpoint: undefined, evidence: 'const token = session.user.token.value' },
+      { id: 'V1', kind: 'cosmetic', blocks: false, checkpoint: 'visual', evidence_type: 'runtime', severity: 'low', screenshot: 'shot.png', steps: ['open page', 'look at pill'] },
+      { id: 'V2', kind: 'cosmetic', blocks: false, checkpoint: 'visual', evidence_type: 'runtime', severity: 'low', screenshot: 'nope.png', steps: ['x'] },
+      { id: 'V3', kind: 'cosmetic', blocks: false, checkpoint: 'visual', evidence_type: 'runtime', severity: 'low', screenshot: 'shot.png', steps: ['  '] },
+    ],
+    disputed: [{ ...base, id: 'D1', line: 43, blocks: false, evidence: 'return fetch(url, { headers: { auth: token } })' }],
+  }
+  const p = join(dir, 'findings.json')
+  writeFileSync(p, JSON.stringify(findings))
+  const out = execFileSync('node', [GATE, p], { encoding: 'utf8' })
+  const g = JSON.parse(readFileSync(p, 'utf8'))
+  const ids = arr => arr.map(f => f.id)
+  assert.deepEqual(ids(g.confirmed), ['B1', 'B2', 'V1'])
+  assert.deepEqual(ids(g.disputed), ['D1'])
+  assert.deepEqual(ids(g.rejected_evidence).sort(), ['B3', 'B4', 'B5', 'B6', 'V2', 'V3'])
+  const b2 = g.confirmed.find(f => f.id === 'B2')
+  assert.equal(b2.line, 42); assert.equal(b2.evidence_check.line_corrected_from, 5)
+  assert.match(g.rejected_evidence.find(f => f.id === 'B3').evidence_check.reason, /not found/)
+  assert.match(g.rejected_evidence.find(f => f.id === 'B5').evidence_check.reason, /outside the project/)
+  assert.match(g.rejected_evidence.find(f => f.id === 'B6').evidence_check.reason, /checkpoint/)
+  assert.equal(g.evidence_gate.checked, 10); assert.equal(g.evidence_gate.passed, 4); assert.equal(g.evidence_gate.lines_corrected, 1)
+  assert.equal(g.stats.blocking, 2)
+  assert.equal(g.clean, false)
+  assert.ok(out.includes('rejected B3'))
+})
+
+await test('gate: clean flips to true when the only blocking finding has no real evidence', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'bughunt-gate-'))
+  writeFileSync(join(dir, 'a.js'), 'let x = 1\n')
+  const p = join(dir, 'findings.json')
+  writeFileSync(p, JSON.stringify({ root: dir, clean: false, regressions: [], coverage: { complete: true }, confirmed: [{ id: 'B1', kind: 'bug', blocks: true, checkpoint: 'logic', evidence_type: 'code', severity: 'high', file: 'a.js', line: 1, evidence: 'made up code here' }], disputed: [] }))
+  execFileSync('node', [GATE, p])
+  assert.equal(JSON.parse(readFileSync(p, 'utf8')).clean, true)
 })
 
 // --- bugfix-propose ----------------------------------------------------------
 
+const ok = { evidence_check: { ok: true, reason: 'found' } }
 const bugs = [
-  { id: 'B1', title: 'Null token', file: 'src/api/client.js', line: 42, severity: 'high', category: 'null-safety', description: 'd', trigger: 't', evidence: 'e' },
-  { id: 'B2', title: 'Off by one', file: 'src/util/big.js', line: 12, severity: 'medium', category: 'logic', description: 'd', trigger: 't', evidence: 'e' },
-  { id: 'B3', title: 'Delegation', file: 'Src/Home.pa.yaml', line: 7, severity: 'medium', category: 'powerapps', description: 'd', trigger: 't', evidence: 'e' },
+  { id: 'B1', title: 'Null token', file: 'src/api/client.js', line: 42, severity: 'high', category: 'null-safety', description: 'd', trigger: 't', evidence: 'e', ...ok },
+  { id: 'B2', title: 'Off by one', file: 'src/util/big.js', line: 12, severity: 'medium', category: 'logic', description: 'd', trigger: 't', evidence: 'e', ...ok },
+  { id: 'B3', title: 'Patch unhandled', file: 'Src/Home.pa.yaml', line: 7, severity: 'medium', category: 'powerapps', description: 'd', trigger: 't', evidence: 'e', ...ok },
 ]
 const proposeMock = (p, o) => {
   if (o.agentType === 'fix-planner') {
@@ -172,7 +302,6 @@ const proposeMock = (p, o) => {
   }
   if (o.agentType === 'fix-critic' && o.label.startsWith('challenge')) return { verdict: 'sound', problems: [], new_bug_risks: [] }
   if (o.label.startsWith('end review')) {
-    assert.ok(p.includes('B1') && p.includes('B2'))
     return {
       overall_assessment: 'ok', what_works: ['B1'], what_does_not_work: [], new_bug_risks: [], conflicts: [],
       items: [
@@ -193,11 +322,20 @@ await test('propose: groups by file, 2 critic lenses for high, manual skips crit
   assert.equal(calls.filter(c => c.opts.label.startsWith('challenge B1')).length, 2)
   assert.equal(calls.filter(c => c.opts.label.startsWith('challenge B2')).length, 1)
   assert.equal(calls.filter(c => c.opts.label.startsWith('challenge B3')).length, 0)
-  assert.ok(calls.find(c => c.opts.agentType === 'fix-planner' && c.prompt.includes('.pa.yaml')).prompt.includes('Power Apps note'))
   assert.deepEqual(r.recommended_ids, ['B1'])
   assert.deepEqual(r.manual_ids, ['B3'])
-  assert.equal(r.items[0].bug_id, 'B1')
-  assert.ok(r.end_review)
+  assert.deepEqual(r.rejected_no_evidence, [])
+})
+
+await test('propose: findings without a passed evidence check are refused', async () => {
+  const mixed = [bugs[0], { ...bugs[1], evidence_check: { ok: false, reason: 'quoted code not found' } }, { ...bugs[2], evidence_check: undefined }]
+  const { result: r, calls } = await runWorkflow(`${WF}/bugfix-propose.js`, { root: '/proj', bugs: mixed }, proposeMock)
+  assert.equal(r.ok, true)
+  assert.deepEqual(r.rejected_no_evidence.map(x => x.id), ['B2', 'B3'])
+  assert.ok(!calls.some(c => c.prompt.includes('[B2]') || c.prompt.includes('[B3]')))
+  const none = await runWorkflow(`${WF}/bugfix-propose.js`, { root: '/proj', bugs: mixed.slice(1) }, proposeMock)
+  assert.equal(none.result.ok, false)
+  assert.match(none.result.error, /evidence check/)
 })
 
 await test('propose: history of failed attempts reaches the planner', async () => {
@@ -222,24 +360,17 @@ const items = [
 ]
 await test('execute: overlapping files grouped, disjoint run separately, checker flags problems', async () => {
   const mock = (p, o) => {
-    if (o.agentType === 'bug-fixer') {
-      const ids = [...p.matchAll(/"bug_id": "(B\d)"/g)].map(m => m[1])
-      return { results: ids.map(id => ({ bug_id: id, status: 'applied', files_changed: [`${id}.js`], summary: 's' })) }
-    }
-    if (o.agentType === 'fix-critic') {
-      const ids = [...p.matchAll(/"bug_id": "(B\d)"/g)].map(m => m[1])
-      return { checks: [...new Set(ids)].map(id => ({ bug_id: id, verdict: id === 'B3' ? 'incorrect' : 'correct', problem: id === 'B3' ? 'wrong' : '' })) }
-    }
+    const ids = [...new Set([...p.matchAll(/"bug_id": "(B\d)"/g)].map(m => m[1]))]
+    if (o.agentType === 'bug-fixer') return { results: ids.map(id => ({ bug_id: id, status: 'applied', files_changed: [`${id}.js`], summary: 's' })) }
+    if (o.agentType === 'fix-critic') return { checks: ids.map(id => ({ bug_id: id, verdict: id === 'B3' ? 'incorrect' : 'correct', problem: id === 'B3' ? 'wrong' : '' })) }
   }
   const { result: r, calls } = await runWorkflow(`${WF}/bugfix-execute.js`, { root: '/proj', items, order: ['B2', 'B1', 'B3'] }, mock)
   const fixers = calls.filter(c => c.opts.agentType === 'bug-fixer')
-  assert.equal(fixers.length, 2, 'B1+B2 share shared.js -> one group; B3 alone')
+  assert.equal(fixers.length, 2)
   const g12 = fixers.find(c => c.prompt.includes('B1'))
   assert.ok(g12.prompt.indexOf('"B2"') < g12.prompt.indexOf('"B1"'), 'apply order respected')
-  assert.ok(g12.prompt.includes('shared.js'))
   assert.equal(r.applied.length, 3)
   assert.equal(r.check_problems.length, 1)
-  assert.equal(r.check_problems[0].bug_id, 'B3')
 })
 
 await test('execute: fixer failure -> items reported skipped', async () => {

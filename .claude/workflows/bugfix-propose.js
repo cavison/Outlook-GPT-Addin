@@ -12,7 +12,8 @@ export const meta = {
 // ---------------------------------------------------------------------------
 // Inputs (args):
 //   root           absolute path of the project (required)
-//   bugs           confirmed bugs from bughunt-scan (required; each needs id, title, file, line, severity, description, trigger, evidence)
+//   bugs           confirmed findings from findings.json after evidence-gate.mjs (required; each needs id, title, file, line,
+//                  severity, description, trigger, evidence, and evidence_check.ok === true or it is refused)
 //   cycle          loop cycle number (optional)
 //   history        {bugId: [{attempt, outcome}]} earlier failed attempts for the same bug (optional)
 //   app_context    1-3 sentences on what the app does (optional)
@@ -23,6 +24,15 @@ export const meta = {
 const A = args || {}
 if (!A.root || !Array.isArray(A.bugs) || A.bugs.length === 0) {
   return { ok: false, error: 'bugfix-propose needs args {root, bugs: [...]}. Run it through the /bugfix-plan skill.' }
+}
+
+// Evidence gate: only findings that passed the script-based evidence check (evidence-gate.mjs) can enter a plan.
+const rejected_no_evidence = A.bugs
+  .filter(b => !(b.evidence_check && b.evidence_check.ok === true))
+  .map(b => ({ id: b.id, reason: b.evidence_check ? b.evidence_check.reason : 'the evidence check has not run on this finding' }))
+const bugs = A.bugs.filter(b => b.evidence_check && b.evidence_check.ok === true)
+if (!bugs.length) {
+  return { ok: false, error: 'None of the given findings passed the evidence check, so none can enter a fix plan. Run /bughunt (which runs evidence-gate.mjs) first.', rejected_no_evidence }
 }
 
 const SEV = ['critical', 'high', 'medium', 'low']
@@ -214,7 +224,7 @@ function endReviewPrompt(items) {
 // ---------------------------------------------------------------------------
 
 const byFile = {}
-for (const b of A.bugs) {
+for (const b of bugs) {
   const f = String(b.file || 'unknown')
   ;(byFile[f] = byFile[f] || []).push(b)
 }
@@ -225,14 +235,14 @@ for (const [file, bugs] of Object.entries(byFile)) {
 }
 const oversized = Object.entries(byFile).filter(([, b]) => b.length > MAX_PER_PLANNER)
 if (oversized.length) log(`${oversized.map(([f, b]) => `${f} (${b.length})`).join(', ')}: more than ${MAX_PER_PLANNER} bugs in one file, so several planners share it; the end review checks them for conflicts.`)
-log(`${A.bugs.length} bugs -> ${groups.length} planner(s).`)
+log(`${bugs.length} bugs -> ${groups.length} planner(s).${rejected_no_evidence.length ? ` ${rejected_no_evidence.length} refused: no valid evidence.` : ''}`)
 
 // ---------------------------------------------------------------------------
 // Propose -> Challenge (pipelined per file group)
 // ---------------------------------------------------------------------------
 
 const failed = []
-const bugById = Object.fromEntries(A.bugs.map(b => [b.id, b]))
+const bugById = Object.fromEntries(bugs.map(b => [b.id, b]))
 
 phase('Propose')
 const perGroup = await pipeline(groups,
@@ -258,7 +268,7 @@ const perGroup = await pipeline(groups,
 )
 
 const items = perGroup.filter(Boolean).flat().filter(Boolean)
-if (!items.length) return { ok: false, error: 'No fix proposals were produced. If the read-only agent types are not loaded yet, restart the session so .claude/agents/ is picked up.', failed, errors }
+if (!items.length) return { ok: false, error: 'No fix proposals were produced. If the read-only agent types are not loaded yet, restart the session so .claude/agents/ is picked up.', failed, rejected_no_evidence, errors }
 
 // ---------------------------------------------------------------------------
 // End review (needs the whole plan at once)
@@ -325,5 +335,6 @@ return {
   recommended_ids: plan.filter(p => p.apply_mode === 'auto' && (p.decision === 'approve' || p.decision === 'approve-with-amendments')).map(p => p.bug_id),
   manual_ids: plan.filter(p => p.apply_mode === 'manual').map(p => p.bug_id),
   failed,
+  rejected_no_evidence,
   errors,
 }

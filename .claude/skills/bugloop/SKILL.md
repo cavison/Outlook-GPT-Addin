@@ -44,7 +44,7 @@ Each cycle uses its own subdirectory `cycle-NN/` for `scope.json`, `findings.jso
 
 ## Each cycle
 
-**A. Hunt.** Follow the bughunt skill, steps 1 to 4, writing into `cycle-NN/`. Ask for cost confirmation in cycle 1 only. Later cycles reuse the approval unless the tier went up. From cycle 2 on, pass `previous_bugs`: every bug applied in the previous cycle, as `{id, title, file, line, description, fix_summary: <final_change>}`.
+**A. Hunt.** Follow the bughunt skill, steps 1 to 4, writing into `cycle-NN/`, including the evidence-gate step. All decisions below use the gated `findings.json`. Ask for cost confirmation in cycle 1 only. Later cycles reuse the approval unless the tier went up. From cycle 2 on, pass `previous_bugs`: every bug applied in the previous cycle, as `{id, title, file, line, description, fix_summary: <final_change>}`.
 
 **B. Evaluate** (update state and SUMMARY.md):
 - Regressions with status `still-present` or `partially-fixed`: add a failed attempt under the bug's signature in `attempts`.
@@ -55,9 +55,11 @@ Each cycle uses its own subdirectory `cycle-NN/` for `scope.json`, `findings.jso
   - `cycle` is at least `max_cycles`: status `stopped (cycle limit)`.
   - The blocking count has not gone down for 2 cycles in a row: status `stopped (not converging)`. Tell the user the loop is not making progress and show what keeps coming back.
   - Every remaining blocking bug is manual, stubborn or on hold: status `stopped (needs you)`, with the list.
-  - Coverage was incomplete twice in a row: status `stopped (coverage)`, with the failed slices.
+  - Coverage was incomplete twice in a row: status `stopped (coverage)`, with the coverage-grid gaps.
 
-**C. Plan.** Follow the bugfix-plan skill, steps 1 to 5, for the blocking confirmed bugs that are not stubborn. Pass `history` from `attempts`, keyed by bug ID, so planners do not repeat failed approaches.
+Only `bug` findings at or above the threshold count as blocking. Warnings (such as Power Apps delegation limits) and other non-bug kinds are listed in the cycle summary but never keep the loop running. A coverage gap (a ✗ or ? in the grid) does block "clean".
+
+**C. Plan.** Follow the bugfix-plan skill, steps 1 to 5, for the blocking confirmed bugs that passed the evidence gate and are not stubborn. Pass `history` from `attempts`, keyed by bug ID, so planners do not repeat failed approaches.
 
 **D. Approve.** Follow the bugfix-plan skill, step 6. This gate is mandatory every cycle. Never skip it, never pre-approve, and never infer approval. If the user approves nothing, status `stopped (nothing approved)`.
 
