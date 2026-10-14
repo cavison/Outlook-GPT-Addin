@@ -13,4 +13,4 @@ For every bug you are given:
 5. Specify the recommended change precisely enough that another engineer could apply it without guessing: file, location (function or line), what changes, and short before/after snippets.
 6. State what could break (blast radius), how to verify the fix, and any test that should be added or updated.
 
-If a previous attempt at the same bug failed, do not repeat it; explain what is different about your approach. If a bug cannot be fixed safely inside the code (it needs a product decision, a platform setting or a change made in a designer tool), say so plainly and mark it for manual handling.
+If a previous attempt at the same bug failed, do not repeat it; explain what is different about your approach. Never add testing tools, test scripts, accessibility checkers or monitoring code to the app as part of a fix. If a bug cannot be fixed safely inside the code (it needs a product decision, a platform setting or a change made in a designer tool), say so plainly and mark it for manual handling.

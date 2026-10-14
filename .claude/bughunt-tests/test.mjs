@@ -11,7 +11,7 @@ const WF = fileURLToPath(new URL('../workflows', import.meta.url))
 const GATE = fileURLToPath(new URL('../skills/bughunt/evidence-gate.mjs', import.meta.url))
 let failures = 0
 async function test(name, fn) {
-  try { await fn(); console.log('PASS', name) } catch (e) { failures++; console.log('FAIL', name, '\n   ', e.stack.split('\n').slice(0, 3).join('\n    ')) }
+  try { await fn(); console.log('PASS', name) } catch (e) { failures++; console.log('FAIL', name, '\n   ', e.message.split('\n')[0], '\n   ', (e.stack.split('\n').find(l => l.includes('test.mjs')) || '').trim()) }
 }
 
 // Checkpoint ids a hunter prompt asks for, e.g. "[logic] Core logic..." lines.
@@ -64,12 +64,15 @@ await test('scan: required passes per slice, whole-codebase passes, coverage gri
   for (const s of r.coverage.grid) {
     assert.equal(s.cells.logic, 'checked'); assert.equal(s.cells['edge-cases'], 'checked')
     assert.equal(s.cells.security, 'checked'); assert.equal(s.cells.contracts, 'checked')
-    assert.equal(s.cells.powerapps, s.files.some(f => f.endsWith('.pa.yaml')) ? 'checked' : 'n/a')
+    assert.equal(s.cells.performance, 'checked'); assert.equal(s.cells['code-health'], 'checked')
+    const pa = s.files.some(f => f.endsWith('.pa.yaml'))
+    assert.equal(s.cells.powerapps, pa ? 'checked' : 'n/a')
+    for (const id of ['interaction', 'ui-states', 'accessibility']) assert.equal(s.cells[id], pa ? 'checked' : 'n/a', `${s.row}/${id}`)
   }
   assert.equal(r1.filter(c => c.opts.label.includes('[correctness]')).length, r.stats.slices)
   assert.equal(r1.filter(c => c.opts.label.includes('[safety]')).length, r.stats.slices)
   // medium tier: one agent per whole-codebase checkpoint, including the Power Apps one
-  for (const id of ['x-integration', 'x-security', 'x-state', 'x-config', 'x-powerapps']) {
+  for (const id of ['x-integration', 'x-data', 'x-security', 'x-state', 'x-config', 'x-powerapps']) {
     assert.ok(calls.some(c => c.opts.label === `hunt whole-codebase [${id}]`), id)
     assert.equal(r.coverage.whole_codebase[id].status, 'checked')
   }
@@ -115,7 +118,7 @@ await test('scan: only warnings and low bugs -> clean', async () => {
   // small tier: one whole-codebase agent covers all four whole-codebase checkpoints
   const cross = calls.filter(c => c.opts.label.startsWith('hunt whole-codebase'))
   assert.equal(cross.length, 1)
-  assert.deepEqual(idsIn(cross[0].prompt), ['x-integration', 'x-security', 'x-state', 'x-config'])
+  assert.deepEqual(idsIn(cross[0].prompt), ['x-integration', 'x-data', 'x-security', 'x-state', 'x-config'])
   assert.equal(r.coverage.whole_codebase['x-powerapps'].status, 'n/a')
   assert.equal(r.clean, true)
 })
@@ -174,10 +177,10 @@ await test('scan: lean merges all slice checkpoints into one pass; max splits on
   const lean = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files: [['a.js', 50]], mode: 'lean' }, mock)
   const leanSlice = lean.calls.filter(c => c.opts.label.startsWith('hunt S1'))
   assert.equal(leanSlice.length, 1)
-  assert.deepEqual(idsIn(leanSlice[0].prompt), ['logic', 'edge-cases', 'security', 'contracts'])
+  assert.deepEqual(idsIn(leanSlice[0].prompt), ['logic', 'edge-cases', 'performance', 'security', 'contracts', 'code-health'])
   const max = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files: [['a.js', 50]], mode: 'max' }, mock)
-  assert.equal(max.calls.filter(c => c.opts.label.startsWith('hunt S1')).length, 4)
-  assert.equal(max.calls.filter(c => c.opts.label.startsWith('hunt whole-codebase')).length, 4)
+  assert.equal(max.calls.filter(c => c.opts.label.startsWith('hunt S1')).length, 6)
+  assert.equal(max.calls.filter(c => c.opts.label.startsWith('hunt whole-codebase')).length, 5)
   assert.equal(max.result.coverage.complete, true)
 })
 
@@ -224,6 +227,115 @@ await test('scan: hunter cap raises slice size; every file still reaches a requi
 await test('scan: missing args -> helpful error', async () => {
   const { result: r } = await runWorkflow(`${WF}/bughunt-scan.js`, undefined, () => null)
   assert.equal(r.ok, false); assert.match(r.error, /\/bughunt/)
+})
+
+// --- Step 2 layers -----------------------------------------------------------------
+
+await test('layers: screen-code slices get the ui pass; kinds per checkpoint; IDs per kind', async () => {
+  const mock = (p, o) => {
+    if (o.agentType === 'bug-hunter' && o.label.startsWith('map')) return { found: false, reason: 'no selection concept', consumers: [] }
+    if (o.agentType === 'bug-hunter') {
+      const ids = idsIn(p), bugs = []
+      if (ids.includes('performance')) bugs.push(bug({ title: 'Query per row in loop', file: 'src/list.js', line: 4, category: 'performance', checkpoint: 'performance' }))
+      if (ids.includes('code-health')) bugs.push(bug({ title: 'Hard-coded prod URL', file: 'src/list.js', line: 9, severity: 'low', category: 'config', checkpoint: 'code-health' }))
+      if (ids.includes('interaction')) bugs.push(bug({ title: 'Save can be clicked twice', file: 'src/Form.jsx', line: 20, severity: 'medium', category: 'logic', checkpoint: 'interaction' }))
+      if (ids.includes('ui-states')) bugs.push(bug({ title: 'No empty state for list', file: 'src/Form.jsx', line: 40, severity: 'low', category: 'other', checkpoint: 'ui-states' }))
+      if (ids.includes('accessibility')) bugs.push(bug({ title: 'Icon button has no label', file: 'src/Form.jsx', line: 55, severity: 'low', category: 'other', checkpoint: 'accessibility' }))
+      return { bugs, checkpoints: attest(p), files_reviewed: [] }
+    }
+    return { verdict: 'confirmed', reasoning: 'ok', severity: (p.match(/Claimed severity: (\w+)/) || [])[1] || 'low' }
+  }
+  const { result: r, calls } = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', mode: 'small', files: [['a/list.js', 1400], ['b/Form.jsx', 1400], ['c/helper.js', 1400, 'ui']] }, mock)
+  const row = f => r.coverage.grid.find(g => g.files.includes(f))
+  assert.equal(row('a/list.js').cells.interaction, 'n/a')
+  assert.equal(row('b/Form.jsx').cells.interaction, 'checked')
+  assert.equal(row('c/helper.js').cells.accessibility, 'checked', 'scope.sh "ui" tag routes plain .js files')
+  const ui = calls.filter(c => c.opts.label.includes('[ui]'))
+  assert.equal(ui.length, 2)
+  assert.ok(ui[0].prompt.includes('(findings reported as: accessibility)'))
+  const k = t => r.confirmed.find(b => b.title === t)
+  assert.equal(k('Query per row in loop').kind, 'warning')
+  assert.equal(k('Hard-coded prod URL').kind, 'code-health'); assert.match(k('Hard-coded prod URL').id, /^H\d/)
+  assert.equal(k('Save can be clicked twice').kind, 'bug'); assert.equal(k('Save can be clicked twice').blocks, true)
+  assert.equal(k('No empty state for list').kind, 'cosmetic'); assert.match(k('No empty state for list').id, /^V\d/)
+  assert.equal(k('Icon button has no label').kind, 'accessibility'); assert.match(k('Icon button has no label').id, /^A\d/)
+  assert.equal(r.stats.blocking, 1)
+  // code-health skeptic gets its hint; non-bug kinds get one skeptic
+  const hc = calls.filter(c => c.opts.agentType === 'bug-skeptic' && c.prompt.includes('Hard-coded prod URL'))
+  assert.equal(hc.length, 1); assert.ok(hc[0].prompt.includes('Confirm by searching for references'))
+  assert.equal(r.coverage.whole_codebase.scoping.status, 'n/a')
+  assert.equal(r.coverage.complete, true)
+})
+
+await test('layers: x-data gets the database/schema file list', async () => {
+  const mock = (p, o) => (o.agentType === 'bug-hunter' ? { bugs: [], checkpoints: attest(p), files_reviewed: [], found: false, reason: 'none', consumers: [] } : null)
+  const { calls } = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files: [['api/units.js', 300], ['db/migrations/001.sql', 40, 'data']], mode: 'medium' }, mock)
+  const xd = calls.find(c => c.opts.label === 'hunt whole-codebase [x-data]')
+  assert.ok(xd.prompt.includes('Database and schema files found by the scope scan:\ndb/migrations/001.sql'))
+})
+
+const scopingMap = n => ({
+  found: true, reason: 'property selector in header',
+  levels: [{ name: 'property' }, { name: 'regional' }, { name: 'region' }],
+  hierarchy: [{ relationship: 'property.regionalId -> regional', where: 'db/schema.sql:10' }],
+  selection_state: [{ where: 'store.selection', file: 'src/store.js', line: 3 }],
+  change_handlers: [{ description: 'onSelectionChange', file: 'src/store.js', line: 20 }],
+  consumers: Array.from({ length: n }, (_, i) => ({ kind: 'query', file: `src/q${i}.js`, line: 5, description: `units query ${i}` })),
+})
+
+await test('scoping: map -> batches of 8 + switching check; findings are bugs; delegation stays a warning', async () => {
+  const mock = (p, o) => {
+    if (o.label === 'map scoping') return scopingMap(20)
+    if (o.label.startsWith('check scoping')) {
+      const bugs = []
+      if (p.includes('src/q3.js')) bugs.push(bug({ title: 'Regional total misses properties without a manager', file: 'src/q3.js', line: 5, severity: 'high', category: 'logic', checkpoint: 'scoping' }))
+      if (p.includes('src/q12.js')) bugs.push(bug({ title: 'Filter not delegable on SharePoint', file: 'Src/Home.pa.yaml', line: 9, severity: 'high', category: 'delegation', checkpoint: 'scoping' }))
+      if (o.label.endsWith('switching')) bugs.push(bug({ title: 'Units appended on switch instead of replaced', file: 'src/store.js', line: 22, severity: 'high', category: 'logic', checkpoint: 'scoping' }))
+      return { bugs, checkpoints: [{ id: 'scoping', status: 'checked' }], files_reviewed: [] }
+    }
+    if (o.agentType === 'bug-hunter') return { bugs: [], checkpoints: attest(p), files_reviewed: [] }
+    return { verdict: 'confirmed', reasoning: 'ok', severity: (p.match(/Claimed severity: (\w+)/) || [])[1] || 'low' }
+  }
+  const { result: r, calls } = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files: [['src/a.js', 100]] }, mock)
+  const checks = calls.filter(c => c.opts.label.startsWith('check scoping'))
+  assert.equal(checks.length, 4, '20 consumers in batches of 8 = 3, plus switching')
+  assert.ok(checks[0].prompt.includes('Hierarchy relationships: property.regionalId -> regional'))
+  assert.ok(checks[0].prompt.includes('not a privacy one'))
+  assert.equal(r.coverage.whole_codebase.scoping.status, 'checked')
+  assert.equal(r.maps.scoping.consumers, 20); assert.equal(r.maps.scoping.batches, 3)
+  const t = x => r.confirmed.find(b => b.title === x)
+  assert.equal(t('Regional total misses properties without a manager').kind, 'bug')
+  assert.equal(t('Units appended on switch instead of replaced').blocks, true)
+  assert.equal(t('Filter not delegable on SharePoint').kind, 'warning')
+  const skep = calls.find(c => c.opts.agentType === 'bug-skeptic' && c.prompt.includes('Regional total'))
+  assert.ok(skep.prompt.includes('switching between selections is intended'))
+  assert.equal(r.clean, false)
+})
+
+await test('scoping: a failed checker batch marks scoping failed and blocks clean', async () => {
+  const mock = (p, o) => {
+    if (o.label === 'map scoping') return scopingMap(10)
+    if (o.label.startsWith('check scoping 2/2')) return null
+    if (o.label.startsWith('check scoping')) return { bugs: [], checkpoints: [{ id: 'scoping', status: 'checked' }], files_reviewed: [] }
+    if (o.agentType === 'bug-hunter') return { bugs: [], checkpoints: attest(p), files_reviewed: [] }
+    return null
+  }
+  const { result: r } = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files: [['src/a.js', 100]] }, mock)
+  assert.equal(r.coverage.whole_codebase.scoping.status, 'failed')
+  assert.ok(r.coverage.gaps.includes('scoping: failed'))
+  assert.equal(r.clean, false)
+})
+
+await test('scoping: very large maps are re-batched to at most 30 checker batches', async () => {
+  const mock = (p, o) => {
+    if (o.label === 'map scoping') return scopingMap(400)
+    if (o.agentType === 'bug-hunter') return { bugs: [], checkpoints: o.label.startsWith('check') ? [{ id: 'scoping', status: 'checked' }] : attest(p), files_reviewed: [] }
+    return null
+  }
+  const { result: r, calls } = await runWorkflow(`${WF}/bughunt-scan.js`, { root: '/proj', files: [['src/a.js', 100]] }, mock)
+  assert.ok(r.maps.scoping.batches <= 30)
+  const checked = calls.filter(c => /^check scoping \d/.test(c.opts.label)).map(c => c.prompt).join('\n')
+  assert.equal(Array.from({ length: 400 }, (_, i) => `src/q${i}.js:`).filter(x => !checked.includes(x)).length, 0, 'every consumer is checked')
 })
 
 // --- evidence-gate.mjs ---------------------------------------------------------

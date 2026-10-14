@@ -64,6 +64,17 @@ Gaps: <coverage.gaps, or "none">. Any ✗ or ? means the run cannot be called cl
 ## Regression check of previous fixes
 <only in loop cycles 2+: table of bug ID, status, evidence, new_problem>
 
+## Selection map
+<from maps.scoping. If found is false: one line saying no selection concept was found, and why.>
+- Levels: <levels>
+- Hierarchy lives in: <hierarchy>
+- Current selection stored in: <selection_state>
+- Switching handled by: <change_handlers>
+- Places that depend on the selection: <consumers> (checked in <batches> batches). List them in a collapsed <details> block.
+
+## Large images (from the scope scan)
+<scope.json large_images: path and size in KB, as performance warnings. Omit the section if none.>
+
 ## Coverage details
 - Files hunters reported they could not review: <list, or none>
 - Agents dropped by caps: <list, or none>

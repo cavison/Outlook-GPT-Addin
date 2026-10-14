@@ -35,6 +35,9 @@ const SEV = ['critical', 'high', 'medium', 'low']
 const sevRank = s => { const i = SEV.indexOf(s); return i < 0 ? 3 : i }
 const threshold = SEV.includes(A.clean_threshold) ? A.clean_threshold : 'medium'
 const isPowerAppsFile = p => /\.(pa|fx)\.yaml$/i.test(String(p))
+const UI_EXT = /\.(html?|jsx|tsx|vue|svelte|astro|css|scss|sass|less|cshtml|razor|hbs|ejs|pug|xaml)$|\.(pa|fx)\.yaml$/i
+const tagsOf = f => String(f[2] || '').split(',').filter(Boolean)
+const isUiFile = (path, tags) => tags.includes('ui') || UI_EXT.test(String(path))
 
 // ---------------------------------------------------------------------------
 // Finding kinds. Only kinds listed in BLOCKING_KINDS can stop a run from being "clean".
@@ -46,6 +49,11 @@ const KIND_PREFIX = { bug: 'B', warning: 'W', 'code-health': 'H', accessibility:
 
 // Fixed rules that override a finding's kind, applied by code (not by an agent's judgment).
 const KIND_RULES = [
+  {
+    why: 'Performance findings are reported as warnings: reading code cannot measure real load',
+    test: f => f.category === 'performance',
+    kind: 'warning',
+  },
   {
     why: 'Power Apps delegation limits are reported as warnings, never blockers',
     test: f => f.category === 'delegation' || (isPowerAppsFile(f.file) && /delegat/i.test(`${f.title} ${f.description}`)),
@@ -86,22 +94,36 @@ const POWERAPPS_CHECKLIST = `Power Apps source (Power Fx in .pa.yaml / .fx.yaml)
 // CHECKPOINT REGISTRY. Each entry is one self-contained layer.
 //   id         stable id used in findings ("checkpoint") and in the coverage grid
 //   name       human name for reports
-//   scope      'slice' = checked on every code slice it applies to; 'cross' = checked once across the codebase
+//   scope      'slice' = checked on every code slice it applies to; 'cross' = checked once across the codebase;
+//              'mapped' = one agent maps the targets (mapTask), then checker agents verify them in batches (checklist),
+//              plus one agent for selection switching (switchTask)
 //   pass       slice checkpoints with the same pass name are checked by the same agent (tiers may merge or split passes)
-//   appliesTo  'all' | 'powerapps'
+//   appliesTo  'all' | 'ui' (slices with screen code) | 'powerapps'
 //   kind       kind of finding this checkpoint produces by default (see KINDS; only 'bug' can block "clean")
 //   checklist  what the agent must check
+//   verifyHint optional extra instruction for the skeptics
 // To add a layer, add an entry here. To skip one for a run, pass its id in args.disable_checkpoints.
 // ---------------------------------------------------------------------------
 
 const CHECKPOINTS = [
+  // --- Checked on every slice -------------------------------------------------
   {
     id: 'logic', name: 'Core logic and error handling', scope: 'slice', pass: 'correctness', appliesTo: 'all', kind: 'bug',
-    checklist: 'Logic errors and wrong conditions, off-by-one, null/undefined, wrong types or units, API misuse, broken state updates, error handling, async ordering.',
+    checklist: `Logic errors and wrong conditions, off-by-one, null/undefined, wrong types or units, API misuse, broken state updates, async ordering.
+Errors that are swallowed (caught and ignored, or only logged) and failures that still report success (returning true/"saved"/HTTP 200 or showing a success message after something failed).
+Date and time bugs: time zones (UTC vs local), daylight saving, inclusive vs exclusive date ranges, off-by-one days, month/year boundaries, locale date formats.`,
   },
   {
     id: 'edge-cases', name: 'Edge cases and failure paths', scope: 'slice', pass: 'correctness', appliesTo: 'all', kind: 'bug',
-    checklist: 'Empty, huge, malformed or unicode input; missing or extra fields; network/IO failures, timeouts and retries; partial failure and cleanup; resource leaks; concurrency, ordering and re-entrancy; time zones and locale.',
+    checklist: `Null, empty and unusual inputs: zero, negative numbers, very large numbers, empty strings and lists, very long strings, special characters (apostrophes as in O'Brien, quotes, emoji, accents, HTML or formula characters), missing or extra fields, malformed data.
+Network/IO failures, timeouts and retries; partial failure and cleanup; resource leaks.
+Concurrency: two users saving the same record at the same time (lost updates, last write silently wins, no version or concurrency check), double processing, ordering and re-entrancy.`,
+  },
+  {
+    id: 'performance', name: 'Performance', scope: 'slice', pass: 'correctness', appliesTo: 'all', kind: 'warning',
+    checklist: `N+1 patterns: a query, request or LookUp inside a loop or once per row (Power Apps: ForAll with LookUp/Patch per record). Unbounded queries (no paging or limit, selecting every column), loading whole tables at startup (App.OnStart), repeated identical requests with no caching. Heavy work on every render or re-render (expensive computation in render, effects with missing or wrong dependencies, new objects or functions passed as props on every render). Large libraries imported for a small use. Heavy synchronous work on the UI thread.
+Use category "performance". These are reported as warnings: reading code cannot measure real load.`,
+    verifyHint: 'Confirm the pattern is really there (for example, the call really runs once per item). Do not judge whether it is slow today.',
   },
   {
     id: 'security', name: 'Security and data integrity', scope: 'slice', pass: 'safety', appliesTo: 'all', kind: 'bug',
@@ -112,12 +134,48 @@ const CHECKPOINTS = [
     checklist: 'How this code is called and what it calls: argument order, units, nullability, unhandled return values, error propagation, version or platform quirks, config and environment assumptions.',
   },
   {
+    id: 'code-health', name: 'Code health', scope: 'slice', pass: 'safety', appliesTo: 'all', kind: 'code-health',
+    checklist: `Dead code: functions, variables, exports, screens, controls or branches that are never used or can never run (search for references first; consider dynamic use, public APIs, and Power Apps controls referenced by name).
+Duplicated logic: the same non-trivial logic or business rule implemented in two or more places that can drift apart (not trivial one-liners).
+Hard-coded values that should be configuration: URLs, hostnames, IDs/GUIDs, email addresses, environment or tenant names, list/table names, business thresholds, prices or rates (secrets also go under security). Not loop counters, 0/1, obvious constants or test fixtures.
+These are reported as code health and never block.`,
+    verifyHint: 'Confirm by searching for references: is it really unused or unreachable, really duplicated, really a hard-coded value that varies by environment or business rule?',
+  },
+  // --- Checked on slices that contain screen code (tag "ui") --------------------
+  {
+    id: 'interaction', name: 'Interaction and response handling', scope: 'slice', pass: 'ui', appliesTo: 'ui', kind: 'bug',
+    checklist: `Buttons and actions that do nothing (missing or broken handler). Double submission: a save or submit that can run twice (double-click, repeated Enter) because nothing blocks it while in progress, creating duplicates. Forms that lose the user's input after an error. Destructive actions (delete, remove, cancel, archive, overwrite) that happen without a confirmation step. Navigation: browser back button, page refresh mid-flow or deep links that break state or lose work. Expired sessions (401/403, token expiry) not handled: silent failure, endless spinner, lost data.
+Every data call's handling on screen: success, error, empty result and slow or timed-out responses (a spinner that never ends, a blank screen on error, an error shown as success).`,
+  },
+  {
+    id: 'ui-states', name: 'UI feedback and layout hints', scope: 'slice', pass: 'ui', appliesTo: 'ui', kind: 'cosmetic',
+    checklist: `Missing loading indicators; missing empty states where a list or table can be empty; no success or failure message after an action; validation messages that do not say how to fix the problem; save buttons not disabled while saving.
+Text likely to overflow or be cut off in fixed-size elements (pills, buttons, cards, table cells), e.g. a fixed width with white-space: nowrap and overflow hidden and no ellipsis or tooltip, or long names. Nested scroll containers (double scrollbars), fixed heights that cut content off, sticky headers that can cover rows, fixed pixel widths with no rules for phone or tablet widths.
+Power Apps: fixed Width/Height on labels that hold long text, AutoHeight off, containers without responsive layout.
+These are reported as cosmetic and never block. Static reading only flags likely problems; the /uxcheck browser run confirms them on screen.`,
+    verifyHint: 'Confirm the state or style problem is really there (check for loading or empty handling in a parent component or shared wrapper before confirming).',
+  },
+  {
+    id: 'accessibility', name: 'Accessibility (WCAG 2.2 AA)', scope: 'slice', pass: 'ui', appliesTo: 'ui', kind: 'accessibility',
+    checklist: `Measured against WCAG 2.2 AA as a review standard: images without text alternatives; icon-only buttons and links without an accessible name (aria-label, title, visible text); form inputs without an associated label; click handlers on non-interactive elements (div, span) without role, tabindex and keyboard handling; focus indicators removed (outline: none or 0) with no visible replacement; positive tabindex or focus traps; color pairs defined in code with low contrast (normal text below 4.5:1, large text below 3:1) when both colors are visible in code; body text below about 12px; interactive targets smaller than 24x24 CSS pixels; information conveyed by color alone; missing page language or title.
+Power Apps: empty AccessibleLabel on icons, images and buttons; TabIndex misuse; FocusedBorderThickness 0; status messages not announced (Live property).
+These are reported as accessibility findings and never block. Never suggest adding accessibility tools, scripts or runtime checks to the app.`,
+    verifyHint: 'Confirm against WCAG 2.2 AA, and check whether a name, label or focus style is provided some other way (aria-labelledby, visible text, a global stylesheet) before confirming.',
+  },
+  {
     id: 'powerapps', name: 'Power Apps (Power Fx)', scope: 'slice', pass: 'powerapps', appliesTo: 'powerapps', kind: 'bug',
     checklist: POWERAPPS_CHECKLIST,
   },
+  // --- Checked once across the whole codebase ----------------------------------
   {
     id: 'x-integration', name: 'Cross-file contracts', scope: 'cross', appliesTo: 'all', kind: 'bug',
-    checklist: 'Function signatures vs their callers, API clients vs server routes and payload shapes, shared types and constants, event/message names, config keys and environment variables used vs defined, schema vs code.',
+    checklist: 'Function signatures vs their callers, shared types and constants, event/message names, config keys and environment variables used vs defined.',
+  },
+  {
+    id: 'x-data', name: 'Data and API contracts', scope: 'cross', appliesTo: 'all', kind: 'bug',
+    checklist: `Front end to back end: every request the UI sends matches what the back end expects (field names, casing, types, required fields, date formats, enum values), and every response field the UI reads exists. API, flow or connector changes not reflected in callers (Power Automate flow inputs/outputs, custom connectors).
+Validation: every rule enforced in a form (required, length, range, format, uniqueness, permissions) is also enforced on the server or in the data source; client-only validation can be bypassed.
+Database / data source: fields used in filters, joins and lookups without indexes (category "performance"; reported as warnings); NOT NULL, UNIQUE, FOREIGN KEY or CHECK constraints the code relies on but the schema lacks; delete or update paths that leave orphaned child records (no cascade, no cleanup); schema or migrations that do not match the code's model; SharePoint/Dataverse columns the app writes that are missing, renamed or of another type.`,
   },
   {
     id: 'x-security', name: 'Cross-file security', scope: 'cross', appliesTo: 'all', kind: 'bug',
@@ -134,6 +192,22 @@ const CHECKPOINTS = [
   {
     id: 'x-powerapps', name: 'Power Apps, app-wide', scope: 'cross', appliesTo: 'powerapps', kind: 'bug',
     checklist: `App-level review across all screens and components.\n${POWERAPPS_CHECKLIST}`,
+  },
+  // --- Mapped: one agent maps the targets, then checker agents verify each batch ----
+  {
+    id: 'scoping', name: 'Selection scoping', scope: 'mapped', appliesTo: 'all', kind: 'bug', batchSize: 8,
+    mapTask: `Map how this app scopes data by a user-chosen selection: an organizational level the user picks to decide which data the app shows, such as property, regional, region, site, portfolio, account or any similar level.
+Find: (1) the selection levels and how each is identified; (2) where the hierarchy relationships live (which table, list, column, API or config says which properties belong to which regional or region); (3) where the current selection is stored (state, variables, URL, context, global variable, collection); (4) the handlers that run when the user switches selection; (5) EVERY consumer of the selection: each query, data call, screen, component, chart, total, export, cache or Power Fx formula whose results should depend on the current selection, with file and line.
+If the app has no such selection concept, set found to false and say why.`,
+    checklist: `For each consumer, check with the real code that it returns exactly the items the current selection should include, and nothing outside it:
+- Leaks (too much shown): a missing filter, filtering on the wrong field or level, OR where AND is needed, a filter applied on only some code paths, defaulting to "all" when the selection is empty or loading.
+- Gaps (items missing): the wrong relationship or join, only direct children instead of every property under a regional or region, hard-coded or stale lists of properties, inactive or renamed records dropped by accident, case or whitespace mismatches, pagination or row limits cutting results (Power Apps delegation limits: report with category "delegation"; they are reported as warnings).
+- Filtering that only hides rows on screen after an unfiltered or capped fetch.
+- Totals, counts, charts and exports that use a different scope than the list they summarize.
+- Caches or state not keyed by the selection.
+This is a correctness check, not a privacy one: users may switch selections freely by design. Rate severity by correctness impact: wrong or missing items on a main screen or in totals = high; on a secondary screen or an edge path = medium; labels only = low.`,
+    switchTask: `Check what happens when the user switches selection: every query, screen, total, chart, filter, form, cached collection and variable must refresh to the new selection, with nothing carried over from the previous one. Look for state that is appended to instead of replaced, caches keyed without the selection, forms that keep the old selection's values, and slow responses for the old selection arriving after the new selection and overwriting it.`,
+    verifyHint: 'Judge correctness only: switching between selections is intended. The question is whether the selected scope shows exactly the items it should.',
   },
 ]
 
@@ -223,6 +297,33 @@ function huntSchema(ids) {
   }
 }
 
+const MAP_SCHEMA = {
+  type: 'object',
+  properties: {
+    found: { type: 'boolean' },
+    reason: { type: 'string' },
+    levels: { type: 'array', items: { type: 'object', properties: { name: { type: 'string' }, how_identified: { type: 'string' } }, required: ['name'] } },
+    hierarchy: { type: 'array', items: { type: 'object', properties: { relationship: { type: 'string' }, where: { type: 'string' } }, required: ['relationship', 'where'] } },
+    selection_state: { type: 'array', items: { type: 'object', properties: { where: { type: 'string' }, file: { type: 'string' }, line: { type: 'integer' } }, required: ['where'] } },
+    change_handlers: { type: 'array', items: { type: 'object', properties: { description: { type: 'string' }, file: { type: 'string' }, line: { type: 'integer' } }, required: ['description', 'file'] } },
+    consumers: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          kind: { type: 'string', enum: ['query', 'screen', 'component', 'chart', 'total', 'export', 'cache', 'api', 'formula', 'other'] },
+          file: { type: 'string' },
+          line: { type: 'integer' },
+          description: { type: 'string' },
+          expected_scope: { type: 'string' },
+        },
+        required: ['kind', 'file', 'line', 'description'],
+      },
+    },
+  },
+  required: ['found', 'reason', 'consumers'],
+}
+
 const VERDICT_SCHEMA = {
   type: 'object',
   properties: {
@@ -259,12 +360,12 @@ const words = s => new Set(String(s).toLowerCase().match(/[a-z0-9]+/g) || [])
 const clip = (s, n) => { s = String(s || ''); return s.length > n ? s.slice(0, n) + '…' : s }
 
 function makeChunks(files, target) {
-  const sorted = files.map(f => [normPath(f[0]), Math.max(1, Number(f[1]) || 1)])
+  const sorted = files.map(f => [normPath(f[0]), Math.max(1, Number(f[1]) || 1), tagsOf(f)])
     .sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))
   const chunks = []
   let cur = null
   const flush = () => { if (cur && cur.parts.length) chunks.push(cur); cur = null }
-  for (const [path, n] of sorted) {
+  for (const [path, n, tags] of sorted) {
     if (n > target * 1.5) {
       // One big file: split it into line ranges, one slice each.
       flush()
@@ -272,18 +373,23 @@ function makeChunks(files, target) {
       const step = Math.ceil(n / pieces)
       for (let s = 1; s <= n; s += step) {
         const to = Math.min(n, s + step - 1)
-        chunks.push({ parts: [{ path, from: s, to, total: n }], lines: to - s + 1 })
+        chunks.push({ parts: [{ path, from: s, to, total: n, tags }], lines: to - s + 1 })
       }
       continue
     }
     // Keep a directory together; start a new slice when full, or when the directory changes and the slice is mostly full.
     if (cur && (cur.lines + n > target || (dirOf(cur.parts[cur.parts.length - 1].path) !== dirOf(path) && cur.lines >= target * 0.6))) flush()
     if (!cur) cur = { parts: [], lines: 0 }
-    cur.parts.push({ path, from: 1, to: n, total: n })
+    cur.parts.push({ path, from: 1, to: n, total: n, tags })
     cur.lines += n
   }
   flush()
-  return chunks.map((c, i) => ({ ...c, id: `S${i + 1}`, powerapps: c.parts.some(p => isPowerAppsFile(p.path)) }))
+  return chunks.map((c, i) => ({
+    ...c,
+    id: `S${i + 1}`,
+    powerapps: c.parts.some(p => isPowerAppsFile(p.path)),
+    ui: c.parts.some(p => isUiFile(p.path, p.tags)),
+  }))
 }
 
 function inChunk(bug, chunk) {
@@ -301,7 +407,7 @@ function similar(a, b) {
   return inter / Math.max(1, Math.min(wa.size, wb.size)) >= 0.5
 }
 
-const appliesToSlice = (cp, chunk) => cp.appliesTo === 'all' || (cp.appliesTo === 'powerapps' && chunk.powerapps)
+const appliesToSlice = (cp, chunk) => cp.appliesTo === 'all' || (cp.appliesTo === 'powerapps' && chunk.powerapps) || (cp.appliesTo === 'ui' && chunk.ui)
 const appliesToApp = cp => cp.appliesTo === 'all' || (cp.appliesTo === 'powerapps' && powerapps)
 
 function groupPasses(cps, mode) {
@@ -358,8 +464,8 @@ async function runHunter(prompt, label, schema) {
 
 function checkpointBlock(cps) {
   return [
-    `Checkpoints for this pass. Check EVERY one of them against everything you were assigned; none is optional:\n\n${cps.map(cp => `[${cp.id}] ${cp.name}\n${cp.checklist}`).join('\n\n')}`,
-    `For each finding, set "checkpoint" to the id it falls under. When you finish, list every checkpoint id above under "checkpoints" with status "checked" (you went through all your code for it) or "not-applicable" (nothing in your code it could apply to; say why in note).`,
+    `Checkpoints for this pass. Check EVERY one of them against everything you were assigned; none is optional:\n\n${cps.map(cp => `[${cp.id}] ${cp.name} (findings reported as: ${cp.kind})\n${cp.checklist}`).join('\n\n')}`,
+    `For each finding, set "checkpoint" to the id it falls under; the checkpoint decides how the finding is classified, so report a real bug (wrong result, crash, data loss) under a checkpoint reported as "bug" when your pass has one. When you finish, list every checkpoint id above under "checkpoints" with status "checked" (you went through all your code for it) or "not-applicable" (nothing in your code it could apply to; say why in note).`,
   ].join('\n\n')
 }
 
@@ -383,6 +489,8 @@ function slicePrompt(chunk, pass, round, known) {
   ].filter(Boolean).join('\n\n')
 }
 
+const dataFiles = A.files.filter(f => tagsOf(f).includes('data')).map(f => normPath(f[0]))
+
 const fileMap = (() => {
   const all = A.files.map(f => `${normPath(f[0])} (${f[1]})`)
   if (all.length <= 1500) return all.join('\n')
@@ -396,12 +504,60 @@ function crossPrompt(pass) {
     A.app_context ? `About the app: ${A.app_context}` : '',
     checkpointBlock(pass.cps),
     'Use Grep and Glob to trace the relevant connections, then Read the code involved. Report findings anywhere in the codebase that fall under your checkpoints.',
+    pass.cps.some(cp => cp.id === 'x-data') && dataFiles.length ? `Database and schema files found by the scope scan:\n${dataFiles.slice(0, 200).join('\n')}` : '',
     `Files in scope (path and line count):\n${fileMap}`,
     A.focus ? `The user asked for extra attention on: ${A.focus}` : '',
     WHAT_COUNTS,
     SEVERITY_RUBRIC,
     EVIDENCE_RULES,
     'There is no quota and no reward for finishing early. Report every finding you can substantiate under your checkpoints.',
+  ].filter(Boolean).join('\n\n')
+}
+
+const fmtMap = map => [
+  `Selection levels: ${(map.levels || []).map(l => `${l.name}${l.how_identified ? ` (${l.how_identified})` : ''}`).join('; ') || 'not stated'}`,
+  `Hierarchy relationships: ${(map.hierarchy || []).map(h => `${h.relationship} [${h.where}]`).join('; ') || 'not stated'}`,
+  `Where the current selection is stored: ${(map.selection_state || []).map(x => `${x.where}${x.file ? ` (${normPath(x.file)}${x.line ? `:${x.line}` : ''})` : ''}`).join('; ') || 'not stated'}`,
+  `Selection change handlers: ${(map.change_handlers || []).map(x => `${x.description} (${normPath(x.file)}${x.line ? `:${x.line}` : ''})`).join('; ') || 'none found'}`,
+].join('\n')
+const fmtConsumer = c => `- [${c.kind}] ${normPath(c.file)}:${c.line} ${c.description}${c.expected_scope ? ` (should include: ${c.expected_scope})` : ''}`
+
+function mapPrompt(cp) {
+  return [
+    `You are mapping part of the codebase at ${A.root} so that other agents can check it. You are read-only.`,
+    A.app_context ? `About the app: ${A.app_context}` : '',
+    cp.mapTask,
+    'Search widely with Grep and Glob (for the app\'s own names for these levels and for words like selected, selection, filter, scope), then Read the code. Give file paths relative to the project root and 1-based lines. Completeness matters more than speed: a consumer you miss is a consumer nobody checks.',
+    `Files in scope (path and line count):\n${fileMap}`,
+  ].filter(Boolean).join('\n\n')
+}
+
+function mappedCheckPrompt(cp, map, batch, i, n) {
+  return [
+    `You are checking "${cp.name}" in the codebase at ${A.root}. You are read-only.`,
+    A.app_context ? `About the app: ${A.app_context}` : '',
+    `The map produced by a mapping agent:\n${fmtMap(map)}`,
+    `Your consumers to check (batch ${i + 1} of ${n}). Check EVERY one; open the code around each:\n${batch.map(fmtConsumer).join('\n')}`,
+    cp.checklist,
+    `Report each finding with checkpoint "${cp.id}". When you finish, sign off "${cp.id}" under "checkpoints" as "checked".`,
+    WHAT_COUNTS,
+    SEVERITY_RUBRIC,
+    EVIDENCE_RULES,
+  ].filter(Boolean).join('\n\n')
+}
+
+function mappedSwitchPrompt(cp, map) {
+  const consumers = (map.consumers || []).slice(0, 300)
+  return [
+    `You are checking "${cp.name}" in the codebase at ${A.root}. You are read-only.`,
+    A.app_context ? `About the app: ${A.app_context}` : '',
+    `The map produced by a mapping agent:\n${fmtMap(map)}`,
+    `Everything that depends on the selection (${(map.consumers || []).length} items${consumers.length < (map.consumers || []).length ? ', first 300 shown' : ''}):\n${consumers.map(fmtConsumer).join('\n')}`,
+    cp.switchTask,
+    `Report each finding with checkpoint "${cp.id}". When you finish, sign off "${cp.id}" under "checkpoints" as "checked".`,
+    WHAT_COUNTS,
+    SEVERITY_RUBRIC,
+    EVIDENCE_RULES,
   ].filter(Boolean).join('\n\n')
 }
 
@@ -414,6 +570,7 @@ function skepticPrompt(b, k, n) {
       ? 'Check, with the code in front of you: (1) does the quoted code exist at that location (or nearby)? (2) is the trigger reachable? Trace real callers and inputs. (3) is it already guarded elsewhere (caller validation, framework behavior, types, an upstream try/catch)? (4) is the "wrong outcome" actually wrong, or intended or harmless? (5) is the severity right?'
       : `This is reported as a ${b.kind}, not a bug. Check, with the code in front of you: (1) does the quoted code exist at that location (or nearby)? (2) is the described pattern really present and accurately described? (3) is the severity right for its potential impact?`,
     b.checkpoint && /security/.test(b.checkpoint) ? SELECTION_NOTE : '',
+    cpById[b.checkpoint] && cpById[b.checkpoint].verifyHint ? cpById[b.checkpoint].verifyHint : '',
     n > 1 ? `You are skeptic ${k + 1} of ${n} and work independently. ${SKEPTIC_LENSES[k % SKEPTIC_LENSES.length]}` : '',
     'Verdict: "refuted" if any check shows the claim is not real as described; "confirmed" only if you can point to code proving it; "uncertain" if the code does not let you decide. Truth matters more than winning: do not refute a claim that is clearly real. Also give the severity you believe is correct.',
     SEVERITY_RUBRIC,
@@ -517,9 +674,11 @@ const sliceCps = enabledCps.filter(cp => cp.scope === 'slice')
 const crossCps = enabledCps.filter(cp => cp.scope === 'cross' && appliesToApp(cp))
 const passesFor = chunk => groupPasses(sliceCps.filter(cp => appliesToSlice(cp, chunk)), cfg.slicePasses)
 const crossPasses = cfg.crossMerge ? groupPasses(crossCps, 'all') : groupPasses(crossCps, 'each')
+const mappedCps = enabledCps.filter(cp => cp.scope === 'mapped' && appliesToApp(cp))
+const MAX_MAPPED_BATCHES = 30
 const requiredSlicePasses = chunks.reduce((n, c) => n + passesFor(c).length, 0)
 if (disabled.size) log(`Checkpoints turned off for this run: ${[...disabled].join(', ')}.`)
-log(`Tier "${tierName}": ${A.files.length} files, ${totalLines} lines -> ${chunks.length} slices, ${requiredSlicePasses} required slice passes + ${crossPasses.length} whole-codebase pass(es); up to ${cfg.rounds - 1} extra sweep(s).`)
+log(`Tier "${tierName}": ${A.files.length} files, ${totalLines} lines -> ${chunks.length} slices, ${requiredSlicePasses} required slice passes + ${crossPasses.length} whole-codebase pass(es) + ${mappedCps.length} mapped check(s); up to ${cfg.rounds - 1} extra sweep(s).`)
 
 // Coverage grid: one row per slice, one column per slice checkpoint; plus one status per whole-codebase checkpoint.
 const grid = chunks.map(c => ({
@@ -530,15 +689,15 @@ const grid = chunks.map(c => ({
   notes: {},
 }))
 const gridRow = Object.fromEntries(grid.map(g => [g.row, g]))
-const crossStatus = Object.fromEntries(CHECKPOINTS.filter(cp => cp.scope === 'cross').map(cp => [cp.id, {
+const crossStatus = Object.fromEntries(CHECKPOINTS.filter(cp => cp.scope !== 'slice').map(cp => [cp.id, {
   status: disabled.has(cp.id) ? 'off' : appliesToApp(cp) ? 'pending' : 'n/a',
   note: '',
 }]))
 
-function recordAttestation(task, attested) {
+function recordAttestation(task, attested, forceStatus) {
   for (const cp of task.pass.cps) {
     const a = attested ? attested.get(cp.id) : null
-    const status = !attested ? 'failed' : !a ? 'unattested' : a.status === 'checked' ? 'checked' : 'n/a'
+    const status = forceStatus || (!attested ? 'failed' : !a ? 'unattested' : a.status === 'checked' ? 'checked' : 'n/a')
     if (task.kind === 'slice') {
       gridRow[task.chunk.id].cells[cp.id] = status
       if (a && a.note) gridRow[task.chunk.id].notes[cp.id] = clip(a.note, 200)
@@ -594,6 +753,46 @@ async function runPass(t, round) {
   return { t, res, attested }
 }
 
+// Mapped checkpoint: one agent maps the targets, then checker agents verify them in batches, plus a switching check.
+const maps = {}
+async function runMapped(t) {
+  const cp = t.cp
+  const ids = [cp.id]
+  huntersRun++
+  const map = await runHunter(mapPrompt(cp), `map ${cp.id}`, MAP_SCHEMA)
+  if (!map) return { t, res: null, attested: null }
+  const consumers = Array.isArray(map.consumers) ? map.consumers : []
+  maps[cp.id] = {
+    found: !!map.found,
+    reason: map.reason,
+    levels: map.levels || [],
+    hierarchy: map.hierarchy || [],
+    selection_state: map.selection_state || [],
+    change_handlers: map.change_handlers || [],
+    consumers: consumers.length,
+    consumer_list: consumers.slice(0, 200).map(c => ({ kind: c.kind, file: normPath(c.file), line: c.line, description: clip(c.description, 160) })),
+  }
+  if (!map.found || !consumers.length) {
+    return { t, res: { bugs: [], files_reviewed: [] }, attested: new Map([[cp.id, { id: cp.id, status: 'not-applicable', note: clip(map.reason || 'nothing to check was found', 200) }]]) }
+  }
+  let size = cp.batchSize || 8
+  while (Math.ceil(consumers.length / size) > MAX_MAPPED_BATCHES) size++
+  const batches = []
+  for (let i = 0; i < consumers.length; i += size) batches.push(consumers.slice(i, i + size))
+  maps[cp.id].batches = batches.length
+  const jobs = batches.map((b, i) => () => {
+    huntersRun++
+    return runHunter(mappedCheckPrompt(cp, map, b, i, batches.length), `check ${cp.id} ${i + 1}/${batches.length}`, huntSchema(ids))
+  })
+  if (cp.switchTask) jobs.push(() => { huntersRun++; return runHunter(mappedSwitchPrompt(cp, map), `check ${cp.id} switching`, huntSchema(ids)) })
+  const results = await parallel(jobs)
+  const done = results.filter(Boolean)
+  const res = { bugs: done.flatMap(r => r.bugs || []), files_reviewed: done.flatMap(r => r.files_reviewed || []), files_not_reviewed: done.flatMap(r => r.files_not_reviewed || []) }
+  if (done.length < results.length) return { t, res, attested: new Map(), forceStatus: 'failed' }
+  const signed = done.every(r => (r.checkpoints || []).some(c => c.id === cp.id && c.status === 'checked'))
+  return { t, res, attested: signed ? new Map([[cp.id, { id: cp.id, status: 'checked', note: `${consumers.length} consumers in ${batches.length} batch(es)` }]]) : new Map() }
+}
+
 phase('Hunt')
 for (let round = 1; round <= cfg.rounds; round++) {
   roundsRun = round
@@ -601,19 +800,22 @@ for (let round = 1; round <= cfg.rounds; round++) {
   const tasks = []
   for (const chunk of chunks) for (const pass of passesFor(chunk)) tasks.push({ kind: 'slice', chunk, pass })
   if (round === 1) for (const pass of crossPasses) tasks.push({ kind: 'cross', pass })
+  if (round === 1) for (const cp of mappedCps) tasks.push({ kind: 'mapped', cp, pass: { name: cp.id, cps: [cp] } })
 
   await pipeline(tasks,
-    async (t) => runPass(t, round),
-    async ({ t, res, attested }) => {
-      if (round === 1) recordAttestation(t, res ? attested : null)
+    async (t) => (t.kind === 'mapped' ? runMapped(t) : runPass(t, round)),
+    async ({ t, res, attested, forceStatus }) => {
+      const where = t.kind === 'slice' ? t.chunk.id : t.kind === 'mapped' ? 'mapped' : 'whole-codebase'
+      if (round === 1) recordAttestation(t, res ? attested : null, forceStatus)
+      if (forceStatus === 'failed') failedPasses.push({ id: where, pass: t.pass.name, round, files: [] })
       if (!res) {
-        failedPasses.push({ id: t.kind === 'slice' ? t.chunk.id : 'whole-codebase', pass: t.pass.name, round, files: t.kind === 'slice' ? t.chunk.parts.map(p => p.path) : [] })
+        failedPasses.push({ id: where, pass: t.pass.name, round, files: t.kind === 'slice' ? t.chunk.parts.map(p => p.path) : [] })
         return []
       }
       huntersOk++
       for (const f of res.files_reviewed || []) reviewed.add(normPath(f))
       for (const f of res.files_not_reviewed || []) notReviewed.add(normPath(f))
-      const finder = `${t.kind === 'slice' ? t.chunk.id : 'whole-codebase'}:${t.pass.name}${round > 1 ? `/r${round}` : ''}`
+      const finder = `${where}:${t.pass.name}${round > 1 ? `/r${round}` : ''}`
       const allowed = t.pass.cps.map(cp => cp.id)
       const fresh = []
       for (const b of res.bugs || []) {
@@ -679,7 +881,7 @@ const coverageComplete = gapCells.length === 0 && gapCross.length === 0 && dropp
 const allFiles = A.files.map(f => normPath(f[0]))
 const missing = allFiles.filter(f => !reviewed.has(f))
 const summary = Object.fromEntries(CHECKPOINTS.map(cp => {
-  if (cp.scope === 'cross') return [cp.id, { status: crossStatus[cp.id].status }]
+  if (cp.scope !== 'slice') return [cp.id, { status: crossStatus[cp.id].status }]
   const cells = grid.map(g => g.cells[cp.id])
   return [cp.id, ['checked', 'n/a', 'failed', 'unattested', 'off'].reduce((o, s) => ({ ...o, [s]: cells.filter(c => c === s).length }), {})]
 }))
@@ -698,6 +900,7 @@ return {
     slice_lines: chunkLines,
     required_slice_passes: requiredSlicePasses,
     whole_codebase_passes: crossPasses.length,
+    mapped_checks: mappedCps.length,
     rounds_run: roundsRun,
     hunters_run: huntersRun,
     hunters_ok: huntersOk,
@@ -730,5 +933,6 @@ return {
     dropped_agents: dropped,
     errors: errors.slice(0, 20),
   },
+  maps,
   kind_rules: KIND_RULES.map(r => r.why),
 }

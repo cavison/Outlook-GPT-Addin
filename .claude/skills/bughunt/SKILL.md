@@ -21,21 +21,37 @@ This skill is strictly read-only. Do not edit, create or delete any file of the 
 
 ## 2. Size and cost check
 
-Every checkpoint in the workflow's checkpoint list is a required pass. Every slice is checked against every slice checkpoint (core logic, edge cases, security, contracts, plus Power Apps on slices with Power Apps source), and the whole-codebase checkpoints (cross-file contracts, cross-file security, shared state, config, plus Power Apps app-wide) run once. Related checkpoints share an agent to hold cost down.
+Every checkpoint in the workflow's checkpoint list is a required pass:
+- **Every slice:** core logic, edge cases, performance, security, contracts and code health.
+- **Slices with screen code** (tagged `ui` by the scope script): interaction, UI feedback and layout hints, and accessibility.
+- **Slices with Power Apps source:** the Power Apps checks.
+- **Once across the whole codebase:** cross-file contracts, data and API contracts, cross-file security, shared state, and config, plus Power Apps app-wide.
+- **Selection scoping:** one agent maps the selection levels and every query or screen that uses them, then checker agents verify each in batches, plus one check of what happens when the selection is switched.
+
+Related checkpoints share an agent to hold cost down.
 
 Tier comes from `total_lines` unless `--mode` is given: small < 3,000 lines, medium < 30,000, large otherwise.
 
 | tier | lines per slice | slice cap | agents per slice | whole-codebase agents | skeptics per bug | extra sweeps |
 |---|---|---|---|---|---|---|
 | lean | 4,000 | 8 | 1 (all checkpoints together) | 1 (all together) | 1 | none |
-| small | 1,500 | 6 | 2 (correctness; security + contracts) | 1 (all together) | 1 | none |
-| medium | 2,500 | 24 | 2 | 4 (one each) | 3 for critical/high, else 1 | up to 1 |
-| large | 3,000 | 48 | 2 | 4 | 3 (majority vote) | up to 2 |
-| max | 1,500 | 80 | 4 (one per checkpoint) | 4 | 5 for critical/high, else 3 | up to 2 |
+| small | 1,500 | 6 | 2, or 3 with screen code | 1 (all together) | 1 | none |
+| medium | 2,500 | 24 | 2, or 3 with screen code | 5 (one each) | 3 for critical/high, else 1 | up to 1 |
+| large | 3,000 | 48 | 2, or 3 with screen code | 5 | 3 (majority vote) | up to 2 |
+| max | 1,500 | 80 | 6, or 9 with screen code (one per checkpoint) | 5 | 5 for critical/high, else 3 | up to 2 |
 
-Slices with Power Apps source get one more agent, and Power Apps apps get one more whole-codebase agent. Warnings and other non-bug findings get one skeptic. Extra sweeps re-check every slice with fresh eyes and stop as soon as a sweep confirms nothing new.
+The per-slice agents are:
+- **correctness:** core logic, edge cases and performance;
+- **safety:** security, contracts and code health;
+- **screen code:** interaction, UI feedback and layout hints, and accessibility.
 
-Estimate agents as (slices × agents per slice) + whole-codebase agents, plus 1 to 3 skeptics per finding, plus extra sweeps on medium and larger apps. A rough cost is 50k to 100k tokens per agent (Anthropic's demo used about 1.3M tokens for 15 agents).
+Other notes:
+- Slices with Power Apps source get one more agent, and Power Apps apps get one more whole-codebase agent.
+- Selection scoping adds one mapping agent, plus one checker per 8 places that use a selection (at most 30 checkers), plus one switching check. Apps with no selection concept only pay for the mapping agent.
+- Warnings and other non-bug findings get one skeptic.
+- Extra sweeps re-check every slice with fresh eyes and stop as soon as a sweep confirms nothing new.
+
+**Estimate:** (slices × agents per slice) + whole-codebase agents + scoping agents, plus 1 to 3 skeptics per finding, plus extra sweeps on medium and larger apps. A rough cost is 50k to 100k tokens per agent (Anthropic's demo used about 1.3M tokens for 15 agents).
 
 - small or lean: proceed without asking.
 - medium, large or max: show the tier, estimated agent count and rough token range, and ask the user to confirm before launching. Offer `lean` as the cheaper option.

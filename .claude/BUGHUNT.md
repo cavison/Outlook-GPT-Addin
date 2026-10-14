@@ -50,16 +50,25 @@ The hunt checks the code against a fixed list of **checkpoints**. Each checkpoin
 
 | Checkpoint | Checked on | Produces |
 |---|---|---|
-| Core logic and error handling | every slice | bugs |
-| Edge cases and failure paths | every slice | bugs |
+| Core logic and error handling (incl. swallowed errors, "success" after failure, dates and time zones) | every slice | bugs |
+| Edge cases and failure paths (incl. zero/negative/long/special-character input, two users saving one record) | every slice | bugs |
+| Performance (N+1 calls, unbounded loads, re-renders, heavy imports) | every slice | warnings |
 | Security and data integrity | every slice | bugs |
 | Contracts and assumptions | every slice | bugs |
+| Code health (dead code, duplicated logic, hard-coded values) | every slice | code health |
+| Interaction and response handling (double-submit, lost form input, unconfirmed deletes, back/refresh/session expiry, error/empty/slow responses) | slices with screen code | bugs |
+| UI feedback and layout hints (spinners, empty states, likely overflow, scroll issues) | slices with screen code | cosmetic |
+| Accessibility, measured against WCAG 2.2 AA | slices with screen code | accessibility |
 | Power Apps (Power Fx) | slices with `.pa.yaml`/`.fx.yaml` | bugs; delegation limits become warnings |
 | Cross-file contracts | whole codebase | bugs |
+| Data and API contracts (payloads, server-side validation, indexes, constraints, orphaned records) | whole codebase | bugs; missing indexes are warnings |
 | Cross-file security | whole codebase | bugs |
 | Shared state, lifecycle and async | whole codebase | bugs |
 | Build, configuration and deployment | whole codebase | bugs |
 | Power Apps, app-wide | whole codebase, Power Apps apps only | bugs; delegation limits become warnings |
+| Selection scoping: a mapping agent finds every place a selection is used, then checkers verify each returns exactly the right items, plus a switching check | whole codebase (n/a if the app has no selection concept) | bugs, rated as correctness, not privacy |
+
+"Screen code" is detected by the scope script: HTML, CSS, JSX/TSX, Vue, Svelte, Razor and Power Apps screen files, plus JavaScript/TypeScript files that touch the page. Accessibility is a review standard only. Nothing is ever added to the app to measure it.
 
 - **Every checkpoint is a required pass.** It runs whether or not earlier passes found anything. Each agent must sign off every checkpoint it was given as "checked" or "not applicable (why)". A missing sign-off triggers a follow-up agent for just that checkpoint.
 - **Coverage grid.** Every report shows slices × checkpoints: ✓ checked, – not applicable, off, ✗ failed, ? not signed off. Any ✗ or ? blocks "clean".

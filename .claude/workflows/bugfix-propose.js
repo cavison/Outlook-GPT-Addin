@@ -156,14 +156,23 @@ const END_SCHEMA = {
 // Prompts
 // ---------------------------------------------------------------------------
 
-const fmtBug = b => [
+const fmtBug = b => (b.evidence_type === 'runtime' ? [
   `[${b.id}] ${b.title}`,
-  `Location: ${b.file}:${b.line}${b.end_line ? `-${b.end_line}` : ''} | severity: ${b.severity} | category: ${b.category || 'n/a'}`,
+  `Found in the running app (browser test), kind: ${b.kind || 'bug'} | severity: ${b.severity} | checkpoint: ${b.checkpoint_name || b.checkpoint || 'n/a'}`,
+  `Screen: ${b.screen || 'n/a'} | URL: ${b.url || 'n/a'} | viewport: ${b.viewport || 'n/a'}`,
+  `Steps to reproduce:\n${(b.steps || []).map((x, i) => `${i + 1}. ${x}`).join('\n')}`,
+  `Expected: ${b.expected || 'n/a'}`,
+  `Actual: ${b.actual || b.description || 'n/a'}`,
+  b.screenshot ? `Screenshot (open it with Read): ${b.screenshot}` : '',
+  b.file ? `Code the tester suspects: ${b.file}${b.line ? `:${b.line}` : ''}` : 'No code location yet: find the responsible code first (Grep for the screen, labels and handlers involved).',
+].filter(Boolean).join('\n') : [
+  `[${b.id}] ${b.title}`,
+  `Location: ${b.file}:${b.line}${b.end_line ? `-${b.end_line}` : ''} | kind: ${b.kind || 'bug'} | severity: ${b.severity} | category: ${b.category || 'n/a'}`,
   `What is wrong: ${b.description}`,
   `Trigger and outcome: ${b.trigger}`,
   b.evidence ? `Evidence:\n${b.evidence}` : '',
   b.verification && b.verification.reproduction ? `Reproduction (from verifier): ${b.verification.reproduction}` : '',
-].filter(Boolean).join('\n')
+].filter(Boolean).join('\n'))
 
 const history = A.history || {}
 const fmtHistory = b => {
@@ -176,7 +185,7 @@ function plannerPrompt(group) {
   return [
     `Design fixes for confirmed bugs in the codebase at ${A.root}. You are read-only: you write a specification, someone else applies it after a person approves it.`,
     A.app_context ? `About the app: ${A.app_context}` : '',
-    `Bugs (all in or around ${group.file}):\n\n${group.bugs.map(fmtBug).join('\n\n')}`,
+    `Findings (all in or around ${group.file}):\n\n${group.bugs.map(fmtBug).join('\n\n')}`,
     group.bugs.map(fmtHistory).filter(Boolean).join('\n\n'),
     `For EACH bug:
 1. Re-read the code and confirm it still reproduces (still_reproduces). If not, say so and propose no edits.
@@ -189,6 +198,8 @@ function plannerPrompt(group) {
 8. apply_mode: "auto" when the edits are ordinary code changes; "manual" when the change must be made in a designer tool, a platform setting or an external system, and then write manual_steps a person can follow.`,
     A.powerapps ? 'Power Apps note: Microsoft advises only minor direct edits to .pa.yaml source, and none in apps that use code components. For .pa.yaml files, use apply_mode "auto" only for small single-formula edits; otherwise use "manual" and write step-by-step Power Apps Studio instructions.' : '',
     'If several bugs here interact (same lines, same root cause), say so and make their edits consistent with each other.',
+    group.bugs.some(b => b.kind === 'accessibility') ? 'Accessibility fixes must be plain markup or property changes (labels, alt text, roles, focus styles, sizes, colors). Never add accessibility testing tools, scripts, libraries or runtime checks to the app, and never change behavior that existing users rely on. In Power Apps, prefer apply_mode "manual" with Studio steps unless it is a single property such as AccessibleLabel.' : '',
+    'Never add testing tools, test scripts or monitoring code to the app as part of a fix unless the fix itself is a test the user asked for.',
   ].filter(Boolean).join('\n\n')
 }
 
@@ -225,7 +236,7 @@ function endReviewPrompt(items) {
 
 const byFile = {}
 for (const b of bugs) {
-  const f = String(b.file || 'unknown')
+  const f = String(b.file || (b.screen ? `screen: ${b.screen}` : 'unknown'))
   ;(byFile[f] = byFile[f] || []).push(b)
 }
 const groups = []
