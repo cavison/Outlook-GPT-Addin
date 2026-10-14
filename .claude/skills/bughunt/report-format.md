@@ -97,6 +97,51 @@ These findings were removed by the evidence-gate script and cannot enter a fix p
 </details>
 ```
 
+## ux-report.md (browser check result, from /uxcheck)
+
+```markdown
+# UX check: <project folder name>, <YYYY-MM-DD HH:MM>
+
+**Verdict:** CLEAN | NOT CLEAN. Blocking: bugs of severity <threshold> and above. Cosmetic, accessibility and warning findings are reported but never block.
+**App:** <base_url> · signed in: yes/no · test selection: "<test_selection>" selected | not found (add one!) | no selection control
+**Screens:** <screens_tested> at <viewports> · **Agents:** <agents_used> · **Evidence check:** <passed>/<checked> passed
+
+## Side effects
+- Not clicked (reach real people or systems): <avoided_by_rule, or "none found">
+- Found by the code scan: table of action, screen, effect, target, file:line
+- Risks testers noticed while testing: <list>
+- Test records created in "<test_selection>": <list> (safe to delete)
+
+## Summary
+<bugs by severity, then counts for cosmetic, accessibility, warning; disputed, refuted, evidence-rejected, duplicates merged>
+
+## Coverage grid
+
+| Screen | Visual and layout | Functional and interaction | Accessibility |
+|---|---|---|---|
+| P1 <screen> | ✓ | ✓ | ✓ |
+
+✓ checked · – not applicable · limited (could not fully test; for example no test property) · unreached · ✗ failed · ? not signed off · off
+Selection switching: <status>. Gaps: <coverage.gaps or "none">.
+
+## Blocking bugs
+
+### UB1 · HIGH · <title>
+- **Screen / viewport:** <screen> · <viewport> · <url>
+- **Steps:** numbered list
+- **Expected / actual:** <expected> / <actual>
+- **Screenshot:** ![<title>](<path relative to this report>) and replay: ![replay](<replay_screenshot>)
+- **Verification:** <votes>. <reasons>
+- **Suspected code:** <file:line, if given>
+
+## Cosmetic (UV), accessibility (UA) and other findings
+<same layout, grouped by kind>
+
+## Disputed: needs your judgment
+## Regression check of previous fixes
+<details> blocks: rejected for missing evidence; false alarms removed by replay
+```
+
 ## fix-plan.md (plan result)
 
 ```markdown

@@ -347,7 +347,8 @@ await test('gate: real quotes pass, paraphrase and fake files are rejected, wron
   code[41] = '  const token = session.user.token.value'
   code[42] = '  return fetch(url, { headers: { auth: token } })'
   writeFileSync(join(dir, 'src/app.js'), code.join('\n'))
-  writeFileSync(join(dir, 'shot.png'), 'png')
+  writeFileSync(join(dir, 'shot.png'), Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0, 0, 0, 0]))
+  writeFileSync(join(dir, 'fake.png'), 'not an image')
   const base = { checkpoint: 'logic', evidence_type: 'code', severity: 'high', kind: 'bug', blocks: true, file: 'src/app.js' }
   const findings = {
     root: dir, clean: false, stats: { blocking: 5 }, regressions: [], coverage: { complete: true },
@@ -361,6 +362,7 @@ await test('gate: real quotes pass, paraphrase and fake files are rejected, wron
       { id: 'V1', kind: 'cosmetic', blocks: false, checkpoint: 'visual', evidence_type: 'runtime', severity: 'low', screenshot: 'shot.png', steps: ['open page', 'look at pill'] },
       { id: 'V2', kind: 'cosmetic', blocks: false, checkpoint: 'visual', evidence_type: 'runtime', severity: 'low', screenshot: 'nope.png', steps: ['x'] },
       { id: 'V3', kind: 'cosmetic', blocks: false, checkpoint: 'visual', evidence_type: 'runtime', severity: 'low', screenshot: 'shot.png', steps: ['  '] },
+      { id: 'V4', kind: 'cosmetic', blocks: false, checkpoint: 'visual', evidence_type: 'runtime', severity: 'low', screenshot: 'fake.png', steps: ['open page'] },
     ],
     disputed: [{ ...base, id: 'D1', line: 43, blocks: false, evidence: 'return fetch(url, { headers: { auth: token } })' }],
   }
@@ -371,13 +373,14 @@ await test('gate: real quotes pass, paraphrase and fake files are rejected, wron
   const ids = arr => arr.map(f => f.id)
   assert.deepEqual(ids(g.confirmed), ['B1', 'B2', 'V1'])
   assert.deepEqual(ids(g.disputed), ['D1'])
-  assert.deepEqual(ids(g.rejected_evidence).sort(), ['B3', 'B4', 'B5', 'B6', 'V2', 'V3'])
+  assert.deepEqual(ids(g.rejected_evidence).sort(), ['B3', 'B4', 'B5', 'B6', 'V2', 'V3', 'V4'])
+  assert.match(g.rejected_evidence.find(f => f.id === 'V4').evidence_check.reason, /not a PNG/)
   const b2 = g.confirmed.find(f => f.id === 'B2')
   assert.equal(b2.line, 42); assert.equal(b2.evidence_check.line_corrected_from, 5)
   assert.match(g.rejected_evidence.find(f => f.id === 'B3').evidence_check.reason, /not found/)
   assert.match(g.rejected_evidence.find(f => f.id === 'B5').evidence_check.reason, /outside the project/)
   assert.match(g.rejected_evidence.find(f => f.id === 'B6').evidence_check.reason, /checkpoint/)
-  assert.equal(g.evidence_gate.checked, 10); assert.equal(g.evidence_gate.passed, 4); assert.equal(g.evidence_gate.lines_corrected, 1)
+  assert.equal(g.evidence_gate.checked, 11); assert.equal(g.evidence_gate.passed, 4); assert.equal(g.evidence_gate.lines_corrected, 1)
   assert.equal(g.stats.blocking, 2)
   assert.equal(g.clean, false)
   assert.ok(out.includes('rejected B3'))
@@ -390,6 +393,133 @@ await test('gate: clean flips to true when the only blocking finding has no real
   writeFileSync(p, JSON.stringify({ root: dir, clean: false, regressions: [], coverage: { complete: true }, confirmed: [{ id: 'B1', kind: 'bug', blocks: true, checkpoint: 'logic', evidence_type: 'code', severity: 'high', file: 'a.js', line: 1, evidence: 'made up code here' }], disputed: [] }))
   execFileSync('node', [GATE, p])
   assert.equal(JSON.parse(readFileSync(p, 'utf8')).clean, true)
+})
+
+// --- uxcheck-run ----------------------------------------------------------------
+
+const sleep = ms => new Promise(r => setTimeout(r, ms))
+function uxMock({ selection = { exists: true, test_option_found: true, selected: true }, reachable = true, signedIn = true, screens = [{ name: 'Units', how_to_reach: 'nav: Units' }, { name: 'Notes', how_to_reach: 'nav: Notes' }], replay = () => 'confirmed', testFails = () => false } = {}) {
+  const state = { activeBrowser: 0, maxBrowser: 0 }
+  const fn = async (p, o) => {
+    const browser = o.agentType === 'ux-tester' || o.agentType === 'ux-skeptic'
+    if (browser) { state.activeBrowser++; state.maxBrowser = Math.max(state.maxBrowser, state.activeBrowser) }
+    try {
+      await sleep(3)
+      if (o.label === 'scan side effects') return { screens: [{ name: 'Settings', how_to_reach: '/settings' }], external_side_effects: [{ action: 'Email all tenants', screen: 'Notes', effect: 'email', target: 'tenants' }], record_changes: [{ action: 'Save note', change: 'create' }] }
+      if (o.label.startsWith('preflight')) return { reachable, signed_in: signedIn, sign_in_notes: signedIn ? '' : 'wrong password', selection, screens, console_errors: [] }
+      if (o.label.startsWith('test selection switching')) return { reached: true, findings: [{ title: 'Units from previous property stay after switching', checkpoint: 'ux-scoping', severity: 'high', category: 'scoping', screen: 'Units', viewport: 'desktop 1440x900', steps: ['sign in', 'select Alpha', 'select ZZ-test'], expected: 'only ZZ units', actual: 'Alpha units remain', screenshot: '.bughunt/runs/r/ux-evidence/switch-1.png', evidence_type: 'runtime' }], checks: [{ id: 'ux-scoping', status: 'checked' }] }
+      if (o.label.startsWith('test ')) {
+        if (testFails(o.label)) return null
+        const ids = [...p.matchAll(/^\[(ux-[a-z]+)\] /gm)].map(m => m[1])
+        const findings = []
+        if (o.label.includes('Units')) {
+          findings.push({ title: 'Manager pill text cut off', checkpoint: 'ux-visual', severity: 'low', category: 'visual', screen: 'Units', viewport: 'phone 375x812', steps: ['open Units'], expected: 'full name or ellipsis', actual: 'cut off', screenshot: '.bughunt/runs/r/ux-evidence/p1-units-phone.png', evidence_type: 'runtime' })
+          findings.push({ title: 'Manager pill text cut off', checkpoint: 'ux-visual', severity: 'low', category: 'visual', screen: 'Units', viewport: 'tablet 768x1024', steps: ['open Units'], expected: 'full', actual: 'cut off', screenshot: '.bughunt/runs/r/ux-evidence/p1-units-tablet.png', evidence_type: 'runtime' })
+          findings.push({ title: 'Double-click Save creates two notes', checkpoint: 'ux-interaction', severity: 'medium', category: 'interaction', screen: 'Units', viewport: 'desktop 1440x900', steps: ['open Units', 'double-click Save'], expected: 'one note', actual: 'two notes', screenshot: '.bughunt/runs/r/ux-evidence/p1-units-dbl.png', evidence_type: 'runtime' })
+          findings.push({ title: 'Delete removes note without asking', checkpoint: 'ux-interaction', severity: 'medium', category: 'interaction', screen: 'Units', viewport: 'desktop 1440x900', steps: ['create note', 'click x'], expected: 'confirmation', actual: 'deleted', screenshot: '.bughunt/runs/r/ux-evidence/p1-units-del.png', evidence_type: 'runtime' })
+        }
+        return { reached: true, findings, checks: ids.map(id => ({ id, status: id === 'ux-interaction' && p.includes('Data entry: NOT allowed') ? 'limited' : 'checked', viewports: ['phone', 'desktop'] })), side_effect_risks: [], test_records_created: o.label.includes('Units') ? ['note "BUGHUNT TEST 1"'] : [] }
+      }
+      if (o.label.startsWith('recheck')) return { status: 'fixed', evidence: 'gone' }
+      if (o.label.startsWith('replay')) {
+        const v = replay(p)
+        return v ? { verdict: v, reasoning: v, severity: (p.includes('Double-click') ? 'high' : 'low'), screenshot: '.bughunt/runs/r/ux-evidence/replay.png' } : null
+      }
+      throw new Error('unexpected ' + o.label)
+    } finally { if (browser) state.activeBrowser-- }
+  }
+  return { fn, state }
+}
+const uxArgs = extra => ({ root: '/proj', run_dir: '.bughunt/runs/r', base_url: 'http://127.0.0.1:8765', login: { required: true, user_secret: 'BUGHUNT_UX_USER', password_secret: 'BUGHUNT_UX_PASSWORD' }, ...extra })
+
+await test('ux: browser agents run one at a time; ZZ-test default; do-not-click list; merge, replay, kinds, grid', async () => {
+  const m = uxMock({ replay: p => (p.includes('Delete removes') ? 'refuted' : 'confirmed') })
+  const { result: r, calls } = await runWorkflow(`${WF}/uxcheck-run.js`, uxArgs(), m.fn)
+  assert.equal(r.ok, true, JSON.stringify(r).slice(0, 400))
+  assert.equal(m.state.maxBrowser, 1, 'one shared browser: never two browser agents at once')
+  const pre = calls.find(c => c.opts.label === 'preflight')
+  assert.ok(pre.prompt.includes('select the option named "ZZ-test" now') && pre.prompt.includes('without asking anyone'))
+  assert.ok(pre.prompt.includes('BUGHUNT_UX_PASSWORD') && pre.prompt.includes('the browser replaces these names'))
+  const t1 = calls.find(c => c.opts.label === 'test Units')
+  assert.ok(t1.prompt.includes('"Email all tenants" on Notes (email to tenants)'), 'do-not-click list from the side-effect scan')
+  assert.ok(t1.prompt.includes('Data entry: allowed in the test property "ZZ-test"'))
+  assert.ok(t1.prompt.includes('.bughunt/runs/r/ux-evidence/p1-units-'))
+  assert.deepEqual(r.coverage.grid.map(g => g.screen), ['Units', 'Notes', 'Settings'], 'screens from preflight + code scan')
+  assert.ok(r.coverage.grid.every(g => Object.values(g.cells).every(c => c === 'checked')))
+  assert.equal(r.coverage.whole_app['ux-scoping'].status, 'checked')
+  // phone + tablet overflow merged into one finding
+  const pill = r.confirmed.find(f => f.title === 'Manager pill text cut off')
+  assert.equal(pill.kind, 'cosmetic'); assert.match(pill.id, /^UV\d/); assert.equal(pill.viewport, 'phone 375x812, tablet 768x1024')
+  const dbl = r.confirmed.find(f => f.title.startsWith('Double-click'))
+  assert.equal(dbl.kind, 'bug'); assert.equal(dbl.severity, 'high', 'replay recalibrates severity'); assert.equal(dbl.blocks, true); assert.match(dbl.id, /^UB\d/)
+  assert.ok(r.confirmed.every(f => f.evidence_type === 'runtime' && f.screenshot && f.steps.length))
+  assert.equal(r.refuted.length, 1); assert.equal(r.refuted[0].title, 'Delete removes note without asking')
+  assert.ok(r.confirmed.some(f => f.checkpoint === 'ux-scoping' && f.kind === 'bug'))
+  assert.deepEqual(r.side_effects.avoided_by_rule, ['Email all tenants'])
+  assert.ok(r.side_effects.test_records_created.length === 1)
+  assert.equal(r.coverage.complete, true)
+  assert.equal(r.clean, false)
+})
+
+await test('ux: no ZZ-test option -> flagged, data entry off, interaction limited, not clean', async () => {
+  const m = uxMock({ selection: { exists: true, test_option_found: false, selected: false } })
+  const { result: r, calls, logs } = await runWorkflow(`${WF}/uxcheck-run.js`, uxArgs(), m.fn)
+  assert.equal(r.needs_test_selection, true); assert.equal(r.data_entry_allowed, false)
+  assert.ok(calls.find(c => c.opts.label === 'test Units').prompt.includes('Data entry: NOT allowed'))
+  assert.equal(r.coverage.grid[0].cells['ux-interaction'], 'limited')
+  assert.ok(r.coverage.gaps.some(g => g.includes('no "ZZ-test" option')))
+  assert.ok(logs.some(l => l.includes('please add a "ZZ-test" property')))
+  assert.equal(r.clean, false)
+})
+
+await test('ux: app without a selection control -> data entry allowed, switching n/a', async () => {
+  const m = uxMock({ selection: { exists: false, test_option_found: false, selected: false }, replay: () => 'refuted' })
+  const { result: r, calls } = await runWorkflow(`${WF}/uxcheck-run.js`, uxArgs(), m.fn)
+  assert.equal(r.data_entry_allowed, true)
+  assert.equal(r.coverage.whole_app['ux-scoping'].status, 'n/a')
+  assert.ok(!calls.some(c => c.opts.label.startsWith('test selection switching')))
+  assert.equal(r.clean, true)
+})
+
+await test('ux: unreachable app or failed sign-in -> ok:false with a clear reason', async () => {
+  const a = await runWorkflow(`${WF}/uxcheck-run.js`, uxArgs(), uxMock({ reachable: false }).fn)
+  assert.equal(a.result.ok, false); assert.match(a.result.error, /not reachable/)
+  const b = await runWorkflow(`${WF}/uxcheck-run.js`, uxArgs(), uxMock({ signedIn: false }).fn)
+  assert.equal(b.result.ok, false); assert.match(b.result.error, /Sign-in failed/)
+})
+
+await test('ux: failed screen agent -> retried, grid failed, not clean; unverified replays are disputed', async () => {
+  const m = uxMock({ testFails: l => l.startsWith('test Notes'), replay: () => null })
+  const { result: r, calls } = await runWorkflow(`${WF}/uxcheck-run.js`, uxArgs(), m.fn)
+  assert.ok(calls.some(c => c.opts.label === 'test Notes retry'))
+  assert.equal(r.coverage.grid.find(g => g.screen === 'Notes').cells['ux-visual'], 'failed')
+  assert.equal(r.confirmed.length, 0); assert.ok(r.disputed.length > 0); assert.match(r.disputed[0].id, /^UD\d/)
+  assert.equal(r.clean, false)
+})
+
+await test('ux: previous findings are rechecked; screen limit is logged, not silent', async () => {
+  const many = Array.from({ length: 5 }, (_, i) => ({ name: `Screen ${i}`, how_to_reach: 'nav' }))
+  const m = uxMock({ screens: many, replay: () => 'refuted' })
+  const { result: r, logs } = await runWorkflow(`${WF}/uxcheck-run.js`, uxArgs({ max_screens: 3, previous_findings: [{ id: 'UB1', title: 'x', screen: 'Units', steps: ['a'], viewport: 'desktop', expected: 'e', actual: 'a' }] }), m.fn)
+  assert.equal(r.regressions[0].status, 'fixed')
+  assert.equal(r.coverage.grid.length, 3)
+  assert.equal(r.coverage.dropped_screens.length, 3)
+  assert.ok(logs.some(l => l.includes('beyond the limit of 3')))
+  assert.equal(r.coverage.complete, false)
+})
+
+await test('ux: runtime findings pass the evidence gate only with a real screenshot and steps', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'bughunt-ux-'))
+  mkdirSync(join(dir, '.bughunt/runs/r/ux-evidence'), { recursive: true })
+  writeFileSync(join(dir, '.bughunt/runs/r/ux-evidence/p1-units-dbl.png'), Buffer.from([0x89, 0x50, 0x4e, 0x47, 0, 0, 0, 0]))
+  const m = uxMock()
+  const { result: r } = await runWorkflow(`${WF}/uxcheck-run.js`, uxArgs({ root: dir }), m.fn)
+  const p = join(dir, 'findings.json')
+  writeFileSync(p, JSON.stringify(r))
+  execFileSync('node', [GATE, p])
+  const g = JSON.parse(readFileSync(p, 'utf8'))
+  assert.deepEqual(g.confirmed.map(f => f.title), ['Double-click Save creates two notes'], 'only the finding whose screenshot exists survives')
+  assert.ok(g.rejected_evidence.length >= 2)
 })
 
 // --- bugfix-propose ----------------------------------------------------------
@@ -450,6 +580,18 @@ await test('propose: findings without a passed evidence check are refused', asyn
   assert.match(none.result.error, /evidence check/)
 })
 
+await test('propose: runtime findings are described with screen, steps and screenshot', async () => {
+  const rt = { id: 'UB1', title: 'Double-click Save creates two notes', kind: 'bug', evidence_type: 'runtime', severity: 'high', screen: 'Units', url: 'http://x/units', viewport: 'desktop', steps: ['open Units', 'double-click Save'], expected: 'one note', actual: 'two notes', screenshot: '.bughunt/runs/r/ux-evidence/p1.png', ...ok }
+  const mock = (p, o) => (o.agentType === 'fix-planner'
+    ? { proposals: [{ bug_id: 'UB1', still_reproduces: true, root_cause: 'rc', options: [], recommended: { summary: 's', why: 'w', edits: [{ file: 'src/save.js', location: 'l', change: 'c' }], files_touched: ['src/save.js'], verification: 'v' }, side_effect_risks: 'n', apply_mode: 'auto', confidence: 'high' }] }
+    : proposeMock(p, o))
+  const { calls } = await runWorkflow(`${WF}/bugfix-propose.js`, { root: '/proj', bugs: [rt] }, mock)
+  const pl = calls.find(c => c.opts.agentType === 'fix-planner')
+  assert.ok(pl.prompt.includes('Found in the running app') && pl.prompt.includes('2. double-click Save') && pl.prompt.includes('Screenshot (open it with Read)'))
+  assert.ok(pl.prompt.includes('find the responsible code first'))
+  assert.ok(pl.opts.label.includes('screen: Units'))
+})
+
 await test('propose: history of failed attempts reaches the planner', async () => {
   const { calls } = await runWorkflow(`${WF}/bugfix-propose.js`, { root: '/proj', bugs: [bugs[0]], history: { B1: [{ attempt: 'added null check', outcome: 'still present' }] } }, proposeMock)
   assert.ok(calls[0].prompt.includes('did NOT work') && calls[0].prompt.includes('added null check'))
@@ -489,6 +631,56 @@ await test('execute: fixer failure -> items reported skipped', async () => {
   const { result: r } = await runWorkflow(`${WF}/bugfix-execute.js`, { root: '/proj', items: [items[2]] }, () => null)
   assert.equal(r.skipped.length, 1)
   assert.equal(r.applied.length, 0)
+})
+
+// --- installer -------------------------------------------------------------------
+
+const KIT = fileURLToPath(new URL('..', import.meta.url))
+const INSTALL = join(KIT, 'bughunt-install.mjs')
+const manifest = JSON.parse(readFileSync(join(KIT, 'bughunt-kit.json'), 'utf8'))
+
+await test('install: manifest lists every kit file (nothing is silently left out of installs)', async () => {
+  const listed = new Set([...manifest.files, ...manifest.test_files])
+  const onDisk = execFileSync('find', ['agents', 'workflows', 'skills/bughunt', 'skills/bugfix-plan', 'skills/bugfix-apply', 'skills/bugloop', 'skills/uxcheck', 'bughunt-tests', '-type', 'f'], { cwd: KIT, encoding: 'utf8' })
+    .split('\n').filter(Boolean).filter(f => !/(^|\/)(\.|node_modules)/.test(f))
+  const kitAgents = ['bug-hunter', 'bug-skeptic', 'fix-planner', 'fix-critic', 'bug-fixer', 'ux-tester', 'ux-skeptic'].map(a => `agents/${a}.md`)
+  const missing = onDisk.filter(f => (!f.startsWith('agents/') || kitAgents.includes(f)) && !listed.has(f))
+  assert.deepEqual(missing, [])
+  for (const f of listed) assert.ok(readFileSync(join(KIT, f)).length > 0, f)
+})
+
+await test('install: fresh install with --with-ux, idempotent re-run, own edits kept unless --force', async () => {
+  const app = mkdtempSync(join(tmpdir(), 'bughunt-app-'))
+  writeFileSync(join(app, '.gitignore'), 'node_modules/')
+  writeFileSync(join(app, '.mcp.json'), JSON.stringify({ mcpServers: { other: { command: 'x' } } }))
+  mkdirSync(join(app, '.claude'))
+  writeFileSync(join(app, '.claude', 'settings.json'), JSON.stringify({ permissions: { allow: ['Bash(npm test)'] }, enabledMcpjsonServers: ['other'] }))
+  const out1 = execFileSync('node', [INSTALL, app, '--with-ux'], { encoding: 'utf8' })
+  for (const f of [...manifest.files, ...manifest.test_files]) assert.ok(readFileSync(join(app, '.claude', f)).equals(readFileSync(join(KIT, f))), f)
+  const mcp = JSON.parse(readFileSync(join(app, '.mcp.json'), 'utf8'))
+  assert.deepEqual(mcp.mcpServers['bughunt-browser'], { command: 'node', args: ['.claude/skills/uxcheck/browser-server.mjs'] })
+  assert.ok(mcp.mcpServers.other, 'existing servers kept')
+  const settings = JSON.parse(readFileSync(join(app, '.claude', 'settings.json'), 'utf8'))
+  assert.deepEqual(settings.enabledMcpjsonServers, ['other', 'bughunt-browser'])
+  assert.deepEqual(settings.permissions, { allow: ['Bash(npm test)'] }, 'existing settings kept')
+  const gi = readFileSync(join(app, '.gitignore'), 'utf8')
+  assert.ok(gi.startsWith('node_modules/\n') && gi.includes('.bughunt/.auth/') && gi.includes('.bughunt/.mcp-output/'))
+  assert.match(out1, /Added \(\d+\)/)
+  // second run changes nothing
+  const out2 = execFileSync('node', [INSTALL, app, '--with-ux'], { encoding: 'utf8' })
+  assert.ok(!out2.includes('Added') && !out2.includes('Configuration'), out2)
+  assert.equal(readFileSync(join(app, '.gitignore'), 'utf8'), gi)
+  // a file the user changed is kept, then replaced with --force
+  const skill = join(app, '.claude', 'skills', 'bughunt', 'SKILL.md')
+  writeFileSync(skill, 'my custom version')
+  const out3 = execFileSync('node', [INSTALL, app], { encoding: 'utf8' })
+  assert.ok(out3.includes('Kept your changed version') && readFileSync(skill, 'utf8') === 'my custom version')
+  execFileSync('node', [INSTALL, app, '--force'], { encoding: 'utf8' })
+  assert.ok(readFileSync(skill).equals(readFileSync(join(KIT, 'skills', 'bughunt', 'SKILL.md'))))
+  // dry run writes nothing
+  const fresh = mkdtempSync(join(tmpdir(), 'bughunt-app-'))
+  execFileSync('node', [INSTALL, fresh, '--with-ux', '--dry-run'], { encoding: 'utf8' })
+  assert.equal(execFileSync('find', [fresh, '-mindepth', '1'], { encoding: 'utf8' }).trim(), '')
 })
 
 console.log(failures ? `\n${failures} FAILED` : '\nALL PASSED')

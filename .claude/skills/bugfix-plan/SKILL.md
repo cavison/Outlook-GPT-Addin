@@ -10,8 +10,9 @@ Turn confirmed bugs into a fix plan the user can approve. Do not edit any app fi
 
 ## 1. Load findings
 
-- Use the run directory or `findings.json` given as an argument. Otherwise use the newest `.bughunt/runs/*/findings.json`. When called from `/bugloop`, use the current cycle directory.
-- Read `scope.json` from the same run for `root` and `powerapps`.
+- Use the run directories or `findings.json` files given as arguments. One or more are allowed; a code hunt and a `/uxcheck` browser run can be planned together, because their IDs never clash (B/W/H/A/V vs UB/UW/UA/UV). Otherwise use the newest `.bughunt/runs/*/findings.json`. When called from `/bugloop`, use the current cycle directory and its `ux/` subdirectory if present.
+- `root` comes from `findings.json`. `powerapps` comes from the hunt run's `scope.json` (browser runs have none).
+- Browser findings have `evidence_type: "runtime"`, with a screen, steps, viewport and screenshot instead of a file and line. The planners locate the responsible code themselves.
 
 ## 2. Choose the findings
 

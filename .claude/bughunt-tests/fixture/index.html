@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fixture Property App</title>
+<style>
+  body { font-family: sans-serif; margin: 0; }
+  header { display: flex; gap: 12px; align-items: center; padding: 12px; background: #eee; }
+  .pill { display: inline-block; width: 90px; white-space: nowrap; overflow: hidden; border-radius: 12px; background: #def; padding: 2px 8px; }
+  .icon-btn { width: 16px; height: 16px; border: 0; background: #c33; color: #fff; padding: 0; }
+  #login, #app { padding: 16px; }
+  #app { display: none; }
+  .low { color: #bbb; }
+</style>
+</head>
+<body>
+<section id="login">
+  <h1>Sign in</h1>
+  <label for="user">Username</label> <input id="user">
+  <label for="pass">Password</label> <input id="pass" type="password">
+  <button id="signin">Sign in</button>
+  <p id="login-error" role="alert"></p>
+</section>
+<section id="app">
+  <header>
+    <label for="property">Property</label>
+    <select id="property">
+      <option value="alpha">Alpha Plaza</option>
+      <option value="zz">ZZ-test</option>
+      <option value="beta">Beta Towers</option>
+    </select>
+    <span class="pill" id="manager">Manager: Bartholomew Featherstonehaugh-Smythe</span>
+  </header>
+  <h2>Units</h2>
+  <ul id="units"></ul>
+  <h2>Add note</h2>
+  <input id="note" placeholder="Note text">
+  <button id="save">Save</button>
+  <p id="status" class="low"></p>
+  <h2>Notes</h2>
+  <ul id="notes"></ul>
+  <button id="email">Email all tenants</button>
+</section>
+<script>
+  const UNITS = { alpha: ['A-101', 'A-102'], zz: ['ZZ-1', 'ZZ-2', 'ZZ-3'], beta: ['B-201'] }
+  const notes = []
+  document.getElementById('signin').onclick = () => {
+    if (document.getElementById('user').value === 'tester' && document.getElementById('pass').value === 's3cret-pass') {
+      document.getElementById('login').style.display = 'none'
+      document.getElementById('app').style.display = 'block'
+      loadUnits()
+    } else document.getElementById('login-error').textContent = 'Wrong username or password'
+  }
+  function loadUnits() {
+    const p = document.getElementById('property').value
+    // planted bug: list is appended, never cleared, so the previous property's units carry over
+    for (const u of UNITS[p]) { const li = document.createElement('li'); li.textContent = u; document.getElementById('units').appendChild(li) }
+  }
+  document.getElementById('property').onchange = loadUnits
+  document.getElementById('save').onclick = () => {
+    const input = document.getElementById('note')
+    // planted bugs: no disabled state while saving (double-submit), empty notes allowed, input cleared even on error
+    setTimeout(() => { notes.push(input.value); renderNotes(); document.getElementById('status').textContent = 'saved' }, 300)
+  }
+  function renderNotes() {
+    const ul = document.getElementById('notes'); ul.innerHTML = ''
+    notes.forEach((n, i) => {
+      const li = document.createElement('li'); li.textContent = n + ' '
+      const del = document.createElement('button'); del.className = 'icon-btn'; del.textContent = 'x'
+      // planted bug: deletes without confirmation; icon button has no accessible label beyond "x"
+      del.onclick = () => { notes.splice(i, 1); renderNotes() }
+      li.appendChild(del); ul.appendChild(li)
+    })
+  }
+  document.getElementById('email').onclick = () => { document.getElementById('status').textContent = 'Email queued to 48 tenants' }
+</script>
+</body>
+</html>

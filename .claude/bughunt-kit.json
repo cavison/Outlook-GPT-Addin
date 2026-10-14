@@ -1,0 +1,37 @@
+{
+  "name": "bughunt-kit",
+  "version": "1.0.0",
+  "description": "Multi-agent bug hunt, browser UX check and approval-gated repair loop for Claude Code",
+  "playwright_mcp": "@playwright/mcp@0.0.82",
+  "files": [
+    "agents/bug-hunter.md",
+    "agents/bug-skeptic.md",
+    "agents/fix-planner.md",
+    "agents/fix-critic.md",
+    "agents/bug-fixer.md",
+    "agents/ux-tester.md",
+    "agents/ux-skeptic.md",
+    "workflows/bughunt-scan.js",
+    "workflows/bugfix-propose.js",
+    "workflows/bugfix-execute.js",
+    "workflows/uxcheck-run.js",
+    "skills/bughunt/SKILL.md",
+    "skills/bughunt/scope.sh",
+    "skills/bughunt/evidence-gate.mjs",
+    "skills/bughunt/report-format.md",
+    "skills/bugfix-plan/SKILL.md",
+    "skills/bugfix-apply/SKILL.md",
+    "skills/bugloop/SKILL.md",
+    "skills/uxcheck/SKILL.md",
+    "skills/uxcheck/browser-server.mjs",
+    "BUGHUNT.md",
+    "bughunt-kit.json",
+    "bughunt-install.mjs"
+  ],
+  "test_files": [
+    "bughunt-tests/harness.mjs",
+    "bughunt-tests/test.mjs",
+    "bughunt-tests/browser-smoke.mjs",
+    "bughunt-tests/fixture/index.html"
+  ]
+}

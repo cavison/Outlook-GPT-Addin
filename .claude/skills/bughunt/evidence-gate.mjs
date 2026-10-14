@@ -81,6 +81,12 @@ function checkRuntime(f) {
   if (!shot) return { ok: false, reason: 'missing screenshot' }
   const abs = isAbsolute(shot) ? shot : [resolve(root, shot), resolve(dirname(resolve(findingsPath)), shot)].find(p => existsSync(p))
   if (!abs || !existsSync(abs) || !statSync(abs).isFile() || statSync(abs).size === 0) return { ok: false, reason: `screenshot missing or empty: ${shot}` }
+  if (!insideRoot(abs)) return { ok: false, reason: `screenshot is outside the project: ${shot}` }
+  const head = readFileSync(abs).subarray(0, 12)
+  const isImage = (head[0] === 0x89 && head[1] === 0x50 && head[2] === 0x4e && head[3] === 0x47) // PNG
+    || (head[0] === 0xff && head[1] === 0xd8) // JPEG
+    || (head.subarray(0, 4).toString() === 'RIFF' && head.subarray(8, 12).toString() === 'WEBP')
+  if (!isImage) return { ok: false, reason: `screenshot is not a PNG, JPEG or WebP image: ${shot}` }
   const steps = Array.isArray(f.steps) ? f.steps.filter(s => norm(s).length > 0) : []
   if (!steps.length) return { ok: false, reason: 'no reproduction steps' }
   return { ok: true, reason: 'screenshot exists and steps are present' }

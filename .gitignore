@@ -1,0 +1,3 @@
+# bughunt kit: never commit credentials or browser scratch files
+.bughunt/.auth/
+.bughunt/.mcp-output/
