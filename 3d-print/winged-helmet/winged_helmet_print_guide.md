@@ -1,5 +1,12 @@
 # Winged helmet - AD5X print guide
 
+## Update (November 6): thicker band
+
+The band's navy layer is now 2.0 mm (was 1.0) and its gold layer 1.2 mm (was 1.0), so the scroll pieces no longer snap when you remove supports. Every peg is in its old place, so the pieces fit the shell you already printed. The nose clip moved out 1.2 mm to sit on the thicker band; its tongue and snap bumps are unchanged.
+
+- Already printed plates 1 and 2? Do not reprint them. Print **band_reprint_AD5X.3mf** (one navy plate, about 4 h): Band navy F, Band navy L and Back V navy.
+- All other band, crest, cheek-frame and nose pieces in this project are already the new versions. The plates and their numbers are unchanged.
+
 ## Opening it in Orca Slicer
 
 1. File > Open Project (or drag the file in and choose **Open as project**). Do not use Import - that brings in the parts without the plates.
