@@ -1,0 +1,272 @@
+[
+ {
+  "plate": 1,
+  "title": "01 navy only - Shell front + 9 more",
+  "group": "navy",
+  "colours": [
+   "navy"
+  ],
+  "swaps": 0,
+  "print_h": 14.9775,
+  "grams": 478.768980540178,
+  "pieces": [
+   "Shell front",
+   "Band navy F",
+   "Back V navy",
+   "Seam dowel pin 1",
+   "Seam dowel pin 2",
+   "Seam dowel pin 3",
+   "Seam dowel pin 4",
+   "Seam dowel pin 5",
+   "Seam dowel pin 6",
+   "Seam dowel pin 7"
+  ]
+ },
+ {
+  "plate": 2,
+  "title": "02 navy only - Shell back + 3 more",
+  "group": "navy",
+  "colours": [
+   "navy"
+  ],
+  "swaps": 0,
+  "print_h": 21.31722222222222,
+  "grams": 730.0858654109071,
+  "pieces": [
+   "Shell back",
+   "Cheek guard L",
+   "Wing mount R",
+   "Band navy L"
+  ]
+ },
+ {
+  "plate": 3,
+  "title": "03 navy only - Neck plate + 5 more",
+  "group": "navy",
+  "colours": [
+   "navy"
+  ],
+  "swaps": 0,
+  "print_h": 9.003055555555555,
+  "grams": 273.2923208696994,
+  "pieces": [
+   "Neck plate",
+   "Cheek guard R",
+   "Band navy BL",
+   "Band navy BR",
+   "Band navy R",
+   "Nose panel"
+  ]
+ },
+ {
+  "plate": 4,
+  "title": "04 navy only - wing mount L",
+  "group": "navy",
+  "colours": [
+   "navy"
+  ],
+  "swaps": 0,
+  "print_h": 1.1397222222222223,
+  "grams": 38.6251272058193,
+  "pieces": [
+   "Wing mount L"
+  ]
+ },
+ {
+  "plate": 5,
+  "title": "05 white only - Band white F + 10 more",
+  "group": "white",
+  "colours": [
+   "white"
+  ],
+  "swaps": 0,
+  "print_h": 7.328055555555555,
+  "grams": 211.16609583599634,
+  "pieces": [
+   "Crest white back",
+   "Band white F",
+   "Band white B",
+   "Band white L",
+   "Band white R",
+   "Crest white front",
+   "Cheek H R",
+   "Cheek H L",
+   "Nose rivet pin",
+   "Cheek rivet R",
+   "Cheek rivet L"
+  ]
+ },
+ {
+  "plate": 6,
+  "title": "06 gold only - Crest gold back + 6 more",
+  "group": "gold",
+  "colours": [
+   "gold"
+  ],
+  "swaps": 0,
+  "print_h": 6.200555555555556,
+  "grams": 175.86580108676876,
+  "pieces": [
+   "Crest gold back",
+   "Band gold F",
+   "Crest gold front",
+   "Band gold L",
+   "Band gold R",
+   "Nose clip",
+   "Back V gold"
+  ]
+ },
+ {
+  "plate": 7,
+  "title": "07 gold only - Cheek frame L + 3 more",
+  "group": "gold",
+  "colours": [
+   "gold"
+  ],
+  "swaps": 0,
+  "print_h": 6.908888888888889,
+  "grams": 141.5230200405918,
+  "pieces": [
+   "Cheek frame L",
+   "Cheek frame R",
+   "Band gold BR",
+   "Band gold BL"
+  ]
+ },
+ {
+  "plate": 8,
+  "title": "08 multi-colour - wing upper collar + 6 more",
+  "group": "multi",
+  "colours": [
+   "navy",
+   "white",
+   "gold"
+  ],
+  "swaps": 58,
+  "print_h": 5.791666666666667,
+  "grams": 200.49546845422782,
+  "pieces": [
+   "Wing upper collar 1",
+   "Wing feather F2 L",
+   "Wing feather F3 L",
+   "Wing feather F3 R",
+   "Wing tip B R",
+   "Wing feather F6 R",
+   "Wing tip A R"
+  ]
+ },
+ {
+  "plate": 9,
+  "title": "09 multi-colour - wing upper collar + 6 more",
+  "group": "multi",
+  "colours": [
+   "navy",
+   "white",
+   "gold"
+  ],
+  "swaps": 58,
+  "print_h": 5.849722222222222,
+  "grams": 202.5339836408307,
+  "pieces": [
+   "Wing upper collar 2",
+   "Wing feather F2 R",
+   "Wing feather F4 L",
+   "Wing feather F4 R",
+   "Wing feather F7 L",
+   "Wing feather F5 R",
+   "Wing tip A L"
+  ]
+ },
+ {
+  "plate": 10,
+  "title": "10 multi-colour - wing front medallion R + 4 more",
+  "group": "multi",
+  "colours": [
+   "navy",
+   "white",
+   "gold"
+  ],
+  "swaps": 43,
+  "print_h": 4.776944444444444,
+  "grams": 190.33901161355297,
+  "pieces": [
+   "Wing front medallion R",
+   "Wing feather F1 R",
+   "Wing feather F9 L",
+   "Wing feather F7 R",
+   "Wing feather F9 R"
+  ]
+ },
+ {
+  "plate": 11,
+  "title": "11 multi-colour - wing back medallion R (key) + 6 more",
+  "group": "multi",
+  "colours": [
+   "navy",
+   "white",
+   "gold"
+  ],
+  "swaps": 59,
+  "print_h": 4.9927777777777775,
+  "grams": 195.08854194481845,
+  "pieces": [
+   "Wing back medallion R (key)",
+   "Wing feather F1 L",
+   "Wing feather F8 R",
+   "Wing tip B L",
+   "Wing feather F8 L",
+   "Wing feather F5 L",
+   "Wing feather F6 L"
+  ]
+ },
+ {
+  "plate": 12,
+  "title": "12 multi-colour - wing lower collar + 1 more",
+  "group": "multi",
+  "colours": [
+   "navy",
+   "white",
+   "gold"
+  ],
+  "swaps": 42,
+  "print_h": 5.191111111111112,
+  "grams": 178.30216920226715,
+  "pieces": [
+   "Wing lower collar 1",
+   "Wing lower collar 2"
+  ]
+ },
+ {
+  "plate": 13,
+  "title": "13 multi-colour - wing front medallion L + 1 more",
+  "group": "multi",
+  "colours": [
+   "navy",
+   "white",
+   "gold"
+  ],
+  "swaps": 22,
+  "print_h": 6.2011111111111115,
+  "grams": 218.86406266325503,
+  "pieces": [
+   "Wing front medallion L",
+   "Front H badge"
+  ]
+ },
+ {
+  "plate": 14,
+  "title": "14 multi-colour - wing back medallion L (key)",
+  "group": "multi",
+  "colours": [
+   "navy",
+   "white",
+   "gold"
+  ],
+  "swaps": 23,
+  "print_h": 1.9613888888888888,
+  "grams": 85.92448870634061,
+  "pieces": [
+   "Wing back medallion L (key)"
+  ]
+ }
+]

@@ -1,0 +1,11 @@
+WARNING section front_edge part 0: 1 layer pegs
+layer pegs per section: {'shoulder': 3, 'front_edge': 1, 'top_feathers': 3, 'lower_feathers': 5, 'hanging_feathers': 3}
+tuck-joint pegs: {'shoulder/front_edge': 2, 'shoulder/lower_feathers': 2, 'shoulder/hanging_feathers': 2, 'front_edge/top_feathers': 2}
+mount block: 1 body, 32 cm3
+  peg at u -10 v 27 -> world [105.8, -8.7, 28.2]
+  peg at u -10 v 54 -> world [100.8, -7.4, 55.6]
+  peg at u 20 v 27 -> world [104.3, 22.7, 28.9]
+  peg at u 20 v 54 -> world [98.9, 24.2, 56.3]
+mount block with pegs: 1 body
+  shell_front_navy: +4 mount peg seats, 1 body
+  shell_back_navy: +4 mount peg seats, 1 body

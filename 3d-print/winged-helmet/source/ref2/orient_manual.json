@@ -1,0 +1,58 @@
+{
+ "Shell front": {
+  "down": [
+   0,
+   1,
+   0
+  ],
+  "hours": 11.47,
+  "support_g": 178.4,
+  "total_g": 404.0,
+  "stable": true,
+  "cells": 354,
+  "height": 132.7,
+  "note": "seam face down"
+ },
+ "Shell back": {
+  "down": [
+   0,
+   -0.139,
+   -0.99
+  ],
+  "hours": 16.26,
+  "support_g": 266.8,
+  "total_g": 568.2,
+  "stable": false,
+  "cells": 8,
+  "height": 204.1,
+  "note": "rim down, tilted 8 deg (221 mm tall otherwise)"
+ },
+ "Cheek rivet L": {
+  "down": [
+   0.9847,
+   0.1743,
+   0.0
+  ],
+  "hours": 0.04,
+  "support_g": 0.6,
+  "total_g": 0.8,
+  "stable": true,
+  "cells": 4,
+  "height": 5.7,
+  "note": "dome up, shank down"
+ },
+ "Cheek rivet R": {
+  "down": [
+   -0.9847,
+   0.1743,
+   0.0
+  ],
+  "hours": 0.04,
+  "support_g": 0.5,
+  "total_g": 0.7,
+  "stable": true,
+  "cells": 4,
+  "height": 5.7,
+  "note": "dome up, shank down"
+ }
+}

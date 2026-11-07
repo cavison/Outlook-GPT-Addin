@@ -1,0 +1,102 @@
+{
+ "Cheek frame R": [
+  "cheek_frame_R_gold.stl",
+  "cheek_frame_R_gold.stl"
+ ],
+ "Cheek frame L": [
+  "cheek_frame_L_gold.stl",
+  "cheek_frame_L_gold.stl"
+ ],
+ "Band navy BL": [
+  "band_navy_BL.stl",
+  "band_navy_BL.stl"
+ ],
+ "Band navy BR": [
+  "band_navy_BR.stl",
+  "band_navy_BR.stl"
+ ],
+ "Band navy F": [
+  "band_navy_F.stl",
+  "band_navy_F.stl"
+ ],
+ "Band navy L": [
+  "band_navy_L.stl",
+  "band_navy_L.stl"
+ ],
+ "Band navy R": [
+  "band_navy_R.stl",
+  "band_navy_R.stl"
+ ],
+ "Band gold BL": [
+  "band_gold_BL.stl",
+  "band_gold_BL.stl"
+ ],
+ "Band gold BR": [
+  "band_gold_BR.stl",
+  "band_gold_BR.stl"
+ ],
+ "Band gold F": [
+  "band_gold_F.stl",
+  "band_gold_F.stl"
+ ],
+ "Band gold L": [
+  "band_gold_L.stl",
+  "band_gold_L.stl"
+ ],
+ "Band gold R": [
+  "band_gold_R.stl",
+  "band_gold_R.stl"
+ ],
+ "Band white B": [
+  "band_white_B.stl",
+  "band_white_B.stl"
+ ],
+ "Band white F": [
+  "band_white_F.stl",
+  "band_white_F.stl"
+ ],
+ "Band white L": [
+  "band_white_L.stl",
+  "band_white_L.stl"
+ ],
+ "Band white R": [
+  "band_white_R.stl",
+  "band_white_R.stl"
+ ],
+ "Back V navy": [
+  "band_V_navy.stl",
+  "band_V_navy.stl"
+ ],
+ "Back V gold": [
+  "band_V_gold.stl",
+  "band_V_gold.stl"
+ ],
+ "Crest white front": [
+  "crest_white_front.stl",
+  "crest_white_front.stl"
+ ],
+ "Crest white back": [
+  "crest_white_back.stl",
+  "crest_white_back.stl"
+ ],
+ "Crest gold front": [
+  "crest_gold_front.stl",
+  "crest_gold_front.stl"
+ ],
+ "Crest gold back": [
+  "crest_gold_back.stl",
+  "crest_gold_back.stl"
+ ],
+ "Nose clip": [
+  "nose_body_gold.stl",
+  "nose_body_gold.stl"
+ ],
+ "Nose panel": [
+  "nose_panel_navy.stl",
+  "nose_panel_navy.stl"
+ ],
+ "Nose rivet pin": [
+  "nose_pin_white.stl",
+  "nose_pin_white.stl"
+ ]
+}

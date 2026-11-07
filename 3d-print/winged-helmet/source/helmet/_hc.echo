@@ -1,0 +1,4 @@
+ECHO: "SCALE vs full size: 1"
+ECHO: "Helmet interior (L x W x H above brow): 243.815 x 204.367 x 134 mm"
+ECHO: "Wing socket at x=108.938 z=-52"
+ECHO: H_ALPHA = 17.0621, HZ_B = 22.9489, HZ_T = 98.5541, CR_FRONT_Z = 84.5541, CR_BACK_Z = -43.4953, CR_RIB_Z = -44.4079

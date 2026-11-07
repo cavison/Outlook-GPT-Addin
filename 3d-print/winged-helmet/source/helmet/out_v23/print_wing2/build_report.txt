@@ -1,0 +1,22 @@
+TA clicks into CL (shared edge ~21 mm)
+TB clicks into F9 (shared edge ~42 mm)
+--- wing v2 pieces (right wing; left wing = mirror) ---
+F1  bodies 1  footprint   140 x   138 mm  height   6.4  cm3 navy  38.1 gold  10.8 white   2.0  {'width': 39.5, 'gusset': 3.0, 'depth': 18.0, 'finger': 12.0, 'lever': 145, 'tip_N': 25.2}
+F2  bodies 1  footprint   120 x   121 mm  height   6.4  cm3 navy  14.7 gold   3.5 white   1.9  {'width': 15.8, 'gusset': 3.0, 'depth': 22.0, 'finger': 12.0, 'lever': 134, 'tip_N': 12.1}
+F3  bodies 1  footprint    94 x    95 mm  height   6.4  cm3 navy  12.6 gold   3.7 white   1.4  {'width': 17.2, 'gusset': 3.0, 'depth': 18.0, 'finger': 10.0, 'lever': 104, 'tip_N': 16.9}
+F4  bodies 1  footprint    93 x    91 mm  height   6.4  cm3 navy   9.7 gold   3.2 white   2.4  {'width': 14.8, 'gusset': 3.0, 'depth': 18.0, 'finger': 10.0, 'lever': 100, 'tip_N': 15.3}
+F5  bodies 1  footprint    55 x    54 mm  height   6.4  cm3 navy   5.9 gold   1.2 white   0.4  {'width': 22.6, 'gusset': 3.0, 'depth': 22.0, 'finger': 12.0, 'lever': 40, 'tip_N': 55.5}
+F6  bodies 1  footprint    50 x    50 mm  height   6.4  cm3 navy   4.4 gold   1.2 white   0.4  {'width': 15.8, 'gusset': 3.0, 'depth': 18.0, 'finger': 12.0, 'lever': 39, 'tip_N': 42.1}
+F7  bodies 1  footprint    72 x    71 mm  height   6.4  cm3 navy   7.9 gold   1.7 white   0.8  {'width': 17.7, 'gusset': 3.0, 'depth': 22.0, 'finger': 12.0, 'lever': 66, 'tip_N': 27.3}
+F8  bodies 1  footprint    70 x    68 mm  height   6.4  cm3 navy   8.6 gold   2.1 white   0.8  {'width': 17.2, 'gusset': 3.0, 'depth': 18.0, 'finger': 10.0, 'lever': 71, 'tip_N': 24.6}
+F9  bodies 1  footprint    90 x    88 mm  height   6.4  cm3 navy   9.3 gold   2.9 white   0.8  {'width': 17.2, 'gusset': 3.0, 'depth': 26.0, 'finger': 12.0, 'lever': 80, 'tip_N': 21.9}
+TA  bodies 1  footprint    43 x    43 mm  height   6.4  cm3 navy   3.1 gold   1.2 white   0.3  {'width': 7.3, 'gusset': 0.0, 'depth': 14.0, 'finger': 10.0, 'lever': 33, 'tip_N': 18.8}
+TB  bodies 1  footprint    54 x    54 mm  height   6.4  cm3 navy   4.6 gold   0.7 white   0.0  {'width': 39.5, 'gusset': 3.0, 'depth': 26.0, 'finger': 12.0, 'lever': 39, 'tip_N': 42.4}
+CU  bodies 1  footprint   168 x   172 mm  height   8.0  cm3 navy  85.4 gold  12.7 white  12.3
+CL  bodies 1  footprint   164 x   164 mm  height   8.0  cm3 navy  65.0 gold   5.8 white   6.8
+MF  bodies 1  footprint   140 x   140 mm  height  14.0  cm3 navy  52.7 gold   8.6 white   2.3
+MB  bodies 1  footprint   140 x   140 mm  height  15.0  cm3 navy  56.4 gold   8.6 white   2.3
+  overlap CU / MF: 6.1 mm3
+  overlap CL / MF: 6.1 mm3
+  overlap MF / MB: 1.8 mm3
+total solid volume one wing: 481 cm3

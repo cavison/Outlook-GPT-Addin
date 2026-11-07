@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model unit="millimeter" xml:lang="en-US" xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02" xmlns:BambuStudio="http://schemas.bambulab.com/package/2021" xmlns:p="http://schemas.microsoft.com/3dmanufacturing/production/2015/06" requiredextensions="p">
+ <metadata name="Application">BambuStudio-02.00.02.01</metadata>
+ <metadata name="BambuStudio:3mfVersion">1</metadata>
+ <metadata name="Copyright"></metadata>
+ <metadata name="CreationDate">2025-04-21</metadata>
+ <metadata name="Description"></metadata>
+ <metadata name="Designer"></metadata>
+ <metadata name="DesignerCover"></metadata>
+ <metadata name="DesignerUserId"></metadata>
+ <metadata name="License"></metadata>
+ <metadata name="ModificationDate">2025-04-21</metadata>
+ <metadata name="Origin"></metadata>
+ <metadata name="Thumbnail_Middle">/Metadata/plate_1.png</metadata>
+ <metadata name="Thumbnail_Small">/Metadata/plate_1_small.png</metadata>
+ <metadata name="Title"></metadata>
+ <resources>
+  <object id="3" p:UUID="00000001-61cb-4c03-9d28-80fed5dfa1dc" type="model">
+   <components>
+    <component p:path="/3D/Objects/object_1.model" objectid="1" p:UUID="00010000-b206-40ff-9872-83e8017abed1" transform="3.12499995 0 0 0 0.0156249998 0 0 0 0.00781249988 0 0 0"/>
+    <component p:path="/3D/Objects/object_1.model" objectid="2" p:UUID="00010001-b206-40ff-9872-83e8017abed1" transform="1.17187498 0 0 0 0.390624994 0 0 0 0.390624994 0 0 0"/>
+   </components>
+  </object>
+  <object id="4" p:UUID="00000002-71cb-4c03-9d28-80fed5dfa1dc" type="model">
+   <components>
+    <component p:path="/3D/Objects/object_1.model" objectid="1" p:UUID="00020000-b206-40ff-9872-83e8017abed1" transform="3.12499995 0 0 0 0.0156249998 0 0 0 0.00781249988 0 0 0"/>
+    <component p:path="/3D/Objects/object_1.model" objectid="2" p:UUID="00020001-b206-40ff-9872-83e8017abed1" transform="1.17187498 0 0 0 0.390624994 0 0 0 0.390624994 0 0 0"/>
+   </components>
+  </object>
+  <object id="5" p:UUID="00000003-71cb-4c03-9d28-80fed5dfa1dc" type="model">
+   <components>
+    <component p:path="/3D/Objects/object_1.model" objectid="1" p:UUID="00030000-b206-40ff-9872-83e8017abed1" transform="3.12499995 0 0 0 0.0156249998 0 0 0 0.00781249988 0 0 0"/>
+    <component p:path="/3D/Objects/object_1.model" objectid="2" p:UUID="00030001-b206-40ff-9872-83e8017abed1" transform="1.17187498 0 0 0 0.390624994 0 0 0 0.390624994 0 0 0"/>
+   </components>
+  </object>
+  <object id="6" p:UUID="00000004-71cb-4c03-9d28-80fed5dfa1dc" type="model">
+   <components>
+    <component p:path="/3D/Objects/object_1.model" objectid="1" p:UUID="00040000-b206-40ff-9872-83e8017abed1" transform="3.12499995 0 0 0 0.0156249998 0 0 0 0.00781249988 0 0 0"/>
+    <component p:path="/3D/Objects/object_1.model" objectid="2" p:UUID="00040001-b206-40ff-9872-83e8017abed1" transform="1.17187498 0 0 0 0.390624994 0 0 0 0.390624994 0 0 0"/>
+   </components>
+  </object>
+  <object id="7" p:UUID="00000005-71cb-4c03-9d28-80fed5dfa1dc" type="model">
+   <components>
+    <component p:path="/3D/Objects/object_1.model" objectid="1" p:UUID="00050000-b206-40ff-9872-83e8017abed1" transform="3.12499995 0 0 0 0.0156249998 0 0 0 0.00781249988 0 0 0"/>
+    <component p:path="/3D/Objects/object_1.model" objectid="2" p:UUID="00050001-b206-40ff-9872-83e8017abed1" transform="1.17187498 0 0 0 0.390624994 0 0 0 0.390624994 0 0 0"/>
+   </components>
+  </object>
+  <object id="8" p:UUID="00000006-71cb-4c03-9d28-80fed5dfa1dc" type="model">
+   <components>
+    <component p:path="/3D/Objects/object_1.model" objectid="1" p:UUID="00060000-b206-40ff-9872-83e8017abed1" transform="3.12499995 0 0 0 0.0156249998 0 0 0 0.00781249988 0 0 0"/>
+    <component p:path="/3D/Objects/object_1.model" objectid="2" p:UUID="00060001-b206-40ff-9872-83e8017abed1" transform="1.17187498 0 0 0 0.390624994 0 0 0 0.390624994 0 0 0"/>
+   </components>
+  </object>
+  <object id="9" p:UUID="00000007-71cb-4c03-9d28-80fed5dfa1dc" type="model">
+   <components>
+    <component p:path="/3D/Objects/object_1.model" objectid="1" p:UUID="00070000-b206-40ff-9872-83e8017abed1" transform="3.12499995 0 0 0 0.0156249998 0 0 0 0.00781249988 0 0 0"/>
+    <component p:path="/3D/Objects/object_1.model" objectid="2" p:UUID="00070001-b206-40ff-9872-83e8017abed1" transform="1.17187498 0 0 0 0.390624994 0 0 0 0.390624994 0 0 0"/>
+   </components>
+  </object>
+  <object id="10" p:UUID="00000008-71cb-4c03-9d28-80fed5dfa1dc" type="model">
+   <components>
+    <component p:path="/3D/Objects/object_1.model" objectid="1" p:UUID="00080000-b206-40ff-9872-83e8017abed1" transform="3.12499995 0 0 0 0.0156249998 0 0 0 0.00781249988 0 0 0"/>
+    <component p:path="/3D/Objects/object_1.model" objectid="2" p:UUID="00080001-b206-40ff-9872-83e8017abed1" transform="1.17187498 0 0 0 0.390624994 0 0 0 0.390624994 0 0 0"/>
+   </components>
+  </object>
+ </resources>
+ <build p:UUID="2c7c17d8-22b5-4d84-8835-1976022ea369">
+  <item objectid="3" p:UUID="00000003-b1ec-4553-aec9-835e5b724bb4" transform="1.22222222 0 0 0 1 0 0 0 1 113.888889 50 0.1" printable="1"/>
+  <item objectid="4" p:UUID="00000004-b1ec-4553-aec9-835e5b724bb4" transform="1.22222222 0 0 0 1 0 0 0 1 113.888889 70 0.1" printable="1"/>
+  <item objectid="5" p:UUID="00000005-b1ec-4553-aec9-835e5b724bb4" transform="1.22222222 0 0 0 1 0 0 0 1 113.888889 90 0.1" printable="1"/>
+  <item objectid="6" p:UUID="00000006-b1ec-4553-aec9-835e5b724bb4" transform="1.22222222 0 0 0 1 0 0 0 1 113.888889 110 0.1" printable="1"/>
+  <item objectid="7" p:UUID="00000007-b1ec-4553-aec9-835e5b724bb4" transform="1.22222222 0 0 0 1 0 0 0 1 236.111111 50 0.1" printable="1"/>
+  <item objectid="8" p:UUID="00000008-b1ec-4553-aec9-835e5b724bb4" transform="1.22222222 0 0 0 1 0 0 0 1 236.111111 70 0.1" printable="1"/>
+  <item objectid="9" p:UUID="00000009-b1ec-4553-aec9-835e5b724bb4" transform="1.22222222 0 0 0 1 0 0 0 1 236.111111 90 0.1" printable="1"/>
+  <item objectid="10" p:UUID="0000000a-b1ec-4553-aec9-835e5b724bb4" transform="1.22222222 0 0 0 1 0 0 0 1 236.111111 110 0.1" printable="1"/>
+ </build>
+</model>

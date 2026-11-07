@@ -1,0 +1,398 @@
+{
+ "Shell front": {
+  "hours": 11.514722222222222,
+  "support_g": 179.73117826280236,
+  "total_g": 405.27007104120605,
+  "overhang_g": 1.7188635728834605
+ },
+ "Shell back": {
+  "hours": 16.38111111111111,
+  "support_g": 272.11886813531424,
+  "total_g": 573.6267395482931,
+  "overhang_g": 1.9934492510032258
+ },
+ "Cheek guard R": {
+  "hours": 3.6425,
+  "support_g": 45.786598750946816,
+  "total_g": 113.27513666210793,
+  "overhang_g": 0.5004548694978995
+ },
+ "Wing mount R": {
+  "hours": 1.1116666666666668,
+  "support_g": 1.5000249665488221,
+  "total_g": 37.30318946614971,
+  "overhang_g": 0.037415904844448664
+ },
+ "Cheek frame R": {
+  "hours": 3.0549999999999997,
+  "support_g": 21.352345344080994,
+  "total_g": 59.29101786893446,
+  "overhang_g": 0.15795862646712974
+ },
+ "Cheek H R": {
+  "hours": 0.40722222222222226,
+  "support_g": 1.2417790368770467,
+  "total_g": 6.808132123993235,
+  "overhang_g": 0.05041606276323441
+ },
+ "Cheek guard L": {
+  "hours": 3.6619444444444444,
+  "support_g": 46.139035682419575,
+  "total_g": 114.89269069276283,
+  "overhang_g": 0.48836000483658937
+ },
+ "Wing mount L": {
+  "hours": 1.1397222222222223,
+  "support_g": 1.995845013735078,
+  "total_g": 38.6251272058193,
+  "overhang_g": 0.038127362208261864
+ },
+ "Cheek frame L": {
+  "hours": 3.1219444444444444,
+  "support_g": 21.481377326243816,
+  "total_g": 60.474052133149634,
+  "overhang_g": 0.16110330738483802
+ },
+ "Cheek H L": {
+  "hours": 0.40361111111111114,
+  "support_g": 1.2219296329259155,
+  "total_g": 6.478191042492041,
+  "overhang_g": 0.050418568104835845
+ },
+ "Band navy BL": {
+  "hours": 0.8172222222222222,
+  "support_g": 10.951196054215966,
+  "total_g": 21.290556342768923,
+  "overhang_g": 0.15037552412403674
+ },
+ "Band navy BR": {
+  "hours": 0.8113888888888889,
+  "support_g": 10.684378635113903,
+  "total_g": 21.39690558840773,
+  "overhang_g": 0.1699126551398459
+ },
+ "Band navy L": {
+  "hours": 0.1625,
+  "support_g": 0.459081389862566,
+  "total_g": 4.263245703701479,
+  "overhang_g": 0.05815843325098934
+ },
+ "Band navy R": {
+  "hours": 0.15388888888888888,
+  "support_g": 0.4451201351846837,
+  "total_g": 4.226627899284554,
+  "overhang_g": 0.09318024559131771
+ },
+ "Band gold BL": {
+  "hours": 0.3263888888888889,
+  "support_g": 2.9109650262597873,
+  "total_g": 10.22931441138132,
+  "overhang_g": 0.21208632298737493
+ },
+ "Band gold BR": {
+  "hours": 0.40555555555555556,
+  "support_g": 3.512041870844593,
+  "total_g": 11.528635627126379,
+  "overhang_g": 0.0873674355190862
+ },
+ "Band gold L": {
+  "hours": 0.16722222222222222,
+  "support_g": 1.1519710407322303,
+  "total_g": 4.358114817961604,
+  "overhang_g": 0.07514291942990245
+ },
+ "Band gold R": {
+  "hours": 0.16833333333333333,
+  "support_g": 1.0872048584839789,
+  "total_g": 4.813281074713036,
+  "overhang_g": 0.05746036753454562
+ },
+ "Band white B": {
+  "hours": 2.039722222222222,
+  "support_g": 25.45566814402447,
+  "total_g": 54.07290183617598,
+  "overhang_g": 0.10984369013930578
+ },
+ "Band white F": {
+  "hours": 1.7097222222222221,
+  "support_g": 18.740688677037962,
+  "total_g": 49.08835361128032,
+  "overhang_g": 0.07434759277343211
+ },
+ "Band white L": {
+  "hours": 0.3197222222222222,
+  "support_g": 2.487791981758514,
+  "total_g": 8.033822155360914,
+  "overhang_g": 0.15383021123942545
+ },
+ "Band white R": {
+  "hours": 0.29555555555555557,
+  "support_g": 1.8505786864247138,
+  "total_g": 7.070955968931694,
+  "overhang_g": 0.12912250254071123
+ },
+ "Back V navy": {
+  "hours": 0.265,
+  "support_g": 0.6423302169507412,
+  "total_g": 6.112616785648823,
+  "overhang_g": 0.06421032449318505
+ },
+ "Crest white front": {
+  "hours": 0.5447222222222222,
+  "support_g": 3.325753676662457,
+  "total_g": 16.791345219290132,
+  "overhang_g": 0.04718235274219012
+ },
+ "Crest white back": {
+  "hours": 1.4797222222222224,
+  "support_g": 8.278017562647713,
+  "total_g": 60.47125056472688,
+  "overhang_g": 0.013541073100730761
+ },
+ "Crest gold front": {
+  "hours": 1.0711111111111111,
+  "support_g": 5.096084959271833,
+  "total_g": 34.892572504289916,
+  "overhang_g": 0.06384883949069421
+ },
+ "Crest gold back": {
+  "hours": 1.5875000000000001,
+  "support_g": 8.43550545332293,
+  "total_g": 51.33741737798577,
+  "overhang_g": 0.044944187927263055
+ },
+ "Nose panel": {
+  "hours": 0.28888888888888886,
+  "support_g": 1.5555468856702634,
+  "total_g": 5.266362857426593,
+  "overhang_g": 0.020116342133661543
+ },
+ "Nose rivet pin": {
+  "hours": 0.04555555555555556,
+  "support_g": 0.07951644057761253,
+  "total_g": 0.8038999354303766,
+  "overhang_g": 0.008992058738940148
+ },
+ "Front H badge": {
+  "hours": 4.210555555555556,
+  "support_g": 93.04698283281942,
+  "total_g": 131.8390895650996,
+  "overhang_g": 1.5721094007423058
+ },
+ "Seam dowel pin": {
+  "hours": 0.1163888888888889,
+  "support_g": 0.0,
+  "total_g": 0.8641095872920348,
+  "overhang_g": 0.0
+ },
+ "Cheek rivet R": {
+  "hours": 0.04138888888888889,
+  "support_g": 0.5233893332017222,
+  "total_g": 0.7460585173684544,
+  "overhang_g": 0.01382891895543694
+ },
+ "Cheek rivet L": {
+  "hours": 0.04111111111111111,
+  "support_g": 0.566436291550317,
+  "total_g": 0.8011848609463216,
+  "overhang_g": 0.013828769827960668
+ },
+ "Neck plate": {
+  "hours": 3.2891666666666666,
+  "support_g": 24.436227914302055,
+  "total_g": 107.83673151970368,
+  "overhang_g": 0.3887708866503679
+ },
+ "Band navy F": {
+  "hours": 2.3830555555555555,
+  "support_g": 33.77253481603982,
+  "total_g": 61.33752560227891,
+  "overhang_g": 0.2585083940300195
+ },
+ "Band gold F": {
+  "hours": 1.3830555555555555,
+  "support_g": 12.24593780376756,
+  "total_g": 32.38233835845108,
+  "overhang_g": 0.07806811452802882
+ },
+ "Back V gold": {
+  "hours": 0.5344444444444444,
+  "support_g": 3.436075499316198,
+  "total_g": 10.286677577626829,
+  "overhang_g": 0.06666857163759897
+ },
+ "Nose clip": {
+  "hours": 1.2888888888888888,
+  "support_g": 10.617868585983446,
+  "total_g": 37.79539937574052,
+  "overhang_g": 0.1630354029674581
+ },
+ "Wing feather F1 R": {
+  "hours": 1.3,
+  "support_g": 0.0,
+  "total_g": 55.90675987275363,
+  "overhang_g": 0.0
+ },
+ "Wing feather F2 R": {
+  "hours": 0.6872222222222223,
+  "support_g": 0.0,
+  "total_g": 23.108426392789436,
+  "overhang_g": 0.0
+ },
+ "Wing feather F3 R": {
+  "hours": 0.5788888888888889,
+  "support_g": 0.0,
+  "total_g": 20.023851632474347,
+  "overhang_g": 0.0
+ },
+ "Wing feather F4 R": {
+  "hours": 0.5336111111111111,
+  "support_g": 0.0,
+  "total_g": 17.497762491962696,
+  "overhang_g": 0.0
+ },
+ "Wing feather F5 R": {
+  "hours": 0.3086111111111111,
+  "support_g": 0.0,
+  "total_g": 10.141313482343191,
+  "overhang_g": 0.0
+ },
+ "Wing feather F6 R": {
+  "hours": 0.2672222222222222,
+  "support_g": 0.0,
+  "total_g": 7.774616441251677,
+  "overhang_g": 0.0
+ },
+ "Wing feather F7 R": {
+  "hours": 0.4088888888888889,
+  "support_g": 0.0,
+  "total_g": 12.955214685274692,
+  "overhang_g": 0.0
+ },
+ "Wing feather F8 R": {
+  "hours": 0.4327777777777778,
+  "support_g": 0.0,
+  "total_g": 13.574682258314123,
+  "overhang_g": 0.0
+ },
+ "Wing feather F9 R": {
+  "hours": 0.5369444444444444,
+  "support_g": 0.0,
+  "total_g": 17.13522312838962,
+  "overhang_g": 0.013114538693088757
+ },
+ "Wing tip A R": {
+  "hours": 0.20472222222222222,
+  "support_g": 0.0,
+  "total_g": 5.7876864171759355,
+  "overhang_g": 0.0
+ },
+ "Wing tip B R": {
+  "hours": 0.2975,
+  "support_g": 1.5920727977362943,
+  "total_g": 8.955861563482685,
+  "overhang_g": 0.051519069228755494
+ },
+ "Wing feather F1 L": {
+  "hours": 1.3044444444444445,
+  "support_g": 0.0,
+  "total_g": 55.5858934666131,
+  "overhang_g": 0.0
+ },
+ "Wing feather F2 L": {
+  "hours": 0.6911111111111111,
+  "support_g": 0.0,
+  "total_g": 22.689965985316448,
+  "overhang_g": 0.0
+ },
+ "Wing feather F3 L": {
+  "hours": 0.5880555555555556,
+  "support_g": 0.0,
+  "total_g": 19.96159222345118,
+  "overhang_g": 0.0
+ },
+ "Wing feather F4 L": {
+  "hours": 0.5352777777777777,
+  "support_g": 0.0,
+  "total_g": 17.464625322842245,
+  "overhang_g": 0.0
+ },
+ "Wing feather F5 L": {
+  "hours": 0.29777777777777775,
+  "support_g": 0.0,
+  "total_g": 9.751341284394877,
+  "overhang_g": 0.0
+ },
+ "Wing feather F6 L": {
+  "hours": 0.2672222222222222,
+  "support_g": 0.0,
+  "total_g": 7.785910193110442,
+  "overhang_g": 0.0
+ },
+ "Wing feather F7 L": {
+  "hours": 0.41305555555555556,
+  "support_g": 0.0,
+  "total_g": 13.067574513844706,
+  "overhang_g": 0.0
+ },
+ "Wing feather F8 L": {
+  "hours": 0.4325,
+  "support_g": 0.0,
+  "total_g": 13.35612392215841,
+  "overhang_g": 0.0
+ },
+ "Wing feather F9 L": {
+  "hours": 0.535,
+  "support_g": 0.0,
+  "total_g": 16.975074594758794,
+  "overhang_g": 0.013115910665870483
+ },
+ "Wing tip A L": {
+  "hours": 0.20777777777777778,
+  "support_g": 0.0,
+  "total_g": 5.9523872459729175,
+  "overhang_g": 0.0
+ },
+ "Wing tip B L": {
+  "hours": 0.3025,
+  "support_g": 1.6517326762439122,
+  "total_g": 9.230220836267973,
+  "overhang_g": 0.05151489365941982
+ },
+ "Wing upper collar": {
+  "hours": 3.1641666666666666,
+  "support_g": 0.0,
+  "total_g": 115.30189419107553,
+  "overhang_g": 0.03151672013795862
+ },
+ "Wing lower collar": {
+  "hours": 2.595555555555556,
+  "support_g": 0.0,
+  "total_g": 89.15108460113358,
+  "overhang_g": 0.036784469284404694
+ },
+ "Wing front medallion R": {
+  "hours": 1.9961111111111112,
+  "support_g": 0.0,
+  "total_g": 87.36673933237623,
+  "overhang_g": 0.0
+ },
+ "Wing front medallion L": {
+  "hours": 1.9905555555555556,
+  "support_g": 0.0,
+  "total_g": 87.02497309815541,
+  "overhang_g": 0.0
+ },
+ "Wing back medallion R (key)": {
+  "hours": 1.9555555555555555,
+  "support_g": 0.0,
+  "total_g": 85.80436998395953,
+  "overhang_g": 0.0022020759656684956
+ },
+ "Wing back medallion L (key)": {
+  "hours": 1.9613888888888888,
+  "support_g": 0.0,
+  "total_g": 85.92448870634061,
+  "overhang_g": 0.0022020759656684956
+ }
+}

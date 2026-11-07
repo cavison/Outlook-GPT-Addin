@@ -1,0 +1,8 @@
+venv/
+.venv/
+__pycache__/
+ps/*
+!ps/base.ini
+helmet/out_v23/view/
+helmet/out_v23/print_regen/
+helmet/sheet/

@@ -1,0 +1,6 @@
+old right mount rebuilt: volume 32.707 vs printed 32.707 cm3, shared 100.000%
+pegs needing an extra pad: 3
+new R mount: 1 body, 36.4 cm3 (old 32.7)
+new L mount: 1 body, 36.3 cm3 (old 32.7)
+pegs vs printed shell: old 7.75 mm3, new 7.75 mm3 (press-fit ribs only; identical = same holes)
+push-on direction of the pegs vs the new face: 15.0 deg apart

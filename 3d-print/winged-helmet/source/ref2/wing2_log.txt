@@ -1,0 +1,25 @@
+WARNING section front_edge part 0: 1 layer pegs
+layer pegs per section: {'shoulder': 3, 'front_edge': 1, 'top_feathers': 3, 'lower_feathers': 5, 'hanging_feathers': 3}
+tuck-joint pegs: {'shoulder/front_edge': 2, 'shoulder/lower_feathers': 2, 'shoulder/hanging_feathers': 2, 'front_edge/top_feathers': 2}
+TA clicks into CL (shared edge ~21 mm)
+TB clicks into F9 (shared edge ~42 mm)
+--- wing v2 pieces (right wing; left wing = mirror) ---
+F1  bodies 1  footprint   133 x   131 mm  height   6.4  cm3 navy  36.0 gold  10.8 white   2.0  {'width': 26.0, 'edge': np.float64(52.8)}
+F2  bodies 1  footprint   115 x   115 mm  height   6.4  cm3 navy  14.0 gold   3.5 white   1.9  {'width': 13.3, 'edge': np.float64(22.1)}
+F3  bodies 1  footprint    94 x    94 mm  height   6.4  cm3 navy  12.1 gold   3.7 white   1.4  {'width': 16.0, 'edge': np.float64(26.7)}
+F4  bodies 1  footprint    81 x    81 mm  height   6.4  cm3 navy   8.9 gold   3.2 white   2.4  {'width': 22.9, 'edge': np.float64(38.2)}
+F5  bodies 1  footprint    48 x    48 mm  height   6.4  cm3 navy   4.8 gold   1.2 white   0.4  {'width': 20.2, 'edge': np.float64(33.6)}
+F6  bodies 1  footprint    49 x    48 mm  height   6.4  cm3 navy   4.0 gold   1.2 white   0.4  {'width': 13.3, 'edge': np.float64(22.2)}
+F7  bodies 1  footprint    65 x    64 mm  height   6.4  cm3 navy   6.8 gold   1.7 white   0.8  {'width': 14.4, 'edge': np.float64(24.0)}
+F8  bodies 1  footprint    66 x    66 mm  height   6.4  cm3 navy   8.0 gold   2.1 white   0.8  {'width': 14.4, 'edge': np.float64(24.1)}
+F9  bodies 1  footprint    81 x    82 mm  height   6.4  cm3 navy  10.2 gold   2.9 white   0.9  {'width': 16.3, 'edge': np.float64(27.1)}
+TA  bodies 1  footprint    45 x    46 mm  height   6.4  cm3 navy   3.2 gold   1.2 white   0.3  {'width': 13.7, 'edge': np.float64(22.9)}
+TB  bodies 1  footprint    46 x    46 mm  height   6.4  cm3 navy   3.0 gold   0.7 white   0.0  {'width': 26.0, 'edge': np.float64(51.3)}
+CU  bodies 1  footprint   172 x   168 mm  height   6.4  cm3 navy  66.5 gold  12.7 white  12.4
+CL  bodies 1  footprint   164 x   164 mm  height   6.4  cm3 navy  52.5 gold   5.8 white   6.9
+MF  bodies 1  footprint   140 x   140 mm  height  12.4  cm3 navy  52.4 gold   8.6 white   2.3
+MB  bodies 1  footprint   140 x   140 mm  height  15.8  cm3 navy  57.1 gold   8.6 white   2.3
+  overlap CU / MF: 4.9 mm3
+  overlap CL / MF: 4.9 mm3
+  overlap MF / MB: 1.8 mm3
+total solid volume one wing: 443 cm3

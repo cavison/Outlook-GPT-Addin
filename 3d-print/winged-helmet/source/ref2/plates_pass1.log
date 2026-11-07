@@ -1,0 +1,86 @@
+  Shell front                      x1    216 x  158 mm  h  132.7  base   355 cells       [navy]
+  Shell back                       x1    216 x  157 mm  h  204.1  base     8 cells       [navy]
+  Cheek guard R                    x1     52 x  159 mm  h  159.5  base    47 cells  brim [navy]
+  Wing mount R                     x1     55 x   58 mm  h   35.0  base    16 cells  brim [navy]
+  Cheek frame R                    x1    152 x   76 mm  h  157.8  base    28 cells  brim [gold]
+  Cheek H R                        x1     28 x   36 mm  h   28.3  base    11 cells  brim [white]
+  Cheek rivet R                    x1      8 x    8 mm  h    5.7  base     4 cells       [white]
+  Cheek guard L                    x1     52 x  159 mm  h  159.5  base    47 cells  brim [navy]
+  Wing mount L                     x1     55 x   58 mm  h   35.0  base    16 cells  brim [navy]
+  Cheek frame L                    x1    152 x   76 mm  h  157.8  base    28 cells  brim [gold]
+  Cheek H L                        x1     28 x   36 mm  h   28.3  base    11 cells  brim [white]
+  Cheek rivet L                    x1      8 x    8 mm  h    5.7  base     4 cells       [white]
+  Neck plate                       x1    182 x  101 mm  h   85.8  base    29 cells  brim [navy]
+  Band navy BL                     x1    145 x   32 mm  h   40.2  base    29 cells  brim [navy]
+  Band navy BR                     x1    146 x   29 mm  h   38.6  base    25 cells  brim [navy]
+  Band navy F                      x1    190 x  116 mm  h  142.1  base    23 cells  brim [navy]
+  Band navy L                      x1     23 x   85 mm  h   19.3  base    21 cells  brim [navy]
+  Band navy R                      x1     27 x   85 mm  h   18.3  base    23 cells  brim [navy]
+  Band gold BL                     x1     37 x  148 mm  h   27.9  base    83 cells       [gold]
+  Band gold BR                     x1    149 x   35 mm  h   39.7  base    25 cells  brim [gold]
+  Band gold F                      x1    191 x  118 mm  h  141.7  base    28 cells  brim [gold]
+  Band gold L                      x1     61 x   60 mm  h   15.5  base    11 cells  brim [gold]
+  Band gold R                      x1     24 x   75 mm  h   18.4  base    28 cells  brim [gold]
+  Band white B                     x1    196 x   96 mm  h  159.0  base    20 cells  brim [white]
+  Band white F                     x1    196 x  126 mm  h  147.7  base    28 cells  brim [white]
+  Band white L                     x1     33 x   78 mm  h   34.2  base    57 cells  brim [white]
+  Band white R                     x1     33 x   78 mm  h   33.4  base    58 cells  brim [white]
+  Back V navy                      x1     45 x   40 mm  h   32.8  base    22 cells  brim [navy]
+  Back V gold                      x1     71 x   12 mm  h   64.1  base    24 cells  brim [gold]
+  Crest white front                x1     41 x   60 mm  h   41.0  base    55 cells  brim [white]
+  Crest white back                 x1    191 x  182 mm  h   41.0  base   219 cells       [white]
+  Crest gold front                 x1     95 x  151 mm  h   44.3  base    24 cells  brim [gold]
+  Crest gold back                  x1    187 x  134 mm  h   58.0  base    23 cells  brim [gold]
+  Nose clip                        x1     82 x   20 mm  h   35.4  base    26 cells  brim [gold]
+  Nose panel                       x1     74 x    7 mm  h   24.0  base    24 cells  brim [navy]
+  Nose rivet pin                   x1     10 x    9 mm  h    7.9  base     8 cells       [white]
+  Seam dowel pin                   x7      7 x    7 mm  h   16.6  base    12 cells       [navy]
+  Front H badge                    x1     81 x   89 mm  h   25.5  base    10 cells  brim [multi]
+  Wing feather F1 R                x1    155 x  119 mm  h    6.4  base   243 cells       [multi]
+  Wing feather F2 R                x1    147 x   79 mm  h    6.4  base   202 cells       [multi]
+  Wing feather F3 R                x1    115 x   65 mm  h    6.4  base   182 cells       [multi]
+  Wing feather F4 R                x1    121 x   40 mm  h    6.4  base   171 cells       [multi]
+  Wing feather F5 R                x1     42 x   67 mm  h    6.4  base   112 cells       [multi]
+  Wing feather F6 R                x1     35 x   67 mm  h    6.4  base    97 cells       [multi]
+  Wing feather F7 R                x1     39 x   94 mm  h    6.4  base   131 cells       [multi]
+  Wing feather F8 R                x1     38 x   88 mm  h    6.4  base   146 cells       [multi]
+  Wing feather F9 R                x1     54 x  100 mm  h    6.4  base   132 cells       [multi]
+  Wing tip A R                     x1     53 x   26 mm  h    6.4  base    84 cells       [multi]
+  Wing tip B R                     x1     60 x   53 mm  h    6.4  base    38 cells       [multi]
+  Wing feather F1 L                x1    155 x  119 mm  h    6.4  base   243 cells       [multi]
+  Wing feather F2 L                x1    147 x   79 mm  h    6.4  base   202 cells       [multi]
+  Wing feather F3 L                x1    115 x   65 mm  h    6.4  base   182 cells       [multi]
+  Wing feather F4 L                x1    121 x   40 mm  h    6.4  base   171 cells       [multi]
+  Wing feather F5 L                x1     42 x   67 mm  h    6.4  base   112 cells       [multi]
+  Wing feather F6 L                x1     35 x   67 mm  h    6.4  base    97 cells       [multi]
+  Wing feather F7 L                x1     39 x   94 mm  h    6.4  base   131 cells       [multi]
+  Wing feather F8 L                x1     38 x   88 mm  h    6.4  base   146 cells       [multi]
+  Wing feather F9 L                x1     54 x  100 mm  h    6.4  base   132 cells       [multi]
+  Wing tip A L                     x1     53 x   26 mm  h    6.4  base    84 cells       [multi]
+  Wing tip B L                     x1     60 x   53 mm  h    6.4  base    38 cells       [multi]
+  Wing upper collar                x2    198 x  162 mm  h    8.0  base   841 cells       [multi]
+  Wing lower collar                x2    180 x  137 mm  h    8.0  base   624 cells       [multi]
+  Wing front medallion R           x1    142 x  142 mm  h   14.0  base  1209 cells       [multi]
+  Wing front medallion L           x1    142 x  142 mm  h   14.0  base  1208 cells       [multi]
+  Wing back medallion R (key)      x1    142 x  142 mm  h   15.0  base   364 cells       [multi]
+  Wing back medallion L (key)      x1    142 x  142 mm  h   15.0  base   364 cells       [multi]
+  navy: 4 plates (order 5, front)
+  white: 1 plates (order 0, contact)
+  gold: 2 plates (order 1, front)
+  multi: 7 plates (order 6, contact)
+14 plates
+wrote pkg/winged_helmet_AD5X.3mf 9.6 MB
+  plate  1  01 navy only - Shell front + 9 more             10 pieces  swaps   0   15.0 h    479 g
+  plate  2  02 navy only - Shell back + 3 more               4 pieces  swaps   0   21.3 h    730 g
+  plate  3  03 navy only - Neck plate + 5 more               6 pieces  swaps   0    9.0 h    273 g
+  plate  4  04 navy only - wing mount L                      1 pieces  swaps   0    1.1 h     39 g
+  plate  5  05 white only - Band white F + 10 more          11 pieces  swaps   0    7.3 h    211 g
+  plate  6  06 gold only - Crest gold back + 6 more          7 pieces  swaps   0    6.2 h    176 g
+  plate  7  07 gold only - Cheek frame L + 3 more            4 pieces  swaps   0    6.9 h    142 g
+  plate  8  08 multi-colour - wing upper collar + 6 more     7 pieces  swaps  58        0 g
+  plate  9  09 multi-colour - wing upper collar + 6 more     7 pieces  swaps  58        0 g
+  plate 10  10 multi-colour - wing front medallion R + 4 more   5 pieces  swaps  42        0 g
+  plate 11  11 multi-colour - wing back medallion R (key) + 6 more   7 pieces  swaps  58        0 g
+  plate 12  12 multi-colour - wing lower collar + 1 more     2 pieces  swaps  42        0 g
+  plate 13  13 multi-colour - wing front medallion L + 1 more   2 pieces  swaps  22      132 g
+  plate 14  14 multi-colour - wing back medallion L (key)    1 pieces  swaps  22        0 g

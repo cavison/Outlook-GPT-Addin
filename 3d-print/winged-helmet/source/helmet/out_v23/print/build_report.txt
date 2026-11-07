@@ -1,0 +1,66 @@
+snap bumps: guard (74, 103, 113) neck (150, 180, 210)
+seam dowels at z = [12.0, 75.0, 118.1, 12.0, 74.9, 118.1, 142.4]
+front H: 3 pegs (5 mm)
+crest white front: 3 pegs
+crest white back: 4 pegs
+crest gold front: 4 pegs
+crest gold back: 3 pegs
+white dot pegs: 8
+band white F: 6 pegs
+band white R: 2 pegs
+band white L: 2 pegs
+band white B: 4 pegs
+band gold F: 4 pegs
+band gold R: 2 pegs
+band gold L: 2 pegs
+band gold B: 4 pegs
+band navy F: 6 pegs
+band navy R: 2 pegs
+band navy L: 2 pegs
+band navy B: 4 pegs
+V gold: 2 pegs
+V navy: 2 pegs
+guard frame pegs: 7
+cheek H pegs: 2
+--- print pieces ---
+  shell_front_navy: 1 body, [214.9, 132.7, 156.8] mm, 196 g
+  shell_back_navy: 1 body, [214.9, 132.7, 221.5] mm, 253 g
+  cheek_guard_R_navy: 1 body, [45.2, 156.5, 145.2] mm, 53 g
+  cheek_guard_L_navy: 1 body, [45.2, 156.5, 145.2] mm, 53 g
+  cheek_H_R_white: 1 body, [14.8, 36.1, 36.6] mm, 2 g
+  cheek_H_L_white: 1 body, [14.8, 36.1, 36.6] mm, 2 g
+  cheek_rivet_R_white: 1 body, [5.8, 6.5, 6.6] mm, 0 g
+  cheek_rivet_L_white: 1 body, [5.8, 6.5, 6.6] mm, 0 g
+  neck_plate_navy: 1 body, [180.8, 80.7, 84.1] mm, 56 g
+  band_white_F: 1 body, [211.7, 104.6, 53.7] mm, 20 g
+  band_white_R: 1 body, [8.0, 69.4, 55.9] mm, 3 g
+  band_white_L: 1 body, [8.0, 69.4, 56.8] mm, 3 g
+  band_white_B: 1 body, [207.8, 92.3, 95.0] mm, 18 g
+  band_gold_F: 1 body, [211.8, 100.9, 43.0] mm, 12 g
+  band_gold_R: 1 body, [6.8, 65.5, 43.5] mm, 2 g
+  band_gold_L: 1 body, [6.8, 65.5, 42.7] mm, 2 g
+  band_gold_BR: 1 body, [90.6, 98.0, 72.4] mm, 5 g
+  band_gold_BL: 1 body, [90.4, 98.0, 71.8] mm, 5 g
+  (band_navy_F: dropped 4 tiny fragment(s))
+  band_navy_F: 1 body, [211.6, 97.4, 43.1] mm, 9 g
+  band_navy_R: 1 body, [10.5, 75.3, 46.6] mm, 2 g
+  band_navy_L: 1 body, [10.5, 75.3, 45.8] mm, 2 g
+  (band_navy_B: dropped 2 tiny fragment(s))
+  band_navy_BR: 1 body, [90.7, 94.5, 70.8] mm, 3 g
+  band_navy_BL: 1 body, [90.5, 94.5, 70.2] mm, 3 g
+  band_V_gold: 1 body, [70.0, 10.5, 60.0] mm, 3 g
+  band_V_navy: 1 body, [49.4, 9.6, 41.2] mm, 3 g
+  crest_white_front: 1 body, [41.0, 58.8, 39.2] mm, 11 g
+  crest_white_back: 1 body, [41.0, 180.2, 189.5] mm, 52 g
+  crest_gold_front: 1 body, [31.0, 156.4, 51.3] mm, 28 g
+  crest_gold_back: 1 body, [31.0, 96.2, 194.7] mm, 38 g
+  H_badge_navy: 1 body, [79.3, 46.5, 77.4] mm, 50 g
+  H_badge_white: 1 body, [73.3, 23.4, 71.4] mm, 9 g
+  H_badge_gold: 1 body, [69.3, 22.2, 67.4] mm, 7 g
+  nose_body_gold: 1 body, [35.4, 18.7, 80.4] mm, 23 g
+  nose_panel_navy: 1 body, [24.0, 5.0, 73.0] mm, 2 g
+  nose_pin_white: 1 body, [7.8, 7.9, 7.8] mm, 0 g
+  seam_dowel_pin_navy: 1 body, [5.3, 5.0, 16.6] mm, 0 g
+  cheek_frame_R_gold: 1 body, [48.1, 163.4, 133.3] mm, 17 g
+  (cheek_frame_L_gold: dropped 2 tiny fragment(s))
+  cheek_frame_L_gold: 1 body, [48.1, 163.4, 133.3] mm, 17 g

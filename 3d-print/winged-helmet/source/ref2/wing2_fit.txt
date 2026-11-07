@@ -1,0 +1,16 @@
+wing vs helmet shell+band overlap mm3: 0.0
+  MB  closest to the helmet   4.9 mm
+  MF  closest to the helmet   8.2 mm
+  CL  closest to the helmet   8.9 mm
+  TB  closest to the helmet  11.5 mm
+  F9  closest to the helmet  11.5 mm
+  F8  closest to the helmet  14.6 mm
+  F7  closest to the helmet  22.9 mm
+  CU  closest to the helmet  22.9 mm
+  F6  closest to the helmet  31.6 mm
+  F5  closest to the helmet  34.3 mm
+  F4  closest to the helmet  53.9 mm
+  TA  closest to the helmet  67.6 mm
+  F2  closest to the helmet  83.2 mm
+  F3  closest to the helmet  86.2 mm
+  F1  closest to the helmet 113.2 mm
