@@ -1,5 +1,12 @@
 # Winged helmet - AD5X print guide
 
+## Update (November 7): wings parallel to the head
+
+New wing mount blocks hold each wing straight, parallel to the side of the head, instead of toed in 15 degrees at the front. The medallions stay where they are: each wing turns about its dovetail key. The four pegs on each block are exactly the old ones, so the blocks push into the holes in the shell you already printed, the same way as before.
+
+- Print **wing_mounts_straight_AD5X.3mf** (one navy plate, both blocks, about 2 h). Supports are off: they would fill the dovetail socket, and its roof bridges fine.
+- The mount blocks in this project (plates 2 and 4) are the new ones too; you do not need to print those plates for the mounts.
+
 ## Update (November 6): thicker band
 
 The band's navy layer is now 2.0 mm (was 1.0) and its gold layer 1.2 mm (was 1.0), so the scroll pieces no longer snap when you remove supports. Every peg is in its old place, so the pieces fit the shell you already printed. The nose clip moved out 1.2 mm to sit on the thicker band; its tongue and snap bumps are unchanged.
