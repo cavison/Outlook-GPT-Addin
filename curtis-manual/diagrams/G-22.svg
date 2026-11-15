@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="4" y="4" width="792" height="492" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="4" y="4" width="792" height="46" fill="#111"/>
+<text x="20" y="35" font-size="22" text-anchor="start" fill="#fff" font-weight="bold">G-22 · Root Cellar and Garden Clamp</text>
+<line x1="20" y1="320" x2="480" y2="320" stroke="#111" stroke-width="3"/><path d="M80,320 Q250,120 420,320Z" fill="#c8b49a" fill-opacity="0.5" stroke="#111" stroke-width="3"/><text x="250" y="205" font-size="16" text-anchor="middle" fill="#111" font-weight="bold">soil 4–6 in.</text><path d="M120,320 Q250,170 380,320Z" fill="#f3e3a0" stroke="#111" stroke-width="2"/><text x="250" y="240" font-size="16" text-anchor="middle" fill="#111">straw 6–12 in.</text><ellipse cx="200" cy="300" rx="14" ry="10" fill="#fff" stroke="#111" stroke-width="2"/><ellipse cx="230" cy="300" rx="14" ry="10" fill="#fff" stroke="#111" stroke-width="2"/><ellipse cx="260" cy="300" rx="14" ry="10" fill="#fff" stroke="#111" stroke-width="2"/><ellipse cx="290" cy="300" rx="14" ry="10" fill="#fff" stroke="#111" stroke-width="2"/><ellipse cx="215" cy="280" rx="14" ry="10" fill="#fff" stroke="#111" stroke-width="2"/><ellipse cx="245" cy="280" rx="14" ry="10" fill="#fff" stroke="#111" stroke-width="2"/><ellipse cx="275" cy="280" rx="14" ry="10" fill="#fff" stroke="#111" stroke-width="2"/><ellipse cx="245" cy="262" rx="14" ry="10" fill="#fff" stroke="#111" stroke-width="2"/><rect x="120" y="320" width="260" height="14" fill="#f3e3a0" stroke="#111" stroke-width="2"/><text x="250" y="356" font-size="16" text-anchor="middle" fill="#111">straw base 6+ in.</text><rect x="242" y="125" width="16" height="45" fill="#f3e3a0" stroke="#111" stroke-width="2"/><text x="270" y="120" font-size="16" text-anchor="start" fill="#111">straw chimney</text><path d="M50,320 L60,345 L75,320 M425,320 L440,345 L455,320" stroke="#2b7bb9" stroke-width="3" fill="none"/><text x="440" y="375" font-size="16" text-anchor="middle" fill="#2b7bb9">ditch</text><text x="250" y="410" font-size="16" text-anchor="middle" fill="#111" font-weight="bold">32–40°F, damp, dark · apples apart</text><circle cx="60" cy="290" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="60" y="296" font-size="17" font-weight="bold" text-anchor="middle">1</text><circle cx="170" cy="260" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="170" y="266" font-size="17" font-weight="bold" text-anchor="middle">3</text><circle cx="300" cy="150" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="300" y="156" font-size="17" font-weight="bold" text-anchor="middle">5</text><circle cx="470" cy="300" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="470" y="306" font-size="17" font-weight="bold" text-anchor="middle">6</text>
+<line x1="505" y1="62" x2="505" y2="418" stroke="#888" stroke-width="2"/>
+<circle cx="530" cy="77" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="83" font-size="17" font-weight="bold" text-anchor="middle">1</text>
+<text x="553" y="82" font-size="16" text-anchor="start" fill="#111">Coldest no-freeze spot</text>
+<circle cx="530" cy="112" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="118" font-size="17" font-weight="bold" text-anchor="middle">2</text>
+<text x="553" y="117" font-size="16" text-anchor="start" fill="#111">Cure potatoes, squash</text>
+<circle cx="530" cy="147" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="153" font-size="17" font-weight="bold" text-anchor="middle">3</text>
+<text x="553" y="152" font-size="16" text-anchor="start" fill="#111">Only perfect produce</text>
+<circle cx="530" cy="182" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="188" font-size="17" font-weight="bold" text-anchor="middle">4</text>
+<text x="553" y="187" font-size="16" text-anchor="start" fill="#111">Roots in damp sand</text>
+<circle cx="530" cy="217" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="223" font-size="17" font-weight="bold" text-anchor="middle">5</text>
+<text x="553" y="222" font-size="16" text-anchor="start" fill="#111">Clamp: straw, crops,</text>
+<text x="553" y="241" font-size="16" text-anchor="start" fill="#111">straw, soil, chimney</text>
+<circle cx="530" cy="271" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="277" font-size="17" font-weight="bold" text-anchor="middle">6</text>
+<text x="553" y="276" font-size="16" text-anchor="start" fill="#111">Check weekly; remove rot</text>
+<rect x="16" y="428" width="768" height="58" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+<text x="28" y="452" font-size="16" text-anchor="start" fill="#c0392b" font-weight="bold">CAUTION</text>
+<text x="115" y="452" font-size="16" text-anchor="start" fill="#111">Keep apples and pears away from potatoes and carrots (ethylene).</text>
+<text x="115" y="474" font-size="16" text-anchor="start" fill="#111">Keep potatoes dark — green ones contain solanine.</text>
+</svg>

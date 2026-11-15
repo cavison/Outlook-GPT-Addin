@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="4" y="4" width="792" height="492" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="4" y="4" width="792" height="46" fill="#111"/>
+<text x="20" y="35" font-size="22" text-anchor="start" fill="#fff" font-weight="bold">G-23 · Ferment Sauerkraut</text>
+<path d="M130,140 L370,140 Q385,260 360,390 L140,390 Q115,260 130,140Z" stroke="#111" stroke-width="3" fill="none"/><path d="M140,200 L360,200 Q372,290 356,385 L144,385 Q128,290 140,200Z" fill="#d6eaf8"/><path d="M150,250 q10,-6 20,0" stroke="#2e7d32" stroke-width="3" fill="none"/><path d="M175,280 q10,-6 20,0" stroke="#2e7d32" stroke-width="3" fill="none"/><path d="M200,310 q10,-6 20,0" stroke="#2e7d32" stroke-width="3" fill="none"/><path d="M225,250 q10,-6 20,0" stroke="#2e7d32" stroke-width="3" fill="none"/><path d="M250,280 q10,-6 20,0" stroke="#2e7d32" stroke-width="3" fill="none"/><path d="M275,310 q10,-6 20,0" stroke="#2e7d32" stroke-width="3" fill="none"/><path d="M300,250 q10,-6 20,0" stroke="#2e7d32" stroke-width="3" fill="none"/><path d="M325,280 q10,-6 20,0" stroke="#2e7d32" stroke-width="3" fill="none"/><line x1="150" y1="215" x2="350" y2="215" stroke="#111" stroke-width="5"/><text x="250" y="237" font-size="16" text-anchor="middle" fill="#111">plate</text><rect x="215" y="150" width="70" height="62" rx="8" fill="#fff" stroke="#111" stroke-width="3"/><text x="250" y="188" font-size="16" text-anchor="middle" fill="#111">weight</text><line x1="140" y1="200" x2="360" y2="200" stroke="#2b7bb9" stroke-width="3"/><text x="380" y="205" font-size="16" text-anchor="start" fill="#2b7bb9">brine above</text><rect x="20" y="80" width="150" height="50" fill="#fff" stroke="#111" stroke-width="2"/><text x="95" y="102" font-size="16" text-anchor="middle" fill="#111">5 lb cabbage</text><text x="95" y="122" font-size="16" text-anchor="middle" fill="#111" font-weight="bold">3 Tbsp salt</text><text x="250" y="420" font-size="16" text-anchor="middle" fill="#111" font-weight="bold">70–75°F: 3–4 wk · 60–65°F: 5–6 wk</text><circle cx="180" cy="105" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="180" y="111" font-size="17" font-weight="bold" text-anchor="middle">2</text><circle cx="120" cy="300" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="120" y="306" font-size="17" font-weight="bold" text-anchor="middle">3</text><circle cx="310" cy="160" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="310" y="166" font-size="17" font-weight="bold" text-anchor="middle">4</text><circle cx="400" cy="400" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="400" y="406" font-size="17" font-weight="bold" text-anchor="middle">5</text>
+<line x1="505" y1="62" x2="505" y2="418" stroke="#888" stroke-width="2"/>
+<circle cx="530" cy="77" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="83" font-size="17" font-weight="bold" text-anchor="middle">1</text>
+<text x="553" y="82" font-size="16" text-anchor="start" fill="#111">Shred cabbage thin</text>
+<circle cx="530" cy="112" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="118" font-size="17" font-weight="bold" text-anchor="middle">2</text>
+<text x="553" y="117" font-size="16" text-anchor="start" fill="#111">3 Tbsp salt / 5 lb</text>
+<circle cx="530" cy="147" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="153" font-size="17" font-weight="bold" text-anchor="middle">3</text>
+<text x="553" y="152" font-size="16" text-anchor="start" fill="#111">Pack until juice rises</text>
+<circle cx="530" cy="182" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="188" font-size="17" font-weight="bold" text-anchor="middle">4</text>
+<text x="553" y="187" font-size="16" text-anchor="start" fill="#111">Plate + weight under brine</text>
+<circle cx="530" cy="217" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="223" font-size="17" font-weight="bold" text-anchor="middle">5</text>
+<text x="553" y="222" font-size="16" text-anchor="start" fill="#111">Ferment 3–6 weeks</text>
+<circle cx="530" cy="252" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="258" font-size="17" font-weight="bold" text-anchor="middle">6</text>
+<text x="553" y="257" font-size="16" text-anchor="start" fill="#111">Skim scum; keep under</text>
+<circle cx="530" cy="287" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="293" font-size="17" font-weight="bold" text-anchor="middle">7</text>
+<text x="553" y="292" font-size="16" text-anchor="start" fill="#111">Store cold when sour</text>
+<rect x="16" y="428" width="768" height="58" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+<text x="28" y="452" font-size="16" text-anchor="start" fill="#c0392b" font-weight="bold">CAUTION</text>
+<text x="115" y="452" font-size="16" text-anchor="start" fill="#111">Pink, slimy, soft, bad-smelling, or mold below the surface:</text>
+<text x="115" y="474" font-size="16" text-anchor="start" fill="#111">throw it out. Use non-iodized canning salt.</text>
+</svg>

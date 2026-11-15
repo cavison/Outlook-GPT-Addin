@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="4" y="4" width="792" height="492" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="4" y="4" width="792" height="46" fill="#111"/>
+<text x="20" y="35" font-size="22" text-anchor="start" fill="#fff" font-weight="bold">G-05 · Potatoes in Bags or Buckets</text>
+<path d="M150,120 L350,120 L350,400 L150,400 Z" stroke="#111" stroke-width="3" fill="none"/><rect x="150" y="320" width="200" height="80" fill="#c8b49a" fill-opacity="0.5"/><rect x="150" y="240" width="200" height="80" fill="#c8b49a" fill-opacity="0.3"/><rect x="150" y="170" width="200" height="70" fill="#f3e3a0" fill-opacity="0.5"/><ellipse cx="200" cy="335" rx="18" ry="11" fill="#fff" stroke="#111" stroke-width="3"/><ellipse cx="250" cy="335" rx="18" ry="11" fill="#fff" stroke="#111" stroke-width="3"/><ellipse cx="300" cy="335" rx="18" ry="11" fill="#fff" stroke="#111" stroke-width="3"/><path d="M250,335 Q245,250 250,110" stroke="#2e7d32" stroke-width="4" fill="none"/><ellipse cx="235" cy="115" rx="16" ry="7" fill="none" stroke="#2e7d32" stroke-width="3"/><ellipse cx="266" cy="105" rx="16" ry="7" fill="none" stroke="#2e7d32" stroke-width="3"/><ellipse cx="225" cy="280" rx="10" ry="7" fill="none" stroke="#111" stroke-width="2"/><ellipse cx="275" cy="260" rx="10" ry="7" fill="none" stroke="#111" stroke-width="2"/><ellipse cx="230" cy="210" rx="10" ry="7" fill="none" stroke="#111" stroke-width="2"/><text x="360" y="360" font-size="16" text-anchor="start" fill="#111">4–6 in. soil + seed</text><text x="360" y="290" font-size="16" text-anchor="start" fill="#111">add soil</text><text x="360" y="210" font-size="16" text-anchor="start" fill="#111">add straw</text><text x="360" y="125" font-size="16" text-anchor="start" fill="#111">top leaves show</text><path d="M110,330 L110,140" stroke="#111" stroke-width="3" marker-end="url(#ah)"/><text x="100" y="250" font-size="16" text-anchor="end" fill="#111" font-weight="bold">hill up</text><circle cx="200" cy="365" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="200" y="371" font-size="17" font-weight="bold" text-anchor="middle">1</text><circle cx="300" cy="365" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="300" y="371" font-size="17" font-weight="bold" text-anchor="middle">3</text><circle cx="130" cy="285" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="130" y="291" font-size="17" font-weight="bold" text-anchor="middle">4</text><circle cx="130" cy="205" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="130" y="211" font-size="17" font-weight="bold" text-anchor="middle">5</text><circle cx="230" cy="160" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="230" y="166" font-size="17" font-weight="bold" text-anchor="middle">7</text>
+<line x1="505" y1="62" x2="505" y2="418" stroke="#888" stroke-width="2"/>
+<circle cx="530" cy="77" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="83" font-size="17" font-weight="bold" text-anchor="middle">1</text>
+<text x="553" y="82" font-size="16" text-anchor="start" fill="#111">Cut chunks, 1–2 eyes</text>
+<circle cx="530" cy="112" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="118" font-size="17" font-weight="bold" text-anchor="middle">2</text>
+<text x="553" y="117" font-size="16" text-anchor="start" fill="#111">4–6 in. soil in bottom</text>
+<circle cx="530" cy="147" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="153" font-size="17" font-weight="bold" text-anchor="middle">3</text>
+<text x="553" y="152" font-size="16" text-anchor="start" fill="#111">Set pieces eyes up,</text>
+<text x="553" y="171" font-size="16" text-anchor="start" fill="#111">cover 3–4 in.</text>
+<circle cx="530" cy="201" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="207" font-size="17" font-weight="bold" text-anchor="middle">4</text>
+<text x="553" y="206" font-size="16" text-anchor="start" fill="#111">Shoots 6–8 in.:</text>
+<text x="553" y="225" font-size="16" text-anchor="start" fill="#111">add soil/straw</text>
+<circle cx="530" cy="255" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="261" font-size="17" font-weight="bold" text-anchor="middle">5</text>
+<text x="553" y="260" font-size="16" text-anchor="start" fill="#111">Repeat to near full</text>
+<circle cx="530" cy="290" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="296" font-size="17" font-weight="bold" text-anchor="middle">6</text>
+<text x="553" y="295" font-size="16" text-anchor="start" fill="#111">Even moisture</text>
+<circle cx="530" cy="325" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="331" font-size="17" font-weight="bold" text-anchor="middle">7</text>
+<text x="553" y="330" font-size="16" text-anchor="start" fill="#111">Harvest at</text>
+<text x="553" y="349" font-size="16" text-anchor="start" fill="#111">~70–120 days</text>
+<rect x="16" y="428" width="768" height="58" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+<text x="28" y="452" font-size="16" text-anchor="start" fill="#c0392b" font-weight="bold">CAUTION</text>
+<text x="115" y="452" font-size="16" text-anchor="start" fill="#111">Green skin = solanine. Cut away green and sprouts;</text>
+<text x="115" y="474" font-size="16" text-anchor="start" fill="#111">discard very green or bitter potatoes.</text>
+</svg>

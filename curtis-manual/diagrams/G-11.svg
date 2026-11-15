@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="4" y="4" width="792" height="492" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="4" y="4" width="792" height="46" fill="#111"/>
+<text x="20" y="35" font-size="22" text-anchor="start" fill="#fff" font-weight="bold">G-11 · Clean and Fillet a Fish</text>
+<path d="M60,240 Q180,140 330,220 L410,170 L400,240 L410,310 L330,260 Q180,340 60,240 Z" fill="#fff" stroke="#111" stroke-width="4"/><circle cx="100" cy="230" r="7" fill="#111"/><path d="M140,190 Q130,240 140,290" stroke="#111" stroke-width="3" fill="none"/><path d="M140,190 Q130,240 140,290" stroke="#c0392b" stroke-width="3" fill="none" stroke-dasharray="8 6"/><text x="130" y="175" font-size="16" text-anchor="middle" fill="#c0392b">cut behind gills</text><path d="M150,240 L330,240" stroke="#c0392b" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#ah)"/><text x="240" y="230" font-size="16" text-anchor="middle" fill="#c0392b">along backbone</text><path d="M250,285 L170,270" stroke="#e67e22" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#ah)"/><text x="205" y="320" font-size="16" text-anchor="middle" fill="#e67e22">vent → gills</text><rect x="40" y="350" width="140" height="50" fill="#d6eaf8" stroke="#111" stroke-width="3"/><text x="110" y="382" font-size="16" text-anchor="middle" fill="#111" font-weight="bold">ice / snow</text><path d="M230,380 L440,380" stroke="#111" stroke-width="3"/><path d="M240,368 L420,368 L440,380" fill="none" stroke="#888" stroke-width="3"/><text x="330" y="410" font-size="16" text-anchor="middle" fill="#111">slide blade: skin off</text><text x="50" y="110" font-size="16" text-anchor="start" fill="#2e7d32" font-weight="bold">trim belly fat + dark line</text><circle cx="25" cy="375" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="25" y="381" font-size="17" font-weight="bold" text-anchor="middle">1</text><circle cx="300" cy="140" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="300" y="146" font-size="17" font-weight="bold" text-anchor="middle">2</text><circle cx="255" cy="300" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="255" y="306" font-size="17" font-weight="bold" text-anchor="middle">3</text><circle cx="140" cy="140" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="140" y="146" font-size="17" font-weight="bold" text-anchor="middle">4</text><circle cx="455" cy="380" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="455" y="386" font-size="17" font-weight="bold" text-anchor="middle">5</text>
+<line x1="505" y1="62" x2="505" y2="418" stroke="#888" stroke-width="2"/>
+<circle cx="530" cy="77" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="83" font-size="17" font-weight="bold" text-anchor="middle">1</text>
+<text x="553" y="82" font-size="16" text-anchor="start" fill="#111">Keep cold; clean in hours</text>
+<circle cx="530" cy="112" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="118" font-size="17" font-weight="bold" text-anchor="middle">2</text>
+<text x="553" y="117" font-size="16" text-anchor="start" fill="#111">Scale tail → head</text>
+<circle cx="530" cy="147" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="153" font-size="17" font-weight="bold" text-anchor="middle">3</text>
+<text x="553" y="152" font-size="16" text-anchor="start" fill="#111">Gut: vent to gills</text>
+<circle cx="530" cy="182" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="188" font-size="17" font-weight="bold" text-anchor="middle">4</text>
+<text x="553" y="187" font-size="16" text-anchor="start" fill="#111">Fillet: behind gills,</text>
+<text x="553" y="206" font-size="16" text-anchor="start" fill="#111">along backbone</text>
+<circle cx="530" cy="236" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="242" font-size="17" font-weight="bold" text-anchor="middle">5</text>
+<text x="553" y="241" font-size="16" text-anchor="start" fill="#111">Skin off</text>
+<circle cx="530" cy="271" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="277" font-size="17" font-weight="bold" text-anchor="middle">6</text>
+<text x="553" y="276" font-size="16" text-anchor="start" fill="#111">Rinse (safe water), chill</text>
+<circle cx="530" cy="306" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="312" font-size="17" font-weight="bold" text-anchor="middle">7</text>
+<text x="553" y="311" font-size="16" text-anchor="start" fill="#111">Bury scraps away</text>
+<rect x="16" y="428" width="768" height="58" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+<text x="28" y="452" font-size="16" text-anchor="start" fill="#c0392b" font-weight="bold">CAUTION</text>
+<text x="115" y="452" font-size="16" text-anchor="start" fill="#111">Rinse only with disinfected water. Spine/gill cuts infect —</text>
+<text x="115" y="474" font-size="16" text-anchor="start" fill="#111">clean any puncture right away (M-03).</text>
+</svg>

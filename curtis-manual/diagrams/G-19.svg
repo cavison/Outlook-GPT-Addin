@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="4" y="4" width="792" height="492" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="4" y="4" width="792" height="46" fill="#111"/>
+<text x="20" y="35" font-size="22" text-anchor="start" fill="#fff" font-weight="bold">G-19 · Pressure Canning</text>
+<rect x="110" y="180" width="280" height="210" rx="20" stroke="#111" stroke-width="3" fill="none"/><path d="M100,180 Q250,120 400,180" stroke="#111" stroke-width="4" fill="none"/><circle cx="250" cy="120" r="34" fill="#fff" stroke="#111" stroke-width="3"/><line x1="250" y1="120" x2="270" y2="100" stroke="#c0392b" stroke-width="3"/><text x="250" y="75" font-size="16" text-anchor="middle" fill="#111" font-weight="bold">gauge</text><rect x="330" y="140" width="16" height="22" fill="#111"/><text x="355" y="125" font-size="16" text-anchor="start" fill="#111">vent / weight</text><path d="M338,135 q10,-15 0,-30" stroke="#888" stroke-width="3" fill="none"/><rect x="140" y="250" width="60" height="120" rx="8" fill="#fff" stroke="#111" stroke-width="3"/><rect x="220" y="250" width="60" height="120" rx="8" fill="#fff" stroke="#111" stroke-width="3"/><rect x="300" y="250" width="60" height="120" rx="8" fill="#fff" stroke="#111" stroke-width="3"/><rect x="114" y="345" width="272" height="40" fill="#d6eaf8"/><text x="250" y="410" font-size="16" text-anchor="middle" fill="#111">2–3 in. water + rack</text><rect x="20" y="210" width="80" height="80" fill="#fff" stroke="#111" stroke-width="2"/><text x="60" y="235" font-size="14" text-anchor="middle" fill="#111" font-weight="bold">0–1000 ft</text><text x="60" y="258" font-size="16" text-anchor="middle" fill="#111">weight 10</text><text x="60" y="280" font-size="16" text-anchor="middle" fill="#111">dial 11</text><text x="60" y="305" font-size="16" text-anchor="middle" fill="#111">lb</text><circle cx="420" cy="360" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="420" y="366" font-size="17" font-weight="bold" text-anchor="middle">2</text><circle cx="400" cy="105" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="400" y="111" font-size="17" font-weight="bold" text-anchor="middle">4</text><circle cx="200" cy="110" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="200" y="116" font-size="17" font-weight="bold" text-anchor="middle">5</text><circle cx="420" cy="220" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="420" y="226" font-size="17" font-weight="bold" text-anchor="middle">7</text>
+<line x1="505" y1="62" x2="505" y2="418" stroke="#888" stroke-width="2"/>
+<circle cx="530" cy="77" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="83" font-size="17" font-weight="bold" text-anchor="middle">1</text>
+<text x="553" y="82" font-size="16" text-anchor="start" fill="#111">USDA-tested recipe</text>
+<circle cx="530" cy="112" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="118" font-size="17" font-weight="bold" text-anchor="middle">2</text>
+<text x="553" y="117" font-size="16" text-anchor="start" fill="#111">Rack + water per manual</text>
+<circle cx="530" cy="147" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="153" font-size="17" font-weight="bold" text-anchor="middle">3</text>
+<text x="553" y="152" font-size="16" text-anchor="start" fill="#111">Fill jars, lids, bands</text>
+<circle cx="530" cy="182" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="188" font-size="17" font-weight="bold" text-anchor="middle">4</text>
+<text x="553" y="187" font-size="16" text-anchor="start" fill="#111">Vent steam 10 min</text>
+<circle cx="530" cy="217" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="223" font-size="17" font-weight="bold" text-anchor="middle">5</text>
+<text x="553" y="222" font-size="16" text-anchor="start" fill="#111">10 lb weight / 11 lb dial</text>
+<circle cx="530" cy="252" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="258" font-size="17" font-weight="bold" text-anchor="middle">6</text>
+<text x="553" y="257" font-size="16" text-anchor="start" fill="#111">Hold pressure; if it drops,</text>
+<text x="553" y="276" font-size="16" text-anchor="start" fill="#111">restart time</text>
+<circle cx="530" cy="306" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="312" font-size="17" font-weight="bold" text-anchor="middle">7</text>
+<text x="553" y="311" font-size="16" text-anchor="start" fill="#111">Cool to zero on its own</text>
+<circle cx="530" cy="341" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="530" y="347" font-size="17" font-weight="bold" text-anchor="middle">8</text>
+<text x="553" y="346" font-size="16" text-anchor="start" fill="#111">Check seals 12–24 h</text>
+<rect x="16" y="428" width="768" height="58" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+<text x="28" y="452" font-size="16" text-anchor="start" fill="#c0392b" font-weight="bold">CAUTION</text>
+<text x="115" y="452" font-size="16" text-anchor="start" fill="#111">Botulism can kill and may give no sign. Never water-bath low-acid</text>
+<text x="115" y="474" font-size="16" text-anchor="start" fill="#111">food, shorten times, or use untested recipes. Bulging = discard.</text>
+</svg>
