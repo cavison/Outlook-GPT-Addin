@@ -2,8 +2,8 @@
 id: P-06
 title: Transfer Switch vs Backfeeding
 category: power
+time: "Electrician install: hours"
 phases: [before]
-time: Electrician install: hours
 difficulty: skilled
 diagram: P-06.svg
 ---

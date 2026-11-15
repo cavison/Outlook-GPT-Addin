@@ -1,11 +1,1 @@
-Bad YAML in /home/user/Outlook-GPT-Addin/curtis-manual/modules/power/P-06-transfer-switch.md: bad indentation of a mapping entry (5:26)
 
- 2 | title: Transfer Switch vs Backfeeding
- 3 | category: power
- 4 | phases: [before]
- 5 | time: Electrician install: hours
-------------------------------^
- 6 | difficulty: skilled
- 7 | diagram: P-06.svg
-Reference to unwritten P-06
-Missing module P-06
