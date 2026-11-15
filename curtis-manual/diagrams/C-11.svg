@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="6" y="6" width="788" height="488" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="6" y="6" width="788" height="50" fill="#111"/>
+<text x="22" y="40" font-size="24" font-weight="bold" fill="#fff">C-11 · Baofeng Field Best Practice</text>
+<path d="M30,330 L130,200 L230,330 Z" fill="#eee" stroke="#111" stroke-width="3"/>
+<rect x="100" y="170" width="60" height="128" rx="10" fill="#fff" stroke="#111" stroke-width="4"/>
+<rect x="109" y="183" width="42" height="30" fill="#eee" stroke="#111" stroke-width="2"/>
+<rect x="110.0" y="225" width="10" height="12" fill="none" stroke="#111" stroke-width="2"/>
+<rect x="124.5" y="225" width="10" height="12" fill="none" stroke="#111" stroke-width="2"/>
+<rect x="139.0" y="225" width="10" height="12" fill="none" stroke="#111" stroke-width="2"/>
+<rect x="110.0" y="244" width="10" height="12" fill="none" stroke="#111" stroke-width="2"/>
+<rect x="124.5" y="244" width="10" height="12" fill="none" stroke="#111" stroke-width="2"/>
+<rect x="139.0" y="244" width="10" height="12" fill="none" stroke="#111" stroke-width="2"/>
+<rect x="110.0" y="263" width="10" height="12" fill="none" stroke="#111" stroke-width="2"/>
+<rect x="124.5" y="263" width="10" height="12" fill="none" stroke="#111" stroke-width="2"/>
+<rect x="139.0" y="263" width="10" height="12" fill="none" stroke="#111" stroke-width="2"/>
+<line x1="117" y1="170" x2="117" y2="85" stroke="#111" stroke-width="6" stroke-linecap="round"/>
+<text x="135" y="100" font-size="16" font-weight="bold" fill="#2e7d32" text-anchor="start">vertical</text>
+<rect x="270" y="250" width="60" height="128" rx="10" fill="#fff" stroke="#111" stroke-width="4"/>
+<rect x="279" y="263" width="42" height="30" fill="#eee" stroke="#111" stroke-width="2"/>
+<rect x="280.0" y="305" width="10" height="12" fill="none" stroke="#111" stroke-width="2"/>
+<rect x="294.5" y="305" width="10" height="12" fill="none" stroke="#111" stroke-width="2"/>
+<rect x="309.0" y="305" width="10" height="12" fill="none" stroke="#111" stroke-width="2"/>
+<rect x="280.0" y="324" width="10" height="12" fill="none" stroke="#111" stroke-width="2"/>
+<rect x="294.5" y="324" width="10" height="12" fill="none" stroke="#111" stroke-width="2"/>
+<rect x="309.0" y="324" width="10" height="12" fill="none" stroke="#111" stroke-width="2"/>
+<rect x="280.0" y="343" width="10" height="12" fill="none" stroke="#111" stroke-width="2"/>
+<rect x="294.5" y="343" width="10" height="12" fill="none" stroke="#111" stroke-width="2"/>
+<rect x="309.0" y="343" width="10" height="12" fill="none" stroke="#111" stroke-width="2"/>
+<line x1="330" y1="270" x2="390" y2="240" stroke="#111" stroke-width="6" stroke-linecap="round"/>
+<text x="300" y="395" font-size="16" font-weight="bold" fill="#c0392b" text-anchor="middle">sideways</text>
+<text x="130" y="390" font-size="16" font-weight="bold" fill="#2e7d32" text-anchor="middle">✔ high ground, outside</text>
+<text x="300" y="230" font-size="22" font-weight="bold" fill="#c0392b" text-anchor="middle">✘</text>
+<circle cx="60" cy="120" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="60" y="126" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">1</text>
+<circle cx="180" cy="250" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="180" y="256" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">7</text>
+<circle cx="60" cy="360" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="60" y="366" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">8</text>
+<text x="410" y="88" font-size="18" font-weight="bold" fill="#111" text-anchor="start">STEPS</text>
+<circle cx="422" cy="109" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="115" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">1</text>
+<text x="446" y="115" font-size="16" fill="#111" text-anchor="start">Power LOW by default</text>
+<circle cx="422" cy="139" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="145" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">2</text>
+<text x="446" y="145" font-size="16" fill="#111" text-anchor="start">Keypad lock on</text>
+<circle cx="422" cy="169" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="175" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">3</text>
+<text x="446" y="175" font-size="16" fill="#111" text-anchor="start">Carry spare pack / AA case</text>
+<circle cx="422" cy="199" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="205" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">4</text>
+<text x="446" y="205" font-size="16" fill="#111" text-anchor="start">Listen far more than talk</text>
+<circle cx="422" cy="229" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="235" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">5</text>
+<text x="446" y="235" font-size="16" fill="#111" text-anchor="start">Keep transmissions short</text>
+<circle cx="422" cy="259" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="265" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">6</text>
+<text x="446" y="265" font-size="16" fill="#111" text-anchor="start">Never transmit while charging</text>
+<circle cx="422" cy="289" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="295" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">7</text>
+<text x="446" y="295" font-size="16" fill="#111" text-anchor="start">Antenna up and vertical</text>
+<circle cx="422" cy="319" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="325" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">8</text>
+<text x="446" y="325" font-size="16" fill="#111" text-anchor="start">Go high and outdoors</text>
+<rect x="20" y="412" width="760" height="70" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+<text x="34" y="438" font-size="17" font-weight="bold" fill="#c0392b" text-anchor="start">⚠ CAUTION</text>
+<text x="34" y="464" font-size="16" fill="#111" text-anchor="start">License to transmit (FCC Part 97); emergency only per §97.403. Can't hear MPSCS.</text>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="6" y="6" width="788" height="488" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="6" y="6" width="788" height="50" fill="#111"/>
+<text x="22" y="40" font-size="24" font-weight="bold" fill="#fff">M-15 · Ticks, Lyme Disease and Mosquitoes</text>
+<rect x="60" y="230" width="160" height="40" fill="#f2d7c9" stroke="#111" stroke-width="3"/>
+<ellipse cx="140" cy="222" rx="14" ry="10" fill="#111"/>
+<path d="M110,110 L136,214 M170,110 L144,214" stroke="#111" stroke-width="4" fill="none"/>
+<line x1="140" y1="105" x2="140" y2="70" stroke="#2e7d32" stroke-width="4" marker-end="url(#ah)"/>
+<text x="140" y="300" font-size="16" font-weight="bold" fill="#2e7d32" text-anchor="middle">✔ close to skin, pull straight up</text>
+<text x="140" y="325" font-size="16" font-weight="bold" fill="#c0392b" text-anchor="middle">✘ no twisting, burning, polish</text>
+<circle cx="200" cy="170" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="200" y="176" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">3</text>
+<circle cx="200" cy="90" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="200" y="96" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">4</text>
+<rect x="250" y="250" width="90" height="70" fill="#d6eaf8" stroke="#2b7bb9" stroke-width="3"/>
+<text x="295" y="345" font-size="16" font-weight="bold" fill="#2b7bb9" text-anchor="middle">dump water</text>
+<circle cx="295" cy="230" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="295" y="236" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">8</text>
+<text x="410" y="88" font-size="18" font-weight="bold" fill="#111" text-anchor="start">STEPS</text>
+<circle cx="422" cy="109" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="115" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">1</text>
+<text x="446" y="115" font-size="16" fill="#111" text-anchor="start">Long clothes; permethrin on clothes</text>
+<circle cx="422" cy="139" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="145" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">2</text>
+<text x="446" y="145" font-size="16" fill="#111" text-anchor="start">Daily full-body tick check</text>
+<circle cx="422" cy="169" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="175" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">3</text>
+<text x="446" y="175" font-size="16" fill="#111" text-anchor="start">Fine tweezers, grip near skin</text>
+<circle cx="422" cy="199" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="205" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">4</text>
+<text x="446" y="205" font-size="16" fill="#111" text-anchor="start">Steady, even upward pull</text>
+<circle cx="422" cy="229" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="235" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">5</text>
+<text x="446" y="235" font-size="16" fill="#111" text-anchor="start">Clean bite; bag or tape tick</text>
+<circle cx="422" cy="259" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="265" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">6</text>
+<text x="446" y="265" font-size="16" fill="#111" text-anchor="start">Write date on calendar</text>
+<circle cx="422" cy="289" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="295" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">7</text>
+<text x="446" y="295" font-size="16" fill="#111" text-anchor="start">Rash or fever? Get care</text>
+<circle cx="422" cy="319" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="325" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">8</text>
+<text x="446" y="325" font-size="16" fill="#111" text-anchor="start">Empty standing water weekly</text>
+<rect x="20" y="412" width="760" height="70" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+<text x="34" y="438" font-size="17" font-weight="bold" fill="#c0392b" text-anchor="start">⚠ CAUTION</text>
+<text x="34" y="464" font-size="16" fill="#111" text-anchor="start">Not a substitute for professional care. Never put permethrin on skin.</text>
+</svg>

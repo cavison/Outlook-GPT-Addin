@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="6" y="6" width="788" height="488" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="6" y="6" width="788" height="50" fill="#111"/>
+<text x="22" y="40" font-size="24" font-weight="bold" fill="#fff">C-12 · Listen-Only Radio Plan</text>
+<text x="30" y="88" font-size="18" font-weight="bold" fill="#111" text-anchor="start">DAILY SCHEDULE</text>
+<rect x="30" y="105" width="350" height="45" fill="#fff" stroke="#111" stroke-width="3"/>
+<text x="42" y="134" font-size="16" font-weight="bold" fill="#111" text-anchor="start">Morning</text>
+<text x="150" y="134" font-size="16" fill="#111" text-anchor="start">NOAA weather + AM news</text>
+<rect x="30" y="160" width="350" height="45" fill="#fff" stroke="#111" stroke-width="3"/>
+<text x="42" y="189" font-size="16" font-weight="bold" fill="#111" text-anchor="start">Midday</text>
+<text x="150" y="189" font-size="16" fill="#111" text-anchor="start">NOAA + local FM/AM</text>
+<rect x="30" y="215" width="350" height="45" fill="#fff" stroke="#111" stroke-width="3"/>
+<text x="42" y="244" font-size="16" font-weight="bold" fill="#111" text-anchor="start">Net times</text>
+<text x="150" y="244" font-size="16" fill="#111" text-anchor="start">ARES / SKYWARN repeater</text>
+<rect x="30" y="270" width="350" height="45" fill="#fff" stroke="#111" stroke-width="3"/>
+<text x="42" y="299" font-size="16" font-weight="bold" fill="#111" text-anchor="start">After dark</text>
+<text x="150" y="299" font-size="16" fill="#111" text-anchor="start">Distant AM + shortwave</text>
+<rect x="30" y="335" width="350" height="60" fill="#d6eaf8" stroke="#2b7bb9" stroke-width="3"/>
+<text x="42" y="360" font-size="16" font-weight="bold" fill="#111" text-anchor="start">LOG: time · station · heard</text>
+<text x="42" y="384" font-size="16" fill="#111" text-anchor="start">confirmed? Y/N · action</text>
+<text x="410" y="88" font-size="18" font-weight="bold" fill="#111" text-anchor="start">STEPS</text>
+<circle cx="422" cy="109" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="115" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">1</text>
+<text x="446" y="115" font-size="16" fill="#111" text-anchor="start">Fill in stations before outage</text>
+<circle cx="422" cy="139" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="145" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">2</text>
+<text x="446" y="145" font-size="16" fill="#111" text-anchor="start">Pick fixed check times</text>
+<circle cx="422" cy="169" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="175" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">3</text>
+<text x="446" y="175" font-size="16" fill="#111" text-anchor="start">NOAA first, then news</text>
+<circle cx="422" cy="199" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="205" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">4</text>
+<text x="446" y="205" font-size="16" fill="#111" text-anchor="start">Listen to nets</text>
+<circle cx="422" cy="229" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="235" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">5</text>
+<text x="446" y="235" font-size="16" fill="#111" text-anchor="start">Distant news after dark</text>
+<circle cx="422" cy="259" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="265" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">6</text>
+<text x="446" y="265" font-size="16" fill="#111" text-anchor="start">Log everything heard</text>
+<circle cx="422" cy="289" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="295" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">7</text>
+<text x="446" y="295" font-size="16" fill="#111" text-anchor="start">Share at street meeting</text>
+<rect x="20" y="412" width="760" height="70" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+<text x="34" y="438" font-size="17" font-weight="bold" fill="#c0392b" text-anchor="start">⚠ CAUTION</text>
+<text x="34" y="464" font-size="16" fill="#111" text-anchor="start">Listen-only unless licensed. Look up repeaters on RepeaterBook; write them in.</text>
+</svg>
