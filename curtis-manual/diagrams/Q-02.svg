@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="4" y="4" width="792" height="492" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="4" y="4" width="792" height="52" fill="#111"/>
+<text x="20" y="40" font-size="26" text-anchor="start" fill="#fff" font-weight="bold">Q-02 · Carbon Monoxide Emergency</text>
+<text x="780" y="40" font-size="18" text-anchor="end" fill="#f5a623" font-weight="bold">QUICK START</text>
+<polygon points="40,200 120.0,140.0 200,200" fill="none" stroke="#111" stroke-width="4"/><rect x="50" y="200" width="140" height="150" rx="0" fill="none" stroke="#111" stroke-width="4"/><path d="M80,250 q15,-15 30,0 t30,0 t30,0" fill="none" stroke="#888" stroke-width="4"/><text x="120" y="300" font-size="22" text-anchor="middle" fill="#c0392b" font-weight="bold">CO</text><line x1="190" y1="300" x2="250" y2="300" stroke="#2e7d32" stroke-width="4" marker-end="url(#ah)"/><circle cx="220" cy="280" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="220" y="286" font-size="17" font-weight="bold" text-anchor="middle">1</text><circle cx="270" cy="240" r="12" fill="none" stroke="#111" stroke-width="3"/><line x1="270" y1="252" x2="270" y2="290" stroke="#111" stroke-width="3"/><line x1="270" y1="290" x2="258" y2="320" stroke="#111" stroke-width="3"/><line x1="270" y1="290" x2="282" y2="320" stroke="#111" stroke-width="3"/><line x1="270" y1="262" x2="255" y2="280" stroke="#111" stroke-width="3"/><line x1="270" y1="262" x2="285" y2="280" stroke="#111" stroke-width="3"/><text x="260" y="345" font-size="16" text-anchor="middle" fill="#2e7d32" font-weight="bold">FRESH AIR</text><rect x="80" y="90" width="60" height="90" rx="8" fill="none" stroke="#111" stroke-width="3"/><text x="110" y="140" font-size="20" text-anchor="middle" fill="#c0392b" font-weight="bold">911</text><circle cx="155" cy="100" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="155" y="106" font-size="17" font-weight="bold" text-anchor="middle">2</text>
+<circle cx="330" cy="84" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="90" font-size="17" font-weight="bold" text-anchor="middle">1</text>
+<text x="354" y="90" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Everyone OUT now.</text>
+<circle cx="330" cy="122" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="128" font-size="17" font-weight="bold" text-anchor="middle">2</text>
+<text x="354" y="128" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Call 911 from outside.</text>
+<circle cx="330" cy="160" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="166" font-size="17" font-weight="bold" text-anchor="middle">3</text>
+<text x="354" y="166" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Do not go back in.</text>
+<circle cx="330" cy="198" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="204" font-size="17" font-weight="bold" text-anchor="middle">4</text>
+<text x="354" y="204" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Sick? Get medical care.</text>
+<circle cx="330" cy="236" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="242" font-size="17" font-weight="bold" text-anchor="middle">5</text>
+<text x="354" y="242" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Fix cause before reuse.</text>
+<rect x="14" y="392" width="772" height="44" rx="0" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+<text x="26" y="420" font-size="16"><tspan font-weight="bold" fill="#c0392b">⚠ CAUTION: </tspan>Flu-like signs in several people = CO. Get out first, ask later.</text>
+<rect x="14" y="444" width="772" height="44" rx="0" fill="#eef6ee" stroke="#2e7d32" stroke-width="2"/>
+<text x="26" y="472" font-size="16"><tspan font-weight="bold" fill="#2e7d32">FIELD NOTE: </tspan>CO alarms expire. Check the date on the back. Clear snow from vents.</text>
+</svg>

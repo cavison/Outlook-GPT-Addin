@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="4" y="4" width="792" height="492" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="4" y="4" width="792" height="52" fill="#111"/>
+<text x="20" y="40" font-size="26" text-anchor="start" fill="#fff" font-weight="bold">W-08 · Choosing and Using Portable Filters</text>
+<rect x="60" y="120" width="60" height="150" rx="10" fill="none" stroke="#111" stroke-width="4"/><text x="90" y="290" font-size="16" text-anchor="middle" fill="#111">hollow-fiber</text><circle cx="50" cy="110" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="50" y="116" font-size="17" font-weight="bold" text-anchor="middle">1</text><rect x="190" y="150" width="140" height="100" rx="10" fill="none" stroke="#111" stroke-width="4"/><text x="260" y="205" font-size="16" text-anchor="middle" fill="#111">gravity/pump</text><text x="40" y="340" font-size="18" text-anchor="start" fill="#c0392b" font-weight="bold">✘ frozen filter</text><path d="M70,330 l8,-12 l8,12 m-8,-12 v20" fill="none" stroke="#2b7bb9" stroke-width="3"/><circle cx="220" cy="335" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="220" y="341" font-size="17" font-weight="bold" text-anchor="middle">4</text><text x="200" y="120" font-size="16" text-anchor="start" fill="#2e7d32" font-weight="bold">✔ then bleach</text><text x="200" y="140" font-size="16" text-anchor="start" fill="#111">for viruses</text><circle cx="340" cy="120" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="340" y="126" font-size="17" font-weight="bold" text-anchor="middle">3</text><line x1="260" y1="260" x2="260" y2="300" stroke="#2b7bb9" stroke-width="3" marker-end="url(#ah)"/><circle cx="300" cy="290" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="300" y="296" font-size="17" font-weight="bold" text-anchor="middle">2</text>
+<circle cx="420" cy="84" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="420" y="90" font-size="17" font-weight="bold" text-anchor="middle">1</text>
+<text x="444" y="90" font-size="17" text-anchor="start" fill="#111">Choose ≤1 micron (0.1–0.2 best).</text>
+<circle cx="420" cy="114" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="420" y="120" font-size="17" font-weight="bold" text-anchor="middle">2</text>
+<text x="444" y="120" font-size="17" text-anchor="start" fill="#111">Pre-filter cloudy water.</text>
+<circle cx="420" cy="144" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="420" y="150" font-size="17" font-weight="bold" text-anchor="middle">3</text>
+<text x="444" y="150" font-size="17" text-anchor="start" fill="#111">Add bleach or boil for viruses.</text>
+<circle cx="420" cy="174" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="420" y="180" font-size="17" font-weight="bold" text-anchor="middle">4</text>
+<text x="444" y="180" font-size="17" text-anchor="start" fill="#111">Never let it freeze.</text>
+<circle cx="420" cy="204" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="420" y="210" font-size="17" font-weight="bold" text-anchor="middle">5</text>
+<text x="444" y="210" font-size="17" text-anchor="start" fill="#111">Keep dirty and clean separate.</text>
+<rect x="14" y="392" width="772" height="44" rx="0" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+<text x="26" y="420" font-size="16"><tspan font-weight="bold" fill="#c0392b">⚠ CAUTION: </tspan>Pitcher filters are not for untreated outdoor water.</text>
+<rect x="14" y="444" width="772" height="44" rx="0" fill="#eef6ee" stroke="#2e7d32" stroke-width="2"/>
+<text x="26" y="472" font-size="16"><tspan font-weight="bold" fill="#2e7d32">FIELD NOTE: </tspan>Frozen hollow-fiber filters can fail invisibly. Keep one warm; buy a spare.</text>
+</svg>

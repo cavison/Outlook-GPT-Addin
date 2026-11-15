@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="4" y="4" width="792" height="492" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="4" y="4" width="792" height="52" fill="#111"/>
+<text x="20" y="40" font-size="26" text-anchor="start" fill="#fff" font-weight="bold">Q-06 · Get Reliable News</text>
+<text x="780" y="40" font-size="18" text-anchor="end" fill="#f5a623" font-weight="bold">QUICK START</text>
+<rect x="50" y="150" width="200" height="120" rx="12" fill="none" stroke="#111" stroke-width="4"/><circle cx="110" cy="210" r="35" fill="none" stroke="#111" stroke-width="3"/><rect x="170" y="180" width="60" height="20" rx="0" fill="none" stroke="#111" stroke-width="3"/><line x1="220" y1="150" x2="270" y2="90" stroke="#111" stroke-width="3"/><text x="150" y="300" font-size="18" text-anchor="middle" fill="#111" font-weight="bold">AM/FM + NOAA</text><circle cx="40" cy="140" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="40" y="146" font-size="17" font-weight="bold" text-anchor="middle">1</text><rect x="70" y="320" width="35" height="55" rx="5" fill="none" stroke="#111" stroke-width="3"/><text x="130" y="352" font-size="16" text-anchor="start" fill="#111" font-weight="bold">Text &gt; call</text><circle cx="50" cy="330" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="50" y="336" font-size="17" font-weight="bold" text-anchor="middle">3</text>
+<circle cx="330" cy="84" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="90" font-size="17" font-weight="bold" text-anchor="middle">1</text>
+<text x="354" y="90" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Radio on: AM news + NOAA.</text>
+<circle cx="330" cy="122" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="128" font-size="17" font-weight="bold" text-anchor="middle">2</text>
+<text x="354" y="128" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Write down what you hear.</text>
+<circle cx="330" cy="160" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="166" font-size="17" font-weight="bold" text-anchor="middle">3</text>
+<text x="354" y="166" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Text, don't call.</text>
+<circle cx="330" cy="198" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="204" font-size="17" font-weight="bold" text-anchor="middle">4</text>
+<text x="354" y="204" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Check outage map 1–2×/day.</text>
+<circle cx="330" cy="236" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="242" font-size="17" font-weight="bold" text-anchor="middle">5</text>
+<text x="354" y="242" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Trust official sources.</text>
+<rect x="14" y="392" width="772" height="44" rx="0" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+<text x="26" y="420" font-size="16"><tspan font-weight="bold" fill="#c0392b">⚠ CAUTION: </tspan>Never run a car in a garage, even with the door open.</text>
+<rect x="14" y="444" width="772" height="44" rx="0" fill="#eef6ee" stroke="#2e7d32" stroke-width="2"/>
+<text x="26" y="472" font-size="16"><tspan font-weight="bold" fill="#2e7d32">FIELD NOTE: </tspan>AM reaches farther at night. Dial 211 for shelters and warming centers.</text>
+</svg>

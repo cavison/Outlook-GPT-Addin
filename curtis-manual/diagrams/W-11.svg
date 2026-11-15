@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="4" y="4" width="792" height="492" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="4" y="4" width="792" height="52" fill="#111"/>
+<text x="20" y="40" font-size="26" text-anchor="start" fill="#fff" font-weight="bold">W-11 · Melting Snow and Ice for Water</text>
+<rect x="80" y="220" width="200" height="100" rx="0" fill="none" stroke="#111" stroke-width="4"/><path d="M90,220 q30,-60 60,-20 q30,-50 60,-10 q30,-40 60,30" fill="#fff" stroke="#111" stroke-width="3"/><rect x="84" y="290" width="192" height="26" rx="0" fill="#d6eaf8" stroke="#111" stroke-width="3"/><line x1="60" y1="220" x2="300" y2="220" stroke="#111" stroke-width="4"/><path d="M120,350 q10,-20 0,-30 M180,350 q10,-20 0,-30 M240,350 q10,-20 0,-30" fill="none" stroke="#e67e22" stroke-width="4"/><circle cx="60" cy="300" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="60" y="306" font-size="17" font-weight="bold" text-anchor="middle">2</text><text x="180" y="305" font-size="16" text-anchor="middle" fill="#111" font-weight="bold">water first</text><circle cx="300" cy="180" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="300" y="186" font-size="17" font-weight="bold" text-anchor="middle">3</text><text x="40" y="110" font-size="18" text-anchor="start" fill="#2e7d32" font-weight="bold">✔ clean, fresh snow</text><text x="40" y="140" font-size="18" text-anchor="start" fill="#c0392b" font-weight="bold">✘ roadside / plowed / yellow</text><circle cx="340" cy="110" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="340" y="116" font-size="17" font-weight="bold" text-anchor="middle">1</text><text x="330" y="300" font-size="16" text-anchor="start" fill="#c0392b" font-weight="bold">then boil</text><circle cx="370" cy="260" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="370" y="266" font-size="17" font-weight="bold" text-anchor="middle">4</text>
+<circle cx="420" cy="84" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="420" y="90" font-size="17" font-weight="bold" text-anchor="middle">1</text>
+<text x="444" y="90" font-size="17" text-anchor="start" fill="#111">Clean, fresh snow only.</text>
+<circle cx="420" cy="114" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="420" y="120" font-size="17" font-weight="bold" text-anchor="middle">2</text>
+<text x="444" y="120" font-size="17" text-anchor="start" fill="#111">Start with some water in the pot.</text>
+<circle cx="420" cy="144" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="420" y="150" font-size="17" font-weight="bold" text-anchor="middle">3</text>
+<text x="444" y="150" font-size="17" text-anchor="start" fill="#111">Add snow a bit at a time.</text>
+<circle cx="420" cy="174" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="420" y="180" font-size="17" font-weight="bold" text-anchor="middle">4</text>
+<text x="444" y="180" font-size="17" text-anchor="start" fill="#111">Strain, then boil 1 minute.</text>
+<rect x="14" y="392" width="772" height="44" rx="0" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+<text x="26" y="420" font-size="16"><tspan font-weight="bold" fill="#c0392b">⚠ CAUTION: </tspan>Don't eat snow to hydrate; it chills the body. Melt it first.</text>
+<rect x="14" y="444" width="772" height="44" rx="0" fill="#eef6ee" stroke="#2e7d32" stroke-width="2"/>
+<text x="26" y="472" font-size="16"><tspan font-weight="bold" fill="#2e7d32">FIELD NOTE: </tspan>Ice yields far more water than snow. Pre-melt near the wood stove.</text>
+</svg>

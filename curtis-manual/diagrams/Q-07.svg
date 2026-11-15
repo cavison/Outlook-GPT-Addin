@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="4" y="4" width="792" height="492" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="4" y="4" width="792" height="52" fill="#111"/>
+<text x="20" y="40" font-size="26" text-anchor="start" fill="#fff" font-weight="bold">Q-07 · Check on Your Neighbors</text>
+<text x="780" y="40" font-size="18" text-anchor="end" fill="#f5a623" font-weight="bold">QUICK START</text>
+<polygon points="30,210 90.0,166.0 150,210" fill="none" stroke="#111" stroke-width="4"/><rect x="40" y="210" width="100" height="110" rx="0" fill="none" stroke="#111" stroke-width="4"/><polygon points="180,210 240.0,166.0 300,210" fill="none" stroke="#111" stroke-width="4"/><rect x="190" y="210" width="100" height="110" rx="0" fill="none" stroke="#111" stroke-width="4"/><line x1="140" y1="300" x2="190" y2="300" stroke="#2e7d32" stroke-width="4" marker-end="url(#ah)"/><circle cx="165" cy="260" r="10" fill="none" stroke="#111" stroke-width="3"/><line x1="165" y1="270" x2="165" y2="290" stroke="#111" stroke-width="3"/><circle cx="165" cy="225" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="165" y="231" font-size="17" font-weight="bold" text-anchor="middle">1</text><rect x="200" y="120" width="90" height="60" rx="6" fill="none" stroke="#111" stroke-width="3"/><text x="245" y="145" font-size="16" text-anchor="middle" fill="#111" font-weight="bold">Meds?</text><text x="245" y="168" font-size="16" text-anchor="middle" fill="#111" font-weight="bold">Heat?</text><circle cx="300" cy="110" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="300" y="116" font-size="17" font-weight="bold" text-anchor="middle">2</text><rect x="40" y="120" width="110" height="60" rx="6" fill="none" stroke="#111" stroke-width="3"/><text x="95" y="145" font-size="16" text-anchor="middle" fill="#111" font-weight="bold">Oxygen?</text><text x="95" y="168" font-size="16" text-anchor="middle" fill="#111" font-weight="bold">Power?</text><circle cx="40" cy="110" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="40" y="116" font-size="17" font-weight="bold" text-anchor="middle">3</text>
+<circle cx="330" cy="84" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="90" font-size="17" font-weight="bold" text-anchor="middle">1</text>
+<text x="354" y="90" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Go in pairs. Say your name.</text>
+<circle cx="330" cy="122" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="128" font-size="17" font-weight="bold" text-anchor="middle">2</text>
+<text x="354" y="128" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Warm? Food? Water? Meds?</text>
+<circle cx="330" cy="160" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="166" font-size="17" font-weight="bold" text-anchor="middle">3</text>
+<text x="354" y="166" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Oxygen, CPAP, cold meds?</text>
+<circle cx="330" cy="198" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="204" font-size="17" font-weight="bold" text-anchor="middle">4</text>
+<text x="354" y="204" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Look for CO or cold.</text>
+<circle cx="330" cy="236" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="242" font-size="17" font-weight="bold" text-anchor="middle">5</text>
+<text x="354" y="242" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Write it down. Come back.</text>
+<rect x="14" y="392" width="772" height="44" rx="0" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+<text x="26" y="420" font-size="16"><tspan font-weight="bold" fill="#c0392b">⚠ CAUTION: </tspan>Confused, very cold, or won't wake up? Call 911.</text>
+<rect x="14" y="444" width="772" height="44" rx="0" fill="#eef6ee" stroke="#2e7d32" stroke-width="2"/>
+<text x="26" y="472" font-size="16"><tspan font-weight="bold" fill="#2e7d32">FIELD NOTE: </tspan>Oxygen users may have only hours of backup. Ask early.</text>
+</svg>

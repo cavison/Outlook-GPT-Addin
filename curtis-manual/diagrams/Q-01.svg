@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="4" y="4" width="792" height="492" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="4" y="4" width="792" height="52" fill="#111"/>
+<text x="20" y="40" font-size="26" text-anchor="start" fill="#fff" font-weight="bold">Q-01 · The First Hour</text>
+<text x="780" y="40" font-size="18" text-anchor="end" fill="#f5a623" font-weight="bold">QUICK START</text>
+<polygon points="50,190 160.0,122.0 270,190" fill="none" stroke="#111" stroke-width="4"/><rect x="60" y="190" width="200" height="170" rx="0" fill="none" stroke="#111" stroke-width="4"/><rect x="90" y="220" width="50" height="45" rx="0" fill="#d6eaf8" stroke="#111" stroke-width="3"/><circle cx="75" cy="175" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="75" y="181" font-size="17" font-weight="bold" text-anchor="middle">1</text><circle cx="200" cy="240" r="14" fill="none" stroke="#c0392b" stroke-width="3"/><text x="200" y="245" font-size="12" text-anchor="middle" fill="#c0392b" font-weight="bold">CO</text><circle cx="230" cy="215" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="230" y="221" font-size="17" font-weight="bold" text-anchor="middle">5</text><rect x="110" y="300" width="60" height="60" rx="0" fill="none" stroke="#111" stroke-width="3"/><text x="140" y="335" font-size="12" text-anchor="middle" fill="#111" font-weight="bold">FRIDGE</text><circle cx="140" cy="285" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="140" y="291" font-size="17" font-weight="bold" text-anchor="middle">4</text><path d="M70,120 l20,-30 l10,20 l20,-35" fill="none" stroke="#e67e22" stroke-width="4"/><text x="130" y="100" font-size="22" text-anchor="start" fill="#111" font-weight="bold">OUT!</text><circle cx="190" cy="95" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="190" y="101" font-size="17" font-weight="bold" text-anchor="middle">2</text><rect x="220" y="316.5" width="40" height="38.5" fill="#d6eaf8"/><rect x="220" y="300" width="40" height="55" rx="8" fill="none" stroke="#111" stroke-width="3"/><rect x="234.0" y="286" width="12.0" height="14" rx="0" fill="none" stroke="#111" stroke-width="3"/><path d="M260,312 q18,0 18,18 q0,18 -18,18" fill="none" stroke="#111" stroke-width="3"/><circle cx="290" cy="300" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="290" y="306" font-size="17" font-weight="bold" text-anchor="middle">3</text>
+<circle cx="330" cy="84" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="90" font-size="17" font-weight="bold" text-anchor="middle">1</text>
+<text x="354" y="90" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Light. Check people.</text>
+<circle cx="330" cy="122" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="128" font-size="17" font-weight="bold" text-anchor="middle">2</text>
+<text x="354" y="128" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Report outage. Avoid wires.</text>
+<circle cx="330" cy="160" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="166" font-size="17" font-weight="bold" text-anchor="middle">3</text>
+<text x="354" y="166" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Fill water now.</text>
+<circle cx="330" cy="198" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="204" font-size="17" font-weight="bold" text-anchor="middle">4</text>
+<text x="354" y="204" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Fridge shut. Note time.</text>
+<circle cx="330" cy="236" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="242" font-size="17" font-weight="bold" text-anchor="middle">5</text>
+<text x="354" y="242" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Unplug big loads.</text>
+<circle cx="330" cy="274" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="280" font-size="17" font-weight="bold" text-anchor="middle">6</text>
+<text x="354" y="280" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Test CO alarms.</text>
+<rect x="14" y="392" width="772" height="44" rx="0" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+<text x="26" y="420" font-size="16"><tspan font-weight="bold" fill="#c0392b">⚠ CAUTION: </tspan>Downed wires may be live. Stay 25+ ft away.</text>
+<rect x="14" y="444" width="772" height="44" rx="0" fill="#eef6ee" stroke="#2e7d32" stroke-width="2"/>
+<text x="26" y="472" font-size="16"><tspan font-weight="bold" fill="#2e7d32">FIELD NOTE: </tspan>Write outage start time on tape on the fridge door.</text>
+</svg>

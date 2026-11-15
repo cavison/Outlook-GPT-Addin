@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="4" y="4" width="792" height="492" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="4" y="4" width="792" height="52" fill="#111"/>
+<text x="20" y="40" font-size="26" text-anchor="start" fill="#fff" font-weight="bold">Q-03 · Fill Water Now</text>
+<text x="780" y="40" font-size="18" text-anchor="end" fill="#f5a623" font-weight="bold">QUICK START</text>
+<rect x="40" y="220" width="240" height="110" rx="30" fill="#d6eaf8" stroke="#111" stroke-width="3"/><rect x="40" y="220" width="240" height="110" rx="30" fill="none" stroke="#111" stroke-width="3"/><circle cx="60" cy="205" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="60" y="211" font-size="17" font-weight="bold" text-anchor="middle">1</text><path d="M240,160 v30 h-20" fill="none" stroke="#111" stroke-width="4"/><line x1="225" y1="195" x2="225" y2="225" stroke="#2b7bb9" stroke-width="3" marker-end="url(#ah)"/><text x="160" y="360" font-size="18" text-anchor="middle" fill="#111" font-weight="bold">TUB</text><rect x="50" y="128.0" width="45" height="42.0" fill="#d6eaf8"/><rect x="50" y="110" width="45" height="60" rx="8" fill="none" stroke="#111" stroke-width="3"/><rect x="65.75" y="96" width="13.5" height="14" rx="0" fill="none" stroke="#111" stroke-width="3"/><path d="M95,122 q18,0 18,18 q0,18 -18,18" fill="none" stroke="#111" stroke-width="3"/><rect x="120" y="128.0" width="45" height="42.0" fill="#d6eaf8"/><rect x="120" y="110" width="45" height="60" rx="8" fill="none" stroke="#111" stroke-width="3"/><rect x="135.75" y="96" width="13.5" height="14" rx="0" fill="none" stroke="#111" stroke-width="3"/><path d="M165,122 q18,0 18,18 q0,18 -18,18" fill="none" stroke="#111" stroke-width="3"/><circle cx="150" cy="95" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="150" y="101" font-size="17" font-weight="bold" text-anchor="middle">2</text><polygon points="194,118.0 246,118.0 240,160 200,160" fill="#d6eaf8"/><polygon points="190,100 250,100 240,160 200,160" fill="none" stroke="#111" stroke-width="3"/><path d="M190,100 q30.0,-27.0 60,0" fill="none" stroke="#111" stroke-width="3"/><circle cx="270" cy="95" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="270" y="101" font-size="17" font-weight="bold" text-anchor="middle">3</text>
+<circle cx="330" cy="84" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="90" font-size="17" font-weight="bold" text-anchor="middle">1</text>
+<text x="354" y="90" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Fill the tub.</text>
+<circle cx="330" cy="122" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="128" font-size="17" font-weight="bold" text-anchor="middle">2</text>
+<text x="354" y="128" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Fill jugs + pots.</text>
+<circle cx="330" cy="160" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="166" font-size="17" font-weight="bold" text-anchor="middle">3</text>
+<text x="354" y="166" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Fill flush buckets.</text>
+<circle cx="330" cy="198" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="204" font-size="17" font-weight="bold" text-anchor="middle">4</text>
+<text x="354" y="204" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Label with date.</text>
+<circle cx="330" cy="236" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="242" font-size="17" font-weight="bold" text-anchor="middle">5</text>
+<text x="354" y="242" font-size="22" text-anchor="start" fill="#111" font-weight="bold">Listen for boil advisory.</text>
+<rect x="14" y="392" width="772" height="44" rx="0" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+<text x="26" y="420" font-size="16"><tspan font-weight="bold" fill="#c0392b">⚠ CAUTION: </tspan>An open tub can drown a toddler. Keep the bathroom door shut.</text>
+<rect x="14" y="444" width="772" height="44" rx="0" fill="#eef6ee" stroke="#2e7d32" stroke-width="2"/>
+<text x="26" y="472" font-size="16"><tspan font-weight="bold" fill="#2e7d32">FIELD NOTE: </tspan>Water heater = 30–80 gallons of stored water. See W-01.</text>
+</svg>
