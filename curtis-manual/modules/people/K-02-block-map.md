@@ -24,7 +24,7 @@ Make a simple map of the households, needs, hazards, and resources on your stree
 Treat downed lines as live. Never shut off natural gas unless you smell gas or hear a leak — only the utility (in much of Ottawa County, Consumers Energy or DTE) can safely turn it back on.
 
 ## Field note
-Michigan's 'Map Your Neighborhood' program (through MSU Extension and emergency management) uses this same approach — ask county emergency management for the free guide.
+The 'Map Your Neighborhood' program (developed by Washington State Emergency Management Division and used by some Michigan emergency managers) uses this same approach — ask county emergency management for the free guide.
 
 ## See also
 [[K-01]] [[K-04]]

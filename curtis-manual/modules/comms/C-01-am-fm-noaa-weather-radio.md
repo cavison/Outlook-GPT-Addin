@@ -17,7 +17,7 @@ Use a battery or hand-crank radio to hear official news and weather alerts when 
 
 ## Steps
 1. Write the local AM and FM news stations on a card and tape it to the radio before an outage.
-2. Program the NOAA Weather Radio to your local station (Grand Rapids area: KIG63, 162.475 MHz; confirm on the NWS station list).
+2. Program the NOAA Weather Radio to your local station (Grand Rapids area: KIG63, 162.550 MHz; confirm on the NWS station list).
 3. Enter the SAME code for your county (Ottawa County, MI: 026139) so it alarms only for your area.
 4. Set alert mode on, put it where you sleep, and test it on the weekly test (NWS schedules these; often Wednesday midday).
 5. At night, tune AM for distant stations; AM signals travel much farther after dark.

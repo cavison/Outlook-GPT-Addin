@@ -115,6 +115,7 @@ modules:
   F-14: Evaporative (Pot-in-Pot) Cooler
   F-15: Pest-Proof Food Storage
   F-16: Fighting Food Fatigue
+  F-17: Butcher Day Without Refrigeration
   G-01: Fast Crops for West Michigan
   G-02: Microgreens on a Windowsill
   G-03: Container and Bucket Gardening
@@ -138,6 +139,12 @@ modules:
   G-21: Salting and Smoking Fish and Meat
   G-22: Root Cellar and Garden Clamp
   G-23: Ferment Sauerkraut
+  G-24: Deer — Field-Dress, Hang and Butcher
+  G-25: Fish Traps and Set Lines Within Michigan Law
+  G-26: Raise Coturnix Quail
+  G-27: Hunting Small Game Legally
+  G-28: Grow Free Feed and Bait
+  G-29: Michigan Fish ID Card
   S-01: Two-Bucket Toilet
   S-02: Bag, Store and Dispose of Waste
   S-03: Latrine and Cat-Hole
@@ -162,6 +169,8 @@ modules:
   M-12: Spot Infection Early
   M-13: Fever, Illness and When to Seek Help
   M-14: Choking
+  M-15: Ticks, Lyme Disease and Mosquitoes
+  M-16: Rabies and Animal Bites
   C-01: AM/FM and NOAA Weather Radio
   C-02: Make Your Phone Last
   C-03: Program Your Baofeng with CHIRP
@@ -172,6 +181,8 @@ modules:
   C-08: FRS/GMRS Family Radio Plan
   C-09: Rumor Control — Check Before You Act
   C-10: House Signals and Message Boards
+  C-11: Baofeng Field Best Practice
+  C-12: Listen-Only Radio Plan
   X-01: Keep a Low Profile
   X-02: Harden Doors and Windows
   X-03: Neighborhood Watch and Lookouts
@@ -202,6 +213,7 @@ modules:
   R-09: Driving on Limited Fuel
   R-10: Hauling with Bikes, Carts and Sleds
   R-11: Keep Kids Learning
+  R-12: Build a Bike Trailer or Hand Cart
   V-01: Power-Back Restart Sequence
   V-02: Check for Gas Leaks and Damage
   V-03: Food After the Outage
@@ -214,3 +226,5 @@ modules:
   Z-04: West Michigan Contacts and Resources
   Z-05: Glossary
   Z-06: Sources and Further Reading
+  Z-07: Winter vs Summer Outage Guide
+  Z-08: Field Notes Collection — What the Big Books Miss

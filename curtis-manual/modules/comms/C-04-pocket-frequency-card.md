@@ -15,7 +15,7 @@ Make a wallet-sized card listing every channel on your radio, your check-in sche
 - NWS NOAA Weather Radio station list
 
 ## Steps
-1. List the NOAA weather channel(s) first; Grand Rapids area is 162.475 MHz (KIG63). Confirm on the NWS station list.
+1. List the NOAA weather channel(s) first; Grand Rapids area is 162.550 MHz (KIG63). Confirm on the NWS station list.
 2. Add the national simplex calling channels: 146.520 MHz (2 m) and 446.000 MHz (70 cm).
 3. Look up current local repeaters (frequency, offset, tone) on RepeaterBook and confirm with Ottawa County ARES/RACES or a local club.
 4. Pick a family check-in schedule, such as the top of the hour for 5 minutes at set times, to save batteries.
@@ -27,7 +27,7 @@ Fill in the blanks in pencil, then copy the whole card into CHIRP ([[C-03]]). RX
 
 | Ch | Name | Frequency (MHz) | Offset / Tone | Use |
 |---|---|---|---|---|
-| 1 | NOAA GR | 162.475 | — | Weather (KIG63, Grand Rapids; verify) RX only |
+| 1 | NOAA GR | 162.550 | — | Weather (KIG63, Grand Rapids; verify) RX only |
 | 2 | NOAA 2 | ________ | — | Next-nearest NOAA station, RX only |
 | 3 | 2M CALL | 146.520 | simplex, no tone | National 2 m FM calling (license) |
 | 4 | 70CM CALL | 446.000 | simplex, no tone | National 70 cm FM calling (license) |

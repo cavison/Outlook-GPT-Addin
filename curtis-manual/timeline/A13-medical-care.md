@@ -8,7 +8,7 @@ In a long outage, the big medical danger is not dramatic injury. It is small pro
 This chapter is not a replacement for training. Take a first-aid and CPR class before you need it (the American Red Cross and American Heart Association offer them in the Grand Rapids area).
 
 ## Priorities
-1. **Keep up chronic medications.** Count every prescription today. Know how many days you have. Talk to your doctor and pharmacist about a legal reserve and emergency refills. Michigan law allows pharmacists to dispense emergency supplies of some medications when a prescriber cannot be reached; ask your pharmacist what applies. See [[M-10]].
+1. **Keep up chronic medications.** Count every prescription today. Know how many days you have. Talk to your doctor and pharmacist about a legal reserve and emergency refills. Michigan pharmacy rules may allow a limited emergency supply of some medications when a prescriber cannot be reached; ask your pharmacist what applies (check Michigan Board of Pharmacy). See [[M-10]].
 2. **Prevent infection.** Handwashing, clean water for wounds, and early attention to redness and swelling matter more than any gear. See [[M-03]] and [[M-12]].
 3. **Stop bleeding and keep people breathing.** Direct pressure, packing, a tourniquet for limb bleeding that will not stop, and CPR. See [[M-02]], [[M-07]] and [[M-14]].
 4. **Treat dehydration early.** Diarrhea and vomiting from bad water or spoiled food are common. Oral rehydration solution saves lives. See [[M-08]].

@@ -19,7 +19,7 @@ Supply and demand must match every second. When something breaks and the system 
 
 ### What causes outages
 
-- **Ice storms** — the biggest regional threat here. A coat of ice can add hundreds of pounds to a span of wire and bring down trees, lines and poles over whole counties. In spring 2025 a severe ice storm in northern lower Michigan left large numbers of customers without power, some for well over a week, and damaged forests and poles across several counties.
+- **Ice storms** — the biggest regional threat here. A coat of ice can add hundreds of pounds to a span of wire and bring down trees, lines and poles over whole counties. In late March 2025 a severe ice storm in northern lower Michigan left large numbers of customers without power, some for well over a week, and damaged forests and poles across several counties.
 - **Lake-effect snow and wind** — heavy wet snow, blizzards and windstorms take down lines and make repair slow.
 - **Summer thunderstorms and heat waves** — straight-line winds topple trees; heat raises demand and strains equipment.
 - **Solar storms (geomagnetic disturbances)** — strong storms on the sun can induce currents that damage large transformers. In 1989 one collapsed the Quebec grid for about nine hours.

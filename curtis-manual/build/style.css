@@ -85,3 +85,9 @@ body.phone .mhead h3 { font-size: 12.5pt; }
 body.phone .chapter h2 { font-size: 17pt; }
 body.phone table { font-size: 8pt; }
 body.phone figure.diagram svg { max-height: none; }
+
+.index { break-before: page; }
+.idxcols { columns: 3; column-gap: 16px; font-size: 8.5pt; font-family: Arial, sans-serif; }
+.ie { break-inside: avoid; margin-bottom: 2px; }
+.ie a { color: #2b7bb9; }
+body.phone .idxcols { columns: 2; }

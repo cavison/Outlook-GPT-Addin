@@ -81,7 +81,7 @@ function renderModule(d) {
   const phases = (meta.phases || []).map(p => PHASE[p] ? `<span class="phase" style="border-color:${PHASE[p][1]};color:${PHASE[p][1]}">${PHASE[p][0]}</span>` : '').join('');
   let h = `<section class="module" id="${slug(meta.id)}" style="--cat:${c.color}">
 <header class="mhead"><span class="mid">${esc(meta.id)}</span><h3>${esc(meta.title)}</h3></header>
-<div class="mmeta">${phases}${meta.time ? `<span>⏱ ${esc(meta.time)}</span>` : ''}${meta.difficulty ? `<span>● ${esc(meta.difficulty)}</span>` : ''}</div>
+<div class="mmeta">${phases}${meta.time ? `<span>⏱ ${esc(meta.time)}</span>` : ''}${meta.difficulty ? `<span>● ${esc(meta.difficulty)}</span>` : ''}${meta.verified ? `<span>✔ checked ${esc(meta.verified)}</span>` : ''}</div>
 <div class="intro">${md(intro)}</div>${svgFor(meta.diagram)}`;
   for (const [name, txt] of map) {
     const k = name.toLowerCase();
@@ -100,6 +100,13 @@ function renderChapter(d) {
 }
 
 // ---- assemble
+const CARD_IDS = ['Q-01','Q-02','Q-03','Q-04','Q-05','Q-06','Q-07','Q-08','Q-09','Q-10','W-04','M-02','M-07','M-08','M-14','C-04','P-04','H-11'];
+function buildCards() {
+  const css = fs.readFileSync(path.join(__dirname, 'style.css'), 'utf8');
+  return `<!doctype html><html><head><meta charset="utf-8"><title>Curtis' Manual — Cut-Out Cards</title><style>${css}</style></head><body class="phone cards">
+<section class="howto"><h2>Curtis' Manual — Cut-Out Emergency Cards</h2><p>Print, cut, laminate or slip into sheet protectors. Keep one set by the flashlight, one in the car, one in the go-bag.</p></section>
+${CARD_IDS.filter(id => docs[id]).map(id => renderModule(docs[id])).join('')}</body></html>`;
+}
 function buildHTML(variant) {
   let toc = '', body = '';
   // Book A
@@ -129,6 +136,17 @@ function buildHTML(variant) {
     }
     toc += '</ul>';
   }
+  // ---- topic index
+  const STOP = new Set('the and for with from your when what how without into that this than are can not don\'t own one two you its out off use get keep make safely safe right new run set build using'.split(' '));
+  const idx = {};
+  for (const id of Object.keys(book.modules)) {
+    const d = docs[id]; if (!d) continue;
+    const terms = new Set([...(d.meta.keywords || []).map(String), ...titleOf(id).split(/[^A-Za-z0-9'-]+/)]);
+    for (let t of terms) { t = t.trim().toLowerCase().replace(/^'|'$/g, ''); if (t.length < 4 || STOP.has(t) || /^\d/.test(t)) continue; (idx[t] = idx[t] || new Set()).add(id); }
+  }
+  const terms = Object.keys(idx).sort();
+  toc += `<h3><a href="#topic-index">Topic Index</a></h3>`;
+  body += `<section class="index" id="topic-index"><h2>Topic Index</h2><div class="idxcols">${terms.map(t => `<div class="ie"><b>${esc(t)}</b> ${[...idx[t]].sort().map(id => `<a href="#${slug(id)}">${id}</a>`).join(', ')}</div>`).join('')}</div></section>`;
   const css = fs.readFileSync(path.join(__dirname, 'style.css'), 'utf8');
   return `<!doctype html><html><head><meta charset="utf-8"><title>${esc(book.title)}</title><style>${css}</style></head>
 <body class="${variant}">
@@ -154,11 +172,12 @@ ${body}
     { name: 'print', file: "Curtis-Manual-PRINT-8.5x11.pdf", pdf: { format: 'Letter', margin: { top: '0.6in', bottom: '0.7in', left: '0.7in', right: '0.7in' } } },
     { name: 'phone', file: "Curtis-Manual-PHONE.pdf", pdf: { width: '4.25in', height: '7.5in', margin: { top: '0.3in', bottom: '0.45in', left: '0.25in', right: '0.25in' } } },
   ];
+  variants.push({ name: 'cards', file: 'Curtis-Manual-CARDS-half-letter.pdf', html: buildCards, pdf: { width: '5.5in', height: '8.5in', margin: { top: '0.3in', bottom: '0.4in', left: '0.3in', right: '0.3in' } } });
   const only = process.argv[2];
   const browser = await chromium.launch();
   for (const v of variants) {
     if (only && only !== v.name) continue;
-    const html = buildHTML(v.name);
+    const html = v.html ? v.html() : buildHTML(v.name);
     const hp = path.join(OUT, `book-${v.name}.html`);
     fs.writeFileSync(hp, html);
     const page = await browser.newPage();
