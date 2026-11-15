@@ -25,6 +25,19 @@ A few hens turn kitchen scraps, bugs and feed into eggs; meat birds reach butche
 6. **Retired hens:** older hens make good stewing birds — cook long and slow.
 7. **Butcher** cleanly with gloves, cool the carcass fast, and cook chicken to 165°F (74°C).
 
+## Table
+Laying hens eat roughly 1/4 lb (about 100–150 g, about 1/2 cup) of feed per bird per day (Alabama and UNH Extension); more in cold weather.
+
+| Flock | Per day | 90 days | Notes |
+|---|---|---|---|
+| 1 hen | about 1/4 lb | about 22–23 lb | scraps and forage stretch this a little |
+| 4 hens | about 1 lb | about 90 lb (two 50-lb bags) | |
+| 6 hens | about 1.5 lb | about 135 lb | |
+| Water | about 1 pint per hen | | more in heat; thaw in winter |
+
+## Start in the BEFORE phase
+Chicks take about 5–6 months to start laying, so a flock started after an outage begins won't produce for half a year. Set up the coop and flock now and store 90 days of feed in metal cans (mice). **Check ordinances:** Hudsonville city, Georgetown Township and other Ottawa County townships each set their own rules on hens, roosters, numbers and setbacks — call your zoning office.
+
 ## Caution
 Live poultry often carry Salmonella even when they look healthy. Wash hands after touching birds, eggs or the coop, keep birds out of the kitchen, and don't let small children kiss or snuggle chicks. Report sudden deaths of several birds to MDARD (possible avian flu).
 
@@ -32,7 +45,7 @@ Live poultry often carry Salmonella even when they look healthy. Wash hands afte
 Hens slow or stop laying in short winter days. That's normal; it isn't a feed problem. Store eggs in summer for winter: unwashed, clean eggs keep for weeks in a cold spot, and you can freeze beaten eggs in portions. Crack older eggs into a separate cup first; any off smell or odd color means throw it out.
 
 ## See also
-[[G-16]] [[G-15]] [[K-11]] [[F-02]]
+[[G-16]] [[G-15]] [[K-11]] [[F-02]] [[G-25]]
 
 ## Sources
-MSU Extension (backyard poultry); CDC (Salmonella and backyard poultry); MDARD (avian influenza); USDA FSIS
+MSU Extension (backyard poultry); Alabama Cooperative Extension (Feeding the Laying Hen); UNH Extension; CDC (Salmonella and backyard poultry); MDARD (avian influenza); USDA FSIS

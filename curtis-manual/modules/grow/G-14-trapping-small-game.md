@@ -6,6 +6,7 @@ phases: [wk, mo]
 time: 1 hour to set + daily checks
 difficulty: skilled
 diagram: G-14.svg
+verified: "2026-11"
 ---
 Trapping can add meat, but in Michigan it is tightly regulated — know the law before you set anything.
 
@@ -29,7 +30,7 @@ Trapping can add meat, but in Michigan it is tightly regulated — know the law 
 Snares and body-gripping traps are heavily restricted in Michigan and can kill pets, raptors and protected animals — do not improvise them. Illegal trapping can bring fines and loss of hunting rights, and it takes food from the whole community's future.
 
 ## Field note
-In a residential area, a cage trap catches the same backyard rabbits and squirrels that eat your garden — protecting crops and producing meat. Michigan allows landowners to take some nuisance animals under specific rules; check the DNR's "nuisance animal" guidance before acting.
+In a residential area, a cage trap catches the same backyard rabbits and squirrels that eat your garden — protecting crops and producing meat. Nuisance-animal rules are a separate thing: Michigan lets landowners remove certain animals causing damage only under specific DNR rules, and those rules do **not** give permission to eat, keep, sell or relocate the animal. To trap for food, you need the proper license and an open season. Read the DNR nuisance wildlife rules (and the Hunting and Trapping Digest) before acting.
 
 ## See also
 [[G-15]] [[G-16]] [[X-01]]

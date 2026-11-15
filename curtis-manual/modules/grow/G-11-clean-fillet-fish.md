@@ -25,7 +25,7 @@ Turn a fresh catch into clean food quickly, either whole (gutted) or as fillets.
 7. **Dispose of scraps:** bury deeply or use as garden fertilizer, away from your house to avoid animals.
 
 ## Caution
-Disinfect your water before using it to rinse fish ([[W-04]]). Fish spines and gill plates cut hands easily; a puncture from fish or scraps can get badly infected — clean it right away and watch for redness ([[M-03]]).
+Disinfect your water before using it to rinse fish ([[W-04]]). Fish spines and gill plates cut hands easily; a puncture from fish or scraps can get badly infected — clean it right away and watch for redness ([[M-03]]). Selling or bartering wild game or sport-caught fish is illegal in Michigan (Michigan DNR; Wildlife Conservation Order 4.3 and the fishing regulations). Share it as a gift with your own household if the rules allow, but never trade it.
 
 ## Field note
 Skinning and trimming the fat — the belly flap, the fatty strip along the sides and the dark line under the skin — lowers many chemicals (like PCBs) that collect in fat. MDHHS recommends this for fish from waters with advisories. It does not remove mercury, which is in the meat.

@@ -6,6 +6,7 @@ phases: [before, 72h, wk, mo]
 time: 20 min setup
 difficulty: easy
 diagram: C-01.svg
+verified: "2026-11"
 ---
 Use a battery or hand-crank radio to hear official news and weather alerts when TV, internet and cell service are down.
 
@@ -27,7 +28,7 @@ Use a battery or hand-crank radio to hear official news and weather alerts when 
 A weather radio left on "alert" with dead batteries gives no warning. Use fresh batteries plus the wall adapter while you still have power, and check them monthly.
 
 ## Field note
-If KIG63 is weak in your spot, NOAA transmitters in neighboring areas often overlap; the NWS station listing for Michigan shows each transmitter and the counties it covers. Ottawa County's SAME code works on any of them that broadcast for Ottawa.
+If KIG63 is weak in your spot, NOAA transmitters in neighboring areas often overlap; the NWS station listing for Michigan shows each transmitter and the counties it covers. The NWS Grand Rapids office lists a West Olive transmitter on 162.425 MHz for the lakeshore (verify). Ottawa County's SAME code works on any of them that broadcast for Ottawa.
 
 ## See also
 [[Q-06]] [[C-02]] [[C-09]] [[C-04]]

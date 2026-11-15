@@ -23,7 +23,7 @@ Trade goods and skills safely and fairly with neighbors when stores are closed o
 6. Keep your reputation; one bad deal travels fast on a small street.
 
 ## Caution
-Don't trade away your own essential medicine, water treatment or heat. Never trade or share prescription drugs; that is illegal and dangerous.
+Don't trade away your own essential medicine, water treatment or heat. Never trade or share prescription drugs; that is illegal and dangerous. Selling or bartering wild game or sport-caught fish is illegal in Michigan (Michigan DNR; Wildlife Conservation Order 4.3 and the fishing regulations). Share it as a gift with your own household if the rules allow, but never trade it.
 
 ## Field note
 Small, low-cost items often trade best: lighters, AA batteries, coffee, soap, toilet paper, and seeds in spring. In west Michigan, the ability to sharpen a chainsaw or fix a snowblower can be worth more than any stored item.
@@ -32,4 +32,4 @@ Small, low-cost items often trade best: lighters, AA batteries, coffee, soap, to
 [[R-07]] [[X-01]] [[K-03]] [[R-01]]
 
 ## Sources
-FEMA; community resilience guides
+FEMA; community resilience guides; Michigan DNR (Wildlife Conservation Order 4.3; fishing regulations)

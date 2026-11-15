@@ -48,6 +48,8 @@ Let faucets drip if water is flowing, open cabinet doors, insulate exposed pipes
 
 Ice storms and lake-effect snow often hit together with cold snaps, so a winter outage is the hardest case here. Sump pumps stop in spring thaw. Keep snow cleared from furnace and dryer vents and from generator exhausts.
 
+> **Scenario: a 90-day outage that starts in January.** Expect February–March cold snaps and lake-effect snow with no grid. Drain the plumbing early rather than late ([[H-08]]); size firewood or fuel for 90 days in one room, not the whole house; count calories higher for cold. After an ice storm, avoid walking or parking under loaded trees and lines for days — limbs keep falling and downed lines may be live. Watch roof snow load on garages, porches and low-slope roofs; rake from the ground, never climb icy roofs, and get out if you hear cracking or see sagging. Spring thaw brings flooding basements with no sump pump.
+
 ## Priorities
 1. Choose and seal one room before the first night.
 2. Use only safe heat with a CO alarm.

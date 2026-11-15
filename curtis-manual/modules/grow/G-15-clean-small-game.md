@@ -26,7 +26,7 @@ Skin and gut a rabbit or squirrel cleanly while protecting yourself from germs t
 8. **Clean up:** bleach tools and surfaces; bury or bag scraps; wash hands well.
 
 ## Caution
-Rabbits and rodents can carry tularemia, which can infect you through cuts, splashes in the eye, or undercooked meat. Gloves and thorough cooking are the main protection. Do not eat squirrel or other animal brains.
+Rabbits and rodents can carry tularemia, which can infect you through cuts, splashes in the eye, or undercooked meat. Gloves and thorough cooking are the main protection. Do not eat squirrel or other animal brains. Selling or bartering wild game or sport-caught fish is illegal in Michigan (Michigan DNR; Wildlife Conservation Order 4.3 and the fishing regulations). Share it as a gift with your own household if the rules allow, but never trade it.
 
 ## Field note
 Rabbits can carry warbles (bot fly larvae) under the skin in late summer; they look nasty but the meat underneath is usually fine once the area is trimmed. White spots on the liver are the warning sign that matters most.

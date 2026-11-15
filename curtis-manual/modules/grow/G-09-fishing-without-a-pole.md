@@ -6,6 +6,7 @@ phases: [wk, mo]
 time: 15 min to rig
 difficulty: easy
 diagram: G-09.svg
+verified: "2026-11"
 ---
 Catch panfish and other fish with just line, a hook and a bottle or can — no rod or reel needed.
 
@@ -16,7 +17,7 @@ Catch panfish and other fish with just line, a hook and a bottle or can — no r
 - Sinker: split shot, a nut, or a small stone tied in
 - Bobber: cork, foam, or a dry stick 3–4 inches long
 - Bait: worms, grubs, crickets, bits of fish or bread
-- Michigan fishing license (age 17+)
+- Michigan fishing license (age 17+; check the DNR license page)
 
 ## Steps
 1. **Wrap:** tie the line to the bottle neck and wind 30–50 feet around the bottle body; tape the end so it doesn't unwind.
@@ -28,7 +29,10 @@ Catch panfish and other fish with just line, a hook and a bottle or can — no r
 7. **Hook it:** when the bobber dips or runs, pull firmly; wind line back onto the bottle by hand, keeping it tight.
 
 ## Caution
-A license is required for anyone 17 or older, and Michigan has seasons, size limits and daily bag limits by species. Do not leave unattended lines or "set lines" without checking DNR rules — many methods are restricted. Treat every hook as sharp: carry pliers and keep the barb away from kids' faces.
+A license is required for anyone 17 or older, and Michigan has seasons, size limits and daily bag limits by species. Do not leave unattended lines or "set lines" without checking DNR rules — many methods are restricted. Treat every hook as sharp: carry pliers and keep the barb away from kids' faces. Selling or bartering wild game or sport-caught fish is illegal in Michigan (Michigan DNR; Wildlife Conservation Order 4.3 and the fishing regulations). Share it as a gift with your own household if the rules allow, but never trade it.
+
+## Michigan notes
+**Free Fishing Weekends:** twice a year (one weekend in February, one in June) the DNR lets residents and visitors fish without a license; all other rules still apply. 2026 dates were Feb. 14–15 and June 13–14 — check Michigan.gov/FreeFishing for next year.
 
 ## Field note
 A "bobber stop" can be as simple as a half-hitch of thread or a rubber band slice on the line, letting you fish deeper than your arm can reach. A twig bobber works better if you whittle one end slightly heavier so it stands upright — it shows small bites more clearly.
@@ -37,4 +41,4 @@ A "bobber stop" can be as simple as a half-hitch of thread or a rubber band slic
 [[G-10]] [[G-11]] [[G-12]] [[G-13]]
 
 ## Sources
-Michigan DNR (Fishing Regulations, license requirements); Michigan DNR "Learn to Fish"
+Michigan DNR (Fishing Regulations, license requirements); Michigan DNR "Learn to Fish"; Michigan DNR (Free Fishing Weekend)

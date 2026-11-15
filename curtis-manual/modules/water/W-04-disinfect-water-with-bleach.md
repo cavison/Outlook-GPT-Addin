@@ -27,17 +27,17 @@ Drops of unscented household bleach (from a medicine dropper). Cloudy water: set
 
 | Water | 6% bleach, clear | 6% bleach, cloudy | 8.25% bleach, clear | 8.25% bleach, cloudy |
 |---|---|---|---|---|
-| 1 quart | 2 drops | 4 drops | 2 drops (1.5, rounded up) | 3 drops |
+| 1 quart | 2 drops | 4 drops | 2 drops | 3 drops |
 | 1 gallon | 8 drops | 16 drops | 6 drops | 12 drops |
 | 5 gallons | 40 drops | 80 drops | 30 drops | 60 drops |
 
-Gallon figures are EPA's; quart and 5-gallon figures are the same dose scaled. After 30 minutes the water should have a faint chlorine smell. If not, repeat the dose and wait another 15 minutes (EPA).
+Gallon figures are EPA's (EPA lists per-gallon doses). Quart doses are the gallon dose divided by 4, rounded up (8.25% clear: 6 ÷ 4 = 1.5 → 2 drops); 5-gallon doses are the gallon dose × 5. After 30 minutes the water should have a faint chlorine smell. If not, repeat the dose and wait another 15 minutes (EPA).
 
 ## Caution
 Bleach does not remove chemicals, fuel, or heavy metals and does not reliably kill *Cryptosporidium*. Never use water that smells of gasoline or chemicals, and never mix bleach with other cleaners.
 
 ## Field note
-Bleach loses strength over time — sooner in heat — so a bottle bought years ago may be too weak. Write the purchase date on the cap and replace stored bleach about once a year. Pool shock (calcium hypochlorite) stores far longer, but its dosing is different; follow EPA or CDC instructions exactly if you use it.
+Bleach loses strength over time — sooner in heat — so a bottle bought years ago may be too weak. Write the purchase date on the cap and replace stored bleach roughly every 6–12 months. Check the date printed on the bottle. Pool shock (calcium hypochlorite) stores far longer, but its dosing is different; follow EPA or CDC instructions exactly if you use it.
 
 ## See also
 [[W-05]] [[W-06]] [[W-08]] [[W-13]]

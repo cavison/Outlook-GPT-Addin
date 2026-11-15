@@ -3,6 +3,7 @@ id: Z-04
 title: West Michigan Contacts and Resources
 category: appendix
 phases: [before, 72h, wk, mo, after]
+verified: "2026-11"
 ---
 **Fill this in before you need it, in pencil, and verify every number once a year.** Phone numbers change. This manual only prints numbers that are national and stable; look up the rest from the organization's official website or your bills and write them in. Keep a copy in your go-bag ([[X-05]]) and paper plan ([[A04]]).
 
@@ -80,7 +81,7 @@ Pick one relative or friend far away. Everyone checks in with them; long-distanc
 |---|---|---|
 | AM radio station (news) | | |
 | FM radio station (news) | | |
-| NOAA Weather Radio transmitter | | Look up on the National Weather Service site |
+| NOAA Weather Radio transmitter | 162.550 (Grand Rapids, KIG63); 162.425 (West Olive) | Verify on the National Weather Service site |
 | Local ham repeater | | See [[C-04]] |
 | Community bulletin board | | See [[C-10]] |
 | Nearest warming/cooling center | | Ask 2-1-1 |

@@ -6,6 +6,7 @@ phases: [72h]
 time: 15–60 min
 difficulty: easy
 diagram: Q-01.svg
+verified: "2026-11"
 ---
 What to do in the first hour after the power goes out, before you know how long it will last.
 

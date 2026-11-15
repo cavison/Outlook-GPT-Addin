@@ -36,6 +36,8 @@ Pick crops by how fast they feed you, and plant them inside west Michigan's fros
 ## Michigan notes
 For Ottawa County, last spring frost is roughly mid-May and first fall frost is roughly early to mid-October. These are approximate averages — frost can come earlier or later. Radishes, lettuce, peas and spinach can go in several weeks before the last frost; beans, squash and tomatoes wait until after it.
 
+**Outage starting in winter:** nothing grows outdoors in Ottawa County from about November to March without help. Sprouts and microgreens are your only fresh food until spring. Season extension buys weeks: a **cold frame** (old window on a box of boards or straw bales, against a south wall) or a **low tunnel** (wire or PVC hoops with clear plastic or row cover) lets spinach, lettuce, radishes and kale be sown about 4–6 weeks earlier in spring and harvested later into fall. Open them on sunny days so plants don't cook. Check MSU Extension for local frost dates and season-extension guides.
+
 ## Caution
 Do not count on a garden to feed you in a short outage — it supplements stored food. Seeds planted in cold, wet spring soil (especially beans) often rot instead of sprouting.
 
@@ -46,4 +48,4 @@ Lake Michigan moderates nearby temperatures, but low spots inland frost first be
 [[F-12]] [[G-02]] [[G-03]] [[G-04]] [[G-05]] [[G-06]]
 
 ## Sources
-MSU Extension (Smart Gardening, frost dates); USDA Plant Hardiness Zone Map; seed packet maturity data
+MSU Extension (Smart Gardening, frost dates, season extension); USDA Plant Hardiness Zone Map; seed packet maturity data
