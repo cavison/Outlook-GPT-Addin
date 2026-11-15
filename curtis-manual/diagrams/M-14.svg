@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="6" y="6" width="788" height="488" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="6" y="6" width="788" height="52" fill="#111"/>
+<text x="22" y="41" fill="#fff" font-size="24" font-weight="bold">M-14 · Choking (Adult/Child)</text>
+<circle cx="160" cy="140" r="28" stroke="#111" stroke-width="4" fill="none"/><path d="M160,168 L160,300 M160,300 L130,400 M160,300 L190,400" stroke="#111" stroke-width="4" fill="none"/><circle cx="260" cy="150" r="28" stroke="#111" stroke-width="4" fill="none"/><path d="M260,178 L250,300 L230,400 M250,300 L275,400" stroke="#111" stroke-width="4" fill="none"/><path d="M240,200 L175,240" stroke="#111" stroke-width="4" fill="none"/><circle cx="170" cy="245" r="10" fill="#e67e22" stroke="#111" stroke-width="2"/><text x="40" y="440" font-size="18" font-weight="bold">5 back blows ↔ 5 abdominal thrusts</text>
+<text x="470" y="86" font-size="18" font-weight="bold">STEPS</text>
+<circle cx="486" cy="110" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="116" font-size="18" font-weight="bold" text-anchor="middle">1</text>
+<text x="512" y="116" font-size="16" >Ask: "Are you choking?"</text>
+<text x="512" y="135" font-size="16" >Can't talk/cough → act.</text>
+<circle cx="486" cy="176" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="182" font-size="18" font-weight="bold" text-anchor="middle">2</text>
+<text x="512" y="182" font-size="16" >Call 911 / send someone.</text>
+<circle cx="486" cy="223" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="229" font-size="18" font-weight="bold" text-anchor="middle">3</text>
+<text x="512" y="229" font-size="16" >5 firm back blows between</text>
+<text x="512" y="248" font-size="16" >shoulder blades.</text>
+<circle cx="486" cy="289" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="295" font-size="18" font-weight="bold" text-anchor="middle">4</text>
+<text x="512" y="295" font-size="16" >5 abdominal thrusts:</text>
+<text x="512" y="314" font-size="16" >fist above navel, in + up.</text>
+<circle cx="486" cy="355" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="361" font-size="18" font-weight="bold" text-anchor="middle">5</text>
+<text x="512" y="361" font-size="16" >Repeat until out or</text>
+<text x="512" y="380" font-size="16" >unresponsive → CPR.</text>
+<circle cx="130" cy="210" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="130" y="216" font-size="18" font-weight="bold" text-anchor="middle">3</text>
+<circle cx="200" cy="280" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="200" y="286" font-size="18" font-weight="bold" text-anchor="middle">4</text>
+</svg>

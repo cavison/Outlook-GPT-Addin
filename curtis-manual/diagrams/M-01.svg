@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="6" y="6" width="788" height="488" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="6" y="6" width="788" height="52" fill="#111"/>
+<text x="22" y="41" fill="#fff" font-size="24" font-weight="bold">M-01 · 90-Day First-Aid Kit</text>
+<rect x="60" y="150" width="340" height="230" rx="12" stroke="#111" stroke-width="4" fill="none"/><rect x="190" y="120" width="80" height="30" stroke="#111" stroke-width="3" fill="none"/><rect x="210" y="220" width="40" height="110" fill="#c0392b"/><rect x="175" y="255" width="110" height="40" fill="#c0392b"/><text x="70" y="420" font-size="16" font-weight="bold">Label by category:</text><text x="70" y="445" font-size="16" >BLEED · WOUND · MEDS · BREAK · TOOLS</text><text x="70" y="470" font-size="16" >Inventory card taped inside lid</text>
+<text x="470" y="86" font-size="18" font-weight="bold">STEPS</text>
+<circle cx="486" cy="110" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="116" font-size="18" font-weight="bold" text-anchor="middle">1</text>
+<text x="512" y="116" font-size="16" >Start from a list, not a store.</text>
+<circle cx="486" cy="157" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="163" font-size="18" font-weight="bold" text-anchor="middle">2</text>
+<text x="512" y="163" font-size="16" >Group by job in labeled bags.</text>
+<circle cx="486" cy="204" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="210" font-size="18" font-weight="bold" text-anchor="middle">3</text>
+<text x="512" y="210" font-size="16" >Add bleeding gear +</text>
+<text x="512" y="229" font-size="16" >a tourniquet.</text>
+<circle cx="486" cy="270" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="276" font-size="18" font-weight="bold" text-anchor="middle">4</text>
+<text x="512" y="276" font-size="16" >Add 90 days of family meds</text>
+<text x="512" y="295" font-size="16" >(legally).</text>
+<circle cx="486" cy="336" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="342" font-size="18" font-weight="bold" text-anchor="middle">5</text>
+<text x="512" y="342" font-size="16" >Inventory card; check</text>
+<text x="512" y="361" font-size="16" >dates twice a year.</text>
+<circle cx="80" cy="170" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="80" y="176" font-size="18" font-weight="bold" text-anchor="middle">1</text>
+<circle cx="380" cy="170" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="380" y="176" font-size="18" font-weight="bold" text-anchor="middle">2</text>
+<circle cx="230" cy="215" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="230" y="221" font-size="18" font-weight="bold" text-anchor="middle">3</text>
+<circle cx="380" cy="360" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="380" y="366" font-size="18" font-weight="bold" text-anchor="middle">5</text>
+</svg>

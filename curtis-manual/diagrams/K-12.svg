@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="6" y="6" width="788" height="488" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="6" y="6" width="788" height="52" fill="#111"/>
+<text x="22" y="41" fill="#fff" font-size="24" font-weight="bold">K-12 · When Someone Dies</text>
+<rect x="80" y="220" width="280" height="70" rx="10" stroke="#111" stroke-width="4" fill="none"/><text x="180" y="262" font-size="16" >covered</text><text x="40" y="340" font-size="16" fill="#c0392b" font-weight="bold">Call 911 / police first</text><text x="40" y="370" font-size="16" >Gloves · keep cool · write details</text><text x="40" y="430" font-size="30" fill="#c0392b" font-weight="bold">✘</text><text x="75" y="425" font-size="16" >Do NOT bury unless authorities direct</text>
+<text x="470" y="86" font-size="18" font-weight="bold">STEPS</text>
+<circle cx="486" cy="110" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="116" font-size="18" font-weight="bold" text-anchor="middle">1</text>
+<text x="512" y="116" font-size="16" >Call 911 or police;</text>
+<text x="512" y="135" font-size="16" >follow instructions.</text>
+<circle cx="486" cy="176" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="182" font-size="18" font-weight="bold" text-anchor="middle">2</text>
+<text x="512" y="182" font-size="16" >Gloves; wash hands;</text>
+<text x="512" y="201" font-size="16" >cover the body.</text>
+<circle cx="486" cy="242" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="248" font-size="18" font-weight="bold" text-anchor="middle">3</text>
+<text x="512" y="248" font-size="16" >Keep in coolest room,</text>
+<text x="512" y="267" font-size="16" >away from living space.</text>
+<circle cx="486" cy="308" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="314" font-size="18" font-weight="bold" text-anchor="middle">4</text>
+<text x="512" y="314" font-size="16" >Write time, name, what</text>
+<text x="512" y="333" font-size="16" >happened, who notified.</text>
+<circle cx="60" cy="200" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="60" y="206" font-size="18" font-weight="bold" text-anchor="middle">1</text>
+<circle cx="380" cy="230" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="380" y="236" font-size="18" font-weight="bold" text-anchor="middle">2</text>
+<circle cx="220" cy="200" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="220" y="206" font-size="18" font-weight="bold" text-anchor="middle">3</text>
+</svg>

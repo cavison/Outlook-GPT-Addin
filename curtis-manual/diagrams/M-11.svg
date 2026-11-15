@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="6" y="6" width="788" height="488" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="6" y="6" width="788" height="52" fill="#111"/>
+<text x="22" y="41" fill="#fff" font-size="24" font-weight="bold">M-11 · Dental Emergencies</text>
+<path d="M140,160 C120,160 110,200 130,240 L150,330 L175,260 L200,330 L220,240 C240,200 230,160 210,160 Z" stroke="#111" stroke-width="4" fill="none"/><rect x="270" y="230" width="80" height="100" rx="8" fill="#fff" stroke="#111" stroke-width="3"/><text x="255" y="360" font-size="16" >milk or saliva</text><text x="40" y="420" font-size="16" font-weight="bold">Hold tooth by CROWN, not root</text><text x="40" y="445" font-size="16" fill="#c0392b">Swelling of face/neck = urgent care</text>
+<text x="470" y="86" font-size="18" font-weight="bold">STEPS</text>
+<circle cx="486" cy="110" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="116" font-size="18" font-weight="bold" text-anchor="middle">1</text>
+<text x="512" y="116" font-size="16" >Knocked-out adult tooth:</text>
+<text x="512" y="135" font-size="16" >hold by crown; rinse briefly.</text>
+<circle cx="486" cy="176" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="182" font-size="18" font-weight="bold" text-anchor="middle">2</text>
+<text x="512" y="182" font-size="16" >Put back in socket now, or</text>
+<text x="512" y="201" font-size="16" >store in milk/saliva.</text>
+<circle cx="486" cy="242" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="248" font-size="18" font-weight="bold" text-anchor="middle">3</text>
+<text x="512" y="248" font-size="16" >Lost filling: temporary</text>
+<text x="512" y="267" font-size="16" >dental filling kit.</text>
+<circle cx="486" cy="308" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="314" font-size="18" font-weight="bold" text-anchor="middle">4</text>
+<text x="512" y="314" font-size="16" >Pain: rinse warm salt</text>
+<text x="512" y="333" font-size="16" >water; OTC pain reliever.</text>
+<circle cx="175" cy="140" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="175" y="146" font-size="18" font-weight="bold" text-anchor="middle">1</text>
+<circle cx="310" cy="210" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="310" y="216" font-size="18" font-weight="bold" text-anchor="middle">2</text>
+</svg>

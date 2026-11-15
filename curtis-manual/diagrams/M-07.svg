@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="6" y="6" width="788" height="488" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="6" y="6" width="788" height="52" fill="#111"/>
+<text x="22" y="41" fill="#fff" font-size="24" font-weight="bold">M-07 · Hands-Only CPR</text>
+<ellipse cx="230" cy="330" rx="180" ry="40" stroke="#111" stroke-width="4" fill="none"/><circle cx="60" cy="320" r="30" stroke="#111" stroke-width="4" fill="none"/><rect x="200" y="200" width="60" height="100" rx="10" stroke="#111" stroke-width="3" fill="none"/><line x1="230" y1="150" x2="230" y2="200" stroke="#111" stroke-width="4"/><line x1="300" y1="210" x2="300" y2="290" stroke="#111" stroke-width="3" marker-end="url(#ar)"/><text x="310" y="250" font-size="16" font-weight="bold">~2 in deep</text><text x="60" y="410" font-size="18" font-weight="bold">100–120 pushes per minute</text><text x="60" y="435" font-size="16" >Let chest rise fully between pushes</text>
+<text x="470" y="86" font-size="18" font-weight="bold">STEPS</text>
+<circle cx="486" cy="110" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="116" font-size="18" font-weight="bold" text-anchor="middle">1</text>
+<text x="512" y="116" font-size="16" >Check: responsive?</text>
+<text x="512" y="135" font-size="16" >Breathing normally?</text>
+<circle cx="486" cy="176" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="182" font-size="18" font-weight="bold" text-anchor="middle">2</text>
+<text x="512" y="182" font-size="16" >Call 911 / send for help</text>
+<text x="512" y="201" font-size="16" >+ AED.</text>
+<circle cx="486" cy="242" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="248" font-size="18" font-weight="bold" text-anchor="middle">3</text>
+<text x="512" y="248" font-size="16" >Heel of hand, center of</text>
+<text x="512" y="267" font-size="16" >chest; arms straight.</text>
+<circle cx="486" cy="308" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="314" font-size="18" font-weight="bold" text-anchor="middle">4</text>
+<text x="512" y="314" font-size="16" >Push hard, fast: ~2 in,</text>
+<text x="512" y="333" font-size="16" >100–120/min.</text>
+<circle cx="486" cy="374" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="380" font-size="18" font-weight="bold" text-anchor="middle">5</text>
+<text x="512" y="380" font-size="16" >Don't stop until help, AED,</text>
+<text x="512" y="399" font-size="16" >or they wake.</text>
+<circle cx="60" cy="270" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="60" y="276" font-size="18" font-weight="bold" text-anchor="middle">1</text>
+<circle cx="180" cy="200" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="180" y="206" font-size="18" font-weight="bold" text-anchor="middle">3</text>
+<circle cx="340" cy="290" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="340" y="296" font-size="18" font-weight="bold" text-anchor="middle">4</text>
+</svg>

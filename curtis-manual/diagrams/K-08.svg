@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="6" y="6" width="788" height="488" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="6" y="6" width="788" height="52" fill="#111"/>
+<text x="22" y="41" fill="#fff" font-size="24" font-weight="bold">K-08 · Caring for Older Adults</text>
+<rect x="60" y="250" width="260" height="60" stroke="#111" stroke-width="4" fill="none"/><circle cx="100" cy="230" r="22" stroke="#111" stroke-width="4" fill="none"/><text x="60" y="350" font-size="16" >Warm room · water at bedside</text><text x="60" y="380" font-size="16" >Meds list · glasses · hearing aids</text><text x="60" y="410" font-size="16" font-weight="bold">Check twice daily</text>
+<text x="470" y="86" font-size="18" font-weight="bold">STEPS</text>
+<circle cx="486" cy="110" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="116" font-size="18" font-weight="bold" text-anchor="middle">1</text>
+<text x="512" y="116" font-size="16" >Move to the warmest</text>
+<text x="512" y="135" font-size="16" >safe room.</text>
+<circle cx="486" cy="176" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="182" font-size="18" font-weight="bold" text-anchor="middle">2</text>
+<text x="512" y="182" font-size="16" >Water + meds within</text>
+<text x="512" y="201" font-size="16" >reach; track doses.</text>
+<circle cx="486" cy="242" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="248" font-size="18" font-weight="bold" text-anchor="middle">3</text>
+<text x="512" y="248" font-size="16" >Prevent falls: light</text>
+<text x="512" y="267" font-size="16" >+ clear path.</text>
+<circle cx="486" cy="308" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="314" font-size="18" font-weight="bold" text-anchor="middle">4</text>
+<text x="512" y="314" font-size="16" >Watch for confusion,</text>
+<text x="512" y="333" font-size="16" >cold, dehydration.</text>
+<circle cx="340" cy="250" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="340" y="256" font-size="18" font-weight="bold" text-anchor="middle">1</text>
+<circle cx="160" cy="210" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="160" y="216" font-size="18" font-weight="bold" text-anchor="middle">2</text>
+<circle cx="260" cy="210" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="260" y="216" font-size="18" font-weight="bold" text-anchor="middle">3</text>
+</svg>

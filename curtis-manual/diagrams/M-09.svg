@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="6" y="6" width="788" height="488" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="6" y="6" width="788" height="52" fill="#111"/>
+<text x="22" y="41" fill="#fff" font-size="24" font-weight="bold">M-09 · Insulin Without a Fridge</text>
+<path d="M80,160 L280,160 L260,400 L100,400 Z" fill="none" stroke="#e67e22" stroke-width="4"/><text x="120" y="150" font-size="16" >outer clay pot</text><path d="M130,220 L230,220 L220,390 L140,390 Z" stroke="#111" stroke-width="3" fill="none"/><text x="150" y="215" font-size="14" >inner pot</text><path d="M100,400 L130,220" stroke="#2b7bb9" stroke-width="3" stroke-dasharray="6 5"/><text x="20" y="330" font-size="16" fill="#2b7bb9">wet sand</text><rect x="170" y="290" width="20" height="60" fill="#fff" stroke="#111" stroke-width="3"/><text x="60" y="440" font-size="16" font-weight="bold">Shade + airflow. Cool, NEVER frozen.</text>
+<text x="470" y="86" font-size="18" font-weight="bold">STEPS</text>
+<circle cx="486" cy="110" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="116" font-size="18" font-weight="bold" text-anchor="middle">1</text>
+<text x="512" y="116" font-size="16" >Read YOUR insulin's label:</text>
+<text x="512" y="135" font-size="16" >room-temp days + max temp.</text>
+<circle cx="486" cy="176" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="182" font-size="18" font-weight="bold" text-anchor="middle">2</text>
+<text x="512" y="182" font-size="16" >Keep in-use pen/vial</text>
+<text x="512" y="201" font-size="16" >cool, out of sun.</text>
+<circle cx="486" cy="242" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="248" font-size="18" font-weight="bold" text-anchor="middle">3</text>
+<text x="512" y="248" font-size="16" >Evaporative pot: keep</text>
+<text x="512" y="267" font-size="16" >sand wet, in shade.</text>
+<circle cx="486" cy="308" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="314" font-size="18" font-weight="bold" text-anchor="middle">4</text>
+<text x="512" y="314" font-size="16" >Never freeze; discard if</text>
+<text x="512" y="333" font-size="16" >frozen, cloudy, or clumped.</text>
+<circle cx="210" cy="320" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="210" y="326" font-size="18" font-weight="bold" text-anchor="middle">2</text>
+<circle cx="300" cy="250" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="300" y="256" font-size="18" font-weight="bold" text-anchor="middle">3</text>
+<circle cx="330" cy="420" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="426" font-size="18" font-weight="bold" text-anchor="middle">4</text>
+</svg>

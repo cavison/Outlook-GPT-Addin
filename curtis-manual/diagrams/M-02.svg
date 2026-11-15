@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="6" y="6" width="788" height="488" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="6" y="6" width="788" height="52" fill="#111"/>
+<text x="22" y="41" fill="#fff" font-size="24" font-weight="bold">M-02 · Stop Severe Bleeding</text>
+<path d="M40,250 L420,230 L420,300 L40,320 Z" stroke="#111" stroke-width="4" fill="none"/><ellipse cx="300" cy="275" rx="22" ry="12" fill="#c0392b"/><rect x="170" y="226" width="26" height="100" fill="#fff" stroke="#111" stroke-width="4"/><line x1="183" y1="226" x2="183" y2="190" stroke="#111" stroke-width="4"/><rect x="163" y="170" width="40" height="20" stroke="#111" stroke-width="3" fill="none"/><text x="200" y="360" font-size="16" font-weight="bold">2–3 in above wound</text><text x="200" y="382" font-size="16" fill="#c0392b" font-weight="bold">NOT on a joint</text><line x1="300" y1="170" x2="300" y2="255" stroke="#111" stroke-width="3" marker-end="url(#ar)"/><text x="250" y="160" font-size="16" font-weight="bold">PRESS HARD</text><text x="40" y="430" font-size="16" >Call 911 if any service works.</text>
+<text x="470" y="86" font-size="18" font-weight="bold">STEPS</text>
+<circle cx="486" cy="110" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="116" font-size="18" font-weight="bold" text-anchor="middle">1</text>
+<text x="512" y="116" font-size="16" >Call 911 / send someone.</text>
+<circle cx="486" cy="157" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="163" font-size="18" font-weight="bold" text-anchor="middle">2</text>
+<text x="512" y="163" font-size="16" >Press hard on the wound</text>
+<text x="512" y="182" font-size="16" >with gauze or cloth.</text>
+<circle cx="486" cy="223" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="229" font-size="18" font-weight="bold" text-anchor="middle">3</text>
+<text x="512" y="229" font-size="16" >Deep wound in leg/arm</text>
+<text x="512" y="248" font-size="16" >crease: pack it, then press.</text>
+<circle cx="486" cy="289" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="295" font-size="18" font-weight="bold" text-anchor="middle">4</text>
+<text x="512" y="295" font-size="16" >Arm/leg still bleeding:</text>
+<text x="512" y="314" font-size="16" >tourniquet 2–3 in above.</text>
+<circle cx="486" cy="355" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="361" font-size="18" font-weight="bold" text-anchor="middle">5</text>
+<text x="512" y="361" font-size="16" >Tighten until bleeding stops;</text>
+<text x="512" y="380" font-size="16" >note the time.</text>
+<circle cx="340" cy="210" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="340" y="216" font-size="18" font-weight="bold" text-anchor="middle">2</text>
+<circle cx="330" cy="300" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="330" y="306" font-size="18" font-weight="bold" text-anchor="middle">3</text>
+<circle cx="140" cy="250" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="140" y="256" font-size="18" font-weight="bold" text-anchor="middle">4</text>
+<circle cx="230" cy="175" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="230" y="181" font-size="18" font-weight="bold" text-anchor="middle">5</text>
+</svg>

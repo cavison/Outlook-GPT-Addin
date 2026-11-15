@@ -1,0 +1,35 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ar" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#2b7bb9"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<text x="400" y="38" font-size="26" font-weight="bold" text-anchor="middle">Safe Tap Water After the Outage</text>
+<!-- pot boiling -->
+<rect x="40" y="130" width="150" height="90" fill="#d6eaf8" stroke="#111" stroke-width="4"/>
+<line x1="20" y1="130" x2="210" y2="130" stroke="#111" stroke-width="4"/>
+<path d="M80,120 q10,-20 0,-40" fill="none" stroke="#888" stroke-width="3"/><path d="M115,120 q10,-20 0,-40" fill="none" stroke="#888" stroke-width="3"/><path d="M150,120 q10,-20 0,-40" fill="none" stroke="#888" stroke-width="3"/>
+<path d="M50,240 l15,-15 l15,15 l15,-15 l15,15 l15,-15 l15,15 l15,-15 l15,15" fill="none" stroke="#e67e22" stroke-width="3"/>
+<text x="115" y="275" font-size="17" text-anchor="middle" font-weight="bold">Advisory? Boil</text>
+<text x="115" y="297" font-size="17" text-anchor="middle">1 min rolling</text>
+<!-- pipe run -->
+<line x1="260" y1="200" x2="740" y2="200" stroke="#2b7bb9" stroke-width="6" marker-end="url(#ar)"/>
+<text x="270" y="190" font-size="16">water in</text>
+<g stroke="#111" stroke-width="4"><line x1="360" y1="200" x2="360" y2="250"/><line x1="500" y1="200" x2="500" y2="250"/><line x1="640" y1="200" x2="640" y2="250"/></g>
+<g font-size="16" text-anchor="middle"><text x="360" y="275">first tap</text><text x="500" y="275">next</text><text x="640" y="275">farthest</text></g>
+<!-- water heater -->
+<rect x="300" y="330" width="80" height="120" rx="10" fill="none" stroke="#111" stroke-width="4"/>
+<text x="340" y="470" font-size="16" text-anchor="middle">heater</text>
+<!-- filter -->
+<rect x="460" y="350" width="40" height="80" rx="6" fill="none" stroke="#111" stroke-width="4"/>
+<text x="480" y="470" font-size="16" text-anchor="middle">new filter</text>
+<!-- well -->
+<rect x="620" y="360" width="60" height="70" fill="none" stroke="#111" stroke-width="4"/>
+<line x1="610" y1="360" x2="690" y2="360" stroke="#111" stroke-width="4"/>
+<text x="650" y="470" font-size="16" text-anchor="middle">well: test</text>
+<g font-size="18" font-weight="bold" text-anchor="middle">
+<circle cx="40" cy="110" r="16" fill="#fff" stroke="#111" stroke-width="3"/><text x="40" y="116">1</text>
+<circle cx="360" cy="160" r="16" fill="#fff" stroke="#111" stroke-width="3"/><text x="360" y="166">2</text>
+<circle cx="300" cy="325" r="16" fill="#fff" stroke="#111" stroke-width="3"/><text x="300" y="331">3</text>
+<circle cx="460" cy="345" r="16" fill="#fff" stroke="#111" stroke-width="3"/><text x="460" y="351">4</text>
+<circle cx="620" cy="345" r="16" fill="#fff" stroke="#111" stroke-width="3"/><text x="620" y="351">5</text>
+<circle cx="700" cy="345" r="16" fill="#fff" stroke="#111" stroke-width="3"/><text x="700" y="351">6</text>
+</g>
+</svg>

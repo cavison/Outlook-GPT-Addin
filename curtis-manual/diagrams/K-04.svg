@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="6" y="6" width="788" height="488" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="6" y="6" width="788" height="52" fill="#111"/>
+<text x="22" y="41" fill="#fff" font-size="24" font-weight="bold">K-04 · Daily Wellness Check</text>
+<polygon points="60,230 90,205 120,230" stroke="#111" stroke-width="3" fill="none"/><rect x="65" y="230" width="50" height="40" stroke="#111" stroke-width="3" fill="none"/><polygon points="170,230 200,205 230,230" stroke="#111" stroke-width="3" fill="none"/><rect x="175" y="230" width="50" height="40" stroke="#111" stroke-width="3" fill="none"/><polygon points="280,230 310,205 340,230" stroke="#111" stroke-width="3" fill="none"/><rect x="285" y="230" width="50" height="40" stroke="#111" stroke-width="3" fill="none"/><line x1="120" y1="300" x2="180" y2="300" stroke="#111" stroke-width="3" marker-end="url(#ar)"/><line x1="230" y1="300" x2="290" y2="300" stroke="#111" stroke-width="3" marker-end="url(#ar)"/><text x="40" y="360" font-size="16" font-weight="bold">Same time, same route, every day</text><text x="40" y="390" font-size="16" >Warm? Water? Meds? Food? Heat safe?</text><text x="40" y="420" font-size="16" fill="#c0392b">No answer → go in with a buddy / call help</text>
+<text x="470" y="86" font-size="18" font-weight="bold">STEPS</text>
+<circle cx="486" cy="110" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="116" font-size="18" font-weight="bold" text-anchor="middle">1</text>
+<text x="512" y="116" font-size="16" >Use the block map list.</text>
+<circle cx="486" cy="157" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="163" font-size="18" font-weight="bold" text-anchor="middle">2</text>
+<text x="512" y="163" font-size="16" >Pairs check houses</text>
+<text x="512" y="182" font-size="16" >on a set route.</text>
+<circle cx="486" cy="223" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="229" font-size="18" font-weight="bold" text-anchor="middle">3</text>
+<text x="512" y="229" font-size="16" >Ask the 5 questions.</text>
+<circle cx="486" cy="270" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="486" y="276" font-size="18" font-weight="bold" text-anchor="middle">4</text>
+<text x="512" y="276" font-size="16" >Log + report problems</text>
+<text x="512" y="295" font-size="16" >at the meeting.</text>
+<circle cx="150" cy="270" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="150" y="276" font-size="18" font-weight="bold" text-anchor="middle">2</text>
+<circle cx="300" cy="180" r="17" fill="#fff" stroke="#111" stroke-width="3"/><text x="300" y="186" font-size="18" font-weight="bold" text-anchor="middle">3</text>
+</svg>
