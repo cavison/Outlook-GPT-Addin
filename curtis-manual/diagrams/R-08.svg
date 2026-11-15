@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="6" y="6" width="788" height="488" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="6" y="6" width="788" height="50" fill="#111"/>
+<text x="22" y="40" font-size="24" font-weight="bold" fill="#fff" text-anchor="start">R-08 · Store Fuel Safely</text>
+<path d="M60,220 h70 v100 h-70 z" fill="#e67e22" stroke="#111" stroke-width="4"/><path d="M110,220 l15,-25" stroke="#111" stroke-width="6"/><rect x="65" y="206" width="34" height="14" fill="none" stroke="#111" stroke-width="3"/><text x="95" y="278" font-size="16" font-weight="bold" fill="#111" text-anchor="middle">GAS</text><path d="M160,220 h70 v100 h-70 z" fill="#fff3c4" stroke="#111" stroke-width="4"/><path d="M210,220 l15,-25" stroke="#111" stroke-width="6"/><rect x="165" y="206" width="34" height="14" fill="none" stroke="#111" stroke-width="3"/><text x="195" y="278" font-size="16" font-weight="bold" fill="#111" text-anchor="middle">DSL</text><path d="M260,220 h70 v100 h-70 z" fill="#d6eaf8" stroke="#111" stroke-width="4"/><path d="M310,220 l15,-25" stroke="#111" stroke-width="6"/><rect x="265" y="206" width="34" height="14" fill="none" stroke="#111" stroke-width="3"/><text x="295" y="278" font-size="16" font-weight="bold" fill="#111" text-anchor="middle">K-1</text><line x1="30" y1="320" x2="370" y2="320" stroke="#111" stroke-width="4"/><text x="200" y="360" font-size="18" font-weight="bold" fill="#111" text-anchor="middle">date + stabilizer</text><text x="200" y="390" font-size="16" fill="#111" text-anchor="middle">red · yellow · blue</text><circle cx="95" cy="180" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="95" y="186" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">2</text><circle cx="300" cy="180" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="300" y="186" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">5</text>
+<text x="410" y="88" font-size="18" font-weight="bold" fill="#111" text-anchor="start">STEPS</text>
+<circle cx="422" cy="109" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="115" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">1</text>
+<text x="446" y="115" font-size="16" fill="#111" text-anchor="start">Check local fire code + insurance</text>
+<circle cx="422" cy="139" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="145" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">2</text>
+<text x="446" y="145" font-size="16" fill="#111" text-anchor="start">Approved cans only</text>
+<circle cx="422" cy="169" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="175" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">3</text>
+<text x="446" y="175" font-size="16" fill="#111" text-anchor="start">Fill cans ON THE GROUND</text>
+<circle cx="422" cy="199" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="205" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">4</text>
+<text x="446" y="205" font-size="16" fill="#111" text-anchor="start">Leave room to expand</text>
+<circle cx="422" cy="229" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="235" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">5</text>
+<text x="446" y="235" font-size="16" fill="#111" text-anchor="start">Stabilizer + date label</text>
+<circle cx="422" cy="259" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="265" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">6</text>
+<text x="446" y="265" font-size="16" fill="#111" text-anchor="start">Away from house, flames, kids</text>
+<circle cx="422" cy="289" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="295" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">7</text>
+<text x="446" y="295" font-size="16" fill="#111" text-anchor="start">Rotate oldest first</text>
+<circle cx="422" cy="319" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="325" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">8</text>
+<text x="446" y="325" font-size="16" fill="#111" text-anchor="start">Propane outdoors, upright</text>
+<rect x="20" y="412" width="760" height="70" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+<text x="34" y="438" font-size="17" font-weight="bold" fill="#c0392b" text-anchor="start">⚠ CAUTION</text>
+<text x="34" y="464" font-size="16" fill="#111" text-anchor="start">Never store gas in the house; vapors find pilot lights.</text>
+</svg>

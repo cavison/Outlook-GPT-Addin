@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="6" y="6" width="788" height="488" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="6" y="6" width="788" height="50" fill="#111"/>
+<text x="22" y="40" font-size="24" font-weight="bold" fill="#fff" text-anchor="start">X-03 · Neighborhood Watch and Lookouts</text>
+<polygon points="40,250 100.0,180 160,250" fill="none" stroke="#111" stroke-width="4"/><rect x="50" y="250" width="100" height="110" fill="none" stroke="#111" stroke-width="4"/><rect x="82.0" y="300" width="36" height="60" fill="none" stroke="#111" stroke-width="3"/><rect x="65" y="270" width="34" height="30" fill="#d6eaf8" stroke="#111" stroke-width="3"/><polygon points="240,250 300.0,180 360,250" fill="none" stroke="#111" stroke-width="4"/><rect x="250" y="250" width="100" height="110" fill="none" stroke="#111" stroke-width="4"/><rect x="282.0" y="300" width="36" height="60" fill="none" stroke="#111" stroke-width="3"/><rect x="265" y="270" width="34" height="30" fill="#d6eaf8" stroke="#111" stroke-width="3"/><line x1="20" y1="400" x2="380" y2="400" stroke="#111" stroke-width="3"/><circle cx="200" cy="250" r="14" fill="none" stroke="#111" stroke-width="4"/><line x1="200" y1="264" x2="200" y2="310" stroke="#111" stroke-width="4"/><line x1="178" y1="282" x2="222" y2="282" stroke="#111" stroke-width="4"/><line x1="200" y1="310" x2="184" y2="345" stroke="#111" stroke-width="4"/><line x1="200" y1="310" x2="216" y2="345" stroke="#111" stroke-width="4"/><path d="M210,265 l60,-20 M210,265 l60,15" stroke="#888" stroke-width="2" stroke-dasharray="6 4"/><text x="200" y="120" font-size="17" font-weight="bold" fill="#2e7d32" text-anchor="middle">WATCH → NOTE → REPORT</text><circle cx="200" cy="215" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="200" y="221" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">4</text>
+<text x="410" y="88" font-size="18" font-weight="bold" fill="#111" text-anchor="start">STEPS</text>
+<circle cx="422" cy="109" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="115" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">1</text>
+<text x="446" y="115" font-size="16" fill="#111" text-anchor="start">Observe and report, not confront</text>
+<circle cx="422" cy="142" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="148" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">2</text>
+<text x="446" y="148" font-size="16" fill="#111" text-anchor="start">Block map: houses + skills</text>
+<circle cx="422" cy="175" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="181" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">3</text>
+<text x="446" y="181" font-size="16" fill="#111" text-anchor="start">2-hour shifts, pairs</text>
+<circle cx="422" cy="208" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="214" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">4</text>
+<text x="446" y="214" font-size="16" fill="#111" text-anchor="start">Note time, description, direction</text>
+<circle cx="422" cy="241" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="247" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">5</text>
+<text x="446" y="247" font-size="16" fill="#111" text-anchor="start">Report: 911 / radio contact</text>
+<circle cx="422" cy="274" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="280" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">6</text>
+<text x="446" y="280" font-size="16" fill="#111" text-anchor="start">Hand off notes, rest</text>
+<rect x="20" y="412" width="760" height="70" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+<text x="34" y="438" font-size="17" font-weight="bold" fill="#c0392b" text-anchor="start">⚠ CAUTION</text>
+<text x="34" y="464" font-size="16" fill="#111" text-anchor="start">Don't chase or confront. Watch, write, report.</text>
+</svg>

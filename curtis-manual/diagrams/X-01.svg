@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="6" y="6" width="788" height="488" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="6" y="6" width="788" height="50" fill="#111"/>
+<text x="22" y="40" font-size="24" font-weight="bold" fill="#fff" text-anchor="start">X-01 · Keep a Low Profile</text>
+<polygon points="110,220 205.0,150 300,220" fill="none" stroke="#111" stroke-width="4"/><rect x="120" y="220" width="170" height="150" fill="none" stroke="#111" stroke-width="4"/><rect x="187.0" y="310" width="36" height="60" fill="none" stroke="#111" stroke-width="3"/><rect x="135" y="240" width="34" height="30" fill="#d6eaf8" stroke="#111" stroke-width="3"/><rect x="145" y="240" width="34" height="30" fill="#111"/><text x="205" y="410" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">dark windows, no display</text><circle cx="80" cy="250" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="80" y="256" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">1</text><path d="M310,300 h70 v100 h-70 z" fill="#fff" stroke="#111" stroke-width="4"/><path d="M360,300 l15,-25" stroke="#111" stroke-width="6"/><rect x="315" y="286" width="34" height="14" fill="none" stroke="#111" stroke-width="3"/><text x="345" y="358" font-size="16" font-weight="bold" fill="#111" text-anchor="middle"></text><path d="M300,290 h90 v115 h-90 z" fill="#888" opacity="0.4"/><circle cx="350" cy="270" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="350" y="276" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">3</text>
+<text x="410" y="88" font-size="18" font-weight="bold" fill="#111" text-anchor="start">STEPS</text>
+<circle cx="422" cy="109" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="115" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">1</text>
+<text x="446" y="115" font-size="16" fill="#111" text-anchor="start">Cover windows at night</text>
+<circle cx="422" cy="142" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="148" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">2</text>
+<text x="446" y="148" font-size="16" fill="#111" text-anchor="start">Generator only when needed; lock it</text>
+<circle cx="422" cy="175" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="181" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">3</text>
+<text x="446" y="181" font-size="16" fill="#111" text-anchor="start">Hide fuel, supplies, empty boxes</text>
+<circle cx="422" cy="208" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="214" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">4</text>
+<text x="446" y="214" font-size="16" fill="#111" text-anchor="start">Don't post what you have</text>
+<circle cx="422" cy="241" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="247" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">5</text>
+<text x="446" y="247" font-size="16" fill="#111" text-anchor="start">Mind cooking smells</text>
+<circle cx="422" cy="274" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="280" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">6</text>
+<text x="446" y="280" font-size="16" fill="#111" text-anchor="start">Fit in; help neighbors</text>
+<rect x="20" y="412" width="760" height="70" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+<text x="34" y="438" font-size="17" font-weight="bold" fill="#c0392b" text-anchor="start">⚠ CAUTION</text>
+<text x="34" y="464" font-size="16" fill="#111" text-anchor="start">Never move a generator closer to hide it. CO kills.</text>
+</svg>

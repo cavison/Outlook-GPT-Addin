@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<rect x="6" y="6" width="788" height="488" fill="none" stroke="#111" stroke-width="3"/>
+<rect x="6" y="6" width="788" height="50" fill="#111"/>
+<text x="22" y="40" font-size="24" font-weight="bold" fill="#fff" text-anchor="start">C-02 · Make Your Phone Last</text>
+<rect x="110" y="100" width="140" height="250" rx="18" fill="#fff" stroke="#111" stroke-width="4"/><rect x="125" y="130" width="110" height="170" rx="4" fill="#eee" stroke="#111" stroke-width="2"/><text x="180" y="215" font-size="22" font-weight="bold" fill="#111" text-anchor="middle">LOW</text><text x="180" y="240" font-size="22" font-weight="bold" fill="#111" text-anchor="middle">POWER</text><rect x="270" y="240" width="90" height="60" rx="6" fill="#fff" stroke="#111" stroke-width="3"/><text x="315" y="277" font-size="16" font-weight="bold" fill="#111" text-anchor="middle">BANK</text><path d="M250,300 C270,300 260,270 270,270" fill="none" stroke="#111" stroke-width="3"/><text x="180" y="385" font-size="20" font-weight="bold" fill="#2e7d32" text-anchor="middle">text &gt; call</text><path d="M140,110 l12,0" stroke="#111"/>
+<text x="410" y="88" font-size="18" font-weight="bold" fill="#111" text-anchor="start">STEPS</text>
+<circle cx="422" cy="109" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="115" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">1</text>
+<text x="446" y="115" font-size="16" fill="#111" text-anchor="start">Turn on Low Power / Battery Saver mode and dim…</text>
+<circle cx="422" cy="142" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="148" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">2</text>
+<text x="446" y="148" font-size="16" fill="#111" text-anchor="start">Close apps you don't need and turn off…</text>
+<circle cx="422" cy="175" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="181" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">3</text>
+<text x="446" y="181" font-size="16" fill="#111" text-anchor="start">Text instead of calling; texts often get through…</text>
+<circle cx="422" cy="208" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="214" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">4</text>
+<text x="446" y="214" font-size="16" fill="#111" text-anchor="start">Keep Wireless Emergency Alerts turned on in…</text>
+<circle cx="422" cy="241" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="247" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">5</text>
+<text x="446" y="247" font-size="16" fill="#111" text-anchor="start">Use airplane mode between check-ins, then turn…</text>
+<circle cx="422" cy="274" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="280" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">6</text>
+<text x="446" y="280" font-size="16" fill="#111" text-anchor="start">Keep the phone warm (inside a pocket) in winter;…</text>
+<circle cx="422" cy="307" r="15" fill="#fff" stroke="#111" stroke-width="3"/><text x="422" y="313" font-size="17" font-weight="bold" fill="#111" text-anchor="middle">7</text>
+<text x="446" y="313" font-size="16" fill="#111" text-anchor="start">Recharge from a power bank, car or power station…</text>
+<rect x="20" y="412" width="760" height="70" fill="#fdecea" stroke="#c0392b" stroke-width="3"/>
+<text x="34" y="438" font-size="17" font-weight="bold" fill="#c0392b" text-anchor="start">⚠ CAUTION</text>
+<text x="34" y="464" font-size="16" fill="#111" text-anchor="start">Never charge from a car running in a garage (CO).</text>
+</svg>
