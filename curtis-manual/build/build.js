@@ -91,12 +91,23 @@ function renderModule(d) {
     else if (k.startsWith('see also')) h += `<div class="seealso"><b>See also:</b> ${md(txt).replace(/<\/?p>/g, '')}</div>`;
     else h += `<h4>${esc(name)}</h4><div class="sec sec-${k.replace(/\W+/g, '-')}">${md(txt)}</div>`;
   }
+  if (meta.id === 'G-29') {
+    const files = fs.existsSync(path.join(ROOT, 'images')) ? fs.readdirSync(path.join(ROOT, 'images')).filter(f => /^fish-.*\.(jpe?g|png|webp)$/i.test(f)).sort() : [];
+    if (files.length) h += `<h4>Photo ID</h4><div class="fishgrid">${files.map(f => { const b = f.replace(/\.[^.]+$/, ''); const name = b.slice(5).replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()); return `<figure><img src="${imgFor(b)}" alt="${esc(name)}"><figcaption>${esc(name)}</figcaption></figure>`; }).join('')}</div>`;
+  }
   return h + '</section>';
 }
 
+function imgFor(base) {
+  for (const ext of ['jpg', 'jpeg', 'png', 'webp']) {
+    const p = path.join(ROOT, 'images', `${base}.${ext}`);
+    if (fs.existsSync(p)) return 'data:image/' + (ext === 'jpg' ? 'jpeg' : ext) + ';base64,' + fs.readFileSync(p).toString('base64');
+  }
+  return null;
+}
 function renderChapter(d) {
-  const { meta } = d;
-  return `<section class="chapter" id="${slug(meta.id)}"><div class="chnum">Chapter ${parseInt(meta.id.slice(1), 10)}</div><h2>${esc(meta.title)}</h2>${md(d.body).replace(/<li>\[ \]/g, '<li class="check">☐')}</section>`;
+  const { meta } = d; const op = imgFor(meta.id);
+  return `<section class="chapter" id="${slug(meta.id)}">${op ? `<img class="opener" src="${op}" alt="">` : ''}<div class="chnum">Chapter ${parseInt(meta.id.slice(1), 10)}</div><h2>${esc(meta.title)}</h2>${md(d.body).replace(/<li>\[ \]/g, '<li class="check">☐')}</section>`;
 }
 
 // ---- assemble
