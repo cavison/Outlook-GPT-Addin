@@ -1,0 +1,216 @@
+title: "Curtis' Manual"
+subtitle: "90 Days Without Power — A Grid-Down Field Manual for West Michigan Households"
+edition: "Edition 1 · November 2026"
+
+# BOOK A — THE TIMELINE (order matters)
+timeline:
+  - {part: "I — Before: Preparation", chapters: [A01, A02, A03, A04]}
+  - {part: "II — The First 72 Hours", chapters: [A05, A06, A07]}
+  - {part: "III — Weeks 1–4: Settling In", chapters: [A08, A09, A10, A11, A12, A13, A14]}
+  - {part: "IV — Months 2–3+: Sustaining", chapters: [A15, A16, A17, A18, A19, A20]}
+  - {part: "V — After: When the Power Returns", chapters: [A21, A22]}
+
+chapter_titles:
+  A01: Why the Grid Fails, and Why 90 Days Is Different
+  A02: The Household Audit
+  A03: Stockpiling Without Going Broke
+  A04: The Paper Plan
+  A05: Stabilize
+  A06: The Silent Killers
+  A07: Information Without the Internet
+  A08: Water
+  A09: Sanitation and Hygiene
+  A10: Food
+  A11: Heat, Cooling and Shelter-in-Place
+  A12: Light and Small-Scale Power
+  A13: Medical Care Without a Pharmacy
+  A14: Money, Fuel and Getting Around
+  A15: Producing Food
+  A16: Skills That Become Currency
+  A17: Security, Realistically
+  A18: Community
+  A19: Mental Health and Morale
+  A20: Caring for Vulnerable People and Animals
+  A21: When the Power Comes Back
+  A22: Recovery, Lessons and Restocking
+
+# BOOK B — THE MODULE LIBRARY (category order = tab order)
+categories:
+  - {key: quick, prefix: Q, name: "Quick Start Cards", color: "#c0392b"}
+  - {key: water, prefix: W, name: "Water", color: "#2b7bb9"}
+  - {key: heat, prefix: H, name: "Heat, Fire & Shelter", color: "#e67e22"}
+  - {key: power, prefix: P, name: "Light & Power", color: "#f1c40f"}
+  - {key: food, prefix: F, name: "Food Storage & Cooking", color: "#8e5a2b"}
+  - {key: grow, prefix: G, name: "Grow, Fish, Forage & Raise", color: "#2e7d32"}
+  - {key: sanitation, prefix: S, name: "Sanitation & Hygiene", color: "#7f8c8d"}
+  - {key: medical, prefix: M, name: "Medical", color: "#d35400"}
+  - {key: comms, prefix: C, name: "Communications & Radio", color: "#6c3483"}
+  - {key: security, prefix: X, name: "Security & Evacuation", color: "#2c3e50"}
+  - {key: people, prefix: K, name: "People, Community & Pets", color: "#16a085"}
+  - {key: repair, prefix: R, name: "Repair, Money & Transport", color: "#5d6d7e"}
+  - {key: after, prefix: V, name: "After the Outage", color: "#1abc9c"}
+  - {key: appendix, prefix: Z, name: "Appendices & Reference", color: "#34495e"}
+
+modules:
+  Q-01: The First Hour
+  Q-02: Carbon Monoxide Emergency
+  Q-03: Fill Water Now
+  Q-04: Fridge and Freezer Clock
+  Q-05: Set Up One Warm Room Tonight
+  Q-06: Get Reliable News
+  Q-07: Check on Your Neighbors
+  Q-08: Safe Light Tonight
+  Q-09: Short Outage or Long One?
+  Q-10: Stay or Go Decision
+  W-01: Drain the Water Heater for Drinking Water
+  W-02: Water from Toilet Tanks and Pipes
+  W-03: Bathtub and Container Storage
+  W-04: Disinfect Water with Bleach
+  W-05: Boil Water Safely
+  W-06: Settle and Pre-Filter Dirty Water
+  W-07: Build a Bucket Sand Filter
+  W-08: Choosing and Using Portable Filters
+  W-09: Solar Disinfection (SODIS)
+  W-10: Rain Barrel and Roof Catchment
+  W-11: Melting Snow and Ice for Water
+  W-12: Getting Water from a Well Without Power
+  W-13: Store and Label Water
+  W-14: Daily Water Budget
+  H-01: Choose and Seal One Warm Room
+  H-02: Insulate Windows
+  H-03: The Tent-Indoors Trick
+  H-04: Indoor Propane and Kerosene Heater Safety
+  H-05: Run a Wood Stove or Fireplace Safely
+  H-06: Firewood — How Much, Split, Season, Stack
+  H-07: Keep Pipes from Freezing
+  H-08: Drain Your House Plumbing
+  H-09: Dress in Layers
+  H-10: Sleep Warm
+  H-11: Hypothermia and Frostbite
+  H-12: Heat Illness and Cooling Without AC
+  H-13: Start a Fire Outdoors
+  H-14: Fire Extinguishers and Escape in the Dark
+  P-01: Lanterns and Headlamps
+  P-02: Candles and Oil Lamps Safely
+  P-03: Battery Types, Storage and Rotation
+  P-04: Generator Placement
+  P-05: Generator Sizing and Fuel Log
+  P-06: Transfer Switch vs Backfeeding
+  P-07: Power Stations and Solar Panels — Sizing
+  P-08: Use Your Car as a Charger
+  P-09: Daily Power Budget
+  F-01: Eat in the Right Order
+  F-02: Keep or Throw Out? Food Safety Rules
+  F-03: The 90-Day Pantry Calculator
+  F-04: Rotate Stock (First In, First Out)
+  F-05: Build a Brick Rocket Stove
+  F-06: Haybox (Retained-Heat) Cooker
+  F-07: Make a Solar Oven
+  F-08: Camp Stove and Grill Safety
+  F-09: Cooking Over a Wood Fire
+  F-10: Skillet Flatbread
+  F-11: Cook Beans and Rice from Dry
+  F-12: Sprout Seeds and Beans for Fresh Food
+  F-13: Winter Cold Storage Outdoors
+  F-14: Evaporative (Pot-in-Pot) Cooler
+  F-15: Pest-Proof Food Storage
+  F-16: Fighting Food Fatigue
+  G-01: Fast Crops for West Michigan
+  G-02: Microgreens on a Windowsill
+  G-03: Container and Bucket Gardening
+  G-04: A 4×8 Foot Survival Bed
+  G-05: Potatoes in Bags or Buckets
+  G-06: Save Your Own Seeds
+  G-07: Foraging Rules and Ten Safe Michigan Plants
+  G-08: Wild Mushrooms — Don't
+  G-09: Fishing Without a Pole
+  G-10: Where and When to Fish in West Michigan
+  G-11: Clean and Fillet a Fish
+  G-12: Fish Safety — Parasites, Advisories, Spoilage
+  G-13: Ice Fishing and Ice Safety
+  G-14: Trapping Small Game Legally
+  G-15: Clean Small Game Safely
+  G-16: Raise Meat Rabbits Fast
+  G-17: Backyard Chickens for Eggs and Meat
+  G-18: Water-Bath Canning
+  G-19: Pressure Canning
+  G-20: Drying Food Without Electricity
+  G-21: Salting and Smoking Fish and Meat
+  G-22: Root Cellar and Garden Clamp
+  G-23: Ferment Sauerkraut
+  S-01: Two-Bucket Toilet
+  S-02: Bag, Store and Dispose of Waste
+  S-03: Latrine and Cat-Hole
+  S-04: Tippy-Tap Handwashing Station
+  S-05: Sponge Bath on a Quart of Water
+  S-06: Bucket-and-Plunger Laundry
+  S-07: Three-Tub Dishwashing
+  S-08: Garbage, Rats and Flies
+  S-09: Menstrual, Infant and Incontinence Care
+  S-10: Isolate a Sick Household Member
+  M-01: Build a 90-Day First-Aid Kit
+  M-02: Stop Severe Bleeding
+  M-03: Clean a Wound
+  M-04: Close a Wound — and When Not To
+  M-05: Treat Burns
+  M-06: Sprains, Fractures and Splints
+  M-07: CPR and Rescue Breathing
+  M-08: Oral Rehydration Solution
+  M-09: Insulin and Medicines Without a Fridge
+  M-10: Build a Medication Reserve Legally
+  M-11: Dental Emergencies
+  M-12: Spot Infection Early
+  M-13: Fever, Illness and When to Seek Help
+  M-14: Choking
+  C-01: AM/FM and NOAA Weather Radio
+  C-02: Make Your Phone Last
+  C-03: Program Your Baofeng with CHIRP
+  C-04: Your Pocket Frequency Card
+  C-05: Make a Radio Call the Right Way
+  C-06: Better Antenna, Better Range
+  C-07: Get Your Ham Radio License
+  C-08: FRS/GMRS Family Radio Plan
+  C-09: Rumor Control — Check Before You Act
+  C-10: House Signals and Message Boards
+  X-01: Keep a Low Profile
+  X-02: Harden Doors and Windows
+  X-03: Neighborhood Watch and Lookouts
+  X-04: De-escalation
+  X-05: Pack a Go-Bag
+  X-06: Evacuation Triggers and Routes
+  X-07: Self-Defense — Legal and Ethical Limits
+  K-01: Run the First Street Meeting
+  K-02: Map Your Block
+  K-03: Community Kitchen and Charging Station
+  K-04: Daily Wellness Check Routine
+  K-05: Daily Routine Card
+  K-06: Talking to Kids and Keeping Them Busy
+  K-07: Stress First Aid
+  K-08: Caring for Older Adults
+  K-09: Power-Dependent Medical Devices
+  K-10: Infant Feeding and Safe Formula
+  K-11: Pets and Livestock for 90 Days
+  K-12: When Someone Dies and Services Are Down
+  R-01: The Hand-Tool Kit
+  R-02: Small Engine Basics
+  R-03: Fix a Bicycle Flat
+  R-04: Sew a Button, Patch and Seam
+  R-05: Stop a Leaking Pipe
+  R-06: Barter Smart
+  R-07: Cash and Money Plan
+  R-08: Store Fuel Safely
+  R-09: Driving on Limited Fuel
+  R-10: Hauling with Bikes, Carts and Sleds
+  R-11: Keep Kids Learning
+  V-01: Power-Back Restart Sequence
+  V-02: Check for Gas Leaks and Damage
+  V-03: Food After the Outage
+  V-04: Flush Water Lines and Boil Advisories
+  V-05: Insurance, FEMA and Claims
+  V-06: After-Action Review and Restock
+  Z-01: Master Checklists
+  Z-02: Quick Reference Tables
+  Z-03: Calories and Food Quantities
+  Z-04: West Michigan Contacts and Resources
+  Z-05: Glossary
+  Z-06: Sources and Further Reading

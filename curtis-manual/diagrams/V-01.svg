@@ -1,0 +1,45 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ar" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<text x="400" y="38" font-size="26" font-weight="bold" text-anchor="middle">Power Back: Restart in Order</text>
+<!-- generator unplugged -->
+<rect x="30" y="80" width="110" height="70" rx="8" fill="none" stroke="#e67e22" stroke-width="4"/>
+<text x="85" y="122" font-size="18" text-anchor="middle" font-weight="bold">GEN</text>
+<line x1="150" y1="115" x2="185" y2="115" stroke="#c0392b" stroke-width="4"/>
+<line x1="160" y1="100" x2="178" y2="130" stroke="#c0392b" stroke-width="4"/>
+<text x="85" y="175" font-size="16" text-anchor="middle">OFF + unplugged</text>
+<!-- panel -->
+<rect x="240" y="70" width="120" height="170" fill="none" stroke="#111" stroke-width="4"/>
+<g stroke="#111" stroke-width="3"><line x1="260" y1="100" x2="290" y2="100"/><line x1="310" y1="100" x2="340" y2="100"/><line x1="260" y1="130" x2="290" y2="130"/><line x1="310" y1="130" x2="340" y2="130"/><line x1="260" y1="160" x2="290" y2="160"/><line x1="310" y1="160" x2="340" y2="160"/><line x1="260" y1="190" x2="290" y2="190"/><line x1="310" y1="190" x2="340" y2="190"/></g>
+<text x="300" y="262" font-size="16" text-anchor="middle">Big loads OFF</text>
+<!-- lamp -->
+<circle cx="480" cy="110" r="30" fill="none" stroke="#111" stroke-width="4"/>
+<line x1="480" y1="140" x2="480" y2="200" stroke="#111" stroke-width="4"/>
+<line x1="450" y1="200" x2="510" y2="200" stroke="#111" stroke-width="4"/>
+<text x="480" y="232" font-size="16" text-anchor="middle">One lamp ON</text>
+<!-- clock -->
+<circle cx="660" cy="130" r="45" fill="none" stroke="#111" stroke-width="4"/>
+<line x1="660" y1="130" x2="660" y2="98" stroke="#111" stroke-width="3"/>
+<line x1="660" y1="130" x2="685" y2="130" stroke="#111" stroke-width="3"/>
+<text x="660" y="205" font-size="16" text-anchor="middle">Wait 10–15 min</text>
+<!-- order row -->
+<g font-size="17" text-anchor="middle">
+<rect x="30" y="320" width="140" height="60" fill="none" stroke="#111" stroke-width="3"/><text x="100" y="356">Furnace / AC</text>
+<rect x="210" y="320" width="140" height="60" fill="none" stroke="#2b7bb9" stroke-width="3"/><text x="280" y="356">Fridge/Freezer</text>
+<rect x="390" y="320" width="140" height="60" fill="none" stroke="#111" stroke-width="3"/><text x="460" y="356">Well pump</text>
+<rect x="570" y="320" width="200" height="60" fill="#d6eaf8" stroke="#2b7bb9" stroke-width="3"/><text x="670" y="348">Water heater</text><text x="670" y="370" font-size="15">(tank full first!)</text>
+</g>
+<g stroke="#111" stroke-width="3" marker-end="url(#ar)"><line x1="172" y1="350" x2="206" y2="350"/><line x1="352" y1="350" x2="386" y2="350"/><line x1="532" y1="350" x2="566" y2="350"/></g>
+<rect x="250" y="410" width="300" height="50" fill="none" stroke="#2e7d32" stroke-width="3"/>
+<text x="400" y="442" font-size="17" text-anchor="middle">Electronics last, via surge strip</text>
+<!-- callouts -->
+<g font-size="18" font-weight="bold" text-anchor="middle">
+<circle cx="30" cy="75" r="16" fill="#fff" stroke="#111" stroke-width="3"/><text x="30" y="81">1</text>
+<circle cx="240" cy="65" r="16" fill="#fff" stroke="#111" stroke-width="3"/><text x="240" y="71">2</text>
+<circle cx="440" cy="75" r="16" fill="#fff" stroke="#111" stroke-width="3"/><text x="440" y="81">3</text>
+<circle cx="610" cy="80" r="16" fill="#fff" stroke="#111" stroke-width="3"/><text x="610" y="86">4</text>
+<circle cx="30" cy="315" r="16" fill="#fff" stroke="#111" stroke-width="3"/><text x="30" y="321">5</text>
+<circle cx="770" cy="315" r="16" fill="#fff" stroke="#111" stroke-width="3"/><text x="770" y="321">6</text>
+<circle cx="250" cy="405" r="16" fill="#fff" stroke="#111" stroke-width="3"/><text x="250" y="411">7</text>
+</g>
+</svg>

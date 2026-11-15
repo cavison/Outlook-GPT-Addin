@@ -1,0 +1,47 @@
+<svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+<defs><marker id="ar" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#111"/></marker></defs>
+<rect x="0" y="0" width="800" height="500" fill="#fff"/>
+<text x="400" y="38" font-size="26" font-weight="bold" text-anchor="middle">Smell Gas? Get Out, Then Call</text>
+<!-- house -->
+<polygon points="60,200 220,90 380,200" fill="none" stroke="#111" stroke-width="4"/>
+<rect x="80" y="200" width="280" height="200" fill="none" stroke="#111" stroke-width="4"/>
+<rect x="250" y="290" width="60" height="110" fill="none" stroke="#111" stroke-width="3"/>
+<!-- smell -->
+<path d="M140,330 q15,-20 0,-40 t0,-40" fill="none" stroke="#888" stroke-width="3" stroke-dasharray="6 5"/>
+<path d="M170,330 q15,-20 0,-40 t0,-40" fill="none" stroke="#888" stroke-width="3" stroke-dasharray="6 5"/>
+<text x="155" y="360" font-size="16" text-anchor="middle">rotten egg</text>
+<!-- no switch -->
+<rect x="110" y="225" width="30" height="40" fill="none" stroke="#111" stroke-width="3"/>
+<line x1="100" y1="215" x2="150" y2="275" stroke="#c0392b" stroke-width="4"/>
+<text x="185" y="250" font-size="16">no switches</text>
+<!-- meter -->
+<rect x="365" y="330" width="40" height="50" fill="none" stroke="#e67e22" stroke-width="3"/>
+<text x="385" y="420" font-size="15" text-anchor="middle">meter</text>
+<!-- run away -->
+<line x1="320" y1="440" x2="560" y2="440" stroke="#111" stroke-width="4" marker-end="url(#ar)"/>
+<text x="440" y="470" font-size="17" text-anchor="middle" font-weight="bold">Walk far away</text>
+<!-- person phone -->
+<circle cx="640" cy="320" r="20" fill="none" stroke="#111" stroke-width="4"/>
+<line x1="640" y1="340" x2="640" y2="410" stroke="#111" stroke-width="4"/>
+<line x1="640" y1="410" x2="620" y2="450" stroke="#111" stroke-width="4"/><line x1="640" y1="410" x2="660" y2="450" stroke="#111" stroke-width="4"/>
+<line x1="640" y1="360" x2="665" y2="330" stroke="#111" stroke-width="4"/>
+<rect x="660" y="312" width="14" height="24" fill="#111"/>
+<text x="700" y="290" font-size="17" text-anchor="middle" font-weight="bold">Call 911 +</text>
+<text x="700" y="312" font-size="17" text-anchor="middle" font-weight="bold">gas utility</text>
+<!-- checks panel -->
+<rect x="440" y="70" width="340" height="170" fill="#fff" stroke="#2e7d32" stroke-width="3"/>
+<text x="455" y="98" font-size="18" font-weight="bold" fill="#2e7d32">No smell? Then check:</text>
+<text x="455" y="128" font-size="16">CO alarms (test button)</text>
+<text x="455" y="158" font-size="16">Vents clear of snow/ice</text>
+<text x="455" y="188" font-size="16">Downed lines: stay 30+ ft</text>
+<text x="455" y="218" font-size="16">Photo all damage</text>
+<g font-size="18" font-weight="bold" text-anchor="middle">
+<circle cx="290" cy="270" r="16" fill="#fff" stroke="#111" stroke-width="3"/><text x="290" y="276">1</text>
+<circle cx="100" cy="300" r="16" fill="#fff" stroke="#111" stroke-width="3"/><text x="100" y="306">2</text>
+<circle cx="600" cy="300" r="16" fill="#fff" stroke="#111" stroke-width="3"/><text x="600" y="306">3</text>
+<circle cx="760" cy="125" r="14" fill="#fff" stroke="#111" stroke-width="3"/><text x="760" y="131" font-size="16">4</text>
+<circle cx="760" cy="155" r="14" fill="#fff" stroke="#111" stroke-width="3"/><text x="760" y="161" font-size="16">5</text>
+<circle cx="760" cy="185" r="14" fill="#fff" stroke="#111" stroke-width="3"/><text x="760" y="191" font-size="16">6</text>
+<circle cx="760" cy="215" r="14" fill="#fff" stroke="#111" stroke-width="3"/><text x="760" y="221" font-size="16">7</text>
+</g>
+</svg>
